@@ -1,6 +1,6 @@
 # 资产管线 UniLab
 
-这是 UniLab 工站资产管线的私有总仓。它保存设计、可移植端到端交接包、测试资产、架构审阅，以及组成当前验证环境的精确代码版本。
+GitHub 仓库名是 `unilab-asset-pipeline`（GitHub 仓库名只能用 ASCII）；显示名与说明为 **资产管线unilab**。这是 UniLab 工站资产管线的私有总仓。它保存设计、可移植端到端交接包、测试资产、架构审阅，以及组成当前验证环境的精确代码版本。
 
 ## 仓库内容
 
@@ -18,8 +18,8 @@
 ## 克隆
 
 ```bash
-git clone --recurse-submodules https://github.com/Skyzuo9/资产管线unilab.git
-cd 资产管线unilab
+git clone --recurse-submodules https://github.com/Skyzuo9/unilab-asset-pipeline.git
+cd unilab-asset-pipeline
 git lfs pull
 ```
 
