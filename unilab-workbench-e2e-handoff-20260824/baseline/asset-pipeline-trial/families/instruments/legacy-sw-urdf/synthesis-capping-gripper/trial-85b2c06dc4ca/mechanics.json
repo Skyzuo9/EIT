@@ -1,0 +1,193 @@
+{
+  "schema": "lab.mechanics/v0",
+  "family": "synthesis.capping-gripper",
+  "units": {
+    "length": "m",
+    "angle": "rad"
+  },
+  "root_link": "base_link",
+  "links": [
+    {
+      "id": "base_link"
+    },
+    {
+      "id": "rotate_Link"
+    },
+    {
+      "id": "l_Link"
+    },
+    {
+      "id": "l2_Link"
+    },
+    {
+      "id": "r_Link"
+    },
+    {
+      "id": "r2_Link"
+    }
+  ],
+  "joints": [],
+  "candidates": [
+    {
+      "id": "rotate_joint",
+      "type": "continuous",
+      "parent": "base_link",
+      "child": "rotate_Link",
+      "origin": {
+        "xyz": [
+          0.010369,
+          -5.5918e-05,
+          -0.1902
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": [
+        0.0,
+        0.0,
+        -1.0
+      ],
+      "limits": {
+        "lower": null,
+        "upper": null,
+        "velocity": null,
+        "effort": null
+      },
+      "role": "candidate",
+      "status": "unproven",
+      "evidence": "legacy SolidWorks URDF exporter output"
+    },
+    {
+      "id": "l_joint",
+      "type": "prismatic",
+      "parent": "rotate_Link",
+      "child": "l_Link",
+      "origin": {
+        "xyz": [
+          -0.0087096,
+          0.008136,
+          -0.0051
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "limits": {
+        "lower": -0.018,
+        "upper": 0.0175,
+        "velocity": 0.0,
+        "effort": 0.0
+      },
+      "role": "candidate",
+      "status": "unproven",
+      "evidence": "legacy SolidWorks URDF exporter output"
+    },
+    {
+      "id": "l2_joint",
+      "type": "prismatic",
+      "parent": "l_Link",
+      "child": "l2_Link",
+      "origin": {
+        "xyz": [
+          -0.04125,
+          -0.008136,
+          -0.07925
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "limits": {
+        "lower": -0.0076,
+        "upper": 0.03,
+        "velocity": 0.0,
+        "effort": 0.0
+      },
+      "role": "candidate",
+      "status": "unproven",
+      "evidence": "legacy SolidWorks URDF exporter output"
+    },
+    {
+      "id": "r_joint",
+      "type": "prismatic",
+      "parent": "rotate_Link",
+      "child": "r_Link",
+      "origin": {
+        "xyz": [
+          0.0087904,
+          -0.008136,
+          -0.0051
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "limits": {
+        "lower": -0.018,
+        "upper": 0.0175,
+        "velocity": 0.0,
+        "effort": 0.0
+      },
+      "role": "candidate",
+      "status": "unproven",
+      "evidence": "legacy SolidWorks URDF exporter output"
+    },
+    {
+      "id": "r2_joint",
+      "type": "prismatic",
+      "parent": "r_Link",
+      "child": "r2_Link",
+      "origin": {
+        "xyz": [
+          0.04125,
+          0.008136,
+          -0.07925
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "limits": {
+        "lower": -0.0076,
+        "upper": 0.03,
+        "velocity": 0.0,
+        "effort": 0.0
+      },
+      "role": "candidate",
+      "status": "unproven",
+      "evidence": "legacy SolidWorks URDF exporter output"
+    }
+  ],
+  "source_authority": "legacy-sw-urdf-unproven"
+}

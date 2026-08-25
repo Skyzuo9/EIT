@@ -1,0 +1,159 @@
+{
+  "schema": "lab.asset_pipeline_trial_result/v0",
+  "status": "partial-pass",
+  "duration_s": 73.49,
+  "slice_a": {
+    "schema": "lab.trial_slice_status/v0",
+    "slice": "A",
+    "status": "blocked",
+    "reason": "manufacturer_robot_urdf_or_xacro_missing",
+    "xacro_count": 0,
+    "urdf_count": 82,
+    "solidworks_exporter_urdf_count": 82,
+    "published_robot_family": false
+  },
+  "solidworks_capture": {
+    "status": "passed",
+    "capture": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\captures\\solidworks\\square-tactile",
+    "exit_code": 0,
+    "failure": null,
+    "bundle": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\families\\instruments\\solidworks\\square-tactile\\trial-930385eda029",
+    "glb": {
+      "bytes": 4427592,
+      "sha256": "e12775621f29af4b24e5d161376ea56d2c994fb23070e4fa58b728bc3c30059c",
+      "nodes": 6,
+      "meshes": 4,
+      "primitives": 4,
+      "accessors": 12,
+      "materials": 1,
+      "animations": 0,
+      "skins": 0,
+      "scenes": 1
+    },
+    "component_count": 4,
+    "mate_candidate_count": 14
+  },
+  "step_assets": [
+    {
+      "id": "bigclaw-step-reference",
+      "status": "passed",
+      "bundle": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\families\\instruments\\step\\bigclaw-step-reference\\trial-db2865a35d12",
+      "glb": {
+        "bytes": 9008500,
+        "sha256": "f4db37fca62bae0d4fbfd64691133792c380b61befa2d586caf814a0e20125f3",
+        "nodes": 3,
+        "meshes": 2,
+        "primitives": 2,
+        "accessors": 8,
+        "materials": 0,
+        "animations": 0,
+        "skins": 0,
+        "scenes": 1
+      }
+    }
+  ],
+  "legacy_assets": [
+    {
+      "id": "synthesis-static-tray",
+      "status": "passed",
+      "bundle": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\families\\instruments\\legacy-sw-urdf\\synthesis-static-tray\\trial-86c0ea20937d",
+      "links": 1,
+      "candidate_joints": 0,
+      "glb": {
+        "bytes": 127404,
+        "sha256": "30da0cd87baab1eb0aed3bcbd68c4af629c9bacc9a898140aef7dcb278f4f0e7",
+        "nodes": 2,
+        "meshes": 1,
+        "primitives": 1,
+        "accessors": 3,
+        "materials": 0,
+        "animations": 0,
+        "skins": 0,
+        "scenes": 1
+      }
+    },
+    {
+      "id": "synthesis-linear-guide",
+      "status": "passed",
+      "bundle": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\families\\instruments\\legacy-sw-urdf\\synthesis-linear-guide\\trial-85f932bba2bf",
+      "links": 2,
+      "candidate_joints": 1,
+      "glb": {
+        "bytes": 483708,
+        "sha256": "7caa2b4f753f47b6df9b68e0f1ce721cce01c506c664853ef2c239ed81d59130",
+        "nodes": 4,
+        "meshes": 2,
+        "primitives": 2,
+        "accessors": 6,
+        "materials": 0,
+        "animations": 0,
+        "skins": 0,
+        "scenes": 1
+      }
+    },
+    {
+      "id": "synthesis-capping-gripper",
+      "status": "passed",
+      "bundle": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\families\\instruments\\legacy-sw-urdf\\synthesis-capping-gripper\\trial-85b2c06dc4ca",
+      "links": 6,
+      "candidate_joints": 5,
+      "glb": {
+        "bytes": 3759708,
+        "sha256": "0f8ce4d826bef8bf2c50eb1dfdc657adffc8fa52fbb42a98f640efeb91bb0a61",
+        "nodes": 12,
+        "meshes": 6,
+        "primitives": 6,
+        "accessors": 18,
+        "materials": 0,
+        "animations": 0,
+        "skins": 0,
+        "scenes": 1
+      }
+    }
+  ],
+  "slice_c": "interface-only",
+  "family_gate_passed": true,
+  "preview_assets": 5,
+  "reproducibility": {
+    "schema": "lab.reproducibility_report/v0",
+    "status": "warning",
+    "exact_glb_match": false,
+    "canonical_glb_json_match": false,
+    "assembly_snapshot_match": true,
+    "normalized_glb_semantic_match": true,
+    "normalized_assembly_snapshot_match": true,
+    "difference_class": "component_traversal_order_only",
+    "primary_glb": {
+      "bytes": 4427592,
+      "sha256": "e12775621f29af4b24e5d161376ea56d2c994fb23070e4fa58b728bc3c30059c",
+      "nodes": 6,
+      "meshes": 4,
+      "primitives": 4,
+      "accessors": 12,
+      "materials": 1,
+      "animations": 0,
+      "skins": 0,
+      "scenes": 1
+    },
+    "repeat_glb": {
+      "bytes": 4427596,
+      "sha256": "7780a4126423b65e0139458195caba5f2cce0ddaf9f619260c7032f9981c2a70",
+      "nodes": 6,
+      "meshes": 4,
+      "primitives": 4,
+      "accessors": 12,
+      "materials": 1,
+      "animations": 0,
+      "skins": 0,
+      "scenes": 1
+    },
+    "primary_canonical_json_sha256": "7a502c3367db368f9a3d8413770fc57399cc9a79fa35d566992ea6e6bd31d5da",
+    "repeat_canonical_json_sha256": "aed9dfa8ccd1c28406a1076995a38a35171ddb11a09b956d33f144130422f7a1",
+    "primary_semantic_sha256": "042a6d4b0d4180a1394d41836fef88e97ada27d2756b5edcea52eb317459dc42",
+    "repeat_semantic_sha256": "042a6d4b0d4180a1394d41836fef88e97ada27d2756b5edcea52eb317459dc42",
+    "primary_snapshot_sha256": "12a70003a849a40f40bce4b467501796cfc61478a45899cf37c55094c4d164dc",
+    "repeat_snapshot_sha256": "12a70003a849a40f40bce4b467501796cfc61478a45899cf37c55094c4d164dc",
+    "formal_release_allowed": false,
+    "note": "Byte mismatch remains release-blocking. The normalized checks distinguish exporter traversal order from missing or changed component geometry."
+  }
+}

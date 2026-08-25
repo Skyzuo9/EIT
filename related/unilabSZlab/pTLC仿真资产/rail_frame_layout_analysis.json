@@ -1,0 +1,2194 @@
+{
+  "schema_version": "0.1",
+  "analysis_type": "rail-frame relative-layout constraint analysis",
+  "source": {
+    "interaction_points": "pTLC仿真资产/interaction_points.json",
+    "interaction_points_sha256": "c57702f8655aaca5f18336aecba0bdaf846437fa9f05cb5698efa45228835460",
+    "controller_point_frame": "DOBOT User 0 / Tool 1 as stored",
+    "units": {
+      "translation": "mm",
+      "rotation": "deg"
+    }
+  },
+  "rail_field_audit": {
+    "robot_record_count": 239,
+    "base_record_count": 74,
+    "derived_record_count": 165,
+    "records_with_rail_field": 0,
+    "records_without_rail_field": 239,
+    "all_robot_records_lack_rail_field": true,
+    "consequence": "Rail bindings below are operation-semantic joins. They do not modify or backfill any robot-point record."
+  },
+  "semantic_binding_provenance": {
+    "rail_values": {
+      "source": "interaction_points.json data.plc_servo.groups[key=rail]",
+      "values_by_slot_mm": {
+        "1": 168.0,
+        "2": 168.0,
+        "3": 350.0,
+        "4": 500.0,
+        "5": 600.0,
+        "6": 600.0
+      }
+    },
+    "point_family_to_rail_slot": {
+      "source_kind": "operation_semantics_transcribed_for_analysis",
+      "human_readable_source": "pTLC实验室仿真重建基线_2026-08-13.md sections 7.2, 8 and appendix B",
+      "boundary": "The family-to-slot relation is absent from the point JSON and must be checked against the operation workflow whenever the workflow changes.",
+      "bindings": [
+        {
+          "cluster_id": "sampling_station",
+          "point_range": [
+            19,
+            20
+          ],
+          "explicit_point_numbers": [
+            19,
+            20
+          ],
+          "rail_slot": 1,
+          "basis": "sampling workflow target points"
+        },
+        {
+          "cluster_id": "feed_lift",
+          "point_range": [
+            21,
+            21
+          ],
+          "explicit_point_numbers": [
+            21
+          ],
+          "rail_slot": 1,
+          "basis": "feed-lift workflow target point"
+        },
+        {
+          "cluster_id": "waste_unload",
+          "point_range": [
+            22,
+            22
+          ],
+          "explicit_point_numbers": [
+            22
+          ],
+          "rail_slot": 1,
+          "basis": "feed/waste workflow target point"
+        },
+        {
+          "cluster_id": "photo_stage",
+          "point_range": [
+            64,
+            76
+          ],
+          "explicit_point_numbers": [
+            64,
+            65,
+            76
+          ],
+          "rail_slot": 2,
+          "basis": "photo workflow target/check points"
+        },
+        {
+          "cluster_id": "scrape_station",
+          "point_range": [
+            68,
+            77
+          ],
+          "explicit_point_numbers": [
+            68,
+            77
+          ],
+          "rail_slot": 2,
+          "basis": "scrape holder put/pick target points"
+        },
+        {
+          "cluster_id": "photo_scrape_combined",
+          "point_range": [
+            64,
+            77
+          ],
+          "explicit_point_numbers": [
+            64,
+            65,
+            76,
+            68,
+            77
+          ],
+          "rail_slot": 2,
+          "basis": "photo and scrape interfaces share operation-semantic rail slot 2"
+        },
+        {
+          "cluster_id": "staging_a_take",
+          "point_range": [
+            46,
+            51
+          ],
+          "explicit_point_numbers": [
+            46,
+            47,
+            48,
+            49,
+            50,
+            51
+          ],
+          "rail_slot": 2,
+          "basis": "staging-A take workflow, slots 1-6"
+        },
+        {
+          "cluster_id": "group_staging",
+          "point_range": [
+            37,
+            40
+          ],
+          "explicit_point_numbers": [
+            37,
+            38,
+            39,
+            40
+          ],
+          "rail_slot": 3,
+          "basis": "group-staging put/pick workflow"
+        },
+        {
+          "cluster_id": "staging_b",
+          "point_range": [
+            53,
+            58
+          ],
+          "explicit_point_numbers": [
+            53,
+            54,
+            55,
+            56,
+            57,
+            58
+          ],
+          "rail_slot": 3,
+          "basis": "staging-B bottle workflow, slots 1-6"
+        },
+        {
+          "cluster_id": "collection_station",
+          "point_range": [
+            71,
+            74
+          ],
+          "explicit_point_numbers": [
+            71,
+            72,
+            73,
+            74
+          ],
+          "rail_slot": 3,
+          "basis": "collection bottle/holder put/pick workflow"
+        },
+        {
+          "cluster_id": "staging_a_return",
+          "point_range": [
+            78,
+            83
+          ],
+          "explicit_point_numbers": [
+            78,
+            79,
+            80,
+            81,
+            82,
+            83
+          ],
+          "rail_slot": 3,
+          "basis": "staging-A return workflow, slots 1-6"
+        },
+        {
+          "cluster_id": "tool_station",
+          "point_range": [
+            8,
+            10
+          ],
+          "explicit_point_numbers": [
+            8,
+            9,
+            10
+          ],
+          "rail_slot": 4,
+          "basis": "tool-change workflow, tool slots 1-3"
+        },
+        {
+          "cluster_id": "develop_tank_rack",
+          "point_range": [
+            11,
+            18
+          ],
+          "explicit_point_numbers": [
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18
+          ],
+          "rail_slot": 5,
+          "basis": "develop workflow, tanks 1-8"
+        },
+        {
+          "cluster_id": "develop_tower_positive_n",
+          "point_range": [
+            11,
+            14
+          ],
+          "explicit_point_numbers": [
+            11,
+            12,
+            13,
+            14
+          ],
+          "rail_slot": 5,
+          "basis": "develop tanks 1-4 form one four-level target plane"
+        },
+        {
+          "cluster_id": "develop_tower_negative_n",
+          "point_range": [
+            15,
+            18
+          ],
+          "explicit_point_numbers": [
+            15,
+            16,
+            17,
+            18
+          ],
+          "rail_slot": 5,
+          "basis": "develop tanks 5-8 form the opposing four-level target plane"
+        },
+        {
+          "cluster_id": "group_rack_4x3",
+          "point_range": [
+            25,
+            36
+          ],
+          "explicit_point_numbers": [
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36
+          ],
+          "rail_slot": 6,
+          "basis": "group-rack 4x3 affine target grid"
+        }
+      ]
+    }
+  },
+  "rail_fit": {
+    "fit_scope": "horizontal translation only",
+    "pair_semantics": "Each P46-P51 target and P78-P83 target addresses the same physical staging-A slot at rail slots 2 and 3 respectively.",
+    "take_rail": {
+      "slot": 2,
+      "configured_value_mm": 168.0
+    },
+    "return_rail": {
+      "slot": 3,
+      "configured_value_mm": 350.0
+    },
+    "configured_delta_q_mm": 182.0,
+    "pair_count": 6,
+    "pairs": [
+      {
+        "take_point": "P46",
+        "return_point": "P78",
+        "raw_return_minus_take_xyz_mm": [
+          179.8104,
+          3.574,
+          11.9806
+        ],
+        "corrected_return_minus_take_xyz_mm": [
+          -1.44525,
+          -0.4837,
+          11.9806
+        ],
+        "corrected_xy_residual_norm_mm": 1.524045
+      },
+      {
+        "take_point": "P47",
+        "return_point": "P79",
+        "raw_return_minus_take_xyz_mm": [
+          179.0104,
+          4.0742,
+          11.794
+        ],
+        "corrected_return_minus_take_xyz_mm": [
+          -2.24525,
+          0.0165,
+          11.794
+        ],
+        "corrected_xy_residual_norm_mm": 2.245311
+      },
+      {
+        "take_point": "P48",
+        "return_point": "P80",
+        "raw_return_minus_take_xyz_mm": [
+          181.0617,
+          3.9824,
+          11.9208
+        ],
+        "corrected_return_minus_take_xyz_mm": [
+          -0.19395,
+          -0.0753,
+          11.9208
+        ],
+        "corrected_xy_residual_norm_mm": 0.208055
+      },
+      {
+        "take_point": "P49",
+        "return_point": "P81",
+        "raw_return_minus_take_xyz_mm": [
+          183.0982,
+          3.7753,
+          13.4991
+        ],
+        "corrected_return_minus_take_xyz_mm": [
+          1.84255,
+          -0.2824,
+          13.4991
+        ],
+        "corrected_xy_residual_norm_mm": 1.864066
+      },
+      {
+        "take_point": "P50",
+        "return_point": "P82",
+        "raw_return_minus_take_xyz_mm": [
+          182.7122,
+          4.5403,
+          13.0503
+        ],
+        "corrected_return_minus_take_xyz_mm": [
+          1.45655,
+          0.4826,
+          13.0503
+        ],
+        "corrected_xy_residual_norm_mm": 1.534419
+      },
+      {
+        "take_point": "P51",
+        "return_point": "P83",
+        "raw_return_minus_take_xyz_mm": [
+          181.841,
+          4.4,
+          13.0256
+        ],
+        "corrected_return_minus_take_xyz_mm": [
+          0.58535,
+          0.3423,
+          13.0256
+        ],
+        "corrected_xy_residual_norm_mm": 0.678088
+      }
+    ],
+    "mean_raw_return_minus_take_xyz_mm": [
+      181.25565,
+      4.0577,
+      12.545067
+    ],
+    "sample_std_raw_delta_xyz_mm": [
+      1.614105,
+      0.365986,
+      0.730587
+    ],
+    "observed_mean_xy_distance_mm": 181.301063,
+    "fitted_scale_mm_translation_per_mm_command": 0.996159689,
+    "controller_xyz_translation_per_positive_rail_mm": [
+      -0.995910165,
+      -0.022295055,
+      0.0
+    ],
+    "l_axis_unit_in_controller_xyz": [
+      -0.999749514,
+      -0.022381005,
+      0.0
+    ],
+    "n_axis_unit_in_controller_xyz": [
+      0.022381005,
+      -0.999749514,
+      0.0
+    ],
+    "signed_deviation_from_controller_negative_x_deg": 1.282444,
+    "fit_residuals": {
+      "xy_rms_mm": 1.510872,
+      "xy_max_mm": 2.245311,
+      "xy_sample_std_mm": [
+        1.614105,
+        0.365986
+      ],
+      "z_mean_mm_not_fitted": 12.545067,
+      "z_sample_std_mm_not_fitted": 0.730587,
+      "z_interpretation": "Take/return process-height offset; not evidence of rail slope."
+    },
+    "unit_scale_comparison": {
+      "assumed_scale_mm_per_mm": 1.0,
+      "xy_rms_mm": 1.664706,
+      "xy_max_mm": 2.944012
+    },
+    "common_frame_equation": {
+      "reference_q_mm": 168.0,
+      "vector_form": "p_common_xyz = p_controller_xyz + (q_mm - reference_q_mm) * controller_xyz_translation_per_positive_rail_mm",
+      "coordinate_form": "L=dot(p_controller,l_axis)+scale*(q-reference_q); N=dot(p_controller,n_axis); Z=controller_z",
+      "handedness": "L cross N = +Z"
+    }
+  },
+  "rail_carriage_l_positions_relative_to_reference": {
+    "reference_slot": 2,
+    "reference_configured_q_mm": 168.0,
+    "positions_by_slot_mm": {
+      "1": 0.0,
+      "2": 0.0,
+      "3": 181.301063,
+      "4": 330.725017,
+      "5": 430.340986,
+      "6": 430.340986
+    },
+    "boundary": "Slots 1/2 and 5/6 share configured positions but retain different operation semantics."
+  },
+  "interaction_target_clusters": [
+    {
+      "cluster_id": "sampling_station",
+      "point_numbers": [
+        19,
+        20
+      ],
+      "rail_slot": 1,
+      "rail_configured_value_mm": 168.0,
+      "semantic_binding_basis": "sampling workflow target points",
+      "point_count": 2,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -631.068156,
+          77.146564,
+          274.8206
+        ],
+        "minimum": [
+          -641.594991,
+          73.831334,
+          274.7383
+        ],
+        "maximum": [
+          -620.541321,
+          80.461793,
+          274.9029
+        ],
+        "extents": [
+          21.05367,
+          6.630459,
+          0.1646
+        ],
+        "pca_singular_values": [
+          15.608445,
+          0.0
+        ]
+      },
+      "points": [
+        {
+          "point": "P19",
+          "controller_xyz_mm": [
+            643.0867,
+            -59.4533,
+            274.9029
+          ],
+          "common_lnz_mm": [
+            -641.594991,
+            73.831334,
+            274.9029
+          ]
+        },
+        {
+          "point": "P20",
+          "controller_xyz_mm": [
+            622.1867,
+            -66.5533,
+            274.7383
+          ],
+          "common_lnz_mm": [
+            -620.541321,
+            80.461793,
+            274.7383
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "feed_lift",
+      "point_numbers": [
+        21
+      ],
+      "rail_slot": 1,
+      "rail_configured_value_mm": 168.0,
+      "semantic_binding_basis": "feed-lift workflow target point",
+      "point_count": 1,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -471.646731,
+          221.156725,
+          -96.5348
+        ],
+        "minimum": [
+          -471.646731,
+          221.156725,
+          -96.5348
+        ],
+        "maximum": [
+          -471.646731,
+          221.156725,
+          -96.5348
+        ],
+        "extents": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pca_singular_values": [
+          0.0
+        ]
+      },
+      "points": [
+        {
+          "point": "P21",
+          "controller_xyz_mm": [
+            476.4783,
+            -210.5454,
+            -96.5348
+          ],
+          "common_lnz_mm": [
+            -471.646731,
+            221.156725,
+            -96.5348
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "waste_unload",
+      "point_numbers": [
+        22
+      ],
+      "rail_slot": 1,
+      "rail_configured_value_mm": 168.0,
+      "semantic_binding_basis": "feed/waste workflow target point",
+      "point_count": 1,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -555.308147,
+          435.876335,
+          -92.3651
+        ],
+        "minimum": [
+          -555.308147,
+          435.876335,
+          -92.3651
+        ],
+        "maximum": [
+          -555.308147,
+          435.876335,
+          -92.3651
+        ],
+        "extents": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "pca_singular_values": [
+          0.0
+        ]
+      },
+      "points": [
+        {
+          "point": "P22",
+          "controller_xyz_mm": [
+            564.9244,
+            -423.3388,
+            -92.3651
+          ],
+          "common_lnz_mm": [
+            -555.308147,
+            435.876335,
+            -92.3651
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "photo_stage",
+      "point_numbers": [
+        64,
+        65,
+        76
+      ],
+      "rail_slot": 2,
+      "rail_configured_value_mm": 168.0,
+      "semantic_binding_basis": "photo workflow target/check points",
+      "point_count": 3,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -353.257942,
+          -395.561148,
+          -45.4452
+        ],
+        "minimum": [
+          -373.979288,
+          -395.959797,
+          -45.9041
+        ],
+        "maximum": [
+          -342.897269,
+          -394.763851,
+          -44.5274
+        ],
+        "extents": [
+          31.082019,
+          1.195946,
+          1.3767
+        ],
+        "pca_singular_values": [
+          25.422005,
+          0.0,
+          0.0
+        ]
+      },
+      "points": [
+        {
+          "point": "P64",
+          "controller_xyz_mm": [
+            333.9494,
+            403.535,
+            -45.9041
+          ],
+          "common_lnz_mm": [
+            -342.897269,
+            -395.959797,
+            -45.9041
+          ]
+        },
+        {
+          "point": "P65",
+          "controller_xyz_mm": [
+            333.9494,
+            403.535,
+            -45.9041
+          ],
+          "common_lnz_mm": [
+            -342.897269,
+            -395.959797,
+            -45.9041
+          ]
+        },
+        {
+          "point": "P76",
+          "controller_xyz_mm": [
+            365.0504,
+            403.035,
+            -44.5274
+          ],
+          "common_lnz_mm": [
+            -373.979288,
+            -394.763851,
+            -44.5274
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "scrape_station",
+      "point_numbers": [
+        68,
+        77
+      ],
+      "rail_slot": 2,
+      "rail_configured_value_mm": 168.0,
+      "semantic_binding_basis": "scrape holder put/pick target points",
+      "point_count": 2,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -534.150101,
+          -630.347177,
+          101.6379
+        ],
+        "minimum": [
+          -534.567034,
+          -631.988257,
+          101.0879
+        ],
+        "maximum": [
+          -533.733167,
+          -628.706097,
+          102.1879
+        ],
+        "extents": [
+          0.833867,
+          3.282159,
+          1.1
+        ],
+        "pca_singular_values": [
+          2.517728,
+          0.0
+        ]
+      },
+      "points": [
+        {
+          "point": "P68",
+          "controller_xyz_mm": [
+            520.2886,
+            643.7941,
+            102.1879
+          ],
+          "common_lnz_mm": [
+            -534.567034,
+            -631.988257,
+            102.1879
+          ]
+        },
+        {
+          "point": "P77",
+          "controller_xyz_mm": [
+            519.5284,
+            640.4941,
+            101.0879
+          ],
+          "common_lnz_mm": [
+            -533.733167,
+            -628.706097,
+            101.0879
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "photo_scrape_combined",
+      "point_numbers": [
+        64,
+        65,
+        76,
+        68,
+        77
+      ],
+      "rail_slot": 2,
+      "rail_configured_value_mm": 168.0,
+      "semantic_binding_basis": "photo and scrape interfaces share operation-semantic rail slot 2",
+      "point_count": 5,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -425.614806,
+          -489.47556,
+          13.38804
+        ],
+        "minimum": [
+          -534.567034,
+          -631.988257,
+          -45.9041
+        ],
+        "maximum": [
+          -342.897269,
+          -394.763851,
+          102.1879
+        ],
+        "extents": [
+          191.669765,
+          237.224406,
+          148.092
+        ],
+        "pca_singular_values": [
+          362.724483,
+          21.428236,
+          0.515753
+        ]
+      },
+      "points": [
+        {
+          "point": "P64",
+          "controller_xyz_mm": [
+            333.9494,
+            403.535,
+            -45.9041
+          ],
+          "common_lnz_mm": [
+            -342.897269,
+            -395.959797,
+            -45.9041
+          ]
+        },
+        {
+          "point": "P65",
+          "controller_xyz_mm": [
+            333.9494,
+            403.535,
+            -45.9041
+          ],
+          "common_lnz_mm": [
+            -342.897269,
+            -395.959797,
+            -45.9041
+          ]
+        },
+        {
+          "point": "P76",
+          "controller_xyz_mm": [
+            365.0504,
+            403.035,
+            -44.5274
+          ],
+          "common_lnz_mm": [
+            -373.979288,
+            -394.763851,
+            -44.5274
+          ]
+        },
+        {
+          "point": "P68",
+          "controller_xyz_mm": [
+            520.2886,
+            643.7941,
+            102.1879
+          ],
+          "common_lnz_mm": [
+            -534.567034,
+            -631.988257,
+            102.1879
+          ]
+        },
+        {
+          "point": "P77",
+          "controller_xyz_mm": [
+            519.5284,
+            640.4941,
+            101.0879
+          ],
+          "common_lnz_mm": [
+            -533.733167,
+            -628.706097,
+            101.0879
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "staging_a_take",
+      "point_numbers": [
+        46,
+        47,
+        48,
+        49,
+        50,
+        51
+      ],
+      "rail_slot": 2,
+      "rail_configured_value_mm": 168.0,
+      "semantic_binding_basis": "staging-A take workflow, slots 1-6",
+      "point_count": 6,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -518.999901,
+          59.107478,
+          11.38815
+        ],
+        "minimum": [
+          -567.465305,
+          -32.849955,
+          10.5964
+        ],
+        "maximum": [
+          -469.200243,
+          151.040477,
+          11.8776
+        ],
+        "extents": [
+          98.265061,
+          183.890433,
+          1.2812
+        ],
+        "pca_singular_values": [
+          224.077264,
+          95.171055,
+          0.330527
+        ]
+      },
+      "points": [
+        {
+          "point": "P46",
+          "controller_xyz_mm": [
+            476.7549,
+            -139.8941,
+            11.8776
+          ],
+          "common_lnz_mm": [
+            -473.504509,
+            150.529312,
+            11.8776
+          ]
+        },
+        {
+          "point": "P47",
+          "controller_xyz_mm": [
+            524.7549,
+            -138.3941,
+            11.8776
+          ],
+          "common_lnz_mm": [
+            -521.526057,
+            150.103976,
+            11.8776
+          ]
+        },
+        {
+          "point": "P48",
+          "controller_xyz_mm": [
+            570.7036,
+            -138.3022,
+            11.8121
+          ],
+          "common_lnz_mm": [
+            -567.465305,
+            151.040477,
+            11.8121
+          ]
+        },
+        {
+          "point": "P49",
+          "controller_xyz_mm": [
+            468.3475,
+            43.3429,
+            10.5964
+          ],
+          "common_lnz_mm": [
+            -469.200243,
+            -32.849955,
+            10.5964
+          ]
+        },
+        {
+          "point": "P50",
+          "controller_xyz_mm": [
+            515.7997,
+            44.143,
+            10.9874
+          ],
+          "common_lnz_mm": [
+            -516.658464,
+            -32.587827,
+            10.9874
+          ]
+        },
+        {
+          "point": "P51",
+          "controller_xyz_mm": [
+            564.7961,
+            44.2429,
+            11.1778
+          ],
+          "common_lnz_mm": [
+            -565.644827,
+            -31.591113,
+            11.1778
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "group_staging",
+      "point_numbers": [
+        37,
+        38,
+        39,
+        40
+      ],
+      "rail_slot": 3,
+      "rail_configured_value_mm": 350.0,
+      "semantic_binding_basis": "group-staging put/pick workflow",
+      "point_count": 4,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -251.039564,
+          65.939535,
+          37.3561
+        ],
+        "minimum": [
+          -383.685682,
+          61.602416,
+          37.0062
+        ],
+        "maximum": [
+          -119.437537,
+          70.503092,
+          38.206
+        ],
+        "extents": [
+          264.248145,
+          8.900677,
+          1.1998
+        ],
+        "pca_singular_values": [
+          263.339336,
+          0.70946,
+          0.349872
+        ]
+      },
+      "points": [
+        {
+          "point": "P37",
+          "controller_xyz_mm": [
+            566.225,
+            -48.989,
+            38.206
+          ],
+          "common_lnz_mm": [
+            -383.685682,
+            61.649414,
+            38.206
+          ]
+        },
+        {
+          "point": "P38",
+          "controller_xyz_mm": [
+            302.2412,
+            -63.7546,
+            37.0062
+          ],
+          "common_lnz_mm": [
+            -119.437537,
+            70.503092,
+            37.0062
+          ]
+        },
+        {
+          "point": "P39",
+          "controller_xyz_mm": [
+            564.1251,
+            -48.989,
+            37.206
+          ],
+          "common_lnz_mm": [
+            -381.586308,
+            61.602416,
+            37.206
+          ]
+        },
+        {
+          "point": "P40",
+          "controller_xyz_mm": [
+            302.2412,
+            -63.2546,
+            37.0062
+          ],
+          "common_lnz_mm": [
+            -119.448728,
+            70.003217,
+            37.0062
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "staging_b",
+      "point_numbers": [
+        53,
+        54,
+        55,
+        56,
+        57,
+        58
+      ],
+      "rail_slot": 3,
+      "rail_configured_value_mm": 350.0,
+      "semantic_binding_basis": "staging-B bottle workflow, slots 1-6",
+      "point_count": 6,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -120.057442,
+          181.149765,
+          69.523867
+        ],
+        "minimum": [
+          -140.935431,
+          138.06446,
+          69.2797
+        ],
+        "maximum": [
+          -99.606049,
+          224.30857,
+          69.7504
+        ],
+        "extents": [
+          41.329382,
+          86.24411,
+          0.4707
+        ],
+        "pca_singular_values": [
+          84.466091,
+          49.574248,
+          0.386536
+        ]
+      },
+      "points": [
+        {
+          "point": "P53",
+          "controller_xyz_mm": [
+            325.5666,
+            -214.9099,
+            69.6774
+          ],
+          "common_lnz_mm": [
+            -139.374087,
+            222.142576,
+            69.6774
+          ]
+        },
+        {
+          "point": "P54",
+          "controller_xyz_mm": [
+            325.9026,
+            -173.8259,
+            69.6591
+          ],
+          "common_lnz_mm": [
+            -140.629504,
+            181.076387,
+            69.6591
+          ]
+        },
+        {
+          "point": "P55",
+          "controller_xyz_mm": [
+            325.2458,
+            -130.8179,
+            69.4813
+          ],
+          "common_lnz_mm": [
+            -140.935431,
+            138.06446,
+            69.4813
+          ]
+        },
+        {
+          "point": "P56",
+          "controller_xyz_mm": [
+            285.857,
+            -217.9654,
+            69.2797
+          ],
+          "common_lnz_mm": [
+            -99.606049,
+            224.30857,
+            69.2797
+          ]
+        },
+        {
+          "point": "P57",
+          "controller_xyz_mm": [
+            285.2878,
+            -175.3983,
+            69.2953
+          ],
+          "common_lnz_mm": [
+            -99.989686,
+            181.739393,
+            69.2953
+          ]
+        },
+        {
+          "point": "P58",
+          "controller_xyz_mm": [
+            284.1642,
+            -133.2407,
+            69.7504
+          ],
+          "common_lnz_mm": [
+            -99.809897,
+            139.567205,
+            69.7504
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "collection_station",
+      "point_numbers": [
+        71,
+        72,
+        73,
+        74
+      ],
+      "rail_slot": 3,
+      "rail_configured_value_mm": 350.0,
+      "semantic_binding_basis": "collection bottle/holder put/pick workflow",
+      "point_count": 4,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -99.07071,
+          370.200332,
+          177.056975
+        ],
+        "minimum": [
+          -102.433869,
+          350.861759,
+          119.6554
+        ],
+        "maximum": [
+          -95.996655,
+          387.794939,
+          227.5585
+        ],
+        "extents": [
+          6.437214,
+          36.93318,
+          107.9031
+        ],
+        "pca_singular_values": [
+          107.602833,
+          0.893221,
+          0.0
+        ]
+      },
+      "points": [
+        {
+          "point": "P71",
+          "controller_xyz_mm": [
+            291.0165,
+            -347.9236,
+            133.4555
+          ],
+          "common_lnz_mm": [
+            -101.855661,
+            354.349692,
+            133.4555
+          ]
+        },
+        {
+          "point": "P72",
+          "controller_xyz_mm": [
+            291.5165,
+            -344.4236,
+            119.6554
+          ],
+          "common_lnz_mm": [
+            -102.433869,
+            350.861759,
+            119.6554
+          ]
+        },
+        {
+          "point": "P73",
+          "controller_xyz_mm": [
+            285.9075,
+            -381.4916,
+            227.5585
+          ],
+          "common_lnz_mm": [
+            -95.996655,
+            387.794939,
+            227.5585
+          ]
+        },
+        {
+          "point": "P74",
+          "controller_xyz_mm": [
+            285.9075,
+            -381.4916,
+            227.5585
+          ],
+          "common_lnz_mm": [
+            -95.996655,
+            387.794939,
+            227.5585
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "staging_a_return",
+      "point_numbers": [
+        78,
+        79,
+        80,
+        81,
+        82,
+        83
+      ],
+      "rail_slot": 3,
+      "rail_configured_value_mm": 350.0,
+      "semantic_binding_basis": "staging-A return workflow, slots 1-6",
+      "point_count": 6,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          -518.999901,
+          59.107478,
+          23.933217
+        ],
+        "minimum": [
+          -567.269718,
+          -33.037707,
+          23.6716
+        ],
+        "maximum": [
+          -471.036011,
+          151.111418,
+          24.2034
+        ],
+        "extents": [
+          96.233707,
+          184.149125,
+          0.5318
+        ],
+        "pca_singular_values": [
+          224.387967,
+          95.207929,
+          0.181243
+        ]
+      },
+      "points": [
+        {
+          "point": "P78",
+          "controller_xyz_mm": [
+            656.5653,
+            -136.3201,
+            23.8582
+          ],
+          "common_lnz_mm": [
+            -472.048795,
+            150.980545,
+            23.8582
+          ]
+        },
+        {
+          "point": "P79",
+          "controller_xyz_mm": [
+            703.7653,
+            -134.3199,
+            23.6716
+          ],
+          "common_lnz_mm": [
+            -519.281739,
+            150.037229,
+            23.6716
+          ]
+        },
+        {
+          "point": "P80",
+          "controller_xyz_mm": [
+            751.7653,
+            -134.3198,
+            23.7329
+          ],
+          "common_lnz_mm": [
+            -567.269718,
+            151.111418,
+            23.7329
+          ]
+        },
+        {
+          "point": "P81",
+          "controller_xyz_mm": [
+            651.4457,
+            47.1182,
+            24.0955
+          ],
+          "common_lnz_mm": [
+            -471.036011,
+            -32.526388,
+            24.0955
+          ]
+        },
+        {
+          "point": "P82",
+          "controller_xyz_mm": [
+            698.5119,
+            48.6833,
+            24.0377
+          ],
+          "common_lnz_mm": [
+            -518.12545,
+            -33.037707,
+            24.0377
+          ]
+        },
+        {
+          "point": "P83",
+          "controller_xyz_mm": [
+            746.6371,
+            48.6429,
+            24.2034
+          ],
+          "common_lnz_mm": [
+            -566.237691,
+            -31.920227,
+            24.2034
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "tool_station",
+      "point_numbers": [
+        8,
+        9,
+        10
+      ],
+      "rail_slot": 4,
+      "rail_configured_value_mm": 500.0,
+      "semantic_binding_basis": "tool-change workflow, tool slots 1-3",
+      "point_count": 3,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          487.502069,
+          -426.838979,
+          -62.090467
+        ],
+        "minimum": [
+          332.288631,
+          -427.204371,
+          -62.3663
+        ],
+        "maximum": [
+          636.625577,
+          -426.11033,
+          -61.9084
+        ],
+        "extents": [
+          304.336946,
+          1.094041,
+          0.4579
+        ],
+        "pca_singular_values": [
+          215.329546,
+          0.469352,
+          0.0
+        ]
+      },
+      "points": [
+        {
+          "point": "P8",
+          "controller_xyz_mm": [
+            -315.3852,
+            420.251,
+            -61.9967
+          ],
+          "common_lnz_mm": [
+            636.625577,
+            -427.204371,
+            -61.9967
+          ]
+        },
+        {
+          "point": "P9",
+          "controller_xyz_mm": [
+            -172.3874,
+            423.4501,
+            -61.9084
+          ],
+          "common_lnz_mm": [
+            493.591997,
+            -427.202235,
+            -61.9084
+          ]
+        },
+        {
+          "point": "P10",
+          "controller_xyz_mm": [
+            -11.1,
+            425.9686,
+            -62.3663
+          ],
+          "common_lnz_mm": [
+            332.288631,
+            -426.11033,
+            -62.3663
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "develop_tank_rack",
+      "point_numbers": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "rail_slot": 5,
+      "rail_configured_value_mm": 600.0,
+      "semantic_binding_basis": "develop workflow, tanks 1-8",
+      "point_count": 8,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          1013.184028,
+          -11.701394,
+          214.501412
+        ],
+        "minimum": [
+          1007.436093,
+          -204.405855,
+          -56.3304
+        ],
+        "maximum": [
+          1018.891601,
+          181.531395,
+          484.9667
+        ],
+        "extents": [
+          11.455508,
+          385.93725,
+          541.2971
+        ],
+        "pca_singular_values": [
+          569.738794,
+          543.222242,
+          0.616
+        ]
+      },
+      "points": [
+        {
+          "point": "P11",
+          "controller_xyz_mm": [
+            -576.14,
+            -194.4747,
+            -56.3304
+          ],
+          "common_lnz_mm": [
+            1010.68921,
+            181.531395,
+            -56.3304
+          ]
+        },
+        {
+          "point": "P12",
+          "controller_xyz_mm": [
+            -575.14,
+            -193.6747,
+            125.3916
+          ],
+          "common_lnz_mm": [
+            1009.671556,
+            180.753976,
+            125.3916
+          ]
+        },
+        {
+          "point": "P13",
+          "controller_xyz_mm": [
+            -574.54,
+            -192.6747,
+            304.7916
+          ],
+          "common_lnz_mm": [
+            1009.049325,
+            179.767655,
+            304.7916
+          ]
+        },
+        {
+          "point": "P14",
+          "controller_xyz_mm": [
+            -572.9398,
+            -192.0745,
+            484.7917
+          ],
+          "common_lnz_mm": [
+            1007.436093,
+            179.20342,
+            484.7917
+          ]
+        },
+        {
+          "point": "P15",
+          "controller_xyz_mm": [
+            -592.978,
+            191.1823,
+            -55.5333
+          ],
+          "common_lnz_mm": [
+            1018.891601,
+            -204.405855,
+            -55.5333
+          ]
+        },
+        {
+          "point": "P16",
+          "controller_xyz_mm": [
+            -591.4779,
+            190.8823,
+            124.4667
+          ],
+          "common_lnz_mm": [
+            1017.398591,
+            -204.072356,
+            124.4667
+          ]
+        },
+        {
+          "point": "P17",
+          "controller_xyz_mm": [
+            -590.9779,
+            190.3824,
+            303.4667
+          ],
+          "common_lnz_mm": [
+            1016.909905,
+            -203.561391,
+            303.4667
+          ]
+        },
+        {
+          "point": "P18",
+          "controller_xyz_mm": [
+            -589.4779,
+            189.6824,
+            484.9667
+          ],
+          "common_lnz_mm": [
+            1015.425947,
+            -202.827995,
+            484.9667
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "develop_tower_positive_n",
+      "point_numbers": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "rail_slot": 5,
+      "rail_configured_value_mm": 600.0,
+      "semantic_binding_basis": "develop tanks 1-4 form one four-level target plane",
+      "point_count": 4,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          1009.211546,
+          180.314111,
+          214.661125
+        ],
+        "minimum": [
+          1007.436093,
+          179.20342,
+          -56.3304
+        ],
+        "maximum": [
+          1010.68921,
+          181.531395,
+          484.7917
+        ],
+        "extents": [
+          3.253117,
+          2.327975,
+          541.1221
+        ],
+        "pca_singular_values": [
+          403.122871,
+          0.464822,
+          0.026056
+        ]
+      },
+      "points": [
+        {
+          "point": "P11",
+          "controller_xyz_mm": [
+            -576.14,
+            -194.4747,
+            -56.3304
+          ],
+          "common_lnz_mm": [
+            1010.68921,
+            181.531395,
+            -56.3304
+          ]
+        },
+        {
+          "point": "P12",
+          "controller_xyz_mm": [
+            -575.14,
+            -193.6747,
+            125.3916
+          ],
+          "common_lnz_mm": [
+            1009.671556,
+            180.753976,
+            125.3916
+          ]
+        },
+        {
+          "point": "P13",
+          "controller_xyz_mm": [
+            -574.54,
+            -192.6747,
+            304.7916
+          ],
+          "common_lnz_mm": [
+            1009.049325,
+            179.767655,
+            304.7916
+          ]
+        },
+        {
+          "point": "P14",
+          "controller_xyz_mm": [
+            -572.9398,
+            -192.0745,
+            484.7917
+          ],
+          "common_lnz_mm": [
+            1007.436093,
+            179.20342,
+            484.7917
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "develop_tower_negative_n",
+      "point_numbers": [
+        15,
+        16,
+        17,
+        18
+      ],
+      "rail_slot": 5,
+      "rail_configured_value_mm": 600.0,
+      "semantic_binding_basis": "develop tanks 5-8 form the opposing four-level target plane",
+      "point_count": 4,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          1017.156511,
+          -203.716899,
+          214.3417
+        ],
+        "minimum": [
+          1015.425947,
+          -204.405855,
+          -55.5333
+        ],
+        "maximum": [
+          1018.891601,
+          -202.827995,
+          484.9667
+        ],
+        "extents": [
+          3.465654,
+          1.57786,
+          540.5
+        ],
+        "pca_singular_values": [
+          402.614571,
+          0.442495,
+          0.197872
+        ]
+      },
+      "points": [
+        {
+          "point": "P15",
+          "controller_xyz_mm": [
+            -592.978,
+            191.1823,
+            -55.5333
+          ],
+          "common_lnz_mm": [
+            1018.891601,
+            -204.405855,
+            -55.5333
+          ]
+        },
+        {
+          "point": "P16",
+          "controller_xyz_mm": [
+            -591.4779,
+            190.8823,
+            124.4667
+          ],
+          "common_lnz_mm": [
+            1017.398591,
+            -204.072356,
+            124.4667
+          ]
+        },
+        {
+          "point": "P17",
+          "controller_xyz_mm": [
+            -590.9779,
+            190.3824,
+            303.4667
+          ],
+          "common_lnz_mm": [
+            1016.909905,
+            -203.561391,
+            303.4667
+          ]
+        },
+        {
+          "point": "P18",
+          "controller_xyz_mm": [
+            -589.4779,
+            189.6824,
+            484.9667
+          ],
+          "common_lnz_mm": [
+            1015.425947,
+            -202.827995,
+            484.9667
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    },
+    {
+      "cluster_id": "group_rack_4x3",
+      "point_numbers": [
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36
+      ],
+      "rail_slot": 6,
+      "rail_configured_value_mm": 600.0,
+      "semantic_binding_basis": "group-rack 4x3 affine target grid",
+      "point_count": 12,
+      "interaction_target_cluster_lnz_mm": {
+        "center": [
+          1136.870506,
+          -14.247084,
+          198.998475
+        ],
+        "minimum": [
+          1133.076263,
+          -153.986432,
+          -40.9755
+        ],
+        "maximum": [
+          1139.349273,
+          126.262909,
+          438.6925
+        ],
+        "extents": [
+          6.273011,
+          280.249341,
+          479.668
+        ],
+        "pca_singular_values": [
+          619.351541,
+          393.672305,
+          2.096039
+        ]
+      },
+      "points": [
+        {
+          "point": "P25",
+          "controller_xyz_mm": [
+            -706.0048,
+            138.1832,
+            438.6925
+          ],
+          "common_lnz_mm": [
+            1133.076263,
+            -153.949684,
+            438.6925
+          ]
+        },
+        {
+          "point": "P26",
+          "controller_xyz_mm": [
+            -706.0048,
+            -0.9,
+            438.6925
+          ],
+          "common_lnz_mm": [
+            1136.189084,
+            -14.901322,
+            438.6925
+          ]
+        },
+        {
+          "point": "P27",
+          "controller_xyz_mm": [
+            -701.5048,
+            -139.8141,
+            438.6925
+          ],
+          "common_lnz_mm": [
+            1134.799249,
+            124.078696,
+            438.6925
+          ]
+        },
+        {
+          "point": "P28",
+          "controller_xyz_mm": [
+            -709.0047,
+            138.1528,
+            279.4506
+          ],
+          "common_lnz_mm": [
+            1136.076091,
+            -153.986432,
+            279.4506
+          ]
+        },
+        {
+          "point": "P29",
+          "controller_xyz_mm": [
+            -706.0048,
+            -0.5096,
+            279.4744
+          ],
+          "common_lnz_mm": [
+            1136.180347,
+            -15.291625,
+            279.4744
+          ]
+        },
+        {
+          "point": "P30",
+          "controller_xyz_mm": [
+            -703.0047,
+            -139.9814,
+            279.4506
+          ],
+          "common_lnz_mm": [
+            1136.302517,
+            124.212385,
+            279.4506
+          ]
+        },
+        {
+          "point": "P31",
+          "controller_xyz_mm": [
+            -710.0047,
+            136.4502,
+            118.3651
+          ],
+          "common_lnz_mm": [
+            1137.113947,
+            -152.30664,
+            118.3651
+          ]
+        },
+        {
+          "point": "P32",
+          "controller_xyz_mm": [
+            -707.0046,
+            -1.8349,
+            118.112
+          ],
+          "common_lnz_mm": [
+            1137.209558,
+            -13.989033,
+            118.112
+          ]
+        },
+        {
+          "point": "P33",
+          "controller_xyz_mm": [
+            -704.5047,
+            -141.2414,
+            119.112
+          ],
+          "common_lnz_mm": [
+            1137.830342,
+            125.438498,
+            119.112
+          ]
+        },
+        {
+          "point": "P34",
+          "controller_xyz_mm": [
+            -712.0048,
+            137.3373,
+            -40.2926
+          ],
+          "common_lnz_mm": [
+            1139.093692,
+            -153.238282,
+            -40.2926
+          ]
+        },
+        {
+          "point": "P35",
+          "controller_xyz_mm": [
+            -709.0047,
+            -2.5744,
+            -40.7924
+          ],
+          "common_lnz_mm": [
+            1139.225708,
+            -13.294483,
+            -40.7924
+          ]
+        },
+        {
+          "point": "P36",
+          "controller_xyz_mm": [
+            -706.0048,
+            -142.0996,
+            -40.9755
+          ],
+          "common_lnz_mm": [
+            1139.349273,
+            126.262909,
+            -40.9755
+          ]
+        }
+      ],
+      "boundary": "This cluster describes TCP interaction targets, not device center, outer dimensions, or collision geometry."
+    }
+  ],
+  "layout_constraints": {
+    "linear_order_by_cluster_center_l": [
+      "sampling_station",
+      "waste_unload",
+      "scrape_station",
+      "staging_a_take",
+      "staging_a_return",
+      "feed_lift",
+      "photo_scrape_combined",
+      "photo_stage",
+      "group_staging",
+      "staging_b",
+      "collection_station",
+      "tool_station",
+      "develop_tower_positive_n",
+      "develop_tank_rack",
+      "develop_tower_negative_n",
+      "group_rack_4x3"
+    ],
+    "develop_inventory_u_cluster": {
+      "members": [
+        "develop_tower_positive_n",
+        "develop_tower_negative_n",
+        "group_rack_4x3"
+      ],
+      "evidence": "P11-P14 and P15-P18 are opposing four-level target planes; P25-P36 is a four-level by three-bay plane approximately 124 mm farther along +L.",
+      "recommended_topology": "Two opposing 1x4 side towers plus a 4x3 back-wall rack under one U-shaped parent cluster.",
+      "boundary": "Target planes constrain openings and approach corridors, not enclosure wall offsets."
+    },
+    "collection_cluster": {
+      "members": [
+        "staging_b",
+        "collection_station"
+      ],
+      "relative_center": {
+        "source": "staging_b",
+        "target": "collection_station",
+        "delta_lnz_mm": [
+          20.986732,
+          189.050567,
+          107.533108
+        ],
+        "planar_distance_mm": 190.211881
+      },
+      "recommended_topology": "Keep staging-B adjacent to collection rather than in a detached inventory/exploded zone."
+    },
+    "selected_relative_centers": [
+      {
+        "source": "develop_tank_rack",
+        "target": "group_rack_4x3",
+        "delta_lnz_mm": [
+          123.686478,
+          -2.54569,
+          -15.502937
+        ],
+        "planar_distance_mm": 123.712673
+      },
+      {
+        "source": "photo_scrape_combined",
+        "target": "collection_station",
+        "delta_lnz_mm": [
+          326.544096,
+          859.675892,
+          163.668935
+        ],
+        "planar_distance_mm": 919.605179
+      },
+      {
+        "source": "staging_a_take",
+        "target": "staging_a_return",
+        "delta_lnz_mm": [
+          0.0,
+          0.0,
+          12.545067
+        ],
+        "planar_distance_mm": 0.0
+      }
+    ]
+  },
+  "uncertainty_and_identifiability": [
+    {
+      "item": "world rigid transform",
+      "status": "unidentifiable",
+      "effect": "The constraint frame may be translated and yaw-rotated as a whole without changing any fitted relation."
+    },
+    {
+      "item": "rail vertical slope and full travel linearity",
+      "status": "not identified",
+      "effect": "Only one 182 mm paired baseline exists; the 12.545 mm take/return Z offset is deliberately excluded from the rail fit."
+    },
+    {
+      "item": "TCP and tool-frame calibration",
+      "status": "unavailable",
+      "effect": "Interaction targets are precise controller records but cannot directly locate device exterior surfaces."
+    },
+    {
+      "item": "device center, dimensions and collision envelope",
+      "status": "unidentifiable from targets alone",
+      "effect": "Use photographs or CAD for enclosure geometry; never move a target point to fit a proxy AABB."
+    },
+    {
+      "item": "semantic rail bindings",
+      "status": "workflow-derived",
+      "effect": "All robot records lack a rail field, so a changed operation script can invalidate a binding without changing the point snapshot."
+    },
+    {
+      "item": "fit repeatability",
+      "status": "estimated from six paired slots",
+      "effect": "Use XY RMS and maximum residual from rail_fit as the empirical consistency bound; it is not a hardware accuracy certificate."
+    }
+  ],
+  "allowed_use": [
+    "Relative layout blocking in the fitted L/N/Z constraint frame",
+    "Interaction-marker placement and station-topology checks",
+    "Testing whether proxy openings contain their required point clusters and approach corridors"
+  ],
+  "forbidden_claims": [
+    "Surveyed laboratory world coordinates",
+    "Verified robot-to-rail or TCP calibration",
+    "Device exterior dimensions inferred solely from target clusters",
+    "Collision-safe or reachable motion without URDF, TCP and collision validation"
+  ]
+}

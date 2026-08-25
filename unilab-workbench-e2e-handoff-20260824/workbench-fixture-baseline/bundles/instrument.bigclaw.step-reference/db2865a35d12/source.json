@@ -1,0 +1,17 @@
+{
+  "schema": "lab.source/v0",
+  "source_type": "step",
+  "source_document": "E:\\资产管线unilab\\五轴机械臂20250912\\BIgClaw.stp",
+  "source_sha256": "db2865a35d129aea321c50ed419f0317760bcada4e36af9b1cd3c7d7ff91150e",
+  "file_schema": "CONFIG_CONTROL_DESIGN",
+  "authority": [
+    "brep",
+    "product_structure_if_present",
+    "static_placement"
+  ],
+  "not_authority": [
+    "robot_kinematics",
+    "control_semantics",
+    "mechanical_mates"
+  ]
+}

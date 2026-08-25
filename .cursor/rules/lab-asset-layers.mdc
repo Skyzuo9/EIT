@@ -1,0 +1,18 @@
+---
+description: Lab device-family vs deploy-layer asset split. Never mix PLC points, TCP, or Site IDs into family URDF/CAD/GLB bundles.
+alwaysApply: true
+---
+
+# Lab asset layers
+
+Family assets prove **what a device type is**. Deploy assets prove **how this instance is installed**. Do not mix them.
+
+- Robot kinematics come only from the vendor URDF/Xacro. Do not hand-author arm joints in `rig_map` / SW mates.
+- Instruments, racks, and consumables use SolidWorks Pack and Go as primary, STEP as B-rep fallback. GLB-only is `visual-only` until a signed upgrade.
+- PLC / robot-controller points, TCP, base pose, payload, `device_id`, and Site UUIDs belong in the per-instance deploy Manifest. Never write them into family URDF, SW, STEP, or GLB bundles.
+- Split controller data: taught PointSet, program-only ProgramSet, live joints as telemetry. Do not forge PointSet from a program number.
+- Workbench loads `WorkCellActivation` only. Spatial interlock returns `unknown` without a qualified sweep; never "no collision found".
+- Agent may propose rigid groups / joints from mates and geometry. Humans sign drive type, sign, limits, and power-loss state.
+
+Canonical design: `2026-08-23-lab-device-family-asset-pipeline.md`.
+Windows generation agent brief: `2026-08-23-lab-asset-pipeline-windows-agent-brief.md`.

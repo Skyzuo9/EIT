@@ -1,0 +1,15 @@
+{
+  "schema": "lab.source/v0",
+  "source_type": "legacy-sw-urdf-export",
+  "source_document": "E:\\资产管线unilab\\合成-化学反应站-urdf\\拧盖夹爪组件.urdf\\urdf\\拧盖夹爪组件.urdf.urdf",
+  "source_digest": "85b2c06dc4caabd1166873f22299d2695b8d008ac0b56cc41960701dec109cec",
+  "authority": [
+    "visual_mesh",
+    "link_names_as_migration_aliases"
+  ],
+  "not_authority": [
+    "formal_joint_semantics",
+    "qualified_collision",
+    "controller_targets"
+  ]
+}

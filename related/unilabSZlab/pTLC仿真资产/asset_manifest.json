@@ -1,0 +1,260 @@
+{
+  "schema_version": "0.2",
+  "generated_at": "2026-08-13T18:10:00+08:00",
+  "purpose": "pTLC lab layout reconstruction; simulation_proxy_only",
+  "coordinate_convention": {
+    "visual_glb": "meters, Z-up, footprint-center origin, bottom Z=0",
+    "collision_stl": "millimeters, Z-up, footprint-center origin, bottom Z=0",
+    "interaction_points": "raw DOBOT controller pose, likely millimeters/degrees; never baked into proxy meshes"
+  },
+  "measurement_policy": {
+    "on_site_confirmation": "unavailable_by_user_instruction",
+    "scale_method": "photo proportions + confirmed CR5A 900 mm working radius + point-grid pitch + common laboratory resource dimensions",
+    "warning": "Estimated dimensions are layout priors, not metrology. Preserve raw point poses independently."
+  },
+  "collision_policy": {
+    "closed_enclosures": "solid proxy is acceptable for layout-only collision",
+    "open_racks_and_workstations": "use multiple structural sub-bodies so shelves, bays and interaction cavities remain reachable",
+    "warning": "A whole-device AABB may be retained only as an optional coarse-layout envelope, never as the precision interaction collision model."
+  },
+  "confirmed_models": [
+    {
+      "asset_id": "robot_cr5a",
+      "manufacturer_model": "DOBOT CR5A",
+      "identity_status": "confirmed_from_photo",
+      "identity_confidence": 0.99,
+      "photo_evidence": ["现场照片/现场照片1.jpg", "现场照片/现场照片2.jpg", "现场照片/现场照片4.jpg"],
+      "official_model_code": "DT-CR050A-0",
+      "official_product_url": "https://www.dobot-robots.com/products/cr-series/cr5.html?lang=en",
+      "official_user_guide_url": "https://download.dobot.cc/2024/05/Dobot%20CR%20A%20Series%20User%20Guide%20V1.8_20240511_en.pdf",
+      "official_ros_url": "https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4",
+      "upstream_ros_commit": "0f67ed938c0cec4ed0808af759ddbb608e573dbe",
+      "local_moveit_entry": "cr5_moveit/config/cr5_robot.urdf.xacro",
+      "local_semantic_model": "cr5_moveit/config/cr5_robot.srdf",
+      "local_description_package": "dobot_rviz",
+      "local_urdf": "dobot_rviz/urdf/cr5_robot.urdf",
+      "local_mesh_directory": "dobot_rviz/meshes/cr5",
+      "upstream_cr5_urdf_url": "https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4/blob/main/dobot_rviz/urdf/cr5_robot.urdf",
+      "upstream_cr5_mesh_directory": "https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4/tree/main/dobot_rviz/meshes/cr5",
+      "manufacturer_specs": {
+        "payload_kg": 5,
+        "working_radius_mm": 900,
+        "weight_kg": 25,
+        "repeatability_mm": 0.02
+      },
+      "modeling_route": "use_local_official_cr5_articulated_urdf_and_stl_as_provisional_cr5a_skeleton",
+      "compatibility_boundary": "The photos and official manual identify CR5A, while the available official ROS asset is named CR5. Use it for simulation only until CR5A DH/link geometry is verified. CR5AF belongs to the force-control CRAF series and must not be substituted.",
+      "do_not_use_meshy_reason": "An image-generated monolithic shell would destroy joint articulation and calibrated kinematics."
+    }
+  ],
+  "candidate_components": [
+    {
+      "asset_id": "hmi_panel",
+      "visible_brand_or_family": "WEINVIEW brand is legible; exact model unreadable; apparent 10-inch family",
+      "identity_status": "brand_confirmed_model_candidate_only",
+      "confidence": 0.7,
+      "photo_evidence": ["现场照片/现场照片1.jpg"],
+      "candidate_models": [
+        {
+          "model": "MT8102iQ",
+          "official_datasheet_url": "https://www.weinview.cn/storage/file/20240316/1710576707487234.pdf",
+          "overall_dimensions_mm": [271, 32, 213],
+          "status": "appearance_and_size_candidate_not_confirmed"
+        },
+        {
+          "model": "eMT3105P",
+          "official_datasheet_url": "https://www.weinview.cn/storage/file/20240316/1710574223805012.pdf",
+          "overall_dimensions_mm": [286.2, 50, 212.8],
+          "status": "appearance_and_size_candidate_not_confirmed"
+        }
+      ],
+      "modeling_route": "generic_panel_proxy",
+      "estimated_control_pendant_envelope_mm": [300, 120, 420]
+    },
+    {
+      "asset_id": "red_vision_sensor",
+      "visible_brand_or_family": "dual-aperture 3D laser profile sensor category; no legible nameplate",
+      "identity_status": "category_candidate_model_unresolved",
+      "confidence": 0.45,
+      "photo_evidence": ["现场照片/现场照片4.jpg"],
+      "candidate_model": {
+        "manufacturer_model": "HIKROBOT MV-DP2060-01H",
+        "official_datasheet_url": "https://www.hikrobotics.com/cn2/source/vision/document/2023/3/21/MV-DP2060-01H_20221017.pdf",
+        "official_dimensions_mm": [120, 84, 51],
+        "status": "dimension_and_optical_layout_candidate_only_exterior_color_not_matched"
+      },
+      "modeling_route": "generic_sensor_proxy",
+      "estimated_dimensions_mm": [120, 84, 51]
+    },
+    {
+      "asset_id": "pallas_vision_service",
+      "visible_brand_or_family": "PALLASVision is confirmed as the control service name, not the camera hardware model",
+      "identity_status": "software_service_confirmed_hardware_unresolved",
+      "confidence": 0.9,
+      "control_evidence": "PALLASVision 192.168.0.168:18889",
+      "modeling_route": "camera_frustum_and_generic_sensor_proxy"
+    }
+  ],
+  "proxy_assets": [
+    {
+      "asset_id": "machine_deck",
+      "label": "不锈钢主机台",
+      "template": "box",
+      "dimensions_mm": [3800, 1800, 850],
+      "uncertainty_mm": [400, 250, 100],
+      "basis": "photos 2-4 plus the rail-compensated interaction envelope: target interfaces span approximately N=-630..+388 mm before adding device body depth, so the former 1200 mm deck depth was geometrically insufficient; robot 900 mm working radius remains only a scale prior",
+      "interaction_points": [],
+      "meshy_priority": "none"
+    },
+    {
+      "asset_id": "rail_11y",
+      "label": "CR5A 水平地轨与滑台",
+      "template": "rail",
+      "dimensions_mm": [2300, 180, 150],
+      "uncertainty_mm": [250, 40, 40],
+      "basis": "photos 1, 2, 4; PLC canonical range and configured station values describe carriage coordinates and are not treated as physical rail-length measurements",
+      "interaction_points": ["rail station 1=168", "2=168", "3=350", "4=500", "5=600", "6=600"],
+      "meshy_priority": "none"
+    },
+    {
+      "asset_id": "tool_station",
+      "label": "三槽工具更换站",
+      "template": "station",
+      "dimensions_mm": [560, 380, 420],
+      "uncertainty_mm": [120, 100, 120],
+      "basis": "tool targets have 143 and 161 mm spacing; photo-visible quick changer",
+      "interaction_points": ["P2", "P8", "P9", "P10"],
+      "meshy_priority": "low"
+    },
+    {
+      "asset_id": "develop_tank_rack",
+      "label": "8槽展开缸双塔",
+      "template": "develop_tank_rack",
+      "dimensions_mm": [1050, 620, 980],
+      "uncertainty_mm": [250, 180, 300],
+      "basis": "P11-P18 form two columns and four levels; level pitch is about 180 mm; photos 1 and 2 show pneumatic double towers",
+      "interaction_points": ["P3", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18"],
+      "meshy_priority": "low"
+    },
+    {
+      "asset_id": "feed_lift",
+      "label": "硅胶板 FeedLift/废板升降",
+      "template": "feed_lift",
+      "dimensions_mm": [480, 450, 1050],
+      "uncertainty_mm": [120, 120, 180],
+      "basis": "photo-visible vertical lift and plate stack; P21/P22/P23 semantics",
+      "interaction_points": ["P5", "P21", "P22", "P23"],
+      "meshy_priority": "medium"
+    },
+    {
+      "asset_id": "sampling_station",
+      "label": "点样/上样工站",
+      "template": "station",
+      "dimensions_mm": [900, 650, 900],
+      "uncertainty_mm": [180, 150, 180],
+      "basis": "photos show multiple XYZ pneumatic/liquid modules; PLC exposes 4X,3Y,5Z,6X/7Y",
+      "interaction_points": ["P4", "P19", "P20", "P61", "P62", "P85", "P86"],
+      "meshy_priority": "medium"
+    },
+    {
+      "asset_id": "photo_scrape_station",
+      "label": "黑色拍照/视觉/CNC刮板工站",
+      "template": "photo_scrape",
+      "dimensions_mm": [760, 650, 1050],
+      "uncertainty_mm": [140, 140, 180],
+      "basis": "photo 4 provides front oblique silhouette; P64/P65 identify plate interface; red sensor remains unbranded",
+      "interaction_points": ["P63", "P64", "P65", "P76"],
+      "meshy_priority": "pilot_first",
+      "meshy_reference_images": ["现场照片/现场照片4.jpg"],
+      "meshy_proposed_credit_cap": 30,
+      "meshy_status": "not_submitted_awaiting_explicit_per_device_credit_cap_and_api_connectivity"
+    },
+    {
+      "asset_id": "powder_collector_fixture",
+      "label": "接粉收集器夹具",
+      "template": "fixture",
+      "dimensions_mm": [420, 260, 360],
+      "uncertainty_mm": [100, 80, 100],
+      "basis": "P68/P77 coincide within a few millimeters; photo-visible pneumatic fixture",
+      "interaction_points": ["P67", "P68", "P77"],
+      "meshy_priority": "low"
+    },
+    {
+      "asset_id": "group_rack_4x3",
+      "label": "4×3整板货架",
+      "template": "rack_4x3",
+      "dimensions_mm": [620, 600, 760],
+      "uncertainty_mm": [150, 140, 250],
+      "basis": "P25-P36 grid gives column pitch about 139 mm and row pitch about 160 mm; photo 3 confirms four levels and three bays",
+      "interaction_points": ["P7", "P25-P36"],
+      "meshy_priority": "none"
+    },
+    {
+      "asset_id": "staging_a_6slot",
+      "label": "暂存A：6槽收集器架",
+      "template": "rack_2x3",
+      "dimensions_mm": [360, 300, 260],
+      "uncertainty_mm": [80, 80, 80],
+      "basis": "P46-P51 form 2x3 grid; pitch about 47.5 x 183 mm in robot coordinates",
+      "interaction_points": ["P45", "P46-P51", "P78-P83"],
+      "meshy_priority": "none"
+    },
+    {
+      "asset_id": "staging_b_6slot",
+      "label": "暂存B：6槽收集瓶架",
+      "template": "rack_2x3",
+      "dimensions_mm": [300, 260, 260],
+      "uncertainty_mm": [70, 70, 70],
+      "basis": "P53-P58 form 2x3 grid with about 41-43 mm pitch",
+      "interaction_points": ["P52", "P53-P58"],
+      "meshy_priority": "none"
+    },
+    {
+      "asset_id": "collection_station",
+      "label": "洗脱收集工站",
+      "template": "collection_station",
+      "dimensions_mm": [650, 520, 850],
+      "uncertainty_mm": [140, 120, 160],
+      "basis": "PLC bottle/collector clamp, lift, press, liquid axes; photos show pneumatic modules but exact station identity is inferred",
+      "interaction_points": ["P70", "P71", "P72", "P73", "P74"],
+      "meshy_priority": "medium"
+    }
+  ],
+  "tool_proxies": [
+    {
+      "asset_id": "tool_suction",
+      "label": "吸盘工具",
+      "slot": 1,
+      "dimensions_mm": [150, 120, 160],
+      "uncertainty_mm": [40, 40, 50],
+      "interaction_points": ["P8"],
+      "tcp_status": "unknown_keep_controller_tool_1_raw"
+    },
+    {
+      "asset_id": "tool_large_gripper",
+      "label": "大夹爪",
+      "slot": 2,
+      "dimensions_mm": [200, 110, 190],
+      "uncertainty_mm": [50, 40, 60],
+      "interaction_points": ["P9"],
+      "tcp_status": "unknown_keep_controller_tool_1_raw"
+    },
+    {
+      "asset_id": "tool_small_gripper",
+      "label": "小夹爪",
+      "slot": 3,
+      "dimensions_mm": [100, 80, 150],
+      "uncertainty_mm": [35, 30, 50],
+      "interaction_points": ["P10"],
+      "tcp_status": "unknown_keep_controller_tool_1_raw"
+    }
+  ],
+  "do_not_model_first_pass": [
+    "individual pneumatic cylinders",
+    "individual valves and tubing",
+    "pressure gauges",
+    "exact HMI product shell",
+    "exact red vision sensor shell",
+    "bottle labels and fasteners"
+  ]
+}

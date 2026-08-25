@@ -1,0 +1,219 @@
+{
+  "schema_version": "0.2",
+  "generated_at": "2026-08-13T23:15:00+08:00",
+  "purpose": "Rail-constraint and photo-derived pTLC laboratory scene assembly for simulation blocking",
+  "coordinate_frame": {
+    "name": "rail_constraint_layout_v2",
+    "units": "meters",
+    "handedness": "right-handed",
+    "up_axis": "+Z",
+    "x_axis": "+X follows the fitted rail L direction",
+    "y_axis": "+Y follows the fitted transverse N direction",
+    "origin": "arbitrary rigid-frame origin used by the rail-relative point analysis; it is not a surveyed laboratory datum",
+    "table_top_z_m": 0.85,
+    "accuracy": "rail-relative constraint layout plus photo interpretation; not surveyed world geometry"
+  },
+  "controller_frame_boundary": {
+    "interaction_points_source": "pTLC仿真资产/interaction_points.json",
+    "rail_analysis_source": "pTLC仿真资产/rail_frame_layout_analysis.json",
+    "controller_frame": "DOBOT User 0 / Tool 1 records as supplied by the controller API",
+    "world_rigid_transform": null,
+    "rule": "Only the fitted relative L/N/Z constraint frame is used for marker overlays. Markers are TCP targets, never device centers or surveyed world points."
+  },
+  "source_photos": [
+    "现场照片/现场照片2.jpg",
+    "现场照片/现场照片3.jpg",
+    "现场照片/现场照片4.jpg"
+  ],
+  "scene": {
+    "floor_size_m": [4.6, 2.8],
+    "floor_center_m": [0.35, 0.1, -0.01],
+    "floor_thickness_m": 0.02
+  },
+  "rail_station_markers": {
+    "anchor_rule": "Slot 1/2 is drawn at X=0.000 m; only inter-slot offsets come from the fitted rail scale. This anchor makes CR5 reach to the fitted target clusters plausible but is not a calibration.",
+    "markers": [
+      {"slots": [1, 2], "configured_q_mm": 168.0, "position_m": [0.0, 0.0, 1.01]},
+      {"slots": [3], "configured_q_mm": 350.0, "position_m": [0.181301, 0.0, 1.01]},
+      {"slots": [4], "configured_q_mm": 500.0, "position_m": [0.330725, 0.0, 1.01]},
+      {"slots": [5, 6], "configured_q_mm": 600.0, "position_m": [0.430341, 0.0, 1.01]}
+    ]
+  },
+  "interaction_marker_clusters": [
+    {"cluster_id": "sampling_station", "label": "sampling TCP", "color": [30, 130, 210]},
+    {"cluster_id": "feed_lift", "label": "feed TCP", "color": [30, 130, 210]},
+    {"cluster_id": "waste_unload", "label": "waste TCP", "color": [30, 130, 210]},
+    {"cluster_id": "photo_stage", "label": "photo TCP", "color": [165, 70, 190]},
+    {"cluster_id": "scrape_station", "label": "scrape TCP", "color": [165, 70, 190]},
+    {"cluster_id": "staging_a_take", "label": "staging-A TCP", "color": [210, 125, 30]},
+    {"cluster_id": "group_staging", "label": "group-staging TCP", "color": [210, 125, 30]},
+    {"cluster_id": "staging_b", "label": "staging-B TCP", "color": [210, 125, 30]},
+    {"cluster_id": "collection_station", "label": "collection TCP", "color": [15, 155, 95]},
+    {"cluster_id": "tool_station", "label": "tool TCP", "color": [210, 55, 55]},
+    {"cluster_id": "develop_tower_positive_n", "label": "develop +N 1x4 TCP", "color": [45, 95, 205]},
+    {"cluster_id": "develop_tower_negative_n", "label": "develop -N 1x4 TCP", "color": [45, 95, 205]},
+    {"cluster_id": "group_rack_4x3", "label": "rack 4x3 TCP plane", "color": [40, 145, 145]}
+  ],
+  "photo_point_surface_guides": [
+    {"guide_id": "develop_positive_tower_proxy_center", "position_m": [1.1, 0.32, 1.34], "label": "develop +N tower (photo/point body prior)"},
+    {"guide_id": "develop_negative_tower_proxy_center", "position_m": [1.1, -0.34, 1.34], "label": "develop -N tower (photo/point body prior)"},
+    {"guide_id": "group_rack_interaction_front_plane", "position_m": [1.28, -0.014, 1.34], "label": "4x3 rack interaction/front plane prior"}
+  ],
+  "placements": [
+    {
+      "asset_id": "machine_deck",
+      "position_m": [0.35, 0.0, 0.0],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "floor",
+      "layout_confidence": 0.62,
+      "basis": "Central table datum Z=0.85 m; X offset keeps the point-constrained U cluster on the main assembly"
+    },
+    {
+      "asset_id": "rail_11y",
+      "position_m": [-0.5, 0.0, 0.85],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "machine_deck",
+      "layout_confidence": 0.9,
+      "basis": "Rail defines +X/L; center is shifted so the 2.3 m guide ends at X=0.65 m, before the U-shaped development/inventory bodies while retaining all carriage markers"
+    },
+    {
+      "asset_id": "photo_scrape_station",
+      "position_m": [-0.44, -0.51, 0.85],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "machine_deck_south_edge",
+      "layout_confidence": 0.82,
+      "basis": "Rail-frame photo/scrape target cluster (-0.426,-0.489) m plus photos 2 and 4"
+    },
+    {
+      "asset_id": "powder_collector_fixture",
+      "position_m": [-0.19, -0.51, 1.151],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "photo_scrape_station_plate",
+      "layout_confidence": 0.48,
+      "basis": "Nested on the open plate stage; scrape TCP remains independently marked at (-0.534,-0.630) m"
+    },
+    {
+      "asset_id": "sampling_station",
+      "position_m": [-0.88, 0.5, 0.85],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "machine_deck_north_edge",
+      "layout_confidence": 0.58,
+      "basis": "Sampling TCP center (-0.631,+0.077) m is an approach surface; open station body is offset toward +N"
+    },
+    {
+      "asset_id": "staging_a_6slot",
+      "position_m": [-0.62, 0.35, 1.21],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "sampling_station_deck",
+      "layout_confidence": 0.52,
+      "basis": "Physical tray stays near the staging-A target center (-0.519,+0.059) m but is inset on its supporting deck"
+    },
+    {
+      "asset_id": "feed_lift",
+      "position_m": [-0.47, 1.05, 0.85],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "machine_deck_north_auxiliary_edge",
+      "layout_confidence": 0.36,
+      "basis": "Feed TCP L coordinate is retained; +N body offset separates the conservative feed and sampling proxy envelopes"
+    },
+    {
+      "asset_id": "collection_station",
+      "position_m": [-0.1, 0.5, 0.85],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "machine_deck_north_edge",
+      "layout_confidence": 0.68,
+      "basis": "Collection target center (-0.099,+0.370) m; photos and point topology put it beside staging-B, not beside the rail as a detached block"
+    },
+    {
+      "asset_id": "staging_b_6slot",
+      "position_m": [-0.1, 0.5, 1.191],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "collection_station_deck",
+      "layout_confidence": 0.62,
+      "basis": "Nested on collection deck; target center (-0.120,+0.181) m is preserved as a separate marker"
+    },
+    {
+      "asset_id": "tool_station",
+      "position_m": [0.35, -0.62, 0.85],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "machine_deck_south_edge",
+      "layout_confidence": 0.8,
+      "basis": "Proxy body is offset -0.138 m in X and -0.193 m in N from the point-fitted tool TCP center (+0.488,-0.427) m to keep a rail/develop approach corridor; photos 2 and 4 constrain the foreground side"
+    },
+    {
+      "asset_id": "develop_tank_rack",
+      "position_m": [1.1, -0.012, 0.85],
+      "rpy_deg": [0.0, 0.0, 90.0],
+      "support": "machine_deck_east_end",
+      "layout_confidence": 0.86,
+      "basis": "Yaw 90 degrees turns the proxy's internal two towers into opposing +N/-N 1x4 towers around X=1.10 m. After narrowing the proxy tower bodies, their centers are N=+0.356/-0.380 m versus the photo/point body prior +0.32/-0.34 m; fitted TCP planes remain separately marked at X=1.009/1.017 m, N=+0.180/-0.204 m."
+    },
+    {
+      "asset_id": "group_rack_4x3",
+      "position_m": [1.72, -0.014, 0.85],
+      "rpy_deg": [0.0, 0.0, 90.0],
+      "support": "machine_deck_east_end",
+      "layout_confidence": 0.82,
+      "basis": "U-cluster back-wall body. Intended interaction/front plane prior is X=1.280 m; the collision-safe proxy starts at X=1.420 m and its body center is X=1.720 m, an explicit +0.440 m interaction-plane-to-body-center proxy offset with a 0.140 m approach gap. Point-fitted 4x3 TCP plane remains separately marked at X=1.137 m."
+    },
+    {
+      "asset_id": "tool_suction",
+      "position_m": [0.17, -0.62, 1.27],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "tool_station_slot_1",
+      "layout_confidence": 0.55,
+      "basis": "Stored-tool visualization only; TCP remains unknown"
+    },
+    {
+      "asset_id": "tool_large_gripper",
+      "position_m": [0.35, -0.62, 1.27],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "tool_station_slot_2",
+      "layout_confidence": 0.55,
+      "basis": "Stored-tool visualization only; TCP remains unknown"
+    },
+    {
+      "asset_id": "tool_small_gripper",
+      "position_m": [0.53, -0.62, 1.27],
+      "rpy_deg": [0.0, 0.0, 0.0],
+      "support": "tool_station_slot_3",
+      "layout_confidence": 0.55,
+      "basis": "Stored-tool visualization only; TCP remains unknown"
+    }
+  ],
+  "allowed_component_overlaps": [
+    {"assets": ["machine_deck", "rail_11y"], "reason": "rail supported on table top"},
+    {"assets": ["machine_deck", "photo_scrape_station"], "reason": "station supported on table top"},
+    {"assets": ["machine_deck", "sampling_station"], "reason": "station supported on table top"},
+    {"assets": ["machine_deck", "feed_lift"], "reason": "auxiliary edge-supported station"},
+    {"assets": ["machine_deck", "collection_station"], "reason": "station supported on table top"},
+    {"assets": ["machine_deck", "tool_station"], "reason": "station supported on table top"},
+    {"assets": ["machine_deck", "develop_tank_rack"], "reason": "rack supported on table top"},
+    {"assets": ["machine_deck", "group_rack_4x3"], "reason": "rack supported on table top"},
+    {"assets": ["photo_scrape_station", "powder_collector_fixture"], "reason": "fixture intentionally nested on photo/scrape plate"},
+    {"assets": ["sampling_station", "staging_a_6slot"], "reason": "tray intentionally mounted on sampling-station deck"},
+    {"assets": ["collection_station", "staging_b_6slot"], "reason": "tray intentionally mounted on collection-station deck"},
+    {"assets": ["tool_station", "tool_suction"], "reason": "tool intentionally stored in station"},
+    {"assets": ["tool_station", "tool_large_gripper"], "reason": "tool intentionally stored in station"},
+    {"assets": ["tool_station", "tool_small_gripper"], "reason": "tool intentionally stored in station"}
+  ],
+  "robot_placement": {
+    "asset_id": "robot_cr5_proxy_skeleton",
+    "urdf": "dobot_rviz/urdf/cr5_robot.urdf",
+    "mesh_directory": "dobot_rviz/meshes/cr5",
+    "position_m": [0.181301, 0.0, 1.0],
+    "rpy_deg": [0.0, 0.0, 180.0],
+    "joint_positions_deg": {
+      "joint1": 0.0,
+      "joint2": -45.0,
+      "joint3": 90.0,
+      "joint4": 0.0,
+      "joint5": 45.0,
+      "joint6": 0.0
+    },
+    "support": "rail_11y_carriage_at_slot_3_display_pose",
+    "geometry_status": "local articulated CR5 skeleton used as a provisional CR5A visual proxy",
+    "kinematic_status": "display pose only; not verified against CR5A mechanical drawings, rail datum, TCP or controller calibration",
+    "layout_confidence": 0.72
+  }
+}

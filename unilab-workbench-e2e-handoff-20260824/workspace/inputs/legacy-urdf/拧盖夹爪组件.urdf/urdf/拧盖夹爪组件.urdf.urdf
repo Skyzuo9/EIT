@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="拧盖夹爪组件.urdf">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.0085537 -4.3835E-05 -0.066638"
+        rpy="0 0 0" />
+      <mass
+        value="0.28274" />
+      <inertia
+        ixx="0.0001545"
+        ixy="-1.8577E-09"
+        ixz="-1.14E-10"
+        iyy="0.00014665"
+        iyz="2.5659E-08"
+        izz="0.00017272" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="rotate_Link">
+    <inertial>
+      <origin
+        xyz="3.7065E-05 1.3878E-17 -0.0098091"
+        rpy="0 0 0" />
+      <mass
+        value="0.014484" />
+      <inertia
+        ixx="2.4288E-06"
+        ixy="-3.4161E-13"
+        ixz="3.95E-10"
+        iyy="1.8906E-06"
+        iyz="5.2287E-21"
+        izz="2.9958E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/rotate_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/rotate_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rotate_joint"
+    type="continuous">
+    <origin
+      xyz="0.010369 -5.5918E-05 -0.1902"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="rotate_Link" />
+    <axis
+      xyz="0 0 -1" />
+  </joint>
+  <link
+    name="l_Link">
+    <inertial>
+      <origin
+        xyz="-0.03808 -0.0066718 -0.049687"
+        rpy="0 0 0" />
+      <mass
+        value="0.033047" />
+      <inertia
+        ixx="1.0035E-05"
+        ixy="-5.4363E-07"
+        ixz="-5.8393E-07"
+        iyy="1.1044E-05"
+        iyz="-1.0858E-07"
+        izz="5.3174E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/l_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.90588 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/l_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l_joint"
+    type="prismatic">
+    <origin
+      xyz="-0.0087096 0.008136 -0.0051"
+      rpy="0 0 0" />
+    <parent
+      link="rotate_Link" />
+    <child
+      link="l_Link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="-0.018"
+      upper="0.0175"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="l2_Link">
+    <inertial>
+      <origin
+        xyz="0.0078245 1.5197E-06 -0.0040966"
+        rpy="0 0 0" />
+      <mass
+        value="0.017278" />
+      <inertia
+        ixx="3.0195E-06"
+        ixy="3.5162E-11"
+        ixz="2.0046E-07"
+        iyy="2.3011E-06"
+        iyz="3.0983E-11"
+        izz="1.1627E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/l2_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.90196 0.15294 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/l2_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="l2_joint"
+    type="prismatic">
+    <origin
+      xyz="-0.04125 -0.008136 -0.07925"
+      rpy="0 0 0" />
+    <parent
+      link="l_Link" />
+    <child
+      link="l2_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.0076"
+      upper="0.03"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="r_Link">
+    <inertial>
+      <origin
+        xyz="0.03808 0.0066718 -0.049687"
+        rpy="0 0 0" />
+      <mass
+        value="0.033047" />
+      <inertia
+        ixx="1.0035E-05"
+        ixy="-5.4363E-07"
+        ixz="5.8393E-07"
+        iyy="1.1044E-05"
+        iyz="1.0858E-07"
+        izz="5.3174E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/r_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.86667 0.90588 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/r_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_joint"
+    type="prismatic">
+    <origin
+      xyz="0.0087904 -0.008136 -0.0051"
+      rpy="0 0 0" />
+    <parent
+      link="rotate_Link" />
+    <child
+      link="r_Link" />
+    <axis
+      xyz="-1 0 0" />
+    <limit
+      lower="-0.018"
+      upper="0.0175"
+      effort="0"
+      velocity="0" />
+  </joint>
+  <link
+    name="r2_Link">
+    <inertial>
+      <origin
+        xyz="-0.0078245 -1.5197E-06 -0.0040966"
+        rpy="0 0 0" />
+      <mass
+        value="0.017278" />
+      <inertia
+        ixx="3.0195E-06"
+        ixy="3.5162E-11"
+        ixz="-2.0046E-07"
+        iyy="2.3011E-06"
+        iyz="-3.0983E-11"
+        izz="1.1627E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/r2_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.90196 0.15294 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://拧盖夹爪组件.urdf/meshes/r2_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r2_joint"
+    type="prismatic">
+    <origin
+      xyz="0.04125 0.008136 -0.07925"
+      rpy="0 0 0" />
+    <parent
+      link="r_Link" />
+    <child
+      link="r2_Link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.0076"
+      upper="0.03"
+      effort="0"
+      velocity="0" />
+  </joint>
+</robot>

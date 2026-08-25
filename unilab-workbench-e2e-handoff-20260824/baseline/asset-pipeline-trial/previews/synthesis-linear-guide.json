@@ -1,0 +1,27 @@
+{
+  "schema": "lab.render_preview_report/v0",
+  "input": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\families\\instruments\\legacy-sw-urdf\\synthesis-linear-guide\\trial-85f932bba2bf\\render-lod0.glb",
+  "output": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\previews\\synthesis-linear-guide.png",
+  "mesh_objects": 2,
+  "triangle_count": 9544,
+  "bounds_m": {
+    "min": [
+      -0.8962557315826416,
+      -0.12370000034570694,
+      -0.0010000000474974513
+    ],
+    "max": [
+      0.6845443248748779,
+      0.11500000208616257,
+      0.13300000131130219
+    ],
+    "extent": [
+      1.5808000564575195,
+      0.2387000024318695,
+      0.1340000033378601
+    ]
+  },
+  "asset_id": "synthesis-linear-guide",
+  "png_bytes": 166492,
+  "png_sha256": "197b4a030eddeb318920a0ffeb15fecc2d0894c7bd0fbf7cff0d68d1d00c4d3c"
+}

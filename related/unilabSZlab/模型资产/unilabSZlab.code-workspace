@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"name": "unilabSZlab",
+			"path": ".."
+		},
+		{
+			"name": "unilab-domain-repo-builder",
+			"path": "../../Downloads/unilab-domain-repo-builder"
+		},
+		{
+			"path": "../../Downloads/dobot/python_v4"
+		},
+		{
+			"path": "../../Downloads/实验室3D贴图资产生成器_一键版_v1.2.0"
+		}
+	],
+	"settings": {}
+}

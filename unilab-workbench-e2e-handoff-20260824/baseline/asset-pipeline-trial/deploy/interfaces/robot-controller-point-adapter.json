@@ -1,0 +1,40 @@
+{
+  "schema": "lab.robot_controller_point_adapter_contract/v0",
+  "operations": [
+    {
+      "name": "capture_raw_snapshot",
+      "input": [
+        "controller_reference",
+        "controller_revision_hint"
+      ],
+      "output": "immutable_raw_snapshot"
+    },
+    {
+      "name": "classify_records",
+      "input": [
+        "immutable_raw_snapshot"
+      ],
+      "output": [
+        "target_records",
+        "program_selectors",
+        "observed_joint_records"
+      ]
+    },
+    {
+      "name": "normalize_target_records",
+      "input": [
+        "target_records",
+        "frame_reference",
+        "tool_context",
+        "calibration_reference"
+      ],
+      "output": "pointset_candidate",
+      "required_gate": "forward_kinematics_consistency_when_joint_and_pose_are_both_present"
+    }
+  ],
+  "rules": [
+    "program selectors never become target points",
+    "observed joint records never become target points",
+    "no inverse-kinematics solution is frozen when only a Cartesian target is available"
+  ]
+}

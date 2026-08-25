@@ -1,0 +1,347 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-08-13",
+  "purpose": "固定现场照片2、3、4与控制器点位共同支持的主pTLC机台布局关系，供仿真装配使用。",
+  "scope": {
+    "included_photos": [
+      "../现场照片/现场照片2.jpg",
+      "../现场照片/现场照片3.jpg",
+      "../现场照片/现场照片4.jpg"
+    ],
+    "point_snapshot_used": "interaction_points.json",
+    "excluded_asset_ids": [
+      "rear_chemistry_workstation"
+    ],
+    "important_boundary": "照片能够支持模块邻接关系和粗略外形，点位能够支持机器人基座/地轨组合坐标中的交互目标；两者都不能单独给出实验室world坐标中的绝对外参。"
+  },
+  "confidence_scale": {
+    "high": "照片和点位相互支持，或同一物理点的不同地轨补偿可交叉校验。",
+    "medium": "照片可见且功能/点位相符，但缺少无遮挡标签或完整视角。",
+    "low": "主要依靠遮挡后的局部外形或工作流语义推断，只能作为几何代理。"
+  },
+  "layout_coordinate_method": {
+    "name": "photo_review_approximate_rail_compensated_frame",
+    "units": "mm",
+    "formula": {
+      "x_layout_mm": "robot_pose_x_mm - rail_slot_value_mm",
+      "y_layout_mm": "robot_pose_y_mm",
+      "z_interaction_mm": "robot_pose_z_mm"
+    },
+    "rail_slots_mm": {
+      "sampling_1": 168.0,
+      "photo_2": 168.0,
+      "collect_3": 350.0,
+      "tool_4": 500.0,
+      "develop_5": 600.0,
+      "warehouse_6": 600.0
+    },
+    "validation": {
+      "same_physical_feature": "暂存A槽1至槽6分别由P46-P51@rail2和P78-P83@rail3表示。",
+      "maximum_pairwise_residual_mm": {
+        "x_layout": 2.99,
+        "y_layout": 4.55
+      },
+      "conclusion": "扣除地轨位移后，两组点在约5 mm内重合，证明可以反求水平相对布局。实际场景应使用 rail_frame_layout_analysis.json 中同时拟合地轨方向和尺度的 L/N 坐标（XY RMS 1.510872 mm）；本文件的 x_layout/y_layout 只用于照片审阅时的简化手算。",
+      "confidence": "high"
+    },
+    "limitations": [
+      "x_layout零点是任意的，可整体平移。",
+      "没有相机标定，不能从照片恢复绝对尺度或直接求world外参。",
+      "z值是具体工具/TCP的交互姿态高度，不等同于设备外壳底面或顶面高度。",
+      "不同末端工具的TCP偏置尚未统一反解，设备碰撞体尺寸仍应保留不确定度。"
+    ]
+  },
+  "photo_observations": [
+    {
+      "photo": "../现场照片/现场照片2.jpg",
+      "camera_view_summary": "从机器人与地轨前侧斜看轨道末端；机器人在画面左中，三槽工具站在前景中下，带白侧板的高塔在画面右侧。",
+      "direct_observations": [
+        "高塔侧面可见四层气动抽屉/托盘机构，每层有气缸、软管与导向结构。",
+        "高塔另一可见面是四层开放托盘架；两类结构共用相同白色侧板、黑色开槽立柱和同一台面底座。",
+        "三槽工具站位于高塔和地轨机器人之间，外形与P8/P9/P10三点的横向槽列一致。",
+        "机器人后方带玻璃门、印有化学智能合成工站字样的大白色设备处于背景，与主pTLC导轨台不是同一机台。"
+      ],
+      "mappings": [
+        {
+          "visible_region": "画面右侧四层气动抽屉面",
+          "asset_id": "develop_tank_rack",
+          "confidence": "high"
+        },
+        {
+          "visible_region": "画面右侧高塔的另一开放托盘面",
+          "asset_id": "group_rack_4x3",
+          "confidence": "high"
+        },
+        {
+          "visible_region": "画面前景中下三槽快换架",
+          "asset_id": "tool_station",
+          "confidence": "high"
+        },
+        {
+          "visible_region": "机器人后方带玻璃门的大白色机柜",
+          "asset_id": "rear_chemistry_workstation",
+          "classification": "background_independent_equipment_excluded_from_simulation",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "photo": "../现场照片/现场照片3.jpg",
+      "camera_view_summary": "从轨道末端正对高塔开口拍摄；机器人透过中央开口可见，两块白色侧板夹住多层载架。",
+      "direct_observations": [
+        "中央载架是四层、每层三列的12位阵列，与P25-P36的4乘3点阵一致。",
+        "上层可见两块整板/大容器载台，中部与下部可见多个白色六孔小载架；这些结构位于同一终端框架内或紧邻其内侧。",
+        "高塔并非封闭柜体；中央通道能直接看到地轨机器人，说明仿真应保留开口和机器人进近空间。",
+        "照片正面看见的4乘3阵列不是暂存A或暂存B：暂存A/B点阵均为低位2乘3，且点位尺度明显更小。"
+      ],
+      "mappings": [
+        {
+          "visible_region": "两块白色侧板之间的4层乘3列端面阵列",
+          "asset_id": "group_rack_4x3",
+          "point_ids": "P25-P36",
+          "confidence": "high"
+        },
+        {
+          "visible_region": "中央框架内低位白色六孔载架",
+          "candidate_asset_ids": [
+            "staging_a_6slot",
+            "staging_b_6slot"
+          ],
+          "classification": "appearance_support_only_not_unique_identity",
+          "confidence": "low"
+        }
+      ]
+    },
+    {
+      "photo": "../现场照片/现场照片4.jpg",
+      "camera_view_summary": "从机台前侧朝轨道纵向拍摄；黑色光学/加工模块在画面左，机器人与地轨位于中右，工具站在右前景。",
+      "direct_observations": [
+        "左侧黑色竖直框架包含红色双孔视觉头、直线模组、白色带红线板台及上方加工/照明部件。",
+        "该黑色模块位于地轨正Y侧，与P64/P65板夹具以及P68/P77接粉夹具的正Y点位关系一致。",
+        "地轨在画面中部横向延伸，机器人底座直接安装于地轨滑台。",
+        "画面背景再次可见带玻璃门的大白色化学工站，透视关系表明它在主机台之后而不是主pTLC模块。"
+      ],
+      "mappings": [
+        {
+          "visible_region": "画面左侧黑色光学/CNC框体与白色红线板台",
+          "asset_id": "photo_scrape_station",
+          "point_ids": [
+            "P63",
+            "P64",
+            "P65",
+            "P68",
+            "P77"
+          ],
+          "confidence": "high"
+        },
+        {
+          "visible_region": "画面右前景三槽支架",
+          "asset_id": "tool_station",
+          "point_ids": [
+            "P8",
+            "P9",
+            "P10"
+          ],
+          "confidence": "high"
+        }
+      ]
+    }
+  ],
+  "point_constrained_components": {
+    "terminal_u_cluster": {
+      "classification": "single_composite_terminal_cluster",
+      "confidence": "high",
+      "children": [
+        {
+          "asset_id": "develop_tank_bank_negative_y",
+          "point_ids": "P11-P14",
+          "rail_slot": 5,
+          "interaction_envelope_layout_mm": {
+            "x": [-1176.14, -1172.94],
+            "y": [-194.48, -192.07],
+            "z": [-56.34, 484.8]
+          },
+          "topology": "4层，位于轨道中心线负Y侧，开口朝向中央进近通道。"
+        },
+        {
+          "asset_id": "develop_tank_bank_positive_y",
+          "point_ids": "P15-P18",
+          "rail_slot": 5,
+          "interaction_envelope_layout_mm": {
+            "x": [-1192.98, -1189.47],
+            "y": [189.68, 191.19],
+            "z": [-55.54, 484.97]
+          },
+          "topology": "4层，位于轨道中心线正Y侧，与负Y侧四层架相向开口。"
+        },
+        {
+          "asset_id": "group_rack_4x3",
+          "point_ids": "P25-P36",
+          "rail_slot": 6,
+          "interaction_envelope_layout_mm": {
+            "x": [-1312.01, -1301.5],
+            "y": [-142.1, 138.19],
+            "z": [-40.98, 438.7]
+          },
+          "topology": "位于两排显影架的轨道末端端面，4层乘3列；与显影架共同形成U形终端簇。"
+        }
+      ],
+      "key_conclusion": "develop_tank_rack和group_rack_4x3应装配为同一个U形终端组合塔：两侧各4层显影抽屉，末端为4乘3整板货架；不能作为相距很远的独立设备盒。"
+    },
+    "tool_station": {
+      "point_ids": [
+        "P8",
+        "P9",
+        "P10"
+      ],
+      "rail_slot": 4,
+      "interaction_targets_layout_mm": [
+        [-815.39, 420.26, -62.0],
+        [-672.39, 423.46, -61.91],
+        [-511.1, 425.97, -62.37]
+      ],
+      "relationship": "位于轨道正Y侧，沿轨轴形成三个槽位；介于机器人常用工作区和终端U形组合塔之间。",
+      "confidence": "high"
+    },
+    "photo_scrape_station": {
+      "rail_slot": 2,
+      "plate_fixture": {
+        "point_ids": [
+          "P64",
+          "P65"
+        ],
+        "layout_target_mm": [165.95, 403.54, -45.91]
+      },
+      "powder_holder_fixture": {
+        "point_ids": [
+          "P68",
+          "P77"
+        ],
+        "layout_target_mm_approx": [351.91, 642.15, 101.64]
+      },
+      "relationship": "位于轨道正Y侧；接粉夹具比板夹具更偏正Y约239 mm、沿轨正X约186 mm。",
+      "confidence": "high"
+    },
+    "group_staging": {
+      "rail_slot": 3,
+      "holder_board_points": [
+        "P37",
+        "P39"
+      ],
+      "bottle_board_points": [
+        "P38",
+        "P40"
+      ],
+      "representative_layout_targets_mm": {
+        "holder_board": [215.18, -48.99, 37.71],
+        "bottle_board": [-47.76, -63.5, 37.01]
+      },
+      "relationship": "两个整板载台靠近轨道中心线负Y侧，沿轨轴相距约263 mm。",
+      "confidence": "high"
+    },
+    "staging_a_6slot": {
+      "point_sets": {
+        "pickup_at_rail_2": "P46-P51",
+        "return_at_rail_3": "P78-P83"
+      },
+      "unified_interaction_envelope_layout_mm": {
+        "x": [300.34, 402.76],
+        "y": [-139.9, 48.69],
+        "z_tcp": [10.59, 24.21]
+      },
+      "topology": "低位2乘3槽架；同一物理槽有两套地轨补偿点。",
+      "confidence": "high"
+    },
+    "staging_b_6slot": {
+      "point_ids": "P53-P58",
+      "rail_slot": 3,
+      "interaction_envelope_layout_mm": {
+        "x": [-66.0, -24.1],
+        "y": [-217.97, -130.81],
+        "z_tcp": [69.27, 69.76]
+      },
+      "topology": "低位2乘3瓶架，位于轨道负Y侧，处于轨道与collection之间。",
+      "confidence": "high"
+    },
+    "collection_station": {
+      "point_ids": "P70-P74",
+      "rail_slot": 3,
+      "interaction_envelope_layout_mm": {
+        "x": [-64.1, -33.81],
+        "y": [-381.5, -27.96],
+        "z_tcp": [119.65, 261.96]
+      },
+      "fixture_targets_layout_mm": {
+        "bottle_P71_P72": {
+          "x": [-58.99, -58.48],
+          "y": [-347.93, -344.42],
+          "z_tcp": [119.65, 133.46]
+        },
+        "powder_holder_P73_P74": {
+          "x": -64.1,
+          "y": -381.5,
+          "z_tcp": 227.56
+        }
+      },
+      "relationship": "collection与staging B组成轨道负Y侧工位簇；由轨道中心线向负Y方向依次约为staging B再到collection。",
+      "confidence": "high"
+    },
+    "sampling_station": {
+      "point_ids": [
+        "P19",
+        "P20"
+      ],
+      "rail_slot": 1,
+      "interaction_targets_layout_mm": [
+        [475.09, -59.46, 274.91],
+        [454.19, -66.56, 274.74]
+      ],
+      "relationship": "位于轨道负Y侧、正X端，与FeedLift相邻但交互高度更高。",
+      "position_confidence": "high",
+      "photo_shape_confidence": "low"
+    },
+    "feed_lift": {
+      "point_ids": [
+        "P21",
+        "P22"
+      ],
+      "rail_slot": 1,
+      "interaction_targets_layout_mm": {
+        "new_plate_P21": [308.48, -210.55, -96.54],
+        "waste_plate_P22": [396.93, -423.34, -92.37]
+      },
+      "relationship": "两个升降交互端均在轨道负Y侧，P22比P21更远离轨道约213 mm。",
+      "position_confidence": "high",
+      "photo_shape_confidence": "low"
+    }
+  },
+  "critical_separation_conclusions": [
+    {
+      "statement": "collection_station不得贴在develop_tank_rack旁边。",
+      "evidence": "显影交互面X_layout约-1.18 m，而collection夹具X_layout约-0.06 m，沿轨相差约1.12 m；两者还分别占据不同地轨语义位5与位3。",
+      "confidence": "high"
+    },
+    {
+      "statement": "照片2/4背景的大白色化学智能合成工站不是collection_station。",
+      "evidence": "该设备位于主机台后方且具有独立封闭外壳；collection点位则与staging B共享rail3附近的低位负Y交互簇。",
+      "confidence": "high"
+    },
+    {
+      "statement": "照片3正面的4乘3架是group_rack_4x3，不是staging A/B。",
+      "evidence": "P25-P36本身是四层三列；staging A/B均为低位2乘3点阵，行列数量、尺度和交互高度均不匹配。",
+      "confidence": "high"
+    },
+    {
+      "statement": "terminal_u_cluster必须保留中央机器人进近开口。",
+      "evidence": "照片3可通过4乘3架中央结构看到机器人，P11-P18两侧显影进近方向相向，P25-P36由轨道方向进近端面。",
+      "confidence": "high"
+    }
+  ],
+  "recommended_simulation_assembly_order": [
+    "先建立地轨轴和rail_compensated_layout_frame。",
+    "在轨道负X终端装配terminal_u_cluster，不单独散置develop和group rack。",
+    "按点位放置正Y侧tool station与photo_scrape；按点位放置负Y侧sampling、FeedLift、group staging、staging A/B与collection。",
+    "从场景和资产清单中移除rear_chemistry_workstation。",
+    "最后只用照片调整外壳比例与遮挡关系，不覆盖点位给出的交互目标。"
+  ]
+}

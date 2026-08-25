@@ -1,0 +1,579 @@
+{
+  "count": 15,
+  "all_watertight": true,
+  "all_bounds_match_target": true,
+  "all_expected_cavities_preserved": true,
+  "all_open_source_components_disjoint": true,
+  "assets": [
+    {
+      "asset_id": "machine_deck",
+      "collision_stl": "pTLC仿真资产/proxies/machine_deck/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "solid_aabb",
+      "component_count": 1,
+      "connected_shell_count_after_stl_reload": 1,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -1900.0,
+          -900.0,
+          0.0
+        ],
+        [
+          1900.0,
+          900.0,
+          850.0
+        ]
+      ],
+      "extents_mm": [
+        3800.0,
+        1800.0,
+        850.0
+      ],
+      "target_dimensions_mm": [
+        3800,
+        1800,
+        850
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 1.0,
+      "open_cavity_expected": false,
+      "open_cavity_preserved": null,
+      "cavity_check": "not applicable to conservative solid or non-station shaped collision"
+    },
+    {
+      "asset_id": "rail_11y",
+      "collision_stl": "pTLC仿真资产/proxies/rail_11y/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "solid_aabb",
+      "component_count": 1,
+      "connected_shell_count_after_stl_reload": 1,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -1150.0,
+          -90.0,
+          0.0
+        ],
+        [
+          1150.0,
+          90.0,
+          150.0
+        ]
+      ],
+      "extents_mm": [
+        2300.0,
+        180.0,
+        150.0
+      ],
+      "target_dimensions_mm": [
+        2300,
+        180,
+        150
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 1.0,
+      "open_cavity_expected": false,
+      "open_cavity_preserved": null,
+      "cavity_check": "not applicable to conservative solid or non-station shaped collision"
+    },
+    {
+      "asset_id": "tool_station",
+      "collision_stl": "pTLC仿真资产/proxies/tool_station/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_open",
+      "component_count": 6,
+      "connected_shell_count_after_stl_reload": 6,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -280.0,
+          -190.0,
+          0.0
+        ],
+        [
+          280.0,
+          190.0,
+          420.0
+        ]
+      ],
+      "extents_mm": [
+        560.0,
+        380.0,
+        420.0
+      ],
+      "target_dimensions_mm": [
+        560,
+        380,
+        420
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.094062,
+      "open_cavity_expected": true,
+      "open_cavity_preserved": true,
+      "cavity_check": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned"
+    },
+    {
+      "asset_id": "develop_tank_rack",
+      "collision_stl": "pTLC仿真资产/proxies/develop_tank_rack/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_open",
+      "component_count": 16,
+      "connected_shell_count_after_stl_reload": 16,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -525.0,
+          -310.0,
+          0.0
+        ],
+        [
+          525.0,
+          310.0,
+          980.0
+        ]
+      ],
+      "extents_mm": [
+        1050.0,
+        620.0,
+        980.0
+      ],
+      "target_dimensions_mm": [
+        1050,
+        620,
+        980
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.158213,
+      "open_cavity_expected": true,
+      "open_cavity_preserved": true,
+      "cavity_check": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned"
+    },
+    {
+      "asset_id": "feed_lift",
+      "collision_stl": "pTLC仿真资产/proxies/feed_lift/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_open",
+      "component_count": 10,
+      "connected_shell_count_after_stl_reload": 10,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -240.0,
+          -225.0,
+          0.0
+        ],
+        [
+          240.0,
+          225.0,
+          1050.0
+        ]
+      ],
+      "extents_mm": [
+        480.0,
+        450.0,
+        1050.0
+      ],
+      "target_dimensions_mm": [
+        480,
+        450,
+        1050
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.056892,
+      "open_cavity_expected": true,
+      "open_cavity_preserved": true,
+      "cavity_check": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned"
+    },
+    {
+      "asset_id": "sampling_station",
+      "collision_stl": "pTLC仿真资产/proxies/sampling_station/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_open",
+      "component_count": 6,
+      "connected_shell_count_after_stl_reload": 6,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -450.0,
+          -325.0,
+          0.0
+        ],
+        [
+          450.0,
+          325.0,
+          900.0
+        ]
+      ],
+      "extents_mm": [
+        900.0,
+        650.0,
+        900.0
+      ],
+      "target_dimensions_mm": [
+        900,
+        650,
+        900
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.043691,
+      "open_cavity_expected": true,
+      "open_cavity_preserved": true,
+      "cavity_check": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned"
+    },
+    {
+      "asset_id": "photo_scrape_station",
+      "collision_stl": "pTLC仿真资产/proxies/photo_scrape_station/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "solid_aabb",
+      "component_count": 1,
+      "connected_shell_count_after_stl_reload": 1,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -380.0,
+          -325.0,
+          0.0
+        ],
+        [
+          380.0,
+          325.0,
+          1050.0
+        ]
+      ],
+      "extents_mm": [
+        760.0,
+        650.0,
+        1050.0
+      ],
+      "target_dimensions_mm": [
+        760,
+        650,
+        1050
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 1.0,
+      "open_cavity_expected": false,
+      "open_cavity_preserved": null,
+      "cavity_check": "not applicable to conservative solid or non-station shaped collision"
+    },
+    {
+      "asset_id": "powder_collector_fixture",
+      "collision_stl": "pTLC仿真资产/proxies/powder_collector_fixture/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_shaped",
+      "component_count": 4,
+      "connected_shell_count_after_stl_reload": 4,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -210.0,
+          -130.0,
+          0.0
+        ],
+        [
+          210.0,
+          130.0,
+          360.0
+        ]
+      ],
+      "extents_mm": [
+        420.0,
+        260.0,
+        360.0
+      ],
+      "target_dimensions_mm": [
+        420,
+        260,
+        360
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.316143,
+      "open_cavity_expected": false,
+      "open_cavity_preserved": null,
+      "cavity_check": "not applicable to conservative solid or non-station shaped collision"
+    },
+    {
+      "asset_id": "group_rack_4x3",
+      "collision_stl": "pTLC仿真资产/proxies/group_rack_4x3/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_open",
+      "component_count": 8,
+      "connected_shell_count_after_stl_reload": 8,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -310.0,
+          -300.0,
+          0.0
+        ],
+        [
+          310.0,
+          300.0,
+          760.0
+        ]
+      ],
+      "extents_mm": [
+        620.0,
+        600.0,
+        760.0
+      ],
+      "target_dimensions_mm": [
+        620,
+        600,
+        760
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.112077,
+      "open_cavity_expected": true,
+      "open_cavity_preserved": true,
+      "cavity_check": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned"
+    },
+    {
+      "asset_id": "staging_a_6slot",
+      "collision_stl": "pTLC仿真资产/proxies/staging_a_6slot/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_open",
+      "component_count": 6,
+      "connected_shell_count_after_stl_reload": 6,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -180.0,
+          -150.0,
+          0.0
+        ],
+        [
+          180.0,
+          150.0,
+          260.0
+        ]
+      ],
+      "extents_mm": [
+        360.0,
+        300.0,
+        260.0
+      ],
+      "target_dimensions_mm": [
+        360,
+        300,
+        260
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.135269,
+      "open_cavity_expected": true,
+      "open_cavity_preserved": true,
+      "cavity_check": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned"
+    },
+    {
+      "asset_id": "staging_b_6slot",
+      "collision_stl": "pTLC仿真资产/proxies/staging_b_6slot/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_open",
+      "component_count": 6,
+      "connected_shell_count_after_stl_reload": 6,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -150.0,
+          -130.0,
+          0.0
+        ],
+        [
+          150.0,
+          130.0,
+          260.0
+        ]
+      ],
+      "extents_mm": [
+        300.0,
+        260.0,
+        260.0
+      ],
+      "target_dimensions_mm": [
+        300,
+        260,
+        260
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.146798,
+      "open_cavity_expected": true,
+      "open_cavity_preserved": true,
+      "cavity_check": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned"
+    },
+    {
+      "asset_id": "collection_station",
+      "collision_stl": "pTLC仿真资产/proxies/collection_station/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_open",
+      "component_count": 6,
+      "connected_shell_count_after_stl_reload": 6,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -325.0,
+          -260.0,
+          0.0
+        ],
+        [
+          325.0,
+          260.0,
+          850.0
+        ]
+      ],
+      "extents_mm": [
+        650.0,
+        520.0,
+        850.0
+      ],
+      "target_dimensions_mm": [
+        650,
+        520,
+        850
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.051874,
+      "open_cavity_expected": true,
+      "open_cavity_preserved": true,
+      "cavity_check": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned"
+    },
+    {
+      "asset_id": "tool_suction",
+      "collision_stl": "pTLC仿真资产/proxies/tool_suction/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_shaped",
+      "component_count": 4,
+      "connected_shell_count_after_stl_reload": 4,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": true,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -75.0,
+          -60.0,
+          0.0
+        ],
+        [
+          75.0,
+          60.0,
+          160.0
+        ]
+      ],
+      "extents_mm": [
+        150.0,
+        120.0,
+        160.0
+      ],
+      "target_dimensions_mm": [
+        150,
+        120,
+        160
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.237299,
+      "open_cavity_expected": false,
+      "open_cavity_preserved": null,
+      "cavity_check": "not applicable to conservative solid or non-station shaped collision"
+    },
+    {
+      "asset_id": "tool_large_gripper",
+      "collision_stl": "pTLC仿真资产/proxies/tool_large_gripper/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_shaped",
+      "component_count": 4,
+      "connected_shell_count_after_stl_reload": 4,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": false,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -100.0,
+          -55.0,
+          0.0
+        ],
+        [
+          100.0,
+          55.0,
+          190.0
+        ]
+      ],
+      "extents_mm": [
+        200.0,
+        110.0,
+        190.0
+      ],
+      "target_dimensions_mm": [
+        200,
+        110,
+        190
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.402214,
+      "open_cavity_expected": false,
+      "open_cavity_preserved": null,
+      "cavity_check": "not applicable to conservative solid or non-station shaped collision"
+    },
+    {
+      "asset_id": "tool_small_gripper",
+      "collision_stl": "pTLC仿真资产/proxies/tool_small_gripper/collision.stl",
+      "stl_units": "mm",
+      "collision_mode": "multi_body_shaped",
+      "component_count": 4,
+      "connected_shell_count_after_stl_reload": 4,
+      "all_source_components_watertight": true,
+      "source_components_aabb_disjoint": false,
+      "watertight_after_stl_reload": true,
+      "bounds_mm": [
+        [
+          -50.0,
+          -40.0,
+          0.0
+        ],
+        [
+          50.0,
+          40.0,
+          150.0
+        ]
+      ],
+      "extents_mm": [
+        100.0,
+        80.0,
+        150.0
+      ],
+      "target_dimensions_mm": [
+        100,
+        80,
+        150
+      ],
+      "bounds_match_target": true,
+      "summed_component_volume_ratio": 0.432744,
+      "open_cavity_expected": false,
+      "open_cavity_preserved": null,
+      "cavity_check": "not applicable to conservative solid or non-station shaped collision"
+    }
+  ]
+}

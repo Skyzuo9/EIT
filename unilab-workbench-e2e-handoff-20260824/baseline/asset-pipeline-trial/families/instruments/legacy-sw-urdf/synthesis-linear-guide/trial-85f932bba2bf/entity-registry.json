@@ -1,0 +1,13 @@
+{
+  "schema": "lab.entity_registry/v0",
+  "entities": [
+    {
+      "scene_entity_id": "legacy-link:0000:base_link",
+      "link_alias": "base_link"
+    },
+    {
+      "scene_entity_id": "legacy-link:0001:move_link",
+      "link_alias": "move_link"
+    }
+  ]
+}

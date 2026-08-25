@@ -1,0 +1,15 @@
+{
+  "schema": "lab.source/v0",
+  "source_type": "legacy-sw-urdf-export",
+  "source_document": "E:\\资产管线unilab\\合成-化学反应站-urdf\\250ml试剂瓶托盘.urdf\\urdf\\250ml试剂瓶托盘.urdf.urdf",
+  "source_digest": "86c0ea20937de7c1c862150cfc2b660d7c5c65138a290f75ed5b018735aba9d4",
+  "authority": [
+    "visual_mesh",
+    "link_names_as_migration_aliases"
+  ],
+  "not_authority": [
+    "formal_joint_semantics",
+    "qualified_collision",
+    "controller_targets"
+  ]
+}

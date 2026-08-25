@@ -1,0 +1,12 @@
+{
+  "grade": "visual-only",
+  "allows": [
+    "workbench_display"
+  ],
+  "forbids": [
+    "motion",
+    "spatial_interlock_enforced",
+    "execution"
+  ],
+  "missing": []
+}

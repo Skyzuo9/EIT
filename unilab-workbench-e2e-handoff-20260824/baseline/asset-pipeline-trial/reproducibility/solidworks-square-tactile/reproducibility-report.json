@@ -1,0 +1,42 @@
+{
+  "schema": "lab.reproducibility_report/v0",
+  "status": "warning",
+  "exact_glb_match": false,
+  "canonical_glb_json_match": false,
+  "assembly_snapshot_match": true,
+  "normalized_glb_semantic_match": true,
+  "normalized_assembly_snapshot_match": true,
+  "difference_class": "component_traversal_order_only",
+  "primary_glb": {
+    "bytes": 4427592,
+    "sha256": "e12775621f29af4b24e5d161376ea56d2c994fb23070e4fa58b728bc3c30059c",
+    "nodes": 6,
+    "meshes": 4,
+    "primitives": 4,
+    "accessors": 12,
+    "materials": 1,
+    "animations": 0,
+    "skins": 0,
+    "scenes": 1
+  },
+  "repeat_glb": {
+    "bytes": 4427596,
+    "sha256": "7780a4126423b65e0139458195caba5f2cce0ddaf9f619260c7032f9981c2a70",
+    "nodes": 6,
+    "meshes": 4,
+    "primitives": 4,
+    "accessors": 12,
+    "materials": 1,
+    "animations": 0,
+    "skins": 0,
+    "scenes": 1
+  },
+  "primary_canonical_json_sha256": "7a502c3367db368f9a3d8413770fc57399cc9a79fa35d566992ea6e6bd31d5da",
+  "repeat_canonical_json_sha256": "aed9dfa8ccd1c28406a1076995a38a35171ddb11a09b956d33f144130422f7a1",
+  "primary_semantic_sha256": "042a6d4b0d4180a1394d41836fef88e97ada27d2756b5edcea52eb317459dc42",
+  "repeat_semantic_sha256": "042a6d4b0d4180a1394d41836fef88e97ada27d2756b5edcea52eb317459dc42",
+  "primary_snapshot_sha256": "12a70003a849a40f40bce4b467501796cfc61478a45899cf37c55094c4d164dc",
+  "repeat_snapshot_sha256": "12a70003a849a40f40bce4b467501796cfc61478a45899cf37c55094c4d164dc",
+  "formal_release_allowed": false,
+  "note": "Byte mismatch remains release-blocking. The normalized checks distinguish exporter traversal order from missing or changed component geometry."
+}

@@ -1,0 +1,414 @@
+{
+  "schema_version": "ptlc.usd-physics-inventory.v1",
+  "generated_at": "2026-08-14T02:07:19.906558+00:00",
+  "stage": "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/ptlc_client_scene.usda",
+  "stage_sha256": "bbeec55d53984978fc5fa85602c3751069c64982c73bd584d79cb6ae8282abf8",
+  "prim_count": 752,
+  "type_counts": {
+    "<typeless>": 37,
+    "DomeLight": 1,
+    "Mesh": 205,
+    "PhysicsFixedJoint": 1,
+    "PhysicsRevoluteJoint": 6,
+    "PhysicsScene": 1,
+    "RenderProduct": 1,
+    "RenderSettings": 1,
+    "RenderVar": 1,
+    "Scope": 246,
+    "Sphere": 212,
+    "Xform": 40
+  },
+  "articulation_roots": [
+    "/World/RobotSystem/CR5/Geometry/dummy_link"
+  ],
+  "rigid_body_count": 7,
+  "rigid_bodies": [
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4/Link5",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4/Link5/Link6"
+  ],
+  "collision_count": 15,
+  "collisions": [
+    "/World/Lab/Assets/machine_deck/Collision/mesh_000",
+    "/World/Lab/Assets/rail_11y/Collision/mesh_000",
+    "/World/Lab/Assets/photo_scrape_station/Collision/mesh_000",
+    "/World/Lab/Assets/powder_collector_fixture/Collision/mesh_000",
+    "/World/Lab/Assets/sampling_station/Collision/mesh_000",
+    "/World/Lab/Assets/staging_a_6slot/Collision/mesh_000",
+    "/World/Lab/Assets/feed_lift/Collision/mesh_000",
+    "/World/Lab/Assets/collection_station/Collision/mesh_000",
+    "/World/Lab/Assets/staging_b_6slot/Collision/mesh_000",
+    "/World/Lab/Assets/tool_station/Collision/mesh_000",
+    "/World/Lab/Assets/develop_tank_rack/Collision/mesh_000",
+    "/World/Lab/Assets/group_rack_4x3/Collision/mesh_000",
+    "/World/Lab/Assets/tool_suction/Collision/mesh_000",
+    "/World/Lab/Assets/tool_large_gripper/Collision/mesh_000",
+    "/World/Lab/Assets/tool_small_gripper/Collision/mesh_000"
+  ],
+  "mass_count": 7,
+  "masses": [
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4/Link5",
+    "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4/Link5/Link6"
+  ],
+  "joint_count": 7,
+  "joints": [
+    {
+      "path": "/World/RobotSystem/CR5/Physics/dummy_joint",
+      "type": "PhysicsFixedJoint",
+      "body0": [
+        "/World/RobotSystem/CR5"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint1",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint2",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint3",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint4",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint5",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4/Link5"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint6",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4/Link5"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4/Link5/Link6"
+      ],
+      "enabled": true
+    }
+  ],
+  "robot_joint_count": 7,
+  "robot_joints": [
+    {
+      "path": "/World/RobotSystem/CR5/Physics/dummy_joint",
+      "type": "PhysicsFixedJoint",
+      "body0": [
+        "/World/RobotSystem/CR5"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint1",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint2",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint3",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint4",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint5",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4/Link5"
+      ],
+      "enabled": true
+    },
+    {
+      "path": "/World/RobotSystem/CR5/Physics/joint6",
+      "type": "PhysicsRevoluteJoint",
+      "body0": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4/Link5"
+      ],
+      "body1": [
+        "/World/RobotSystem/CR5/Geometry/dummy_link/base_link/Link1/Link2/Link3/Link4/Link5/Link6"
+      ],
+      "enabled": true
+    }
+  ],
+  "drive_attribute_count": 36,
+  "drive_attributes": [
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint1",
+      "attribute": "drive:angular:physics:damping",
+      "value": 13.962634086608887
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint1",
+      "attribute": "drive:angular:physics:maxForce",
+      "value": 100.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint1",
+      "attribute": "drive:angular:physics:stiffness",
+      "value": 139.6263427734375
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint1",
+      "attribute": "drive:angular:physics:targetPosition",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint1",
+      "attribute": "drive:angular:physics:targetVelocity",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint1",
+      "attribute": "drive:angular:physics:type",
+      "value": "force"
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint2",
+      "attribute": "drive:angular:physics:damping",
+      "value": 13.962634086608887
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint2",
+      "attribute": "drive:angular:physics:maxForce",
+      "value": 100.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint2",
+      "attribute": "drive:angular:physics:stiffness",
+      "value": 139.6263427734375
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint2",
+      "attribute": "drive:angular:physics:targetPosition",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint2",
+      "attribute": "drive:angular:physics:targetVelocity",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint2",
+      "attribute": "drive:angular:physics:type",
+      "value": "force"
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint3",
+      "attribute": "drive:angular:physics:damping",
+      "value": 13.962634086608887
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint3",
+      "attribute": "drive:angular:physics:maxForce",
+      "value": 100.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint3",
+      "attribute": "drive:angular:physics:stiffness",
+      "value": 139.6263427734375
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint3",
+      "attribute": "drive:angular:physics:targetPosition",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint3",
+      "attribute": "drive:angular:physics:targetVelocity",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint3",
+      "attribute": "drive:angular:physics:type",
+      "value": "force"
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint4",
+      "attribute": "drive:angular:physics:damping",
+      "value": 13.962634086608887
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint4",
+      "attribute": "drive:angular:physics:maxForce",
+      "value": 100.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint4",
+      "attribute": "drive:angular:physics:stiffness",
+      "value": 139.6263427734375
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint4",
+      "attribute": "drive:angular:physics:targetPosition",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint4",
+      "attribute": "drive:angular:physics:targetVelocity",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint4",
+      "attribute": "drive:angular:physics:type",
+      "value": "force"
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint5",
+      "attribute": "drive:angular:physics:damping",
+      "value": 13.962634086608887
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint5",
+      "attribute": "drive:angular:physics:maxForce",
+      "value": 100.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint5",
+      "attribute": "drive:angular:physics:stiffness",
+      "value": 139.6263427734375
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint5",
+      "attribute": "drive:angular:physics:targetPosition",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint5",
+      "attribute": "drive:angular:physics:targetVelocity",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint5",
+      "attribute": "drive:angular:physics:type",
+      "value": "force"
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint6",
+      "attribute": "drive:angular:physics:damping",
+      "value": 13.962634086608887
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint6",
+      "attribute": "drive:angular:physics:maxForce",
+      "value": 100.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint6",
+      "attribute": "drive:angular:physics:stiffness",
+      "value": 139.6263427734375
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint6",
+      "attribute": "drive:angular:physics:targetPosition",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint6",
+      "attribute": "drive:angular:physics:targetVelocity",
+      "value": 0.0
+    },
+    {
+      "prim": "/World/RobotSystem/CR5/Physics/joint6",
+      "attribute": "drive:angular:physics:type",
+      "value": "force"
+    }
+  ],
+  "lab_collision_count": 15,
+  "structural_gates": {
+    "has_articulation_root": true,
+    "has_robot_joints": true,
+    "has_joint_drives": true,
+    "has_robot_rigid_bodies": true,
+    "has_lab_colliders": true
+  },
+  "boundary": "Schema inventory only. A passing structural gate is not evidence of dynamic stability, contact response, or collision-free motion."
+}

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="250ml试剂瓶托盘.urdf">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-5.0083E-05 0.00011593 0.010033"
+        rpy="0 0 0" />
+      <mass
+        value="1.6436" />
+      <inertia
+        ixx="0.032954"
+        ixy="-9.2898E-05"
+        ixz="2.9762E-07"
+        iyy="0.006532"
+        iyz="-6.889E-07"
+        izz="0.039365" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://250ml试剂瓶托盘.urdf/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://250ml试剂瓶托盘.urdf/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+</robot>

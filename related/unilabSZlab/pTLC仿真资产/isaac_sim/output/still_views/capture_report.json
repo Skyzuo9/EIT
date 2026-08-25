@@ -1,0 +1,52 @@
+{
+  "schema_version": "ptlc.isaac.still-views.v1",
+  "status": "passed",
+  "scene": "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/ptlc_client_scene.usda",
+  "hardware_connections": "none",
+  "authorized_physical_gpu": 1,
+  "views": [
+    {
+      "path": "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/still_views/01_scene_overview.png",
+      "bytes": 490065,
+      "eye": [
+        3.2,
+        -3.8,
+        3.0
+      ],
+      "target": [
+        0.2,
+        0.0,
+        0.9
+      ]
+    },
+    {
+      "path": "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/still_views/02_robot_and_rail.png",
+      "bytes": 570487,
+      "eye": [
+        2.0,
+        -2.6,
+        1.8
+      ],
+      "target": [
+        0.1,
+        0.0,
+        0.75
+      ]
+    },
+    {
+      "path": "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/still_views/03_scene_top.png",
+      "bytes": 304167,
+      "eye": [
+        0.0,
+        0.0,
+        6.5
+      ],
+      "target": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "boundary": "Rendered static stills of an approximate proxy scene, provisional CR5 model, and evidence-bounded point markers. They are not evidence that WebRTC streaming, collision-free motion, or real-device execution succeeded."
+}

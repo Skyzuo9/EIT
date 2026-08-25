@@ -1,0 +1,19 @@
+{
+  "schema": "lab.provenance/v0",
+  "adapter": "StepAssemblyAdapter/cascadio-0.1.1/trial-v0",
+  "source_sha256": "db2865a35d129aea321c50ed419f0317760bcada4e36af9b1cd3c7d7ff91150e",
+  "duration_s": 7.202,
+  "glb_stats": {
+    "bytes": 9008500,
+    "sha256": "f4db37fca62bae0d4fbfd64691133792c380b61befa2d586caf814a0e20125f3",
+    "nodes": 3,
+    "meshes": 2,
+    "primitives": 2,
+    "accessors": 8,
+    "materials": 0,
+    "animations": 0,
+    "skins": 0,
+    "scenes": 1
+  },
+  "note": "STEP geometry reference only; no robot kinematics are inferred."
+}

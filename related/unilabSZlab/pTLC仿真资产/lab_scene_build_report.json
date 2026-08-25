@@ -1,0 +1,846 @@
+{
+  "schema_version": "0.1",
+  "status": "passed_with_photo_layout_uncertainty",
+  "outputs": {
+    "scene_glb": "pTLC仿真资产/lab_scene_approx.glb",
+    "top_preview_png": "pTLC仿真资产/lab_scene_approx_top.png",
+    "layout_source": "pTLC仿真资产/layout_estimate.json",
+    "collision_qc": "pTLC仿真资产/layout_collision_qc.json"
+  },
+  "coordinate_contract": {
+    "name": "rail_constraint_layout_v2",
+    "units": "meters",
+    "handedness": "right-handed",
+    "up_axis": "+Z",
+    "x_axis": "+X follows the fitted rail L direction",
+    "y_axis": "+Y follows the fitted transverse N direction",
+    "origin": "arbitrary rigid-frame origin used by the rail-relative point analysis; it is not a surveyed laboratory datum",
+    "table_top_z_m": 0.85,
+    "accuracy": "rail-relative constraint layout plus photo interpretation; not surveyed world geometry"
+  },
+  "controller_point_safety_gate": {
+    "interaction_points_file": "pTLC仿真资产/interaction_points.json",
+    "source_sha256": "cf6f12f1db259d80b0777664391a9a17459f8b0af8f43b5b0e62128506a2b11c",
+    "robot_point_count": 239,
+    "lab_from_controller_transform": null,
+    "relative_constraint_frame_used": true,
+    "raw_points_inserted_into_scene": 0,
+    "rail_relative_cluster_centroids_inserted": 13,
+    "passed": true,
+    "reason": "Raw DOBOT points were not claimed as world coordinates. Only fitted rail-relative TCP cluster centroids are displayed as explicit constraint markers."
+  },
+  "constraint_markers": {
+    "tcp_cluster_centroids": [
+      {
+        "cluster_id": "sampling_station",
+        "position_m": [
+          -0.631068,
+          0.077147,
+          1.274821
+        ],
+        "source_common_lnz_mm": [
+          -631.068156,
+          77.146564,
+          274.8206
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "feed_lift",
+        "position_m": [
+          -0.471647,
+          0.221157,
+          0.903465
+        ],
+        "source_common_lnz_mm": [
+          -471.646731,
+          221.156725,
+          -96.5348
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "waste_unload",
+        "position_m": [
+          -0.555308,
+          0.435876,
+          0.907635
+        ],
+        "source_common_lnz_mm": [
+          -555.308147,
+          435.876335,
+          -92.3651
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "photo_stage",
+        "position_m": [
+          -0.353258,
+          -0.395561,
+          0.954555
+        ],
+        "source_common_lnz_mm": [
+          -353.257942,
+          -395.561148,
+          -45.4452
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "scrape_station",
+        "position_m": [
+          -0.53415,
+          -0.630347,
+          1.101638
+        ],
+        "source_common_lnz_mm": [
+          -534.150101,
+          -630.347177,
+          101.6379
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "staging_a_take",
+        "position_m": [
+          -0.519,
+          0.059107,
+          1.011388
+        ],
+        "source_common_lnz_mm": [
+          -518.999901,
+          59.107478,
+          11.38815
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "group_staging",
+        "position_m": [
+          -0.25104,
+          0.06594,
+          1.037356
+        ],
+        "source_common_lnz_mm": [
+          -251.039564,
+          65.939535,
+          37.3561
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "staging_b",
+        "position_m": [
+          -0.120057,
+          0.18115,
+          1.069524
+        ],
+        "source_common_lnz_mm": [
+          -120.057442,
+          181.149765,
+          69.523867
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "collection_station",
+        "position_m": [
+          -0.099071,
+          0.3702,
+          1.177057
+        ],
+        "source_common_lnz_mm": [
+          -99.07071,
+          370.200332,
+          177.056975
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "tool_station",
+        "position_m": [
+          0.487502,
+          -0.426839,
+          0.93791
+        ],
+        "source_common_lnz_mm": [
+          487.502069,
+          -426.838979,
+          -62.090467
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "develop_tower_positive_n",
+        "position_m": [
+          1.009212,
+          0.180314,
+          1.214661
+        ],
+        "source_common_lnz_mm": [
+          1009.211546,
+          180.314111,
+          214.661125
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "develop_tower_negative_n",
+        "position_m": [
+          1.017157,
+          -0.203717,
+          1.214342
+        ],
+        "source_common_lnz_mm": [
+          1017.156511,
+          -203.716899,
+          214.3417
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      },
+      {
+        "cluster_id": "group_rack_4x3",
+        "position_m": [
+          1.136871,
+          -0.014247,
+          1.198998
+        ],
+        "source_common_lnz_mm": [
+          1136.870506,
+          -14.247084,
+          198.998475
+        ],
+        "boundary": "rail-relative TCP cluster centroid; not a device center or surveyed world point"
+      }
+    ],
+    "rail_carriage_markers": [
+      {
+        "slots": [
+          1,
+          2
+        ],
+        "configured_q_mm": 168.0,
+        "position_m": [
+          0.0,
+          0.0,
+          1.01
+        ]
+      },
+      {
+        "slots": [
+          3
+        ],
+        "configured_q_mm": 350.0,
+        "position_m": [
+          0.181301,
+          0.0,
+          1.01
+        ]
+      },
+      {
+        "slots": [
+          4
+        ],
+        "configured_q_mm": 500.0,
+        "position_m": [
+          0.330725,
+          0.0,
+          1.01
+        ]
+      },
+      {
+        "slots": [
+          5,
+          6
+        ],
+        "configured_q_mm": 600.0,
+        "position_m": [
+          0.430341,
+          0.0,
+          1.01
+        ]
+      }
+    ],
+    "tcp_marker_z_rule": "scene_z = displayed_robot_base_z + common_controller_z_mm/1000",
+    "world_boundary": "Only the fitted relative L/N/Z constraint frame is used for marker overlays. Markers are TCP targets, never device centers or surveyed world points."
+  },
+  "proxy_source_checks": [
+    {
+      "asset_id": "machine_deck",
+      "source": "pTLC仿真资产/proxies/machine_deck/visual.glb",
+      "loaded_extents_m": [
+        3.8,
+        1.8,
+        0.85
+      ],
+      "declared_extents_m": [
+        3.8,
+        1.8,
+        0.85
+      ],
+      "max_dimension_error_m": 4.8e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "rail_11y",
+      "source": "pTLC仿真资产/proxies/rail_11y/visual.glb",
+      "loaded_extents_m": [
+        2.3,
+        0.18,
+        0.15
+      ],
+      "declared_extents_m": [
+        2.3,
+        0.18,
+        0.15
+      ],
+      "max_dimension_error_m": 4.8e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "photo_scrape_station",
+      "source": "pTLC仿真资产/proxies/photo_scrape_station/visual.glb",
+      "loaded_extents_m": [
+        0.76,
+        0.65,
+        1.05
+      ],
+      "declared_extents_m": [
+        0.76,
+        0.65,
+        1.05
+      ],
+      "max_dimension_error_m": 4.8e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "powder_collector_fixture",
+      "source": "pTLC仿真资产/proxies/powder_collector_fixture/visual.glb",
+      "loaded_extents_m": [
+        0.42,
+        0.26,
+        0.36
+      ],
+      "declared_extents_m": [
+        0.42,
+        0.26,
+        0.36
+      ],
+      "max_dimension_error_m": 1.3e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "sampling_station",
+      "source": "pTLC仿真资产/proxies/sampling_station/visual.glb",
+      "loaded_extents_m": [
+        0.9,
+        0.65,
+        0.9
+      ],
+      "declared_extents_m": [
+        0.9,
+        0.65,
+        0.9
+      ],
+      "max_dimension_error_m": 2.4e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "staging_a_6slot",
+      "source": "pTLC仿真资产/proxies/staging_a_6slot/visual.glb",
+      "loaded_extents_m": [
+        0.36,
+        0.3,
+        0.26
+      ],
+      "declared_extents_m": [
+        0.36,
+        0.3,
+        0.26
+      ],
+      "max_dimension_error_m": 1.4e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "feed_lift",
+      "source": "pTLC仿真资产/proxies/feed_lift/visual.glb",
+      "loaded_extents_m": [
+        0.48,
+        0.45,
+        1.05
+      ],
+      "declared_extents_m": [
+        0.48,
+        0.45,
+        1.05
+      ],
+      "max_dimension_error_m": 4.8e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "collection_station",
+      "source": "pTLC仿真资产/proxies/collection_station/visual.glb",
+      "loaded_extents_m": [
+        0.65,
+        0.52,
+        0.85
+      ],
+      "declared_extents_m": [
+        0.65,
+        0.52,
+        0.85
+      ],
+      "max_dimension_error_m": 2.4e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "staging_b_6slot",
+      "source": "pTLC仿真资产/proxies/staging_b_6slot/visual.glb",
+      "loaded_extents_m": [
+        0.3,
+        0.26,
+        0.26
+      ],
+      "declared_extents_m": [
+        0.3,
+        0.26,
+        0.26
+      ],
+      "max_dimension_error_m": 1.2e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "tool_station",
+      "source": "pTLC仿真资产/proxies/tool_station/visual.glb",
+      "loaded_extents_m": [
+        0.56,
+        0.38,
+        0.42
+      ],
+      "declared_extents_m": [
+        0.56,
+        0.38,
+        0.42
+      ],
+      "max_dimension_error_m": 1.3e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "develop_tank_rack",
+      "source": "pTLC仿真资产/proxies/develop_tank_rack/visual.glb",
+      "loaded_extents_m": [
+        1.05,
+        0.62,
+        0.98
+      ],
+      "declared_extents_m": [
+        1.05,
+        0.62,
+        0.98
+      ],
+      "max_dimension_error_m": 4.8e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "group_rack_4x3",
+      "source": "pTLC仿真资产/proxies/group_rack_4x3/visual.glb",
+      "loaded_extents_m": [
+        0.62,
+        0.6,
+        0.76
+      ],
+      "declared_extents_m": [
+        0.62,
+        0.6,
+        0.76
+      ],
+      "max_dimension_error_m": 2.4e-08,
+      "passed": true
+    },
+    {
+      "asset_id": "tool_suction",
+      "source": "pTLC仿真资产/proxies/tool_suction/visual.glb",
+      "loaded_extents_m": [
+        0.15,
+        0.12,
+        0.16
+      ],
+      "declared_extents_m": [
+        0.15,
+        0.12,
+        0.16
+      ],
+      "max_dimension_error_m": 6e-09,
+      "passed": true
+    },
+    {
+      "asset_id": "tool_large_gripper",
+      "source": "pTLC仿真资产/proxies/tool_large_gripper/visual.glb",
+      "loaded_extents_m": [
+        0.2,
+        0.11,
+        0.19
+      ],
+      "declared_extents_m": [
+        0.2,
+        0.11,
+        0.19
+      ],
+      "max_dimension_error_m": 3e-09,
+      "passed": true
+    },
+    {
+      "asset_id": "tool_small_gripper",
+      "source": "pTLC仿真资产/proxies/tool_small_gripper/visual.glb",
+      "loaded_extents_m": [
+        0.1,
+        0.08,
+        0.15
+      ],
+      "declared_extents_m": [
+        0.1,
+        0.08,
+        0.15
+      ],
+      "max_dimension_error_m": 6e-09,
+      "passed": true
+    }
+  ],
+  "placed_asset_count": 15,
+  "placed_assets": [
+    {
+      "asset_id": "machine_deck",
+      "geometry_count": 1,
+      "position_m": [
+        0.35,
+        0.0,
+        0.0
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "floor",
+      "layout_confidence": 0.62
+    },
+    {
+      "asset_id": "rail_11y",
+      "geometry_count": 4,
+      "position_m": [
+        -0.5,
+        0.0,
+        0.85
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "machine_deck",
+      "layout_confidence": 0.9
+    },
+    {
+      "asset_id": "photo_scrape_station",
+      "geometry_count": 5,
+      "position_m": [
+        -0.44,
+        -0.51,
+        0.85
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "machine_deck_south_edge",
+      "layout_confidence": 0.82
+    },
+    {
+      "asset_id": "powder_collector_fixture",
+      "geometry_count": 4,
+      "position_m": [
+        -0.19,
+        -0.51,
+        1.151
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "photo_scrape_station_plate",
+      "layout_confidence": 0.48
+    },
+    {
+      "asset_id": "sampling_station",
+      "geometry_count": 14,
+      "position_m": [
+        -0.88,
+        0.5,
+        0.85
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "machine_deck_north_edge",
+      "layout_confidence": 0.58
+    },
+    {
+      "asset_id": "staging_a_6slot",
+      "geometry_count": 20,
+      "position_m": [
+        -0.62,
+        0.35,
+        1.21
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "sampling_station_deck",
+      "layout_confidence": 0.52
+    },
+    {
+      "asset_id": "feed_lift",
+      "geometry_count": 21,
+      "position_m": [
+        -0.47,
+        1.05,
+        0.85
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "machine_deck_north_auxiliary_edge",
+      "layout_confidence": 0.36
+    },
+    {
+      "asset_id": "collection_station",
+      "geometry_count": 17,
+      "position_m": [
+        -0.1,
+        0.5,
+        0.85
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "machine_deck_north_edge",
+      "layout_confidence": 0.68
+    },
+    {
+      "asset_id": "staging_b_6slot",
+      "geometry_count": 20,
+      "position_m": [
+        -0.1,
+        0.5,
+        1.191
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "collection_station_deck",
+      "layout_confidence": 0.62
+    },
+    {
+      "asset_id": "tool_station",
+      "geometry_count": 4,
+      "position_m": [
+        0.35,
+        -0.62,
+        0.85
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "machine_deck_south_edge",
+      "layout_confidence": 0.8
+    },
+    {
+      "asset_id": "develop_tank_rack",
+      "geometry_count": 40,
+      "position_m": [
+        1.1,
+        -0.012,
+        0.85
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "support": "machine_deck_east_end",
+      "layout_confidence": 0.86
+    },
+    {
+      "asset_id": "group_rack_4x3",
+      "geometry_count": 28,
+      "position_m": [
+        1.72,
+        -0.014,
+        0.85
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "support": "machine_deck_east_end",
+      "layout_confidence": 0.82
+    },
+    {
+      "asset_id": "tool_suction",
+      "geometry_count": 4,
+      "position_m": [
+        0.17,
+        -0.62,
+        1.27
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "tool_station_slot_1",
+      "layout_confidence": 0.55
+    },
+    {
+      "asset_id": "tool_large_gripper",
+      "geometry_count": 4,
+      "position_m": [
+        0.35,
+        -0.62,
+        1.27
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "tool_station_slot_2",
+      "layout_confidence": 0.55
+    },
+    {
+      "asset_id": "tool_small_gripper",
+      "geometry_count": 4,
+      "position_m": [
+        0.53,
+        -0.62,
+        1.27
+      ],
+      "rpy_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "support": "tool_station_slot_3",
+      "layout_confidence": 0.55
+    }
+  ],
+  "robot": {
+    "included": true,
+    "urdf": "dobot_rviz/urdf/cr5_robot.urdf",
+    "root_link": "dummy_link",
+    "joint_count": 7,
+    "visual_mesh_count": 7,
+    "joint_positions_deg": {
+      "joint1": 0.0,
+      "joint2": -45.0,
+      "joint3": 90.0,
+      "joint4": 0.0,
+      "joint5": 45.0,
+      "joint6": 0.0
+    },
+    "geometry_status": "local articulated CR5 skeleton used as a provisional CR5A visual proxy",
+    "kinematic_status": "display pose only; not verified against CR5A mechanical drawings, rail datum, TCP or controller calibration",
+    "meshes": [
+      {
+        "link": "base_link",
+        "mesh": "dobot_rviz/meshes/cr5/base_link.STL",
+        "vertices": 11256,
+        "faces": 3752
+      },
+      {
+        "link": "Link1",
+        "mesh": "dobot_rviz/meshes/cr5/J1.STL",
+        "vertices": 16038,
+        "faces": 5346
+      },
+      {
+        "link": "Link2",
+        "mesh": "dobot_rviz/meshes/cr5/J2.STL",
+        "vertices": 25110,
+        "faces": 8370
+      },
+      {
+        "link": "Link3",
+        "mesh": "dobot_rviz/meshes/cr5/J3.STL",
+        "vertices": 16230,
+        "faces": 5410
+      },
+      {
+        "link": "Link4",
+        "mesh": "dobot_rviz/meshes/cr5/J4.STL",
+        "vertices": 15366,
+        "faces": 5122
+      },
+      {
+        "link": "Link5",
+        "mesh": "dobot_rviz/meshes/cr5/J5.STL",
+        "vertices": 20448,
+        "faces": 6816
+      },
+      {
+        "link": "Link6",
+        "mesh": "dobot_rviz/meshes/cr5/J6.STL",
+        "vertices": 17844,
+        "faces": 5948
+      }
+    ]
+  },
+  "glb_reload_check": {
+    "geometry_count": 215,
+    "bounds_min_m": [
+      -1.95,
+      -1.3,
+      -0.02
+    ],
+    "bounds_max_m": [
+      2.65,
+      1.5,
+      1.9
+    ],
+    "extents_m": [
+      4.6,
+      2.8,
+      1.92
+    ],
+    "finite_bounds": true,
+    "passed": true
+  },
+  "collision_qc_summary": {
+    "status": "passed",
+    "broad_phase_pair_count": 3,
+    "unexpected_component_overlap_count": 0
+  },
+  "limitations": [
+    "The constraint-frame origin/yaw and most device-body offsets remain inferred from points and three oblique photographs; nothing is surveyed.",
+    "The local CR5 articulated mesh is a provisional CR5A visual proxy; its CR5A geometry and calibration are unverified.",
+    "The U-shaped development/inventory cluster is assembled on the main deck; its marked TCP planes are stronger evidence than the proxy wall offsets.",
+    "Component AABB QC is conservative and can miss non-AABB contacts; allowed support/nesting overlaps are documented in layout_estimate.json.",
+    "This scene is suitable for layout blocking and asset replacement, not reachability, collision-clearance, or motion validation."
+  ]
+}

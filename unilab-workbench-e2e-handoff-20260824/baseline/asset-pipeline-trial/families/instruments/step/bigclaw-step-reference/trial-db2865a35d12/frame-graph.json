@@ -1,0 +1,14 @@
+{
+  "schema": "lab.frame_graph/v0",
+  "root": "gltf_root",
+  "frames": [
+    {
+      "id": "gltf_root",
+      "parent": null,
+      "status": "converted-step-root"
+    }
+  ],
+  "missing": [
+    "engineering_z_up_to_gltf_root_approval"
+  ]
+}

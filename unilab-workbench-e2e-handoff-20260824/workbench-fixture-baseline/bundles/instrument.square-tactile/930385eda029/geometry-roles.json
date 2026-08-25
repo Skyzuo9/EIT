@@ -1,0 +1,41 @@
+{
+  "schema": "lab.geometry_roles/v0",
+  "entities": [
+    {
+      "id": "sw-occurrence:0000",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unreviewed-render-geometry"
+    },
+    {
+      "id": "sw-occurrence:0001",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unreviewed-render-geometry"
+    },
+    {
+      "id": "sw-occurrence:0002",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unreviewed-render-geometry"
+    },
+    {
+      "id": "sw-occurrence:0003",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unreviewed-render-geometry"
+    }
+  ]
+}

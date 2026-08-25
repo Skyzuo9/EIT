@@ -1,0 +1,63 @@
+{
+  "schema": "lab.family_sim_bundle/v0",
+  "family": "synthesis.capping-gripper",
+  "trial_revision": "input-digest:85b2c06dc4caabd1166873f22299d2695b8d008ac0b56cc41960701dec109cec",
+  "immutable_candidate": true,
+  "artifacts": [
+    {
+      "path": "source.json",
+      "bytes": 500,
+      "sha256": "dd6577c93f1665206fc07d8cd10fb7e0dee4c7753d19cbad0fc4c61a56385c6f"
+    },
+    {
+      "path": "files.sha256",
+      "bytes": 1139,
+      "sha256": "26392e73528b9c5351b099627283a578723285b2a3be978c22b9fc1f892b020c"
+    },
+    {
+      "path": "legacy.snapshot.json",
+      "bytes": 4176,
+      "sha256": "c95c37926ccc66378f9a34855fb57a7dce43f1609fdb021bc83d68ebe717b320"
+    },
+    {
+      "path": "mechanics.json",
+      "bytes": 3701,
+      "sha256": "355be37adea92d6b90196ab74debd4df7a1bc6426522610fa30e74622dabae4b"
+    },
+    {
+      "path": "frame-graph.json",
+      "bytes": 2239,
+      "sha256": "65d9537082366a35b7d048bc3b60fa4371e97f4ceb1ffad764f89edb07e2fd8b"
+    },
+    {
+      "path": "entity-registry.json",
+      "bytes": 674,
+      "sha256": "36a6b35f7b6acb90074f65ebb66b7341828c42b39582eab2e43f0e1f9589d000"
+    },
+    {
+      "path": "geometry-roles.json",
+      "bytes": 1239,
+      "sha256": "5b19add9d13110c87e3881eccd34fb1620bfbfd455fd89af920075010a704522"
+    },
+    {
+      "path": "capability.json",
+      "bytes": 362,
+      "sha256": "a9c114e983b7bdc21ac6cd15d302f196a8c3bd9e9d0e1c0704217bea23b0146d"
+    },
+    {
+      "path": "provenance.json",
+      "bytes": 583,
+      "sha256": "bab803420e966e56892fccb25f7563dc45e2cb04b449faf556fc2077ef9022de"
+    },
+    {
+      "path": "render-lod0.glb",
+      "bytes": 3759708,
+      "sha256": "0f8ce4d826bef8bf2c50eb1dfdc657adffc8fa52fbb42a98f640efeb91bb0a61"
+    },
+    {
+      "path": "reports/render.json",
+      "bytes": 661,
+      "sha256": "c38ea1ebaa323b2f6fa35e1a4f8e5a6567b32e2e3103d9c91d70a09fc70bffad"
+    }
+  ]
+}

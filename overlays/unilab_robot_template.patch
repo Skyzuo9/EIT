@@ -1,0 +1,1477 @@
+diff --git a/packages/unilab-arm-cr5/src/unilab_arm_cr5/adapters/moveit_client.py b/packages/unilab-arm-cr5/src/unilab_arm_cr5/adapters/moveit_client.py
+index 70fb565..ff9dae5 100644
+--- a/packages/unilab-arm-cr5/src/unilab_arm_cr5/adapters/moveit_client.py
++++ b/packages/unilab-arm-cr5/src/unilab_arm_cr5/adapters/moveit_client.py
+@@ -6,12 +6,7 @@ import time
+ from collections.abc import Mapping, Sequence
+ from typing import Any
+ 
+-from unilab_robot_contracts import (
+-    CommandState,
+-    RigidTransform,
+-    ToolContext,
+-    apply_moveit_planning_budget,
+-)
++from unilab_robot_contracts import CommandState, RigidTransform, ToolContext
+ 
+ 
+ _MOVEIT_ERROR_DETAILS = {
+@@ -57,7 +52,7 @@ class MoveIt2ClientPort:
+         names = tuple(str(name) for name in qualified_joint_names)
+         if len(names) != 6:
+             raise ValueError("MoveIt2ClientPort 只接受六轴机械臂")
+-        self.client = apply_moveit_planning_budget(client)
++        self.client = client
+         self.qualified_joint_names = names
+         self._results: dict[str, Mapping[str, Any]] = {}
+         self._active_command_id: str | None = None
+diff --git a/packages/unilab-arm-cr5/src/unilab_arm_cr5/adapters/moveit_commissioning.py b/packages/unilab-arm-cr5/src/unilab_arm_cr5/adapters/moveit_commissioning.py
+index ed5c353..4668a17 100644
+--- a/packages/unilab-arm-cr5/src/unilab_arm_cr5/adapters/moveit_commissioning.py
++++ b/packages/unilab-arm-cr5/src/unilab_arm_cr5/adapters/moveit_commissioning.py
+@@ -26,7 +26,6 @@ from unilab_robot_contracts import (
+     RigidTransform,
+     TcpJogCommand,
+     ToolContext,
+-    ToolContextActivationReceipt,
+ )
+ from unilab_robot_contracts.geometry import quaternion_multiply
+ 
+@@ -96,10 +95,7 @@ class MoveItCommissioningAdapter:
+         self._results: dict[str, CommandResult] = {}
+         self._fenced_command_ids: set[str] = set()
+ 
+-    def activate_tool_context(
+-        self,
+-        tool_context: ToolContext,
+-    ) -> ToolContextActivationReceipt:
++    def activate_tool_context(self, tool_context: ToolContext) -> None:
+         """仅在空闲时更新 TCP/碰撞模型，并验证 PlanningScene 回读。"""
+ 
+         snapshot = self.commissioning_snapshot()
+@@ -119,10 +115,6 @@ class MoveItCommissioningAdapter:
+         ):
+             raise RuntimeError("PlanningScene 未确认同一 ToolContext 摘要与附着代次")
+         self.tool_context_digest = tool_context.digest
+-        return ToolContextActivationReceipt.from_mapping(
+-            receipt,
+-            source="moveit:planning-scene-readback",
+-        )
+ 
+     @property
+     def commissioning_capabilities(self) -> CommissioningCapabilities:
+diff --git a/packages/unilab-arm-cr5/src/unilab_arm_cr5/moveit_model.py b/packages/unilab-arm-cr5/src/unilab_arm_cr5/moveit_model.py
+index 30c9b1b..9a03da1 100644
+--- a/packages/unilab-arm-cr5/src/unilab_arm_cr5/moveit_model.py
++++ b/packages/unilab-arm-cr5/src/unilab_arm_cr5/moveit_model.py
+@@ -388,12 +388,7 @@ def _build_srdf(*, prefix: str, planning_group: str) -> str:
+ def _ros2_controllers(
+     *, controller_name: str, joint_names: tuple[str, ...]
+ ) -> dict[str, Any]:
+-    """生成 controller_manager 使用的完全限定控制器参数。
+-
+-    ``open_loop_control`` 对 mock 硬件是必需的：没有真实状态闭环时，
+-    JointTrajectoryController 会把已发出的轨迹判成 ABORTED，RViz 仍能播放
+-    规划轨迹，卡片却报设备动作失败。
+-    """
++    """生成 controller_manager 使用的完全限定控制器参数。"""
+ 
+     return {
+         "controller_manager": {
+@@ -408,7 +403,6 @@ def _ros2_controllers(
+                 "joints": list(joint_names),
+                 "command_interfaces": ["position"],
+                 "state_interfaces": ["position", "velocity"],
+-                "open_loop_control": True,
+             }
+         },
+     }
+diff --git a/packages/unilab-arm-cr7/src/unilab_arm_cr7/adapters/moveit_client.py b/packages/unilab-arm-cr7/src/unilab_arm_cr7/adapters/moveit_client.py
+index 308d585..dd6d003 100644
+--- a/packages/unilab-arm-cr7/src/unilab_arm_cr7/adapters/moveit_client.py
++++ b/packages/unilab-arm-cr7/src/unilab_arm_cr7/adapters/moveit_client.py
+@@ -6,12 +6,7 @@ import time
+ from collections.abc import Mapping, Sequence
+ from typing import Any
+ 
+-from unilab_robot_contracts import (
+-    CommandState,
+-    RigidTransform,
+-    ToolContext,
+-    apply_moveit_planning_budget,
+-)
++from unilab_robot_contracts import CommandState, RigidTransform, ToolContext
+ 
+ 
+ class MoveIt2ClientPort:
+@@ -23,7 +18,7 @@ class MoveIt2ClientPort:
+         names = tuple(str(name) for name in qualified_joint_names)
+         if len(names) != 6:
+             raise ValueError("MoveIt2ClientPort 只接受六轴机械臂")
+-        self.client = apply_moveit_planning_budget(client)
++        self.client = client
+         self.qualified_joint_names = names
+         self._results: dict[str, Mapping[str, Any]] = {}
+         self._active_command_id: str | None = None
+@@ -95,13 +90,11 @@ class MoveIt2ClientPort:
+         self._apply_motion_profile(parameters)
+         self._active_command_id = command_id
+         try:
+-            cartesian = bool(parameters.get("cartesian_path", False))
+             self.client.move_to_pose(
+                 position=mount_target.translation_m,
+                 quat_xyzw=mount_target.orientation_xyzw,
+                 frame_id=None,
+-                cartesian=cartesian,
+-                cartesian_fraction_threshold=0.99 if cartesian else 0.0,
++                cartesian=bool(parameters.get("cartesian_path", False)),
+                 tolerance_position=float(parameters.get("position_tolerance_m", 0.001)),
+                 tolerance_orientation=float(
+                     parameters.get("orientation_tolerance_rad", 0.001)
+diff --git a/packages/unilab-arm-cr7/src/unilab_arm_cr7/adapters/moveit_commissioning.py b/packages/unilab-arm-cr7/src/unilab_arm_cr7/adapters/moveit_commissioning.py
+index 2b20a39..8d78c1c 100644
+--- a/packages/unilab-arm-cr7/src/unilab_arm_cr7/adapters/moveit_commissioning.py
++++ b/packages/unilab-arm-cr7/src/unilab_arm_cr7/adapters/moveit_commissioning.py
+@@ -26,7 +26,6 @@ from unilab_robot_contracts import (
+     RigidTransform,
+     TcpJogCommand,
+     ToolContext,
+-    ToolContextActivationReceipt,
+ )
+ from unilab_robot_contracts.geometry import quaternion_multiply
+ 
+@@ -96,10 +95,7 @@ class MoveItCommissioningAdapter:
+         self._results: dict[str, CommandResult] = {}
+         self._fenced_command_ids: set[str] = set()
+ 
+-    def activate_tool_context(
+-        self,
+-        tool_context: ToolContext,
+-    ) -> ToolContextActivationReceipt:
++    def activate_tool_context(self, tool_context: ToolContext) -> None:
+         """仅在空闲时更新 TCP/碰撞模型，并验证 PlanningScene 回读。"""
+ 
+         snapshot = self.commissioning_snapshot()
+@@ -119,10 +115,6 @@ class MoveItCommissioningAdapter:
+         ):
+             raise RuntimeError("PlanningScene 未确认同一 ToolContext 摘要与附着代次")
+         self.tool_context_digest = tool_context.digest
+-        return ToolContextActivationReceipt.from_mapping(
+-            receipt,
+-            source="moveit:planning-scene-readback",
+-        )
+ 
+     @property
+     def commissioning_capabilities(self) -> CommissioningCapabilities:
+diff --git a/packages/unilab-arm-cr7/src/unilab_arm_cr7/moveit_model.py b/packages/unilab-arm-cr7/src/unilab_arm_cr7/moveit_model.py
+index 9ea0ffa..0bfce5b 100644
+--- a/packages/unilab-arm-cr7/src/unilab_arm_cr7/moveit_model.py
++++ b/packages/unilab-arm-cr7/src/unilab_arm_cr7/moveit_model.py
+@@ -388,12 +388,7 @@ def _build_srdf(*, prefix: str, planning_group: str) -> str:
+ def _ros2_controllers(
+     *, controller_name: str, joint_names: tuple[str, ...]
+ ) -> dict[str, Any]:
+-    """生成 controller_manager 使用的完全限定控制器参数。
+-
+-    ``open_loop_control`` 对 mock 硬件是必需的：没有真实状态闭环时，
+-    JointTrajectoryController 会把已发出的轨迹判成 ABORTED，RViz 仍能播放
+-    规划轨迹，卡片却报设备动作失败。
+-    """
++    """生成 controller_manager 使用的完全限定控制器参数。"""
+ 
+     return {
+         "controller_manager": {
+@@ -408,7 +403,6 @@ def _ros2_controllers(
+                 "joints": list(joint_names),
+                 "command_interfaces": ["position"],
+                 "state_interfaces": ["position", "velocity"],
+-                "open_loop_control": True,
+             }
+         },
+     }
+diff --git a/packages/unilab-robot-contracts/src/unilab_robot_contracts/__init__.py b/packages/unilab-robot-contracts/src/unilab_robot_contracts/__init__.py
+index 60b83ee..dc63ee0 100644
+--- a/packages/unilab-robot-contracts/src/unilab_robot_contracts/__init__.py
++++ b/packages/unilab-robot-contracts/src/unilab_robot_contracts/__init__.py
+@@ -8,17 +8,6 @@ from .actions import (
+     ResourceSlotRef,
+     SiteRef,
+ )
+-from .attachments import (
+-    AnchorKind,
+-    AttachmentCapabilities,
+-    AttachmentEvidence,
+-    AttachmentKind,
+-    AttachmentState,
+-    CollisionPrimitive,
+-    KinematicAnchor,
+-    KinematicAttachmentProjection,
+-    PayloadCollisionProfile,
+-)
+ from .commands import (
+     CommandResult,
+     CommandState,
+@@ -68,14 +57,6 @@ from .motion_profiles import (
+     MotionProfileCatalog,
+     RailMotionProfile,
+ )
+-from .moveit_planning_budget import (
+-    DEFAULT_ALLOWED_PLANNING_TIME_S,
+-    DEFAULT_NUM_PLANNING_ATTEMPTS,
+-    DEFAULT_PLAN_RETRY_ATTEMPTS,
+-    MoveItPlanningBudget,
+-    apply_moveit_planning_budget,
+-    resolve_moveit_planning_budget,
+-)
+ from .observations import (
+     EndEffectorObservation,
+     ObservationState,
+@@ -134,7 +115,6 @@ from .tools import (
+     GripperObservation,
+     ToolAttachmentObservation,
+     ToolChangerPort,
+-    ToolContextActivationReceipt,
+     ToolContextActivator,
+     ToolDefinition,
+ )
+@@ -147,27 +127,18 @@ from .workcell_plans import (
+ 
+ __all__ = [
+     "COMMISSIONING_PROTOCOL_VERSION",
+-    "DEFAULT_ALLOWED_PLANNING_TIME_S",
+-    "DEFAULT_NUM_PLANNING_ATTEMPTS",
+-    "DEFAULT_PLAN_RETRY_ATTEMPTS",
+     "EULER_ROTATION_CONVENTION",
+     "AccessMotionBlock",
+     "AccessMotionPlanCompiler",
+     "AccessMotionPolicy",
+     "ActionKind",
+-    "AnchorKind",
+     "AngleUnit",
+     "ArmModulePort",
+     "ArmTargetModel",
+     "ArmTargetResolver",
+-    "AttachmentCapabilities",
+-    "AttachmentEvidence",
+-    "AttachmentKind",
+-    "AttachmentState",
+     "BackendKind",
+     "BackendStatus",
+     "CartesianPose",
+-    "CollisionPrimitive",
+     "CommandJournal",
+     "CommandRejectedError",
+     "CommandResult",
+@@ -194,14 +165,11 @@ __all__ = [
+     "JointSpecification",
+     "JointStateNameMap",
+     "JointType",
+-    "KinematicAnchor",
+-    "KinematicAttachmentProjection",
+     "MotionDirection",
+     "MotionPrimitive",
+     "MotionProfile",
+     "MotionProfileCatalog",
+     "MotionSegment",
+-    "MoveItPlanningBudget",
+     "MovePoseCommand",
+     "MoveTargetCommand",
+     "ObservationState",
+@@ -209,7 +177,6 @@ __all__ = [
+     "PLCProgramAdapterBinding",
+     "PLCProgramDefinition",
+     "PLCProgramSet",
+-    "PayloadCollisionProfile",
+     "PhysicalSettlementEvidence",
+     "PickAction",
+     "PlaceAction",
+@@ -252,18 +219,15 @@ __all__ = [
+     "ToolAttachmentObservation",
+     "ToolChangerPort",
+     "ToolContext",
+-    "ToolContextActivationReceipt",
+     "ToolContextActivator",
+     "ToolDefinition",
+     "TopologySite",
+     "WorkCellPhaseKind",
+     "WorkCellPlanPhase",
+-    "apply_moveit_planning_budget",
+     "bump_point_set_revision",
+     "parse_site_access_declarations",
+     "patch_authored_composite_target_yaml",
+     "patch_authored_joint_target_yaml",
+     "resolve_affine_grid",
+-    "resolve_moveit_planning_budget",
+     "revise_authored_joint_target",
+ ]
+diff --git a/packages/unilab-robot-contracts/src/unilab_robot_contracts/attachments.py b/packages/unilab-robot-contracts/src/unilab_robot_contracts/attachments.py
+deleted file mode 100644
+index ac0a35e..0000000
+--- a/packages/unilab-robot-contracts/src/unilab_robot_contracts/attachments.py
++++ /dev/null
+@@ -1,280 +0,0 @@
+-"""快换工具与夹持物料共享的运动学附着和碰撞资产合同。"""
+-
+-from __future__ import annotations
+-
+-import math
+-import re
+-import time
+-from dataclasses import dataclass
+-from enum import Enum
+-from typing import Any
+-
+-from .geometry import RigidTransform
+-
+-_DIGEST = re.compile(r"^[0-9a-f]{64}$")
+-_COLLISION_SHAPE_DIMENSIONS = {
+-    "box": 3,
+-    "sphere": 1,
+-    "cylinder": 2,
+-    "cone": 2,
+-}
+-
+-
+-class AttachmentKind(str, Enum):
+-    """附着子对象的业务类别；不决定视觉模型格式。"""
+-
+-    TOOL = "tool"
+-    MATERIAL_PAYLOAD = "material_payload"
+-
+-
+-class AttachmentState(str, Enum):
+-    """运行时父子关系的确定状态。"""
+-
+-    ATTACHED = "attached"
+-    DETACHED = "detached"
+-    DETACHING = "detaching"
+-    UNCERTAIN = "uncertain"
+-
+-
+-class AttachmentEvidence(str, Enum):
+-    """附着结论的证据等级。"""
+-
+-    OBSERVED = "observed"
+-    CONTROLLER_CONFIRMED = "controller_confirmed"
+-    NONE = "none"
+-
+-
+-class AnchorKind(str, Enum):
+-    """父对象使用根节点还是精确 link 作为运动学锚点。"""
+-
+-    ROOT = "root"
+-    LINK = "link"
+-
+-
+-@dataclass(frozen=True, slots=True)
+-class KinematicAnchor:
+-    """附着父对象内的稳定符号锚点。"""
+-
+-    kind: AnchorKind
+-    link_name: str | None = None
+-
+-    def __post_init__(self) -> None:
+-        """保证 root/link 形态互斥且 link 使用稳定非空名称。"""
+-
+-        if self.kind is AnchorKind.ROOT:
+-            if self.link_name is not None:
+-                raise ValueError("root anchor 不得携带 link_name")
+-            return
+-        if self.link_name is None or not self.link_name.strip():
+-            raise ValueError("link anchor 必须包含 link_name")
+-
+-    def as_dict(self) -> dict[str, str]:
+-        """编码不包含模型格式的 wire 形状。"""
+-
+-        result = {"kind": self.kind.value}
+-        if self.link_name is not None:
+-            result["link_name"] = self.link_name
+-        return result
+-
+-
+-@dataclass(frozen=True, slots=True)
+-class CollisionPrimitive:
+-    """经审批的静态保守碰撞基元。"""
+-
+-    shape: str
+-    size_m: tuple[float, ...]
+-    pose: RigidTransform
+-
+-    def __post_init__(self) -> None:
+-        """校验 MoveIt 支持的形状、维度数量和正尺寸。"""
+-
+-        shape = self.shape.strip().lower()
+-        expected = _COLLISION_SHAPE_DIMENSIONS.get(shape)
+-        values = tuple(float(value) for value in self.size_m)
+-        if expected is None:
+-            raise ValueError(f"不支持的碰撞基元: {self.shape}")
+-        if len(values) != expected or any(
+-            not math.isfinite(value) or value <= 0.0 for value in values
+-        ):
+-            raise ValueError(f"{shape} 的 size_m 必须包含 {expected} 个正有限数")
+-        object.__setattr__(self, "shape", shape)
+-        object.__setattr__(self, "size_m", values)
+-
+-    def as_dict(self) -> dict[str, Any]:
+-        """编码 ToolContext/PayloadCollisionProfile 共用的规划形状。"""
+-
+-        return {
+-            "shape": self.shape,
+-            "size_m": list(self.size_m),
+-            "pose": {
+-                "xyz_m": list(self.pose.translation_m),
+-                "orientation_xyzw": list(self.pose.orientation_xyzw),
+-            },
+-        }
+-
+-
+-@dataclass(frozen=True, slots=True)
+-class PayloadCollisionProfile:
+-    """物料/载架进入 MoveIt 时使用的版本化碰撞与负载资产。"""
+-
+-    profile_ref: str
+-    digest: str
+-    mass_kg: float
+-    center_of_mass_m: tuple[float, float, float]
+-    root_to_grasp: RigidTransform
+-    collision_asset_ref: str | None = None
+-    collision_primitives: tuple[CollisionPrimitive, ...] = ()
+-
+-    def __post_init__(self) -> None:
+-        """拒绝无身份、无几何、非法质量或不可审计摘要。"""
+-
+-        if not self.profile_ref.strip() or not _DIGEST.fullmatch(self.digest):
+-            raise ValueError("PayloadCollisionProfile 必须包含稳定引用和 SHA-256")
+-        if not math.isfinite(self.mass_kg) or self.mass_kg < 0.0:
+-            raise ValueError("PayloadCollisionProfile.mass_kg 必须是非负有限数")
+-        center = tuple(float(value) for value in self.center_of_mass_m)
+-        if len(center) != 3 or not all(math.isfinite(value) for value in center):
+-            raise ValueError("PayloadCollisionProfile.center_of_mass_m 必须包含三个有限数")
+-        asset = (self.collision_asset_ref or "").strip()
+-        primitives = tuple(self.collision_primitives)
+-        if not asset and not primitives:
+-            raise ValueError("PayloadCollisionProfile 必须包含碰撞资产或保守基元")
+-        object.__setattr__(self, "center_of_mass_m", center)
+-        object.__setattr__(self, "collision_asset_ref", asset or None)
+-        object.__setattr__(self, "collision_primitives", primitives)
+-
+-    def as_planning_scene(self) -> dict[str, Any]:
+-        """编码供 MoveIt Adapter 消费的静态碰撞与负载描述。"""
+-
+-        result: dict[str, Any] = {
+-            "payload_profile_ref": self.profile_ref,
+-            "payload_profile_digest": self.digest,
+-            "mass_kg": self.mass_kg,
+-            "center_of_mass_m": list(self.center_of_mass_m),
+-            "root_to_grasp": {
+-                "xyz_m": list(self.root_to_grasp.translation_m),
+-                "orientation_xyzw": list(self.root_to_grasp.orientation_xyzw),
+-            },
+-            "collision_primitives": [
+-                primitive.as_dict() for primitive in self.collision_primitives
+-            ],
+-        }
+-        if self.collision_asset_ref is not None:
+-            result["collision_asset_ref"] = self.collision_asset_ref
+-        return result
+-
+-
+-@dataclass(frozen=True, slots=True)
+-class AttachmentCapabilities:
+-    """Adapter 对快换、负载和碰撞证据的诚实能力声明。"""
+-
+-    tool_identity_sensor: bool = False
+-    lock_sensor: bool = False
+-    payload_sensor: bool = False
+-    exact_completion_generation: bool = False
+-    payload_collision: bool = False
+-
+-
+-@dataclass(frozen=True, slots=True)
+-class KinematicAttachmentProjection:
+-    """不携带模型格式、只描述运行时父子 frame 的 latest 投影。"""
+-
+-    kind: AttachmentKind
+-    child_ref: str
+-    parent_ref: str
+-    anchor: KinematicAnchor
+-    local_pose: RigidTransform
+-    state: AttachmentState
+-    evidence: AttachmentEvidence
+-    attachment_generation: int
+-    observed_at: float
+-    stale_after_s: float
+-    source: str
+-    source_boot_id: str
+-    monotonic_sequence: int
+-    command_ref: str | None = None
+-    job_ref: str | None = None
+-    context_digest: str | None = None
+-    schema_version: int = 1
+-
+-    def __post_init__(self) -> None:
+-        """校验 latest 身份、代次、新鲜度和状态/证据组合。"""
+-
+-        for name, value in (
+-            ("child_ref", self.child_ref),
+-            ("parent_ref", self.parent_ref),
+-            ("source", self.source),
+-            ("source_boot_id", self.source_boot_id),
+-        ):
+-            if not value.strip():
+-                raise ValueError(f"KinematicAttachmentProjection.{name} 不能为空")
+-        if self.schema_version != 1:
+-            raise ValueError("只支持 kinematic attachment schema_version=1")
+-        if isinstance(self.attachment_generation, bool) or self.attachment_generation < 1:
+-            raise ValueError("attachment_generation 必须是正整数")
+-        if isinstance(self.monotonic_sequence, bool) or self.monotonic_sequence < 1:
+-            raise ValueError("monotonic_sequence 必须是正整数")
+-        if not math.isfinite(self.observed_at) or not math.isfinite(self.stale_after_s):
+-            raise ValueError("附着观测时间和 TTL 必须是有限数")
+-        if self.stale_after_s <= 0.0:
+-            raise ValueError("stale_after_s 必须为正")
+-        if self.state is AttachmentState.UNCERTAIN:
+-            if self.evidence is not AttachmentEvidence.NONE:
+-                raise ValueError("uncertain attachment 不得伪造完成证据")
+-        elif self.evidence is AttachmentEvidence.NONE:
+-            raise ValueError("确定附着状态必须携带证据等级")
+-        if self.context_digest is not None and not _DIGEST.fullmatch(
+-            self.context_digest
+-        ):
+-            raise ValueError("context_digest 必须是 SHA-256")
+-
+-    def is_fresh(self, now: float | None = None) -> bool:
+-        """判断投影是否仍在同一实时窗口内。"""
+-
+-        checked_at = time.time() if now is None else float(now)
+-        age = checked_at - self.observed_at
+-        return 0.0 <= age <= self.stale_after_s
+-
+-    def as_dict(self) -> dict[str, Any]:
+-        """编码 OS DeviceTelemetry 与 FE scene-runtime 共用形状。"""
+-
+-        result: dict[str, Any] = {
+-            "schema_version": self.schema_version,
+-            "kind": self.kind.value,
+-            "child_ref": self.child_ref,
+-            "parent_ref": self.parent_ref,
+-            "anchor": self.anchor.as_dict(),
+-            "local_pose": {
+-                "xyz_m": list(self.local_pose.translation_m),
+-                "orientation_xyzw": list(self.local_pose.orientation_xyzw),
+-            },
+-            "state": self.state.value,
+-            "evidence": self.evidence.value,
+-            "attachment_generation": self.attachment_generation,
+-            "observed_at": self.observed_at,
+-            "stale_after_s": self.stale_after_s,
+-            "source": self.source,
+-            "source_boot_id": self.source_boot_id,
+-            "monotonic_sequence": self.monotonic_sequence,
+-        }
+-        for field, value in (
+-            ("command_ref", self.command_ref),
+-            ("job_ref", self.job_ref),
+-            ("context_digest", self.context_digest),
+-        ):
+-            if value is not None:
+-                result[field] = value
+-        return result
+-
+-
+-__all__ = [
+-    "AnchorKind",
+-    "AttachmentCapabilities",
+-    "AttachmentEvidence",
+-    "AttachmentKind",
+-    "AttachmentState",
+-    "CollisionPrimitive",
+-    "KinematicAnchor",
+-    "KinematicAttachmentProjection",
+-    "PayloadCollisionProfile",
+-]
+diff --git a/packages/unilab-robot-contracts/src/unilab_robot_contracts/commissioning.py b/packages/unilab-robot-contracts/src/unilab_robot_contracts/commissioning.py
+index b840077..1cd14b0 100644
+--- a/packages/unilab-robot-contracts/src/unilab_robot_contracts/commissioning.py
++++ b/packages/unilab-robot-contracts/src/unilab_robot_contracts/commissioning.py
+@@ -284,7 +284,7 @@ class MovePoseCommand(_FiniteMotionCommand):
+ 
+ @dataclass(frozen=True, slots=True)
+ class TcpJogCommand(_FiniteMotionCommand):
+-    """在基座或工具坐标系中执行一次 TCP 点动。"""
++    """在基座或工具坐标系中执行一次有限 TCP 点动。"""
+ 
+     frame_ref: str
+     axis: TcpAxis
+@@ -292,13 +292,14 @@ class TcpJogCommand(_FiniteMotionCommand):
+     step_si: float
+ 
+     def __post_init__(self) -> None:
+-        """校验坐标系以及正的有限 SI 步长。"""
++        """按轴类型限制单次平移或旋转步长。"""
+ 
+         _FiniteMotionCommand.__post_init__(self)
+         if self.frame_ref not in {"arm_base", "tool"}:
+             raise ValueError("tcp_jog frame_ref 只允许 arm_base 或 tool")
+-        if not math.isfinite(self.step_si) or self.step_si <= 0.0:
+-            raise ValueError("tcp_jog step_si 必须为正的有限数")
++        maximum = math.radians(5.0) if self.axis.rotational else 0.01
++        if not math.isfinite(self.step_si) or not 0.0 < self.step_si <= maximum:
++            raise ValueError("tcp_jog 单次步长超过维护硬上限")
+ 
+     @property
+     def kind(self) -> CommissioningMotionKind:
+@@ -312,8 +313,8 @@ class JointJogCommand(_FiniteMotionCommand):
+     """只改变 exact Arm 型号中一个稳定关节引用的有限点动。
+ 
+     ``step_si`` 的量纲由型号中的关节类型决定：转动关节为 rad，移动关节为 m。
+-    协议不重复 ``joint_names``、关节类型或单位；关节限位以及其余关节锁定容差
+-    必须由 ``motion_profile_ref`` 与 exact Arm 型号共同校验。
++    协议不重复 ``joint_names``、关节类型或单位；实际单步上限、关节限位以及其余
++    关节锁定容差必须由 ``motion_profile_ref`` 与 exact Arm 型号共同校验。
+     """
+ 
+     joint_ref: str
+diff --git a/packages/unilab-robot-contracts/src/unilab_robot_contracts/moveit_planning_budget.py b/packages/unilab-robot-contracts/src/unilab_robot_contracts/moveit_planning_budget.py
+deleted file mode 100644
+index 18c3d72..0000000
+--- a/packages/unilab-robot-contracts/src/unilab_robot_contracts/moveit_planning_budget.py
++++ /dev/null
+@@ -1,90 +0,0 @@
+-"""MoveIt 单次动作的规划预算与重试旋钮（领域仓可共用）。
+-
+-``plan_retry_attempts`` 由 OS ``MoveGroupActionRetry`` 读取 ``MoveItConfig``；
+-本模块对外暴露同一合同，并把 ``num_planning_attempts`` /
+-``allowed_planning_time`` 写进已创建的 MoveIt 客户端。
+-"""
+-
+-from __future__ import annotations
+-
+-from dataclasses import dataclass
+-from typing import Any, Type
+-
+-DEFAULT_PLAN_RETRY_ATTEMPTS = 10
+-DEFAULT_NUM_PLANNING_ATTEMPTS = 3
+-DEFAULT_ALLOWED_PLANNING_TIME_S = 3.0
+-
+-
+-@dataclass(frozen=True, slots=True)
+-class MoveItPlanningBudget:
+-    """MoveGroup 派发前的规划预算；不是工作流（Workflow）执行重试。"""
+-
+-    plan_retry_attempts: int = DEFAULT_PLAN_RETRY_ATTEMPTS
+-    num_planning_attempts: int = DEFAULT_NUM_PLANNING_ATTEMPTS
+-    allowed_planning_time_s: float = DEFAULT_ALLOWED_PLANNING_TIME_S
+-
+-
+-def _load_moveit_config() -> Type[Any] | None:
+-    """软导入 OS MoveItConfig；合同包不硬依赖 Uni-Lab-OS。"""
+-
+-    try:
+-        from unilabos.config.config import MoveItConfig
+-    except ImportError:
+-        return None
+-    return MoveItConfig
+-
+-
+-def resolve_moveit_planning_budget() -> MoveItPlanningBudget:
+-    """解析当前进程生效的规划预算。
+-
+-    优先读 ``unilabos.config.MoveItConfig``（含 local_config / 环境变量覆盖）；
+-    无 OS 时回落到模板默认值。
+-    """
+-
+-    config = _load_moveit_config()
+-    if config is None:
+-        return MoveItPlanningBudget()
+-    try:
+-        return MoveItPlanningBudget(
+-            plan_retry_attempts=max(0, int(getattr(config, "plan_retry_attempts"))),
+-            num_planning_attempts=int(getattr(config, "num_planning_attempts")),
+-            allowed_planning_time_s=float(getattr(config, "allowed_planning_time")),
+-        )
+-    except (TypeError, ValueError, AttributeError):
+-        return MoveItPlanningBudget()
+-
+-
+-def apply_moveit_planning_budget(
+-    client: Any,
+-    *,
+-    budget: MoveItPlanningBudget | None = None,
+-) -> Any:
+-    """把规划预算写入 MoveIt 客户端字段并返回同一实例。
+-
+-    参数：``client`` 需支持 ``num_planning_attempts`` 与 ``allowed_planning_time``；
+-    ``budget`` 缺省时调用 ``resolve_moveit_planning_budget()``。
+-    返回：同一 ``client``。异常：越界预算抛 ``ValueError``。
+-    安全：不重放已派发的动作（Action）；``plan_retry_attempts`` 仅作合同暴露，
+-    由 OS 动作重试层消费。
+-    """
+-
+-    resolved = budget if budget is not None else resolve_moveit_planning_budget()
+-    attempts = int(resolved.num_planning_attempts)
+-    allowed = float(resolved.allowed_planning_time_s)
+-    if not 1 <= attempts <= 100:
+-        raise ValueError("MoveIt num_planning_attempts 必须位于 [1, 100]")
+-    if not 0.1 <= allowed <= 60.0:
+-        raise ValueError("MoveIt allowed_planning_time 必须位于 [0.1, 60]")
+-    client.num_planning_attempts = attempts
+-    client.allowed_planning_time = allowed
+-    return client
+-
+-
+-__all__ = [
+-    "DEFAULT_ALLOWED_PLANNING_TIME_S",
+-    "DEFAULT_NUM_PLANNING_ATTEMPTS",
+-    "DEFAULT_PLAN_RETRY_ATTEMPTS",
+-    "MoveItPlanningBudget",
+-    "apply_moveit_planning_budget",
+-    "resolve_moveit_planning_budget",
+-]
+diff --git a/packages/unilab-robot-contracts/src/unilab_robot_contracts/tools.py b/packages/unilab-robot-contracts/src/unilab_robot_contracts/tools.py
+index e1ca707..d1b2c08 100644
+--- a/packages/unilab-robot-contracts/src/unilab_robot_contracts/tools.py
++++ b/packages/unilab-robot-contracts/src/unilab_robot_contracts/tools.py
+@@ -5,20 +5,14 @@ from __future__ import annotations
+ import hashlib
+ import json
+ import math
+-import re
+-import time
+-from collections.abc import Mapping
+-from dataclasses import dataclass, field
+-from typing import Any, Protocol, runtime_checkable
++from dataclasses import dataclass
++from typing import Protocol, runtime_checkable
+ 
+-from .attachments import CollisionPrimitive
+ from .commands import CommandResult
+ from .geometry import RigidTransform
+ from .observations import ObservationState
+ from .targets import ToolContext
+ 
+-_DIGEST = re.compile(r"^[0-9a-f]{64}$")
+-
+ 
+ @dataclass(frozen=True, slots=True)
+ class ToolDefinition:
+@@ -28,60 +22,20 @@ class ToolDefinition:
+     model_digest: str
+     mount_to_tcp: RigidTransform
+     collision_asset_ref: str
+-    visual_asset_ref: str = ""
+-    collision_digest: str = ""
+-    flange_frame: str = "tool0"
+-    tcp_frame: str = "tcp"
+-    grasp_frame: str = "grasp_frame"
+-    mass_kg: float = 0.0
+-    center_of_mass_m: tuple[float, float, float] = (0.0, 0.0, 0.0)
+-    mount_to_visual: RigidTransform = field(default_factory=RigidTransform.identity)
+-    mount_to_grasp: RigidTransform | None = None
+-    static_collision_primitives: tuple[CollisionPrimitive, ...] = ()
+ 
+     def __post_init__(self) -> None:
+         """校验工具稳定身份、模型摘要和碰撞资产引用。"""
+ 
+         if not self.tool_ref.strip() or not self.collision_asset_ref.strip():
+             raise ValueError("ToolDefinition 必须包含工具和碰撞资产引用")
+-        if not _DIGEST.fullmatch(self.model_digest):
++        if len(self.model_digest) != 64:
+             raise ValueError("ToolDefinition.model_digest 必须是 SHA-256")
+-        visual_asset_ref = self.visual_asset_ref.strip() or self.collision_asset_ref
+-        collision_digest = self.collision_digest.strip() or self.model_digest
+-        if not _DIGEST.fullmatch(collision_digest):
+-            raise ValueError("ToolDefinition.collision_digest 必须是 SHA-256")
+-        for name, value in (
+-            ("flange_frame", self.flange_frame),
+-            ("tcp_frame", self.tcp_frame),
+-            ("grasp_frame", self.grasp_frame),
+-        ):
+-            if not value.strip():
+-                raise ValueError(f"ToolDefinition.{name} 不能为空")
+-        if not math.isfinite(self.mass_kg) or self.mass_kg < 0.0:
+-            raise ValueError("ToolDefinition.mass_kg 必须是非负有限数")
+-        center = tuple(float(value) for value in self.center_of_mass_m)
+-        if len(center) != 3 or not all(math.isfinite(value) for value in center):
+-            raise ValueError("ToolDefinition.center_of_mass_m 必须包含三个有限数")
+-        object.__setattr__(self, "visual_asset_ref", visual_asset_ref)
+-        object.__setattr__(self, "collision_digest", collision_digest)
+-        object.__setattr__(self, "center_of_mass_m", center)
+-        object.__setattr__(
+-            self,
+-            "mount_to_grasp",
+-            self.mount_to_tcp if self.mount_to_grasp is None else self.mount_to_grasp,
+-        )
+-        object.__setattr__(
+-            self,
+-            "static_collision_primitives",
+-            tuple(self.static_collision_primitives),
+-        )
+ 
+     def context(self, attachment_generation: int) -> ToolContext:
+         """从已确认附着代次生成不可复用的 ToolContext。"""
+ 
+         if isinstance(attachment_generation, bool) or attachment_generation < 1:
+             raise ValueError("工具附着代次必须是正整数")
+-        mount_to_grasp = self.mount_to_grasp or self.mount_to_tcp
+         payload = {
+             "tool_ref": self.tool_ref,
+             "model_digest": self.model_digest,
+@@ -90,87 +44,23 @@ class ToolDefinition:
+                 "orientation_xyzw": self.mount_to_tcp.orientation_xyzw,
+             },
+             "collision_asset_ref": self.collision_asset_ref,
+-            "visual_asset_ref": self.visual_asset_ref,
+-            "collision_digest": self.collision_digest,
+-            "flange_frame": self.flange_frame,
+-            "tcp_frame": self.tcp_frame,
+-            "grasp_frame": self.grasp_frame,
+-            "mass_kg": self.mass_kg,
+-            "center_of_mass_m": self.center_of_mass_m,
+-            "mount_to_visual": {
+-                "xyz_m": self.mount_to_visual.translation_m,
+-                "orientation_xyzw": self.mount_to_visual.orientation_xyzw,
+-            },
+-            "mount_to_grasp": {
+-                "xyz_m": mount_to_grasp.translation_m,
+-                "orientation_xyzw": mount_to_grasp.orientation_xyzw,
+-            },
+-            "collision_primitives": [
+-                primitive.as_dict() for primitive in self.static_collision_primitives
+-            ],
+             "attachment_generation": attachment_generation,
+         }
+         digest = hashlib.sha256(
+             json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")
+         ).hexdigest()
+         return ToolContext(
+-            context_id=self.tool_ref,
++            context_id=f"tool:{self.tool_ref}",
+             digest=digest,
+             mount_to_tcp=self.mount_to_tcp,
+             attachment_generation=attachment_generation,
+             planning_scene={
+-                "attached_body_id": self.tool_ref,
+-                "parent_link": self.flange_frame,
+-                "allowed_touch_links": [self.flange_frame],
+                 "collision_asset_ref": self.collision_asset_ref,
+                 "model_digest": self.model_digest,
+-                "collision_digest": self.collision_digest,
+-                "collision_primitives": [
+-                    primitive.as_dict()
+-                    for primitive in self.static_collision_primitives
+-                ],
+             },
+         )
+ 
+ 
+-@dataclass(frozen=True, slots=True)
+-class ToolContextActivationReceipt:
+-    """MoveIt 对同一工具摘要和附着代次的结构化回读见证。"""
+-
+-    applied: bool
+-    tool_context_digest: str
+-    attachment_generation: int
+-    observed_at: float
+-    source: str
+-
+-    def __post_init__(self) -> None:
+-        """拒绝无来源、无效摘要、代次或时间。"""
+-
+-        if not _DIGEST.fullmatch(self.tool_context_digest):
+-            raise ValueError("ToolContextActivationReceipt.digest 必须是 SHA-256")
+-        if self.attachment_generation < 1:
+-            raise ValueError("ToolContextActivationReceipt.attachment_generation 无效")
+-        if not math.isfinite(self.observed_at) or not self.source.strip():
+-            raise ValueError("ToolContextActivationReceipt 必须包含时间和来源")
+-
+-    @classmethod
+-    def from_mapping(
+-        cls,
+-        value: Mapping[str, Any],
+-        *,
+-        source: str,
+-    ) -> ToolContextActivationReceipt:
+-        """把厂商 Adapter 的结构化确认规范化为稳定值对象。"""
+-
+-        return cls(
+-            applied=value.get("applied") is True,
+-            tool_context_digest=str(value.get("tool_context_digest", "")),
+-            attachment_generation=int(value.get("attachment_generation", 0)),
+-            observed_at=time.time(),
+-            source=source,
+-        )
+-
+-
+ @dataclass(frozen=True, slots=True)
+ class ToolAttachmentObservation:
+     """快换机构对当前工具身份、代次和锁紧状态的观测。"""
+@@ -239,10 +129,7 @@ class ToolChangerPort(Protocol):
+ class ToolContextActivator(Protocol):
+     """把新工具 TCP/碰撞模型应用到规划器并确认生效。"""
+ 
+-    def activate_tool_context(
+-        self,
+-        tool_context: ToolContext,
+-    ) -> ToolContextActivationReceipt:
++    def activate_tool_context(self, tool_context: ToolContext) -> None:
+         """确认 PlanningScene 使用同一摘要和附着代次。"""
+ 
+ 
+@@ -251,7 +138,6 @@ __all__ = [
+     "GripperObservation",
+     "ToolAttachmentObservation",
+     "ToolChangerPort",
+-    "ToolContextActivationReceipt",
+     "ToolContextActivator",
+     "ToolDefinition",
+ ]
+diff --git a/packages/unilab-robot-runtime/src/unilab_robot_runtime/__init__.py b/packages/unilab-robot-runtime/src/unilab_robot_runtime/__init__.py
+index 880d4db..7da490f 100644
+--- a/packages/unilab-robot-runtime/src/unilab_robot_runtime/__init__.py
++++ b/packages/unilab-robot-runtime/src/unilab_robot_runtime/__init__.py
+@@ -1,17 +1,7 @@
+ """厂商和领域无关的 Robotics 运行时组合入口。"""
+ 
+-from unilab_robot_contracts import (
+-    DEFAULT_ALLOWED_PLANNING_TIME_S,
+-    DEFAULT_NUM_PLANNING_ATTEMPTS,
+-    DEFAULT_PLAN_RETRY_ATTEMPTS,
+-    MoveItPlanningBudget,
+-    apply_moveit_planning_budget,
+-    resolve_moveit_planning_budget,
+-)
+-
+ from .access_motion_backend import AccessMotionBackend
+ from .activation_store import FrozenRobotActivation, RobotActivationStore
+-from .attachment_projector import AttachmentProjector
+ from .binding import (
+     MaintenanceSession,
+     RuntimeBinding,
+@@ -38,16 +28,11 @@ from .point_maintenance import (
+ __version__ = "0.1.0"
+ 
+ __all__ = [
+-    "DEFAULT_ALLOWED_PLANNING_TIME_S",
+-    "DEFAULT_NUM_PLANNING_ATTEMPTS",
+-    "DEFAULT_PLAN_RETRY_ATTEMPTS",
+     "AccessMotionBackend",
+-    "AttachmentProjector",
+     "FrozenRobotActivation",
+     "MaintenanceSession",
+     "ManipulationSequence",
+     "ManipulationSequenceRunner",
+-    "MoveItPlanningBudget",
+     "PointMaintenanceService",
+     "PointSetQualification",
+     "PointTestEvidence",
+@@ -57,12 +42,10 @@ __all__ = [
+     "RuntimeDependencies",
+     "RuntimeRequirements",
+     "ValidatedPointSet",
+-    "apply_moveit_planning_budget",
+     "arm_model_descriptor",
+     "bind_commissioning_runtime",
+     "build_test_runtime",
+     "create_runtime",
+     "load_point_set",
+-    "resolve_moveit_planning_budget",
+     "runtime_requirements",
+ ]
+diff --git a/packages/unilab-robot-runtime/src/unilab_robot_runtime/attachment_projector.py b/packages/unilab-robot-runtime/src/unilab_robot_runtime/attachment_projector.py
+deleted file mode 100644
+index d092169..0000000
+--- a/packages/unilab-robot-runtime/src/unilab_robot_runtime/attachment_projector.py
++++ /dev/null
+@@ -1,202 +0,0 @@
+-"""从真实快换/夹爪证据生成 format-free 运动学附着 latest。"""
+-
+-from __future__ import annotations
+-
+-import math
+-import time
+-
+-from unilab_robot_contracts import (
+-    AnchorKind,
+-    AttachmentEvidence,
+-    AttachmentKind,
+-    AttachmentState,
+-    GripperObservation,
+-    KinematicAnchor,
+-    KinematicAttachmentProjection,
+-    ObservationState,
+-    PayloadCollisionProfile,
+-    RigidTransform,
+-    ToolAttachmentObservation,
+-    ToolContext,
+-    ToolContextActivationReceipt,
+-    ToolDefinition,
+-)
+-
+-
+-class AttachmentProjector:
+-    """集中校验证据并生成 OS/FE 可消费的附着投影。"""
+-
+-    def __init__(self, *, source: str, source_boot_id: str) -> None:
+-        """绑定投影器来源和运行代际。"""
+-
+-        if not source.strip() or not source_boot_id.strip():
+-            raise ValueError("AttachmentProjector 必须绑定来源和 boot_id")
+-        self.source = source
+-        self.source_boot_id = source_boot_id
+-        self._sequence = 0
+-
+-    def project_tool_attached(
+-        self,
+-        *,
+-        robot_ref: str,
+-        definition: ToolDefinition,
+-        observation: ToolAttachmentObservation,
+-        context: ToolContext,
+-        activation_receipt: ToolContextActivationReceipt,
+-        command_ref: str | None = None,
+-        job_ref: str | None = None,
+-        now: float | None = None,
+-    ) -> KinematicAttachmentProjection:
+-        """在四项证据一致后把工具根节点挂到机械臂法兰。"""
+-
+-        checked_at = time.time() if now is None else float(now)
+-        known = (
+-            observation.state is ObservationState.KNOWN
+-            and 0.0 <= checked_at - observation.observed_at <= observation.max_age_s
+-            and observation.tool_ref == definition.tool_ref
+-            and observation.locked is True
+-            and observation.attachment_generation == context.attachment_generation
+-            and context.context_id == definition.tool_ref
+-            and activation_receipt.applied
+-            and 0.0
+-            <= checked_at - activation_receipt.observed_at
+-            <= observation.max_age_s
+-            and activation_receipt.tool_context_digest == context.digest
+-            and activation_receipt.attachment_generation
+-            == context.attachment_generation
+-        )
+-        if not known:
+-            raise ValueError("工具身份、锁紧、附着代次或 PlanningScene 回读不一致")
+-        return self._projection(
+-            kind=AttachmentKind.TOOL,
+-            child_ref=definition.tool_ref,
+-            parent_ref=robot_ref,
+-            anchor=KinematicAnchor(AnchorKind.LINK, definition.flange_frame),
+-            local_pose=definition.mount_to_visual,
+-            state=AttachmentState.ATTACHED,
+-            evidence=AttachmentEvidence.OBSERVED,
+-            attachment_generation=context.attachment_generation,
+-            observed_at=max(observation.observed_at, activation_receipt.observed_at),
+-            stale_after_s=observation.max_age_s,
+-            command_ref=command_ref,
+-            job_ref=job_ref,
+-            context_digest=context.digest,
+-        )
+-
+-    def project_payload(
+-        self,
+-        *,
+-        payload_ref: str,
+-        tool: ToolDefinition,
+-        profile: PayloadCollisionProfile,
+-        local_pose: RigidTransform,
+-        observation: GripperObservation,
+-        attachment_generation: int,
+-        expected_holding: bool,
+-        exact_completion_generation: int | None = None,
+-        exact_completion_command_ref: str | None = None,
+-        exact_completion_observed_at: float | None = None,
+-        command_ref: str | None = None,
+-        job_ref: str | None = None,
+-        now: float | None = None,
+-    ) -> KinematicAttachmentProjection:
+-        """按物理观测或精确控制器代次生成负载附着/脱离投影。"""
+-
+-        checked_at = time.time() if now is None else float(now)
+-        if not math.isfinite(observation.max_age_s) or observation.max_age_s <= 0.0:
+-            raise ValueError("负载观测 max_age_s 必须是正有限数")
+-        observed = (
+-            observation.state is ObservationState.KNOWN
+-            and 0.0 <= checked_at - observation.observed_at <= observation.max_age_s
+-            and observation.holding_payload is expected_holding
+-        )
+-        controller_confirmed = (
+-            exact_completion_generation is not None
+-            and exact_completion_generation == attachment_generation
+-            and command_ref is not None
+-            and exact_completion_command_ref == command_ref
+-            and exact_completion_observed_at is not None
+-            and math.isfinite(exact_completion_observed_at)
+-            and 0.0
+-            <= checked_at - exact_completion_observed_at
+-            <= observation.max_age_s
+-        )
+-        if observed:
+-            evidence = AttachmentEvidence.OBSERVED
+-        elif controller_confirmed:
+-            evidence = AttachmentEvidence.CONTROLLER_CONFIRMED
+-        else:
+-            evidence = AttachmentEvidence.NONE
+-        state = (
+-            AttachmentState.ATTACHED
+-            if expected_holding
+-            else AttachmentState.DETACHED
+-        )
+-        if evidence is AttachmentEvidence.NONE:
+-            state = AttachmentState.UNCERTAIN
+-        evidence_time = (
+-            observation.observed_at
+-            if observed
+-            else exact_completion_observed_at
+-            if controller_confirmed
+-            else checked_at
+-        )
+-        if evidence_time is None:
+-            raise RuntimeError("负载附着证据时间缺失")
+-        return self._projection(
+-            kind=AttachmentKind.MATERIAL_PAYLOAD,
+-            child_ref=payload_ref,
+-            parent_ref=tool.tool_ref,
+-            anchor=KinematicAnchor(AnchorKind.LINK, tool.grasp_frame),
+-            local_pose=local_pose,
+-            state=state,
+-            evidence=evidence,
+-            attachment_generation=attachment_generation,
+-            observed_at=evidence_time,
+-            stale_after_s=observation.max_age_s,
+-            command_ref=command_ref,
+-            job_ref=job_ref,
+-            context_digest=profile.digest,
+-        )
+-
+-    def _projection(
+-        self,
+-        *,
+-        kind: AttachmentKind,
+-        child_ref: str,
+-        parent_ref: str,
+-        anchor: KinematicAnchor,
+-        local_pose: RigidTransform,
+-        state: AttachmentState,
+-        evidence: AttachmentEvidence,
+-        attachment_generation: int,
+-        observed_at: float,
+-        stale_after_s: float,
+-        command_ref: str | None,
+-        job_ref: str | None,
+-        context_digest: str,
+-    ) -> KinematicAttachmentProjection:
+-        """分配同 boot_id 内严格单调的投影序列。"""
+-
+-        self._sequence += 1
+-        return KinematicAttachmentProjection(
+-            kind=kind,
+-            child_ref=child_ref,
+-            parent_ref=parent_ref,
+-            anchor=anchor,
+-            local_pose=local_pose,
+-            state=state,
+-            evidence=evidence,
+-            attachment_generation=attachment_generation,
+-            observed_at=observed_at,
+-            stale_after_s=stale_after_s,
+-            source=self.source,
+-            source_boot_id=self.source_boot_id,
+-            monotonic_sequence=self._sequence,
+-            command_ref=command_ref,
+-            job_ref=job_ref,
+-            context_digest=context_digest,
+-        )
+-
+-
+-__all__ = ["AttachmentProjector"]
+diff --git a/tests/test_attachment_projection.py b/tests/test_attachment_projection.py
+deleted file mode 100644
+index 7363e22..0000000
+--- a/tests/test_attachment_projection.py
++++ /dev/null
+@@ -1,248 +0,0 @@
+-"""快换夹爪和夹持物料附着合同的冻结决策测试。"""
+-
+-from __future__ import annotations
+-
+-import time
+-
+-import pytest
+-from unilab_robot_contracts import (
+-    AttachmentEvidence,
+-    AttachmentState,
+-    CollisionPrimitive,
+-    GripperObservation,
+-    ObservationState,
+-    PayloadCollisionProfile,
+-    RigidTransform,
+-    ToolAttachmentObservation,
+-    ToolContextActivationReceipt,
+-    ToolDefinition,
+-)
+-from unilab_robot_runtime import AttachmentProjector
+-
+-
+-def _tool() -> ToolDefinition:
+-    """返回带静态保守碰撞包络和稳定 grasp frame 的工具。"""
+-
+-    return ToolDefinition(
+-        tool_ref="parallel-gripper",
+-        model_digest="a" * 64,
+-        mount_to_tcp=RigidTransform(
+-            (0.0, 0.0, 0.18),
+-            (0.0, 0.0, 0.0, 1.0),
+-        ),
+-        collision_asset_ref="package://parallel_gripper/collision.stl",
+-        visual_asset_ref="package://parallel_gripper/visual.urdf",
+-        collision_digest="b" * 64,
+-        flange_frame="tool0",
+-        tcp_frame="parallel_gripper_tcp",
+-        grasp_frame="parallel_gripper_grasp",
+-        mass_kg=1.2,
+-        center_of_mass_m=(0.0, 0.0, 0.08),
+-        static_collision_primitives=(
+-            CollisionPrimitive(
+-                "box",
+-                (0.12, 0.10, 0.22),
+-                RigidTransform(
+-                    (0.0, 0.0, 0.11),
+-                    (0.0, 0.0, 0.0, 1.0),
+-                ),
+-            ),
+-        ),
+-    )
+-
+-
+-def _payload() -> PayloadCollisionProfile:
+-    """返回不依赖视觉 URDF 的物料碰撞 Profile。"""
+-
+-    return PayloadCollisionProfile(
+-        profile_ref="beaker-100ml@1",
+-        digest="c" * 64,
+-        mass_kg=0.2,
+-        center_of_mass_m=(0.0, 0.0, 0.04),
+-        root_to_grasp=RigidTransform.identity(),
+-        collision_primitives=(
+-            CollisionPrimitive(
+-                "cylinder",
+-                (0.10, 0.035),
+-                RigidTransform(
+-                    (0.0, 0.0, 0.05),
+-                    (0.0, 0.0, 0.0, 1.0),
+-                ),
+-            ),
+-        ),
+-    )
+-
+-
+-def test_tool_projection_requires_four_matching_witnesses() -> None:
+-    """工具身份、锁紧、代次和 PlanningScene 回读必须全部一致。"""
+-
+-    now = time.time()
+-    tool = _tool()
+-    context = tool.context(7)
+-    projector = AttachmentProjector(source="robot-runtime", source_boot_id="boot-1")
+-    observation = ToolAttachmentObservation(
+-        ObservationState.KNOWN,
+-        now,
+-        1.0,
+-        "tool-sensor",
+-        tool.tool_ref,
+-        7,
+-        True,
+-    )
+-    receipt = ToolContextActivationReceipt(
+-        True,
+-        context.digest,
+-        7,
+-        now,
+-        "moveit-readback",
+-    )
+-
+-    projection = projector.project_tool_attached(
+-        robot_ref="robot-main",
+-        definition=tool,
+-        observation=observation,
+-        context=context,
+-        activation_receipt=receipt,
+-        now=now,
+-    )
+-
+-    assert projection.state is AttachmentState.ATTACHED
+-    assert projection.anchor.link_name == "tool0"
+-    assert projection.as_dict()["local_pose"]["xyz_m"] == [0.0, 0.0, 0.0]
+-    with pytest.raises(ValueError, match="PlanningScene"):
+-        projector.project_tool_attached(
+-            robot_ref="robot-main",
+-            definition=tool,
+-            observation=observation,
+-            context=context,
+-            activation_receipt=ToolContextActivationReceipt(
+-                True,
+-                "d" * 64,
+-                7,
+-                now,
+-                "moveit-readback",
+-            ),
+-            now=now,
+-        )
+-
+-
+-def test_payload_projection_uses_grasp_frame_and_tiered_evidence() -> None:
+-    """弱证据只能标记 controller_confirmed，且仍使用显式 grasp frame。"""
+-
+-    now = time.time()
+-    projector = AttachmentProjector(source="robot-runtime", source_boot_id="boot-1")
+-    unknown = GripperObservation(
+-        ObservationState.UNKNOWN,
+-        now,
+-        1.0,
+-        "plc-no-payload-sensor",
+-        None,
+-        None,
+-    )
+-
+-    projection = projector.project_payload(
+-        payload_ref="material:beaker-42",
+-        tool=_tool(),
+-        profile=_payload(),
+-        local_pose=RigidTransform(
+-            (0.0, 0.0, -0.05),
+-            (0.0, 0.0, 0.0, 1.0),
+-        ),
+-        observation=unknown,
+-        attachment_generation=9,
+-        expected_holding=True,
+-        exact_completion_generation=9,
+-        exact_completion_command_ref="pick-42",
+-        exact_completion_observed_at=now,
+-        command_ref="pick-42",
+-        now=now,
+-    )
+-
+-    assert projection.state is AttachmentState.ATTACHED
+-    assert projection.evidence is AttachmentEvidence.CONTROLLER_CONFIRMED
+-    assert projection.anchor.link_name == "parallel_gripper_grasp"
+-    assert projection.context_digest == _payload().digest
+-
+-
+-def test_weak_payload_evidence_requires_exact_fresh_command_receipt() -> None:
+-    """同代次的旧命令回执不得被下一次抓取复用。"""
+-
+-    now = time.time()
+-    projection = AttachmentProjector(
+-        source="robot-runtime",
+-        source_boot_id="boot-1",
+-    ).project_payload(
+-        payload_ref="material:beaker-42",
+-        tool=_tool(),
+-        profile=_payload(),
+-        local_pose=RigidTransform.identity(),
+-        observation=GripperObservation(
+-            ObservationState.UNKNOWN,
+-            now,
+-            1.0,
+-            "plc-no-payload-sensor",
+-            None,
+-            None,
+-        ),
+-        attachment_generation=9,
+-        expected_holding=True,
+-        exact_completion_generation=9,
+-        exact_completion_command_ref="old-pick",
+-        exact_completion_observed_at=now,
+-        command_ref="new-pick",
+-        now=now,
+-    )
+-
+-    assert projection.state is AttachmentState.UNCERTAIN
+-    assert projection.evidence is AttachmentEvidence.NONE
+-
+-
+-def test_payload_without_sensor_or_exact_generation_stays_uncertain() -> None:
+-    """普通成功返回不得伪造物料已夹取。"""
+-
+-    now = time.time()
+-    projection = AttachmentProjector(
+-        source="robot-runtime",
+-        source_boot_id="boot-1",
+-    ).project_payload(
+-        payload_ref="material:beaker-42",
+-        tool=_tool(),
+-        profile=_payload(),
+-        local_pose=RigidTransform.identity(),
+-        observation=GripperObservation(
+-            ObservationState.UNKNOWN,
+-            now,
+-            1.0,
+-            "unknown",
+-            None,
+-            None,
+-        ),
+-        attachment_generation=2,
+-        expected_holding=True,
+-        now=now,
+-    )
+-
+-    assert projection.state is AttachmentState.UNCERTAIN
+-    assert projection.evidence is AttachmentEvidence.NONE
+-
+-
+-def test_payload_profile_rejects_missing_collision_geometry() -> None:
+-    """视觉模型引用不能替代经批准的 PayloadCollisionProfile。"""
+-
+-    with pytest.raises(ValueError, match="碰撞资产或保守基元"):
+-        PayloadCollisionProfile(
+-            profile_ref="bad@1",
+-            digest="e" * 64,
+-            mass_kg=0.1,
+-            center_of_mass_m=(0.0, 0.0, 0.0),
+-            root_to_grasp=RigidTransform.identity(),
+-        )
+-
+-
+-def test_tool_definition_defaults_grasp_transform_to_tcp() -> None:
+-    """静态夹爪仍须给 MoveIt 一个可组合的法兰到抓取 frame 变换。"""
+-
+-    definition = _tool()
+-
+-    assert definition.mount_to_grasp == definition.mount_to_tcp
+-    assert definition.context(2).context_id == definition.tool_ref
+diff --git a/tests/test_commissioning_contract.py b/tests/test_commissioning_contract.py
+index 395b504..1ecca88 100644
+--- a/tests/test_commissioning_contract.py
++++ b/tests/test_commissioning_contract.py
+@@ -172,8 +172,8 @@ class CommissioningContractTests(unittest.TestCase):
+         self.assertNotIn("unit", payload)
+         self.assertNotIn("locked_joint_tolerance_si", payload)
+ 
+-    def test_tcp_jog_axis_determines_si_dimension_without_step_maximum(self) -> None:
+-        """TCP 平移和旋转共享 step_si，允许任意正的有限单步。"""
++    def test_tcp_jog_axis_determines_si_dimension_and_hard_cap(self) -> None:
++        """TCP 平移和旋转共享 step_si，但由轴类型决定 m 或 rad 语义。"""
+ 
+         translation = _tcp_jog()
+         rotation = replace(
+@@ -185,15 +185,10 @@ class CommissioningContractTests(unittest.TestCase):
+ 
+         self.assertFalse(translation.axis.rotational)
+         self.assertTrue(rotation.axis.rotational)
+-        self.assertEqual(replace(translation, step_si=20.0).step_si, 20.0)
+-        self.assertEqual(
+-            replace(rotation, step_si=math.radians(720.0)).step_si,
+-            math.radians(720.0),
+-        )
+-        with self.assertRaisesRegex(ValueError, "正的有限数"):
+-            replace(translation, step_si=0.0)
+-        with self.assertRaisesRegex(ValueError, "正的有限数"):
+-            replace(rotation, step_si=math.inf)
++        with self.assertRaisesRegex(ValueError, "硬上限"):
++            replace(translation, step_si=0.02)
++        with self.assertRaisesRegex(ValueError, "硬上限"):
++            replace(rotation, step_si=math.radians(6.0))
+ 
+     def test_all_tcp_jog_buttons_map_to_axis_and_direction_parameters(self) -> None:
+         """十二个 TCP 点动按钮必须只是六个轴和两个方向的参数组合。"""

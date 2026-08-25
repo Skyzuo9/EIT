@@ -1,0 +1,21 @@
+{
+  "schema": "lab.geometry_roles/v0",
+  "entities": [
+    {
+      "id": "step-node:0001",
+      "roles": [
+        "visual",
+        "selection"
+      ],
+      "collision_status": "missing"
+    },
+    {
+      "id": "step-node:0002",
+      "roles": [
+        "visual",
+        "selection"
+      ],
+      "collision_status": "missing"
+    }
+  ]
+}

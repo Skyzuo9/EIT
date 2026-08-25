@@ -1,0 +1,99 @@
+{
+  "schema_version": "ptlc.isaac.motion-frames.v1",
+  "status": "passed",
+  "scene": "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/ptlc_client_scene.usda",
+  "hardware_connections": "none",
+  "authorized_physical_gpu": 1,
+  "replay": [
+    "P63",
+    "P76",
+    "P63"
+  ],
+  "fps": 1,
+  "frame_count": 5,
+  "duration_seconds": 5.0,
+  "resolution": [
+    960,
+    540
+  ],
+  "rt_subframes": 1,
+  "anti_aliasing": "FXAA",
+  "motion_blur": false,
+  "motion_method": "smooth joint-space interpolation applied directly to the imported CR5 geometry hierarchy",
+  "boundary": "Geometry-only offline Isaac Sim rendering from recorded joint points. It is not a physics-controlled trajectory, DOBOT MoveL reproduction, collision-free certification, WebRTC evidence, or real-device execution.",
+  "frames": [
+    {
+      "frame": 0,
+      "phase": "hold_P63_initial",
+      "progress": 0.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 1,
+      "phase": "move_P63_to_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 2,
+      "phase": "hold_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 3,
+      "phase": "move_P76_to_P63",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.871600000000001,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 4,
+      "phase": "hold_P63_final",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    }
+  ],
+  "frame_files": [
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_pilot_nomblur/frames/rgb_0000.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_pilot_nomblur/frames/rgb_0001.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_pilot_nomblur/frames/rgb_0002.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_pilot_nomblur/frames/rgb_0003.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_pilot_nomblur/frames/rgb_0004.png"
+  ],
+  "frame_bytes_total": 1684734
+}

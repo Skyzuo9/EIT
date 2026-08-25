@@ -1,0 +1,53 @@
+{
+  "schema": "lab.family_sim_bundle/v0",
+  "family": "instrument.square-tactile",
+  "trial_revision": "source-files-digest:930385eda02935524c33d97a8e20888a722fdeb4231d6ad24106f92e246f9a3b",
+  "immutable_candidate": true,
+  "artifacts": [
+    {
+      "path": "source.json",
+      "bytes": 411,
+      "sha256": "ff60bc40cc67e1497249e4f42829a2cbb3a8f5198b86d93844435b8982819123"
+    },
+    {
+      "path": "files.sha256",
+      "bytes": 408,
+      "sha256": "c70e8379761548df32ed2e65fce74104477bafc31dd3230d247a0a9f09f3c3e6"
+    },
+    {
+      "path": "assembly.snapshot.json",
+      "bytes": 7043,
+      "sha256": "955206da54f17c75eea6e4fd94f7dcf88b73a7d08147828c112d047cecdf1ffc"
+    },
+    {
+      "path": "entity-registry.json",
+      "bytes": 840,
+      "sha256": "75565c899182f23801661dd537c4a442a5d2592491bd0de0713ee5123c29729f"
+    },
+    {
+      "path": "frame-graph.json",
+      "bytes": 3476,
+      "sha256": "dba478d85ec252c35a721bd8bc3cea3bb74a7395823ff9ffff30467896347958"
+    },
+    {
+      "path": "geometry-roles.json",
+      "bytes": 889,
+      "sha256": "c9cc8d3dc224059bd1d41f891d94e90c41195dbf8e98fd3b794cb30940da4d44"
+    },
+    {
+      "path": "capability.json",
+      "bytes": 299,
+      "sha256": "73e9f4b91a1eebb0740527017375687b7df32526b588a045619e4d15cb2333e6"
+    },
+    {
+      "path": "provenance.json",
+      "bytes": 683,
+      "sha256": "4a779f16f1e13667848aee634568cba27e87b350d6c42f262080903ea440a09e"
+    },
+    {
+      "path": "render-lod0.glb",
+      "bytes": 4427592,
+      "sha256": "e12775621f29af4b24e5d161376ea56d2c994fb23070e4fa58b728bc3c30059c"
+    }
+  ]
+}

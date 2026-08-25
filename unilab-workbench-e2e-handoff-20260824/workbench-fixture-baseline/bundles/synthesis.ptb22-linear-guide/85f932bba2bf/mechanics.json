@@ -1,0 +1,53 @@
+{
+  "schema": "lab.mechanics/v0",
+  "family": "synthesis.ptb22-linear-guide",
+  "units": {
+    "length": "m",
+    "angle": "rad"
+  },
+  "root_link": "base_link",
+  "links": [
+    {
+      "id": "base_link"
+    },
+    {
+      "id": "move_link"
+    }
+  ],
+  "joints": [],
+  "candidates": [
+    {
+      "id": "move_joint",
+      "type": "prismatic",
+      "parent": "base_link",
+      "child": "move_link",
+      "origin": {
+        "xyz": [
+          -0.54196,
+          0.0,
+          0.0955
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "limits": {
+        "lower": 0.0,
+        "upper": 1.1,
+        "velocity": 0.0,
+        "effort": 0.0
+      },
+      "role": "candidate",
+      "status": "unproven",
+      "evidence": "legacy SolidWorks URDF exporter output"
+    }
+  ],
+  "source_authority": "legacy-sw-urdf-unproven"
+}

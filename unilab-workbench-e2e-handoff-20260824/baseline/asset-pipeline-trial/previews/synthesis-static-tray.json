@@ -1,0 +1,27 @@
+{
+  "schema": "lab.render_preview_report/v0",
+  "input": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\families\\instruments\\legacy-sw-urdf\\synthesis-static-tray\\trial-86c0ea20937d\\render-lod0.glb",
+  "output": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\previews\\synthesis-static-tray.png",
+  "mesh_objects": 1,
+  "triangle_count": 2530,
+  "bounds_m": {
+    "min": [
+      -0.1078091710805893,
+      -0.24144171178340912,
+      0.0
+    ],
+    "max": [
+      0.10819083452224731,
+      0.24055828154087067,
+      0.05299999937415123
+    ],
+    "extent": [
+      0.2160000056028366,
+      0.4819999933242798,
+      0.05299999937415123
+    ]
+  },
+  "asset_id": "synthesis-static-tray",
+  "png_bytes": 222733,
+  "png_sha256": "3147c197d3d9c34d2801c376b7cdb9c00e3c1c978007bc5227035f051cd3089f"
+}

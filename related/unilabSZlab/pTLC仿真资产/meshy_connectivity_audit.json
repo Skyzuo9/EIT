@@ -1,0 +1,32 @@
+{
+  "schema_version": "0.1",
+  "date": "2026-08-13",
+  "timezone": "Asia/Shanghai",
+  "endpoint": "https://api.meshy.ai/openapi/v1/balance",
+  "checks": [
+    {
+      "environment": "managed_sandbox",
+      "result": "dns_resolution_failed",
+      "error": "Could not resolve host: api.meshy.ai"
+    },
+    {
+      "environment": "approved_network_attempt",
+      "result": "dns_resolution_timeout",
+      "timeout_ms": 5005,
+      "error": "Resolving timed out"
+    }
+  ],
+  "credential_material_recorded": false,
+  "paid_endpoint_called": false,
+  "task_created": false,
+  "task_id": null,
+  "credits_consumed": 0,
+  "local_pipeline_state": {
+    "device_records": 1,
+    "only_device": "DOBOT CR5A",
+    "workflow_status": "failed_research",
+    "approvals": 0,
+    "artifacts": 0
+  },
+  "interpretation": "The failure occurred before HTTP authentication, so it does not establish whether the API key or balance is valid."
+}

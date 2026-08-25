@@ -1,0 +1,308 @@
+{
+  "schema": "unilab.arm-point-set/v2",
+  "revision": "ptlc-cr5-area7-recorded-joints@1.0.0",
+  "compatible_model_ref": "package://unilab_arm_cr5/models/model.yaml",
+  "tool_context_ref": "ptlc-simulation-no-tool@1.0.0",
+  "targets": {
+    "ptlc": {
+      "description": "Recorded area-7 CR5 joint targets for multi-point Isaac visualization",
+      "waypoints": {
+        "P45": {
+          "type": "joint_positions",
+          "value": [
+            -3.5778132655162476,
+            -0.2334028808692017,
+            2.0384031946599652,
+            -0.22480015298612166,
+            -1.5898273969586427,
+            -0.04511327050554943
+          ],
+          "source_joint_degrees": [
+            -204.9936,
+            -13.373,
+            116.7919,
+            -12.8801,
+            -91.0904,
+            -2.5848
+          ],
+          "source_id": "robot-main.area-7-ready",
+          "source_status": "validated"
+        },
+        "P46": {
+          "type": "joint_positions",
+          "value": [
+            -3.799127995986137,
+            0.36072639513144,
+            2.1060678644305337,
+            -0.9124476609671236,
+            -1.5731944091871368,
+            -1.871616040680883
+          ],
+          "source_joint_degrees": [
+            -217.674,
+            20.6681,
+            120.6688,
+            -52.2794,
+            -90.1374,
+            -107.2357
+          ],
+          "source_id": "robot-main.area-7-1",
+          "source_status": "validated"
+        },
+        "P47": {
+          "type": "joint_positions",
+          "value": [
+            -3.7480282461462466,
+            0.4408160638469559,
+            1.9671152213622571,
+            -0.8446363835393879,
+            -1.5612773010545196,
+            -1.8204621856341814
+          ],
+          "source_joint_degrees": [
+            -214.7462,
+            25.2569,
+            112.7074,
+            -48.3941,
+            -89.4546,
+            -104.3048
+          ],
+          "source_id": "robot-main.area-7-2",
+          "source_status": "validated"
+        },
+        "P48": {
+          "type": "joint_positions",
+          "value": [
+            -3.6997332404143117,
+            0.5150204823247467,
+            1.8333322435383874,
+            -0.7870946234303868,
+            -1.5716655007623899,
+            -1.7413184853732466
+          ],
+          "source_joint_degrees": [
+            -211.9791,
+            29.5085,
+            105.0422,
+            -45.0972,
+            -90.0498,
+            -99.7702
+          ],
+          "source_id": "robot-main.area-7-3",
+          "source_status": "validated"
+        },
+        "P49": {
+          "type": "joint_positions",
+          "value": [
+            -3.2492672511330793,
+            0.2979154860106681,
+            2.2195107751516607,
+            -0.9641757293377314,
+            -1.5779242514600413,
+            1.815704418093245
+          ],
+          "source_joint_degrees": [
+            -186.1693,
+            17.0693,
+            127.1686,
+            -55.2432,
+            -90.4084,
+            104.0322
+          ],
+          "source_id": "robot-main.area-7-4",
+          "source_status": "validated"
+        },
+        "P50": {
+          "type": "joint_positions",
+          "value": [
+            -3.2370691449908913,
+            0.3819042202751392,
+            2.073046234982801,
+            -0.8912087492996045,
+            -1.579329241507897,
+            1.8278082764558257
+          ],
+          "source_joint_degrees": [
+            -185.4704,
+            21.8815,
+            118.7768,
+            -51.0625,
+            -90.4889,
+            104.7257
+          ],
+          "source_id": "robot-main.area-7-5",
+          "source_status": "validated"
+        },
+        "P51": {
+          "type": "joint_positions",
+          "value": [
+            -3.2280946619771362,
+            0.4686627920625253,
+            1.9155215433440527,
+            -0.8099479646560005,
+            -1.580495121448229,
+            1.8366797850437127
+          ],
+          "source_joint_degrees": [
+            -184.9562,
+            26.8524,
+            109.7513,
+            -46.4066,
+            -90.5557,
+            105.234
+          ],
+          "source_id": "robot-main.area-7-6",
+          "source_status": "validated"
+        },
+        "P78": {
+          "type": "joint_positions",
+          "value": [
+            -3.629543079216108,
+            0.6520410459110656,
+            1.5313012711515168,
+            -0.6103957446292289,
+            -1.5689550044340426,
+            -1.6718543811438722
+          ],
+          "source_joint_degrees": [
+            -207.9575,
+            37.3592,
+            87.7371,
+            -34.9731,
+            -89.8945,
+            -95.7902
+          ],
+          "source_id": "robot-main.area-7-7",
+          "source_status": "validated"
+        },
+        "P79": {
+          "type": "joint_positions",
+          "value": [
+            -3.595858224652617,
+            0.7435050253618284,
+            1.3569585868405514,
+            -0.5276758647309576,
+            -1.5690684508354222,
+            -1.638373730102865
+          ],
+          "source_joint_degrees": [
+            -206.0275,
+            42.5997,
+            77.748,
+            -30.2336,
+            -89.901,
+            -93.8719
+          ],
+          "source_id": "robot-main.area-7-8",
+          "source_status": "validated"
+        },
+        "P80": {
+          "type": "joint_positions",
+          "value": [
+            -3.5679626272179923,
+            0.8469280008472564,
+            1.1537882992743955,
+            -0.42806119767338124,
+            -1.5692080771755819,
+            -1.6107364413975347
+          ],
+          "source_joint_degrees": [
+            -204.4292,
+            48.5254,
+            66.1072,
+            -24.5261,
+            -89.909,
+            -92.2884
+          ],
+          "source_id": "robot-main.area-7-9",
+          "source_status": "validated"
+        },
+        "P81": {
+          "type": "joint_positions",
+          "value": [
+            -3.223172833486512,
+            0.5944434352660007,
+            1.6414175843183432,
+            -0.6804166088899893,
+            -1.5530498189606181,
+            1.8417604384962682
+          ],
+          "source_joint_degrees": [
+            -184.6742,
+            34.0591,
+            94.0463,
+            -38.985,
+            -88.9832,
+            105.5251
+          ],
+          "source_id": "robot-main.area-7-10",
+          "source_status": "validated"
+        },
+        "P82": {
+          "type": "joint_positions",
+          "value": [
+            -3.205389673737942,
+            0.6892148136492928,
+            1.4681465321681022,
+            -0.603866467897518,
+            -1.5796643447242797,
+            1.8589082983971126
+          ],
+          "source_joint_degrees": [
+            -183.6553,
+            39.4891,
+            84.1186,
+            -34.599,
+            -90.5081,
+            106.5076
+          ],
+          "source_id": "robot-main.area-7-11",
+          "source_status": "validated"
+        },
+        "P83": {
+          "type": "joint_positions",
+          "value": [
+            -3.2011642316188635,
+            0.788578153294582,
+            1.27491240403355,
+            -0.5099729901279791,
+            -1.5799505787216068,
+            1.8628963757379196
+          ],
+          "source_joint_degrees": [
+            -183.4132,
+            45.1822,
+            73.0471,
+            -29.2193,
+            -90.5245,
+            106.7361
+          ],
+          "source_id": "robot-main.area-7-12",
+          "source_status": "validated"
+        }
+      }
+    }
+  },
+  "source": {
+    "path": "/Users/newtides/unilabSZlab/pTLC仿真资产/interaction_points.json",
+    "sha256": "c57702f8655aaca5f18336aecba0bdaf846437fa9f05cb5698efa45228835460",
+    "controller_point_names": [
+      "P45",
+      "P46",
+      "P47",
+      "P48",
+      "P49",
+      "P50",
+      "P51",
+      "P78",
+      "P79",
+      "P80",
+      "P81",
+      "P82",
+      "P83"
+    ],
+    "source_unit": "degree",
+    "stored_unit": "rad_by_revolute_joint_contract"
+  },
+  "qualification": "simulation-only-uncalibrated"
+}

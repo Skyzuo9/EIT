@@ -1,0 +1,41 @@
+{
+  "schema": "unilab.arm-point-set/v2",
+  "revision": "ptlc-cr5-recorded-joints@1.0.0",
+  "compatible_model_ref": "package://unilab_arm_cr5/models/model.yaml",
+  "tool_context_ref": "ptlc-simulation-no-tool@1.0.0",
+  "targets": {
+    "ptlc": {
+      "description": "pTLC recorded CR5 joint targets for Isaac-only validation",
+      "waypoints": {
+        "P63": {
+          "type": "joint_positions",
+          "value": [
+            -2.3113500003916028,
+            -0.5089554631740665,
+            2.114904466433381,
+            -0.050118874800269164,
+            -1.5628952212711185,
+            1.1937563391450656
+          ]
+        },
+        "P76": {
+          "type": "joint_positions",
+          "value": [
+            -2.525974883838597,
+            0.4876170677391838,
+            2.153608887925607,
+            -1.0835754487959155,
+            -1.5632791937065569,
+            0.9828402803585589
+          ]
+        }
+      }
+    }
+  },
+  "source": {
+    "controller_point_names": ["P63", "P76"],
+    "source_unit": "degree",
+    "stored_unit": "rad_by_revolute_joint_contract"
+  },
+  "qualification": "simulation-only-uncalibrated"
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": "ptlc.isaac.motion-video-validation.v1",
+  "status": "passed",
+  "video": "/Users/newtides/unilabSZlab/pTLC仿真资产/isaac_sim/output/motion_final/ptlc_cr5_P63_P76_P63.mp4",
+  "render_report": "/Users/newtides/unilabSZlab/pTLC仿真资产/isaac_sim/output/motion_final/motion_report.json",
+  "source_frame_count": 87,
+  "p63_start_frame": "rgb_0000.png",
+  "p76_frame": "rgb_0043.png",
+  "p63_final_frame": "rgb_0086.png",
+  "rms_p63_start_vs_p76": [
+    4.903,
+    4.862,
+    5.53
+  ],
+  "rms_p63_start_vs_final": [
+    2.576,
+    2.573,
+    2.546
+  ],
+  "sha256_mp4": "208e1f439e3eebbb58442e30c59d37d07fe07694c8a3a455a1318103f399d0a9",
+  "ffmpeg_decode_returncode": 0,
+  "ffmpeg_duration_line": "Duration: 00:00:07.25, start: 0.000000, bitrate: 2053 kb/s",
+  "ffmpeg_video_line": "Stream #0:0[0x1](und): Video: h264 (High) (avc1 / 0x31637661), yuv420p(progressive), 960x540, 2051 kb/s, 12 fps, 12 tbr, 12288 tbn (default)",
+  "boundary": "Geometry-only offline Isaac Sim rendering from recorded joint points. It is not a physics-controlled trajectory, DOBOT MoveL reproduction, collision-free certification, WebRTC evidence, or real-device execution."
+}

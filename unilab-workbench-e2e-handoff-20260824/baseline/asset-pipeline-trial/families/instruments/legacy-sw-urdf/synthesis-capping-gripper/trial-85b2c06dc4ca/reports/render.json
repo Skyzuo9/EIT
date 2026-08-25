@@ -1,0 +1,25 @@
+{
+  "schema": "lab.render_capture/v0",
+  "source_kind": "legacy-sw-urdf",
+  "robot_name": "拧盖夹爪组件.urdf",
+  "root_link": "base_link",
+  "link_count": 6,
+  "source_joint_count": 5,
+  "imported_mesh_objects": 6,
+  "triangle_count": 62268,
+  "bounds_source_z_up_m": {
+    "min": [
+      -0.05259060114622116,
+      -0.04505591839551926,
+      -0.3010999858379364
+    ],
+    "max": [
+      0.24230895936489105,
+      0.04494408518075943,
+      3.023176153860163e-10
+    ]
+  },
+  "exported_glb": "C:\\unilab_asset_trial_tmp\\urdf_synthesis-capping-gripper\\render.glb",
+  "animations_exported": false,
+  "skins_exported": false
+}

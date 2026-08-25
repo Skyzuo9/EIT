@@ -1,0 +1,12 @@
+{
+  "schema": "lab.frame_graph/v0",
+  "root": "base_link",
+  "frames": [
+    {
+      "id": "base_link",
+      "parent_candidate": null,
+      "status": "unproven"
+    }
+  ],
+  "candidate_edges": []
+}

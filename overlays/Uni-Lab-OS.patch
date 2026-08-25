@@ -1,0 +1,32 @@
+diff --git a/unilabos/package_manager/package_catalog/compilers/python/compiler.py b/unilabos/package_manager/package_catalog/compilers/python/compiler.py
+index 44da074..ecfbdc0 100644
+--- a/unilabos/package_manager/package_catalog/compilers/python/compiler.py
++++ b/unilabos/package_manager/package_catalog/compilers/python/compiler.py
+@@ -19,7 +19,13 @@ from ...sources import WorkspaceSource
+ from .registry import compile_registry_definitions
+ from .workflow import compile_workflow_definitions
+ 
+-_IGNORED_PARTS = {"__pycache__", ".git", ".pytest_cache", ".mypy_cache"}
++_IGNORED_PARTS = {
++    "__pycache__",
++    ".git",
++    ".pytest_cache",
++    ".mypy_cache",
++    "node_modules",
++}
+ _IGNORED_AGENT_SKILL_PATHS = {
+     (".claude", "skills"),
+     (".codex", "skills"),
+diff --git a/unilabos/package_manager/workspace_runtime/discovery.py b/unilabos/package_manager/workspace_runtime/discovery.py
+index 81a11fd..f8869c0 100644
+--- a/unilabos/package_manager/workspace_runtime/discovery.py
++++ b/unilabos/package_manager/workspace_runtime/discovery.py
+@@ -394,6 +394,8 @@ def _validate_registry_python_tree(
+             ) from error
+         for entry in entries:
+             # ``entry`` 是包目录中可能被注册表递归访问的一个文件系统对象。
++            if entry.name == "node_modules":
++                continue
+             if entry.is_symlink():
+                 if entry.suffix == ".py" or (
+                     entry.is_dir() and not entry.name.startswith(("__", "."))

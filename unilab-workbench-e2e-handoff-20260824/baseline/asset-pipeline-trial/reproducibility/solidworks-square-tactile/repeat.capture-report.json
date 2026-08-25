@@ -1,0 +1,32 @@
+{
+  "schema": "lab.solidworks_capture_report/v0",
+  "source_document": "E:\\资产管线unilab\\装配体\\方形视触觉\\方形视触觉2.sldasm",
+  "source_read_only": true,
+  "status": "passed",
+  "existing_solidworks_pids": [],
+  "com_revision": "33.5.0",
+  "open_errors": 0,
+  "open_warnings": 34,
+  "component_count": 4,
+  "mate_candidate_count": 14,
+  "glb_export": {
+    "requested": true,
+    "save_result": true,
+    "save_errors": 0,
+    "save_warnings": 0,
+    "exists": true,
+    "bytes": 4427596,
+    "magic": "glTF",
+    "geometry": {
+      "nodes": 6,
+      "meshes": 4,
+      "primitives": 4,
+      "accessors": 12
+    }
+  },
+  "failure": null,
+  "resolve_lightweight_result": false,
+  "force_rebuild_result": true,
+  "terminated_owned_pids": [],
+  "duration_s": 21.014
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "lab.mechanics/v0",
+  "family": "synthesis.250ml-reagent-tray",
+  "units": {
+    "length": "m",
+    "angle": "rad"
+  },
+  "root_link": "base_link",
+  "links": [
+    {
+      "id": "base_link"
+    }
+  ],
+  "joints": [],
+  "candidates": [],
+  "source_authority": "legacy-sw-urdf-unproven"
+}

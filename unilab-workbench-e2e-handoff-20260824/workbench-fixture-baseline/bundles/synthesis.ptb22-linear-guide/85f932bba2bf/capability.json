@@ -1,0 +1,19 @@
+{
+  "grade": "semantic-scene",
+  "allows": [
+    "workbench_display",
+    "stable_picking"
+  ],
+  "forbids": [
+    "motion",
+    "spatial_interlock_enforced",
+    "execution"
+  ],
+  "missing": [
+    "source_pack_and_go",
+    "approved_mechanics",
+    "qualified_collision",
+    "site_calibration",
+    "nonzero_verified_velocity_limits"
+  ]
+}

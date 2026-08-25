@@ -1,0 +1,54 @@
+schema: lab.asset_pipeline_trial_config/v0
+trial_name: portable-workbench-e2e-handoff
+
+# 由 scripts/01-run-pipeline.ps1 替换以下占位符。
+paths:
+  workspace: "__WORKSPACE__"
+  output: "__OUTPUT__"
+  ascii_temp: "__ASCII_TEMP__"
+  python: "__PYTHON__"
+  blender: "__BLENDER__"
+
+solidworks:
+  progid: SldWorks.Application.33
+  visible_first_export: true
+  primary_assembly: "__SW_ASSEMBLY__"
+  source_root: "__SW_SOURCE_ROOT__"
+  export_glb_ascii_name: square_tactile_native.glb
+
+step_assets:
+  - id: bigclaw-step-reference
+    family: instrument.bigclaw.step-reference
+    source: "__STEP_SOURCE__"
+    capability: semantic-scene
+    note: STEP geometry reference only; no robot kinematics are inferred.
+
+legacy_urdf_assets:
+  - id: synthesis-static-tray
+    family: synthesis.250ml-reagent-tray
+    source: "__STATIC_TRAY_URDF__"
+  - id: synthesis-linear-guide
+    family: synthesis.ptb22-linear-guide
+    source: "__LINEAR_GUIDE_URDF__"
+  - id: synthesis-capping-gripper
+    family: synthesis.capping-gripper
+    source: "__CAPPING_GRIPPER_URDF__"
+
+scan_roots:
+  - "__INPUT_ROOT__"
+
+gates:
+  max_render_glb_bytes: 26214400
+  forbid_family_keys:
+    - point_table
+    - device_id
+    - site_uuid
+    - lab_uuid
+    - base_pose
+    - tcp
+    - payload
+    - current_joints
+  forbid_family_text:
+    - robot-points
+    - point_table
+    - current_joints

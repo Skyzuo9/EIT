@@ -1,0 +1,17 @@
+{
+  "checked_at_local": "2026-08-13",
+  "mode": "read_only",
+  "pipeline_device": {
+    "id": "dobot-cr5a-3c5158e4",
+    "manufacturer_model": "DOBOT CR5A",
+    "workflow_status": "failed",
+    "route": "needs_generation"
+  },
+  "meshy_api_key_configured": true,
+  "meshy_api_key_value_read_or_logged": false,
+  "persisted_meshy_task_count": 0,
+  "approval_record_count": 0,
+  "api_task_submitted_by_this_work": false,
+  "credits_consumed_by_this_work": 0,
+  "note": "Prepared only a local evidence crop and non-generative alpha mask for photo_scrape_station. No paid generation was authorized or attempted."
+}

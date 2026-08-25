@@ -1,0 +1,15 @@
+{
+  "schema": "lab.source/v0",
+  "source_type": "legacy-sw-urdf-export",
+  "source_document": "E:\\资产管线unilab\\合成-化学反应站-urdf\\导轨PTB22-L40-1000-R-M75-C3-0.urdf\\urdf\\PTB22-L40-1000-R-M75-C3-0.SLDASM.urdf",
+  "source_digest": "85f932bba2bffdbd63d1ad270c441346efc35e55cc4db98ce6b5d47ee7173b38",
+  "authority": [
+    "visual_mesh",
+    "link_names_as_migration_aliases"
+  ],
+  "not_authority": [
+    "formal_joint_semantics",
+    "qualified_collision",
+    "controller_targets"
+  ]
+}

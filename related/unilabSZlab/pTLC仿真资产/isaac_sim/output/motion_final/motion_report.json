@@ -1,0 +1,1248 @@
+{
+  "schema_version": "ptlc.isaac.motion-frames.v1",
+  "status": "passed",
+  "scene": "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/ptlc_client_scene.usda",
+  "hardware_connections": "none",
+  "authorized_physical_gpu": 1,
+  "replay": [
+    "P63",
+    "P76",
+    "P63"
+  ],
+  "fps": 12,
+  "frame_count": 87,
+  "duration_seconds": 7.25,
+  "resolution": [
+    960,
+    540
+  ],
+  "rt_subframes": 1,
+  "settle_updates": 8,
+  "anti_aliasing": "FXAA",
+  "motion_blur": false,
+  "motion_method": "smooth joint-space interpolation applied directly to the imported CR5 geometry hierarchy",
+  "boundary": "Geometry-only offline Isaac Sim rendering from recorded joint points. It is not a physics-controlled trajectory, DOBOT MoveL reproduction, collision-free certification, WebRTC evidence, or real-device execution.",
+  "frames": [
+    {
+      "frame": 0,
+      "phase": "hold_P63_initial",
+      "progress": 0.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 1,
+      "phase": "hold_P63_initial",
+      "progress": 0.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 2,
+      "phase": "hold_P63_initial",
+      "progress": 0.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 3,
+      "phase": "hold_P63_initial",
+      "progress": 0.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 4,
+      "phase": "hold_P63_initial",
+      "progress": 0.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 5,
+      "phase": "hold_P63_initial",
+      "progress": 0.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 6,
+      "phase": "hold_P63_initial",
+      "progress": 0.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 7,
+      "phase": "hold_P63_initial",
+      "progress": 0.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 8,
+      "phase": "hold_P63_initial",
+      "progress": 0.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 9,
+      "phase": "move_P63_to_P76",
+      "progress": 0.03333333333333333,
+      "joint_degrees": [
+        -132.47067943703703,
+        -28.974898251851855,
+        121.18232773333334,
+        -3.064589540740741,
+        -89.54737170370372,
+        68.35781315555555
+      ]
+    },
+    {
+      "frame": 10,
+      "phase": "move_P63_to_P76",
+      "progress": 0.06666666666666667,
+      "joint_degrees": [
+        -132.58727416296296,
+        -28.433511348148148,
+        121.20335386666666,
+        -3.626013659259259,
+        -89.5475802962963,
+        68.24323324444444
+      ]
+    },
+    {
+      "frame": 11,
+      "phase": "move_P63_to_P76",
+      "progress": 0.1,
+      "joint_degrees": [
+        -132.7749188,
+        -27.5622168,
+        121.2371928,
+        -4.5295556,
+        -89.547916,
+        68.0588312
+      ]
+    },
+    {
+      "frame": 12,
+      "phase": "move_P63_to_P76",
+      "progress": 0.13333333333333333,
+      "joint_degrees": [
+        -133.02814797037036,
+        -26.38639211851852,
+        121.28285893333333,
+        -5.748898607407407,
+        -89.54836903703705,
+        67.80997795555555
+      ]
+    },
+    {
+      "frame": 13,
+      "phase": "move_P63_to_P76",
+      "progress": 0.16666666666666666,
+      "joint_degrees": [
+        -133.3414962962963,
+        -24.931414814814815,
+        121.33936666666666,
+        -7.257725925925926,
+        -89.54892962962964,
+        67.50204444444444
+      ]
+    },
+    {
+      "frame": 14,
+      "phase": "move_P63_to_P76",
+      "progress": 0.2,
+      "joint_degrees": [
+        -133.7094984,
+        -23.2226624,
+        121.4057304,
+        -9.0297208,
+        -89.549588,
+        67.1404016
+      ]
+    },
+    {
+      "frame": 15,
+      "phase": "move_P63_to_P76",
+      "progress": 0.23333333333333334,
+      "joint_degrees": [
+        -134.1266889037037,
+        -21.285512385185186,
+        121.48096453333333,
+        -11.038566474074074,
+        -89.55033437037038,
+        66.73042035555555
+      ]
+    },
+    {
+      "frame": 16,
+      "phase": "move_P63_to_P76",
+      "progress": 0.26666666666666666,
+      "joint_degrees": [
+        -134.58760242962964,
+        -19.145342281481483,
+        121.56408346666667,
+        -13.257946192592591,
+        -89.55115896296297,
+        66.27747164444445
+      ]
+    },
+    {
+      "frame": 17,
+      "phase": "move_P63_to_P76",
+      "progress": 0.3,
+      "joint_degrees": [
+        -135.0867736,
+        -16.8275296,
+        121.6541016,
+        -15.6615432,
+        -89.552052,
+        65.7869264
+      ]
+    },
+    {
+      "frame": 18,
+      "phase": "move_P63_to_P76",
+      "progress": 0.3333333333333333,
+      "joint_degrees": [
+        -135.61873703703702,
+        -14.357451851851854,
+        121.75003333333333,
+        -18.22304074074074,
+        -89.55300370370371,
+        65.26415555555556
+      ]
+    },
+    {
+      "frame": 19,
+      "phase": "move_P63_to_P76",
+      "progress": 0.36666666666666664,
+      "joint_degrees": [
+        -136.17802736296295,
+        -11.760486548148151,
+        121.85089306666667,
+        -20.91612205925926,
+        -89.5540042962963,
+        64.71453004444444
+      ]
+    },
+    {
+      "frame": 20,
+      "phase": "move_P63_to_P76",
+      "progress": 0.4,
+      "joint_degrees": [
+        -136.7591792,
+        -9.062011199999993,
+        121.95569520000001,
+        -23.714470400000007,
+        -89.55504400000001,
+        64.1434208
+      ]
+    },
+    {
+      "frame": 21,
+      "phase": "move_P63_to_P76",
+      "progress": 0.43333333333333335,
+      "joint_degrees": [
+        -137.35672717037036,
+        -6.287403318518518,
+        122.06345413333334,
+        -26.591769007407407,
+        -89.55611303703704,
+        63.556198755555556
+      ]
+    },
+    {
+      "frame": 22,
+      "phase": "move_P63_to_P76",
+      "progress": 0.4666666666666667,
+      "joint_degrees": [
+        -137.96520589629628,
+        -3.4620404148148154,
+        122.17318426666667,
+        -29.521701125925926,
+        -89.55720162962963,
+        62.95823484444445
+      ]
+    },
+    {
+      "frame": 23,
+      "phase": "move_P63_to_P76",
+      "progress": 0.5,
+      "joint_degrees": [
+        -138.57915,
+        -0.6113,
+        122.2839,
+        -32.47795,
+        -89.5583,
+        62.3549
+      ]
+    },
+    {
+      "frame": 24,
+      "phase": "move_P63_to_P76",
+      "progress": 0.5333333333333333,
+      "joint_degrees": [
+        -139.19309410370371,
+        2.2394404148148155,
+        122.39461573333334,
+        -35.43419887407408,
+        -89.55939837037037,
+        61.751565155555554
+      ]
+    },
+    {
+      "frame": 25,
+      "phase": "move_P63_to_P76",
+      "progress": 0.5666666666666667,
+      "joint_degrees": [
+        -139.80157282962963,
+        5.064803318518514,
+        122.50434586666667,
+        -38.364130992592585,
+        -89.56048696296297,
+        61.153601244444445
+      ]
+    },
+    {
+      "frame": 26,
+      "phase": "move_P63_to_P76",
+      "progress": 0.6,
+      "joint_degrees": [
+        -140.3991208,
+        7.839411200000008,
+        122.6121048,
+        -41.24142960000001,
+        -89.561556,
+        60.5663792
+      ]
+    },
+    {
+      "frame": 27,
+      "phase": "move_P63_to_P76",
+      "progress": 0.6333333333333333,
+      "joint_degrees": [
+        -140.98027263703705,
+        10.537886548148144,
+        122.71690693333333,
+        -44.039777940740734,
+        -89.5625957037037,
+        59.99526995555556
+      ]
+    },
+    {
+      "frame": 28,
+      "phase": "move_P63_to_P76",
+      "progress": 0.6666666666666666,
+      "joint_degrees": [
+        -141.53956296296298,
+        13.134851851851856,
+        122.81776666666667,
+        -46.732859259259264,
+        -89.5635962962963,
+        59.44564444444445
+      ]
+    },
+    {
+      "frame": 29,
+      "phase": "move_P63_to_P76",
+      "progress": 0.7,
+      "joint_degrees": [
+        -142.0715264,
+        15.604929599999998,
+        122.9136984,
+        -49.294356799999996,
+        -89.564548,
+        58.9228736
+      ]
+    },
+    {
+      "frame": 30,
+      "phase": "move_P63_to_P76",
+      "progress": 0.7333333333333333,
+      "joint_degrees": [
+        -142.57069757037036,
+        17.922742281481483,
+        123.00371653333333,
+        -51.6979538074074,
+        -89.56544103703703,
+        58.432328355555555
+      ]
+    },
+    {
+      "frame": 31,
+      "phase": "move_P63_to_P76",
+      "progress": 0.7666666666666667,
+      "joint_degrees": [
+        -143.0316110962963,
+        20.062912385185193,
+        123.08683546666667,
+        -53.91733352592593,
+        -89.56626562962963,
+        57.97937964444445
+      ]
+    },
+    {
+      "frame": 32,
+      "phase": "move_P63_to_P76",
+      "progress": 0.8,
+      "joint_degrees": [
+        -143.4488016,
+        22.00006240000001,
+        123.16206960000001,
+        -55.92617920000001,
+        -89.567012,
+        57.5693984
+      ]
+    },
+    {
+      "frame": 33,
+      "phase": "move_P63_to_P76",
+      "progress": 0.8333333333333334,
+      "joint_degrees": [
+        -143.8168037037037,
+        23.708814814814808,
+        123.22843333333334,
+        -57.69817407407407,
+        -89.56767037037037,
+        57.20775555555556
+      ]
+    },
+    {
+      "frame": 34,
+      "phase": "move_P63_to_P76",
+      "progress": 0.8666666666666667,
+      "joint_degrees": [
+        -144.1301520296296,
+        25.163792118518508,
+        123.28494106666668,
+        -59.20700139259258,
+        -89.56823096296296,
+        56.89982204444445
+      ]
+    },
+    {
+      "frame": 35,
+      "phase": "move_P63_to_P76",
+      "progress": 0.9,
+      "joint_degrees": [
+        -144.3833812,
+        26.3396168,
+        123.3306072,
+        -60.4263444,
+        -89.568684,
+        56.6509688
+      ]
+    },
+    {
+      "frame": 36,
+      "phase": "move_P63_to_P76",
+      "progress": 0.9333333333333333,
+      "joint_degrees": [
+        -144.57102583703704,
+        27.210911348148137,
+        123.36444613333333,
+        -61.32988634074073,
+        -89.5690197037037,
+        56.46656675555556
+      ]
+    },
+    {
+      "frame": 37,
+      "phase": "move_P63_to_P76",
+      "progress": 0.9666666666666667,
+      "joint_degrees": [
+        -144.68762056296296,
+        27.752298251851855,
+        123.38547226666667,
+        -61.89131045925926,
+        -89.56922829629629,
+        56.35198684444445
+      ]
+    },
+    {
+      "frame": 38,
+      "phase": "move_P63_to_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 39,
+      "phase": "hold_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 40,
+      "phase": "hold_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 41,
+      "phase": "hold_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 42,
+      "phase": "hold_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 43,
+      "phase": "hold_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 44,
+      "phase": "hold_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 45,
+      "phase": "hold_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 46,
+      "phase": "hold_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 47,
+      "phase": "hold_P76",
+      "progress": 1.0,
+      "joint_degrees": [
+        -144.7277,
+        27.9384,
+        123.3927,
+        -62.0843,
+        -89.5693,
+        56.3126
+      ]
+    },
+    {
+      "frame": 48,
+      "phase": "move_P76_to_P63",
+      "progress": 0.03333333333333333,
+      "joint_degrees": [
+        -144.68762056296296,
+        27.752298251851855,
+        123.38547226666667,
+        -61.89131045925926,
+        -89.56922829629629,
+        56.35198684444445
+      ]
+    },
+    {
+      "frame": 49,
+      "phase": "move_P76_to_P63",
+      "progress": 0.06666666666666667,
+      "joint_degrees": [
+        -144.57102583703704,
+        27.210911348148148,
+        123.36444613333335,
+        -61.32988634074074,
+        -89.5690197037037,
+        56.46656675555556
+      ]
+    },
+    {
+      "frame": 50,
+      "phase": "move_P76_to_P63",
+      "progress": 0.1,
+      "joint_degrees": [
+        -144.3833812,
+        26.3396168,
+        123.3306072,
+        -60.4263444,
+        -89.568684,
+        56.6509688
+      ]
+    },
+    {
+      "frame": 51,
+      "phase": "move_P76_to_P63",
+      "progress": 0.13333333333333333,
+      "joint_degrees": [
+        -144.13015202962964,
+        25.16379211851852,
+        123.28494106666668,
+        -59.207001392592595,
+        -89.56823096296296,
+        56.89982204444445
+      ]
+    },
+    {
+      "frame": 52,
+      "phase": "move_P76_to_P63",
+      "progress": 0.16666666666666666,
+      "joint_degrees": [
+        -143.8168037037037,
+        23.708814814814815,
+        123.22843333333334,
+        -57.698174074074075,
+        -89.56767037037037,
+        57.20775555555556
+      ]
+    },
+    {
+      "frame": 53,
+      "phase": "move_P76_to_P63",
+      "progress": 0.2,
+      "joint_degrees": [
+        -143.4488016,
+        22.0000624,
+        123.16206960000001,
+        -55.9261792,
+        -89.567012,
+        57.569398400000004
+      ]
+    },
+    {
+      "frame": 54,
+      "phase": "move_P76_to_P63",
+      "progress": 0.23333333333333334,
+      "joint_degrees": [
+        -143.0316110962963,
+        20.062912385185186,
+        123.08683546666667,
+        -53.917333525925926,
+        -89.56626562962963,
+        57.97937964444445
+      ]
+    },
+    {
+      "frame": 55,
+      "phase": "move_P76_to_P63",
+      "progress": 0.26666666666666666,
+      "joint_degrees": [
+        -142.57069757037036,
+        17.922742281481483,
+        123.00371653333333,
+        -51.69795380740741,
+        -89.56544103703703,
+        58.432328355555555
+      ]
+    },
+    {
+      "frame": 56,
+      "phase": "move_P76_to_P63",
+      "progress": 0.3,
+      "joint_degrees": [
+        -142.0715264,
+        15.6049296,
+        122.9136984,
+        -49.294356799999996,
+        -89.564548,
+        58.9228736
+      ]
+    },
+    {
+      "frame": 57,
+      "phase": "move_P76_to_P63",
+      "progress": 0.3333333333333333,
+      "joint_degrees": [
+        -141.53956296296298,
+        13.134851851851854,
+        122.81776666666667,
+        -46.73285925925926,
+        -89.5635962962963,
+        59.44564444444445
+      ]
+    },
+    {
+      "frame": 58,
+      "phase": "move_P76_to_P63",
+      "progress": 0.36666666666666664,
+      "joint_degrees": [
+        -140.98027263703705,
+        10.537886548148151,
+        122.71690693333333,
+        -44.03977794074074,
+        -89.5625957037037,
+        59.99526995555556
+      ]
+    },
+    {
+      "frame": 59,
+      "phase": "move_P76_to_P63",
+      "progress": 0.4,
+      "joint_degrees": [
+        -140.3991208,
+        7.839411199999994,
+        122.6121048,
+        -41.24142959999999,
+        -89.561556,
+        60.5663792
+      ]
+    },
+    {
+      "frame": 60,
+      "phase": "move_P76_to_P63",
+      "progress": 0.43333333333333335,
+      "joint_degrees": [
+        -139.80157282962963,
+        5.064803318518518,
+        122.50434586666667,
+        -38.36413099259259,
+        -89.56048696296297,
+        61.153601244444445
+      ]
+    },
+    {
+      "frame": 61,
+      "phase": "move_P76_to_P63",
+      "progress": 0.4666666666666667,
+      "joint_degrees": [
+        -139.19309410370371,
+        2.2394404148148155,
+        122.39461573333334,
+        -35.43419887407407,
+        -89.55939837037037,
+        61.751565155555554
+      ]
+    },
+    {
+      "frame": 62,
+      "phase": "move_P76_to_P63",
+      "progress": 0.5,
+      "joint_degrees": [
+        -138.57915,
+        -0.6113,
+        122.2839,
+        -32.47795,
+        -89.5583,
+        62.3549
+      ]
+    },
+    {
+      "frame": 63,
+      "phase": "move_P76_to_P63",
+      "progress": 0.5333333333333333,
+      "joint_degrees": [
+        -137.96520589629628,
+        -3.4620404148148154,
+        122.17318426666667,
+        -29.521701125925922,
+        -89.55720162962963,
+        62.95823484444445
+      ]
+    },
+    {
+      "frame": 64,
+      "phase": "move_P76_to_P63",
+      "progress": 0.5666666666666667,
+      "joint_degrees": [
+        -137.35672717037036,
+        -6.287403318518514,
+        122.06345413333334,
+        -26.591769007407414,
+        -89.55611303703704,
+        63.556198755555556
+      ]
+    },
+    {
+      "frame": 65,
+      "phase": "move_P76_to_P63",
+      "progress": 0.6,
+      "joint_degrees": [
+        -136.7591792,
+        -9.062011200000008,
+        121.95569520000001,
+        -23.71447039999999,
+        -89.55504400000001,
+        64.1434208
+      ]
+    },
+    {
+      "frame": 66,
+      "phase": "move_P76_to_P63",
+      "progress": 0.6333333333333333,
+      "joint_degrees": [
+        -136.17802736296295,
+        -11.760486548148144,
+        121.85089306666667,
+        -20.916122059259266,
+        -89.5540042962963,
+        64.71453004444444
+      ]
+    },
+    {
+      "frame": 67,
+      "phase": "move_P76_to_P63",
+      "progress": 0.6666666666666666,
+      "joint_degrees": [
+        -135.61873703703702,
+        -14.357451851851856,
+        121.75003333333333,
+        -18.223040740740736,
+        -89.55300370370371,
+        65.26415555555556
+      ]
+    },
+    {
+      "frame": 68,
+      "phase": "move_P76_to_P63",
+      "progress": 0.7,
+      "joint_degrees": [
+        -135.0867736,
+        -16.8275296,
+        121.6541016,
+        -15.661543200000004,
+        -89.552052,
+        65.7869264
+      ]
+    },
+    {
+      "frame": 69,
+      "phase": "move_P76_to_P63",
+      "progress": 0.7333333333333333,
+      "joint_degrees": [
+        -134.58760242962964,
+        -19.145342281481483,
+        121.56408346666667,
+        -13.257946192592598,
+        -89.55115896296297,
+        66.27747164444445
+      ]
+    },
+    {
+      "frame": 70,
+      "phase": "move_P76_to_P63",
+      "progress": 0.7666666666666667,
+      "joint_degrees": [
+        -134.1266889037037,
+        -21.285512385185193,
+        121.48096453333333,
+        -11.038566474074067,
+        -89.55033437037038,
+        66.73042035555555
+      ]
+    },
+    {
+      "frame": 71,
+      "phase": "move_P76_to_P63",
+      "progress": 0.8,
+      "joint_degrees": [
+        -133.7094984,
+        -23.22266240000001,
+        121.4057304,
+        -9.029720799999993,
+        -89.549588,
+        67.1404016
+      ]
+    },
+    {
+      "frame": 72,
+      "phase": "move_P76_to_P63",
+      "progress": 0.8333333333333334,
+      "joint_degrees": [
+        -133.3414962962963,
+        -24.931414814814808,
+        121.33936666666666,
+        -7.257725925925932,
+        -89.54892962962964,
+        67.50204444444444
+      ]
+    },
+    {
+      "frame": 73,
+      "phase": "move_P76_to_P63",
+      "progress": 0.8666666666666667,
+      "joint_degrees": [
+        -133.02814797037038,
+        -26.386392118518508,
+        121.28285893333333,
+        -5.748898607407419,
+        -89.54836903703705,
+        67.80997795555555
+      ]
+    },
+    {
+      "frame": 74,
+      "phase": "move_P76_to_P63",
+      "progress": 0.9,
+      "joint_degrees": [
+        -132.7749188,
+        -27.5622168,
+        121.2371928,
+        -4.529555600000002,
+        -89.547916,
+        68.0588312
+      ]
+    },
+    {
+      "frame": 75,
+      "phase": "move_P76_to_P63",
+      "progress": 0.9333333333333333,
+      "joint_degrees": [
+        -132.58727416296296,
+        -28.433511348148137,
+        121.20335386666667,
+        -3.6260136592592715,
+        -89.5475802962963,
+        68.24323324444444
+      ]
+    },
+    {
+      "frame": 76,
+      "phase": "move_P76_to_P63",
+      "progress": 0.9666666666666667,
+      "joint_degrees": [
+        -132.47067943703703,
+        -28.974898251851855,
+        121.18232773333334,
+        -3.064589540740741,
+        -89.54737170370372,
+        68.35781315555555
+      ]
+    },
+    {
+      "frame": 77,
+      "phase": "move_P76_to_P63",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.871600000000001,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 78,
+      "phase": "hold_P63_final",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 79,
+      "phase": "hold_P63_final",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 80,
+      "phase": "hold_P63_final",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 81,
+      "phase": "hold_P63_final",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 82,
+      "phase": "hold_P63_final",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 83,
+      "phase": "hold_P63_final",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 84,
+      "phase": "hold_P63_final",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 85,
+      "phase": "hold_P63_final",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    },
+    {
+      "frame": 86,
+      "phase": "hold_P63_final",
+      "progress": 1.0,
+      "joint_degrees": [
+        -132.4306,
+        -29.161,
+        121.1751,
+        -2.8716,
+        -89.5473,
+        68.3972
+      ]
+    }
+  ],
+  "frame_files": [
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0000.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0001.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0002.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0003.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0004.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0005.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0006.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0007.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0008.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0009.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0010.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0011.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0012.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0013.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0014.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0015.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0016.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0017.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0018.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0019.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0020.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0021.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0022.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0023.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0024.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0025.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0026.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0027.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0028.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0029.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0030.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0031.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0032.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0033.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0034.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0035.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0036.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0037.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0038.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0039.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0040.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0041.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0042.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0043.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0044.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0045.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0046.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0047.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0048.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0049.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0050.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0051.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0052.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0053.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0054.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0055.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0056.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0057.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0058.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0059.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0060.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0061.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0062.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0063.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0064.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0065.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0066.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0067.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0068.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0069.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0070.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0071.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0072.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0073.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0074.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0075.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0076.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0077.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0078.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0079.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0080.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0081.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0082.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0083.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0084.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0085.png",
+    "/home/tyzuo/ptlc_isaac_reproduction_20260813/isaac_output/motion_final/frames/rgb_0086.png"
+  ],
+  "frame_bytes_total": 29996590
+}

@@ -1,0 +1,36 @@
+{
+  "schema_version": "ptlc.video-validation.v2",
+  "status": "passed",
+  "video": "/Users/newtides/unilabSZlab/pTLC仿真资产/isaac_sim/output/area7_multipt_video_20260814/ptlc_area7_13_points_isaac.mp4",
+  "sha256": "944330bb1867109dbab5a8c54589af005cf35cb943f4da9b31980b06bce45e37",
+  "bytes": 614353,
+  "codec": "h264",
+  "fps": 12.0,
+  "duration_seconds": 24.75,
+  "decoded_frame_count": 297,
+  "decoded_frame_shape": [
+    540,
+    960,
+    3
+  ],
+  "source_report": "/Users/newtides/unilabSZlab/pTLC仿真资产/isaac_sim/output/area7_multipt_video_20260814/unilab_isaac_validation.json",
+  "source_report_sha256": "d200b6d8eceaccb18fd5f2e466655d85c2bc9af5c4e836bc92d4686de976c56a",
+  "requested_targets": [
+    "ptlc.P45",
+    "ptlc.P46",
+    "ptlc.P47",
+    "ptlc.P48",
+    "ptlc.P80",
+    "ptlc.P79",
+    "ptlc.P78",
+    "ptlc.P45",
+    "ptlc.P49",
+    "ptlc.P50",
+    "ptlc.P51",
+    "ptlc.P83",
+    "ptlc.P82",
+    "ptlc.P81",
+    "ptlc.P45"
+  ],
+  "unique_target_count": 13
+}

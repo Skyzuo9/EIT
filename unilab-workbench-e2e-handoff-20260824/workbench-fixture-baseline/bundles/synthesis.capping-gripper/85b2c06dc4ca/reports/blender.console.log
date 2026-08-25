@@ -1,0 +1,26 @@
+00:01.703  io.stl           | WARNING Removed 18 duplicate triangles during import
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+00:35:02 | INFO: Starting glTF 2.0 export
+00:35:02 | INFO: Extracting primitive: base_link
+00:35:02 | INFO: Primitives created: 1
+00:35:02 | INFO: Extracting primitive: l2_Link
+00:35:02 | INFO: Primitives created: 1
+00:35:02 | INFO: Extracting primitive: l_Link
+00:35:02 | INFO: Primitives created: 1
+00:35:02 | INFO: Extracting primitive: r2_Link
+00:35:02 | INFO: Primitives created: 1
+00:35:02 | INFO: Extracting primitive: r_Link
+00:35:02 | INFO: Primitives created: 1
+00:35:02 | INFO: Extracting primitive: rotate_Link
+00:35:02 | INFO: Primitives created: 1
+00:35:02 | INFO: Finished glTF 2.0 export in 0.10496664047241211 s
+Blender 5.2.0 LTS (hash fbe6228777e7 built 2026-07-14 01:35:40)
+Timer 'STL Import' took 8.80 ms
+Timer 'STL Import' took 1.22 ms
+Timer 'STL Import' took 1.63 ms
+Timer 'STL Import' took 2.48 ms
+Timer 'STL Import' took 1.08 ms
+Timer 'STL Import' took 1.60 ms
+
+TRIAL_BLENDER_RESULT={"schema": "lab.render_capture/v0", "source_kind": "legacy-sw-urdf", "robot_name": "拧盖夹爪组件.urdf", "root_link": "base_link", "link_count": 6, "source_joint_count": 5, "imported_mesh_objects": 6, "triangle_count": 62268, "bounds_source_z_up_m": {"min": [-0.05259060114622116, -0.04505591839551926, -0.3010999858379364], "max": [0.24230895936489105, 0.04494408518075943, 3.023176153860163e-10]}, "exported_glb": "C:\\unilab_asset_trial_tmp\\urdf_synthesis-capping-gripper\\render.glb", "animations_exported": false, "skins_exported": false}

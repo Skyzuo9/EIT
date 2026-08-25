@@ -1,0 +1,1103 @@
+{
+  "schema": "lab.asset_pipeline_handoff_manifest/v0",
+  "handoffId": "unilab-workbench-e2e-handoff-20260824",
+  "fileCount": 219,
+  "totalBytes": 65912544,
+  "files": [
+    {
+      "path": "baseline/asset-pipeline-trial/captures/solidworks/square-tactile/assembly.snapshot.json",
+      "bytes": 7043,
+      "sha256": "955206da54f17c75eea6e4fd94f7dcf88b73a7d08147828c112d047cecdf1ffc"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/captures/solidworks/square-tactile/capability.json",
+      "bytes": 185,
+      "sha256": "e2a0db770414ed6b93823223e2906b40e19d7cd8b84ac1d230bbbc423dff2a2d"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/captures/solidworks/square-tactile/capture-report.json",
+      "bytes": 823,
+      "sha256": "2a9d7f3adaf4a90327170ae4191d7730c7b304440f6dd16aa76cc76a7fd83c5f"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/captures/solidworks/square-tactile/files.sha256",
+      "bytes": 408,
+      "sha256": "c70e8379761548df32ed2e65fce74104477bafc31dd3230d247a0a9f09f3c3e6"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/captures/solidworks/square-tactile/solidworks.console.log",
+      "bytes": 727,
+      "sha256": "61ec08675183763a1f008b6afa2bfe80dd65b229a85d11a8596d0199f36f0657"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/captures/solidworks/square-tactile/source.json",
+      "bytes": 411,
+      "sha256": "ff60bc40cc67e1497249e4f42829a2cbb3a8f5198b86d93844435b8982819123"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/deploy/interfaces/raw-point-snapshot.fixture.schema.json",
+      "bytes": 555,
+      "sha256": "0156b8f25a72f5bbd5027232084f821e33812ec80fb7afa9af09b662faf4c9f7"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/deploy/interfaces/robot-controller-point-adapter.json",
+      "bytes": 1069,
+      "sha256": "f2d60f103534d180ec45abb0bfa53a67681675a1135cb634355e5421f0876f60"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/deploy/interfaces/telemetry.schema.json",
+      "bytes": 741,
+      "sha256": "56b6000c20e71095605ef53dd6579c1af9a77ee117e2d65b4fa88fc62473480d"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/environment.json",
+      "bytes": 817,
+      "sha256": "c0eee0c05a4f58b01b4214d012cf7659f24ee14daece00afad66ba14912841ac"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/bundle.json",
+      "bytes": 1959,
+      "sha256": "48fcb450d8d0b9f528beab9735aa860b24e1229c403c61cae841c90b5487a8ef"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/capability.json",
+      "bytes": 362,
+      "sha256": "a9c114e983b7bdc21ac6cd15d302f196a8c3bd9e9d0e1c0704217bea23b0146d"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/entity-registry.json",
+      "bytes": 674,
+      "sha256": "36a6b35f7b6acb90074f65ebb66b7341828c42b39582eab2e43f0e1f9589d000"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/files.sha256",
+      "bytes": 1139,
+      "sha256": "26392e73528b9c5351b099627283a578723285b2a3be978c22b9fc1f892b020c"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/frame-graph.json",
+      "bytes": 2239,
+      "sha256": "65d9537082366a35b7d048bc3b60fa4371e97f4ceb1ffad764f89edb07e2fd8b"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/geometry-roles.json",
+      "bytes": 1239,
+      "sha256": "5b19add9d13110c87e3881eccd34fb1620bfbfd455fd89af920075010a704522"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/legacy.snapshot.json",
+      "bytes": 4176,
+      "sha256": "c95c37926ccc66378f9a34855fb57a7dce43f1609fdb021bc83d68ebe717b320"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/mechanics.json",
+      "bytes": 3701,
+      "sha256": "355be37adea92d6b90196ab74debd4df7a1bc6426522610fa30e74622dabae4b"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/provenance.json",
+      "bytes": 583,
+      "sha256": "bab803420e966e56892fccb25f7563dc45e2cb04b449faf556fc2077ef9022de"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/render-lod0.glb",
+      "bytes": 3759708,
+      "sha256": "0f8ce4d826bef8bf2c50eb1dfdc657adffc8fa52fbb42a98f640efeb91bb0a61"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/reports/blender.console.log",
+      "bytes": 1884,
+      "sha256": "459103343c7be7b8ed8c1d076bf31e905a6c18f8f08ce886c1786e54a82aa86d"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/reports/render.json",
+      "bytes": 661,
+      "sha256": "c38ea1ebaa323b2f6fa35e1a4f8e5a6567b32e2e3103d9c91d70a09fc70bffad"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-capping-gripper/trial-85b2c06dc4ca/source.json",
+      "bytes": 500,
+      "sha256": "dd6577c93f1665206fc07d8cd10fb7e0dee4c7753d19cbad0fc4c61a56385c6f"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/bundle.json",
+      "bytes": 1957,
+      "sha256": "39415a9d310d9d90b397044e984e5e1a19d8ebbe7636d73cfa687ba14c9c48b0"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/capability.json",
+      "bytes": 362,
+      "sha256": "a9c114e983b7bdc21ac6cd15d302f196a8c3bd9e9d0e1c0704217bea23b0146d"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/entity-registry.json",
+      "bytes": 274,
+      "sha256": "49beb19844b41d575f2730e8f0d62ff159246f826a4d3f97feccddebd60945a4"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/files.sha256",
+      "bytes": 547,
+      "sha256": "dc80e63f35569040effcae6ba4daddff472564247f2918e675dd1cfd83356dc4"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/frame-graph.json",
+      "bytes": 616,
+      "sha256": "989d451a808aa6de39b54afac5065a093011280ab9267c125cd6ae773bff2aaa"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/geometry-roles.json",
+      "bytes": 459,
+      "sha256": "ec680ba50419986dd710df8831ee54d9c1488423ea12c0a1389daa9df9aa0780"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/legacy.snapshot.json",
+      "bytes": 1182,
+      "sha256": "be01f7c74bd152324e4d2f8b09aab6afd58a40f4cee551139fb6bcef50a22d84"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/mechanics.json",
+      "bytes": 990,
+      "sha256": "18360655efce71f4fb2959b146fd74d7420e728442c4237bda2931cdcbe28c63"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/provenance.json",
+      "bytes": 580,
+      "sha256": "e7062d387eec31a08af35e0d58eccd94fdb8ddd7103d58cb13e3b54f4c21dcd4"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/render-lod0.glb",
+      "bytes": 483708,
+      "sha256": "7caa2b4f753f47b6df9b68e0f1ce721cce01c506c664853ef2c239ed81d59130"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/reports/blender.console.log",
+      "bytes": 1320,
+      "sha256": "0d45be065dfe8c9b29c1a9fddf1ed7b8b75fab913b9e252f2a01b44f246cc710"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/reports/render.json",
+      "bytes": 665,
+      "sha256": "03f9f437f3d56e7c00aae27a4c8e14f3abdc92eef2f9cd0e849dcbfcbc1661bb"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-linear-guide/trial-85f932bba2bf/source.json",
+      "bytes": 522,
+      "sha256": "3c33022b31e2d1da1131bdb0a6bbb2df9f40b9044b95a847808b3fe2118974e9"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/bundle.json",
+      "bytes": 1956,
+      "sha256": "49d885b3d656f5806bdd3ad69dd3ec4eb6cb95460f679f767323a03354181f20"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/capability.json",
+      "bytes": 321,
+      "sha256": "cb880740aa8433481824aad64a77956f0482f2f32b365c785914886c8761bc44"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/entity-registry.json",
+      "bytes": 170,
+      "sha256": "87cedd7577ae4a3d5ca99f9cb2d0a55bc44ce9c87de8a21f419ac8e19a812507"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/files.sha256",
+      "bytes": 343,
+      "sha256": "2e868b1397951916c57e303bb3b432466227612c4146b17549fa46e43a0a6eb8"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/frame-graph.json",
+      "bytes": 212,
+      "sha256": "6de4d22930b1447cc1e751171a071828f9f4a163598eba682329817937d32cfc"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/geometry-roles.json",
+      "bytes": 262,
+      "sha256": "91640416fba43da6d57c27220bbdeefa005ca09383cf43213518823c55cfd675"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/legacy.snapshot.json",
+      "bytes": 395,
+      "sha256": "70a36e497e0c63307d69859b0d4bc680926c2d22e101b207981de590c22905ed"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/mechanics.json",
+      "bytes": 319,
+      "sha256": "24d41b6eaa5d6f2c7bc63ad96a7f6c60144d775bff7f17dd47604aad67dee6b7"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/provenance.json",
+      "bytes": 580,
+      "sha256": "eb3b27b26b49c90137b365737c9078666dbe9dcee8a936e84014aa46c1fe4bf0"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/render-lod0.glb",
+      "bytes": 127404,
+      "sha256": "30da0cd87baab1eb0aed3bcbd68c4af629c9bacc9a898140aef7dcb278f4f0e7"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/reports/blender.console.log",
+      "bytes": 1172,
+      "sha256": "721fe034b18848104b86aa46bac6aaa869a03a8b17906faef37eb91a97b05b44"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/reports/render.json",
+      "bytes": 639,
+      "sha256": "e617c8bdea8c9ae7f921d04a30c8e50b7820a717fc5e20d5ca263d09c5e0fced"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/legacy-sw-urdf/synthesis-static-tray/trial-86c0ea20937d/source.json",
+      "bytes": 504,
+      "sha256": "98e8577b4cf88fad7c4c791e5a4ac68b5b53d0e6dd43630ab998b811912c9dee"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/solidworks/square-tactile/trial-930385eda029/assembly.snapshot.json",
+      "bytes": 7043,
+      "sha256": "955206da54f17c75eea6e4fd94f7dcf88b73a7d08147828c112d047cecdf1ffc"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/solidworks/square-tactile/trial-930385eda029/bundle.json",
+      "bytes": 1654,
+      "sha256": "b420d288480d4af02eba53fd8e0a9918b8953695eadca0d5dc0022ebdd7eeaad"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/solidworks/square-tactile/trial-930385eda029/capability.json",
+      "bytes": 299,
+      "sha256": "73e9f4b91a1eebb0740527017375687b7df32526b588a045619e4d15cb2333e6"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/solidworks/square-tactile/trial-930385eda029/entity-registry.json",
+      "bytes": 840,
+      "sha256": "75565c899182f23801661dd537c4a442a5d2592491bd0de0713ee5123c29729f"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/solidworks/square-tactile/trial-930385eda029/files.sha256",
+      "bytes": 408,
+      "sha256": "c70e8379761548df32ed2e65fce74104477bafc31dd3230d247a0a9f09f3c3e6"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/solidworks/square-tactile/trial-930385eda029/frame-graph.json",
+      "bytes": 3476,
+      "sha256": "dba478d85ec252c35a721bd8bc3cea3bb74a7395823ff9ffff30467896347958"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/solidworks/square-tactile/trial-930385eda029/geometry-roles.json",
+      "bytes": 889,
+      "sha256": "c9cc8d3dc224059bd1d41f891d94e90c41195dbf8e98fd3b794cb30940da4d44"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/solidworks/square-tactile/trial-930385eda029/provenance.json",
+      "bytes": 683,
+      "sha256": "4a779f16f1e13667848aee634568cba27e87b350d6c42f262080903ea440a09e"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/solidworks/square-tactile/trial-930385eda029/render-lod0.glb",
+      "bytes": 4427592,
+      "sha256": "e12775621f29af4b24e5d161376ea56d2c994fb23070e4fa58b728bc3c30059c"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/solidworks/square-tactile/trial-930385eda029/source.json",
+      "bytes": 411,
+      "sha256": "ff60bc40cc67e1497249e4f42829a2cbb3a8f5198b86d93844435b8982819123"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/assembly.snapshot.json",
+      "bytes": 2148,
+      "sha256": "44c21d445907176ec0b3b33c4e7399270ec33924dffe4ccb5c10b16a00f29613"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/bundle.json",
+      "bytes": 1655,
+      "sha256": "dd4b75e2d5021527552ba3f37c00bed7bd6fa71a03942099c91a77a4cedcca90"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/capability.json",
+      "bytes": 294,
+      "sha256": "8203aae0f5c4209582148f192c1e0b4c72d7ca89b5371fd9330fd46ea3c260cd"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/entity-registry.json",
+      "bytes": 294,
+      "sha256": "d060e3914657ae62e29d2d324b80f6bdc7116aecdf82a478b9e48337254526ad"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/files.sha256",
+      "bytes": 125,
+      "sha256": "989232b46c34a6d597912b93180eab35c05574418e47ef451d98bc576a9d0db6"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/frame-graph.json",
+      "bytes": 255,
+      "sha256": "ab834ec91f117ed3544014f8e22d3ffc045ab4fd68a71ad6dfdcb633ee56a5d0"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/geometry-roles.json",
+      "bytes": 367,
+      "sha256": "df87e2a0c41b5f297ffa7eebc5f9cd3a97211d5a95d1cefca35d7af91c7fdbbe"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/provenance.json",
+      "bytes": 575,
+      "sha256": "9f8426290db8822c54ddc16bc93f01c0a4ebb7be336f0f3ed17f8c3f07bf3cff"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/render-lod0.glb",
+      "bytes": 9008500,
+      "sha256": "f4db37fca62bae0d4fbfd64691133792c380b61befa2d586caf814a0e20125f3"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/source.json",
+      "bytes": 479,
+      "sha256": "fe1dee2f99ec74dccdaf3b4539d537819d65ca1dcf9e1f1d2a8cb68e2a834af4"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/gate-report.json",
+      "bytes": 147,
+      "sha256": "926f227985d20e8c074be373c5fd4a235815936b4333495609876091818a5f50"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/inventory.json",
+      "bytes": 33322,
+      "sha256": "f6aeed48482f35e5814cc9feff242b4798f473faa7d979ceba221dfdc5bc71c6"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/previews/bigclaw-step-reference.json",
+      "bytes": 856,
+      "sha256": "bc7e3c9c2b8973b752903933bd0366a2724dfb665be3d73f0db89a25d8b08acd"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/previews/bigclaw-step-reference.png",
+      "bytes": 268471,
+      "sha256": "3cc70b25930510669421a85698714baf8a317dc565262add34e929b7dad06105"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/previews/square-tactile.json",
+      "bytes": 843,
+      "sha256": "732515bd22e9a6ebe4c76933e0eef1f2fa203eaf767fd2ba58548b7a9ddbf331"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/previews/square-tactile.png",
+      "bytes": 219680,
+      "sha256": "fd1edb4491ffdf36eae9b2cb23159388357d36a1fc6fc192bd4abec6504a64af"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/previews/synthesis-capping-gripper.json",
+      "bytes": 872,
+      "sha256": "dd88b1b13ce222f102503abb23b640d6792fa17b19c8d8189a65aae786e8eb44"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/previews/synthesis-capping-gripper.png",
+      "bytes": 202040,
+      "sha256": "9baffb55dd1d1000806fc679a7718a5e801b0e0b3686f07e44a3f0c4b9d15c94"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/previews/synthesis-linear-guide.json",
+      "bytes": 860,
+      "sha256": "a39be2324ea6ff5ec4ac5327928b6b0ace0586e2681087e950259d7c7aa10165"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/previews/synthesis-linear-guide.png",
+      "bytes": 166492,
+      "sha256": "197b4a030eddeb318920a0ffeb15fecc2d0894c7bd0fbf7cff0d68d1d00c4d3c"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/previews/synthesis-static-tray.json",
+      "bytes": 840,
+      "sha256": "fc007532b9be45b0d67842f65ab3502bed7c8e4b44d892f1fdc77b168e719f89"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/previews/synthesis-static-tray.png",
+      "bytes": 222733,
+      "sha256": "3147c197d3d9c34d2801c376b7cdb9c00e3c1c978007bc5227035f051cd3089f"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/REPORT.md",
+      "bytes": 4601,
+      "sha256": "9dddca1acbdcbde273b1658624597ec0c5b0b80587bd3ac0157915722200e0bb"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/reproducibility/solidworks-square-tactile/repeat-render.glb",
+      "bytes": 4427596,
+      "sha256": "7780a4126423b65e0139458195caba5f2cce0ddaf9f619260c7032f9981c2a70"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/reproducibility/solidworks-square-tactile/repeat.capture-report.json",
+      "bytes": 823,
+      "sha256": "f4a65db0f36ee4fd41815b01b9859675221d48f2923a90b9372d0e0e2aec6d42"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/reproducibility/solidworks-square-tactile/repeat.console.log",
+      "bytes": 727,
+      "sha256": "bffc1bc93cc6cdef1a6360b6f3533281073b0395d14f2a305a0e7acd4fbfb3b5"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/reproducibility/solidworks-square-tactile/repeat.snapshot.json",
+      "bytes": 7043,
+      "sha256": "955206da54f17c75eea6e4fd94f7dcf88b73a7d08147828c112d047cecdf1ffc"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/reproducibility/solidworks-square-tactile/reproducibility-report.json",
+      "bytes": 1689,
+      "sha256": "d69ab5a85fc1c79edf7e4b1749080f8dc3f7cfefc3b28896f0fd47cfa525ed95"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/run-summary.json",
+      "bytes": 5434,
+      "sha256": "033bca9d9d5b8f48bc5537177800280e69075dc3105c0f03ebfe69082acb7de9"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/slices/slice-a-status.json",
+      "bytes": 264,
+      "sha256": "a1e0b4963f097b204cf40c18f5ee2550fc2ac229bec70623a7621fc65aece924"
+    },
+    {
+      "path": "baseline/asset-pipeline-trial/slices/slice-c-status.json",
+      "bytes": 279,
+      "sha256": "c04bce84c295331f0b6b10bdaf12e93f1da45b0942da3e19f1e62712d23f8a6f"
+    },
+    {
+      "path": "config/pipeline.template.yaml",
+      "bytes": 1360,
+      "sha256": "66f6b2c537c65da1468682bb78d2883d6c3e98c4c75ea93bea5c8ddcca61525d"
+    },
+    {
+      "path": "docs/2026-08-21-unilab-workbench-simulation-asset-pipeline-design.md",
+      "bytes": 48433,
+      "sha256": "d375c09770e9cc0c1c2b9fe7faa52de647c86a129428e35b89fa0b4029ca30d4"
+    },
+    {
+      "path": "docs/2026-08-21-windows-solidworks-2025-asset-pipeline-setup.md",
+      "bytes": 30499,
+      "sha256": "a893abde221a6b9f0ccf75c13ceaf1a96247648f2fd734b198d7ab56d117c713"
+    },
+    {
+      "path": "docs/2026-08-23-lab-asset-pipeline-windows-agent-brief.md",
+      "bytes": 16971,
+      "sha256": "0334bff42c4d79da44788fdd5b0ad8188516396864ab0871188b5d41dc376701"
+    },
+    {
+      "path": "docs/2026-08-23-lab-device-family-asset-pipeline.md",
+      "bytes": 15629,
+      "sha256": "145255d9bcd1ce45878992cfe2aa8aae737144ed06821744d98d16b3458c647a"
+    },
+    {
+      "path": "HANDOFF-TO-OTHER-COMPUTER.md",
+      "bytes": 4375,
+      "sha256": "c4d0a58eeb2e8e797faa137e5f0442fd36054003198a6b90abf4661d91315537"
+    },
+    {
+      "path": "PACKAGE-CONTENTS.md",
+      "bytes": 1419,
+      "sha256": "53ef209378c05bc60f6c2182ad901201e8828c439a8c803db2a2582d3678a557"
+    },
+    {
+      "path": "pipeline/build_workbench_fixture.py",
+      "bytes": 5934,
+      "sha256": "acd1e71d72d70f755b87457b454f1c93205aa3e3fe77c516d2e64326f79a9301"
+    },
+    {
+      "path": "pipeline/create_handoff_manifest.py",
+      "bytes": 1600,
+      "sha256": "c22e1014c95c3e15e8eb5cb71eeab0767bea70e83e8c088497d64948510a5fdc"
+    },
+    {
+      "path": "pipeline/test_trial_asset_pipeline.py",
+      "bytes": 2845,
+      "sha256": "74a2a5ce5791f2b0f5f1995ee284bb4a19a732dc0d45a609e94096845644959b"
+    },
+    {
+      "path": "pipeline/trial_asset_pipeline.py",
+      "bytes": 63578,
+      "sha256": "c952c28e62f9a0083336b33a80d5a958cc88e407a77fa650593855f4f662bf22"
+    },
+    {
+      "path": "pipeline/trial_blender_preview.py",
+      "bytes": 3372,
+      "sha256": "09a158847d2531ea9535d10e968f398d3e5167996a306074d44822fcb798d489"
+    },
+    {
+      "path": "pipeline/trial_blender_urdf.py",
+      "bytes": 6343,
+      "sha256": "a11c48a694ddad9480163bde8dc26a97ace58eeb0522c16c7f65cd5c64d7308a"
+    },
+    {
+      "path": "pipeline/trial_sw_adapter.py",
+      "bytes": 13575,
+      "sha256": "60b7b580fcbcf75930330203663a179e0d91f6492ac3e1b6f61e1218f2c8836a"
+    },
+    {
+      "path": "pipeline/verify_trial_output.py",
+      "bytes": 5292,
+      "sha256": "574910ff6b387ff5c57a89c699a2067c67dcf5db7f71b8a7c3efd787c699a305"
+    },
+    {
+      "path": "README-FIRST.md",
+      "bytes": 3713,
+      "sha256": "3c56b6de4098ce064521ed1dbe5d4e6df78735418f907b95f372226f0afa2467"
+    },
+    {
+      "path": "requirements.txt",
+      "bytes": 30,
+      "sha256": "8a5873b0f0bcd97423c352345af02339ce22091928c9caf2d95627362ee16bac"
+    },
+    {
+      "path": "scripts/00-preflight.ps1",
+      "bytes": 4856,
+      "sha256": "4985f31fedbd2f1be710da98c1bea9e9d1047d1079ea09a5d3b42c93821ebc72"
+    },
+    {
+      "path": "scripts/01-run-pipeline.ps1",
+      "bytes": 4357,
+      "sha256": "14fbb3d820d043db7f604ce6c9905f3c2d16bdf24a460f9bf8c045d64efdf7ad"
+    },
+    {
+      "path": "scripts/02-verify-output.ps1",
+      "bytes": 993,
+      "sha256": "917af4830e41b9b43e487f4b6884d31baad751fb392c1938e4f53c7130088a86"
+    },
+    {
+      "path": "scripts/03-stage-workbench-fixture.ps1",
+      "bytes": 2271,
+      "sha256": "455841e36650cf49cf3e42ffd9dc58ece4be80283f035f050d33074419ee406c"
+    },
+    {
+      "path": "scripts/04-collect-results.ps1",
+      "bytes": 1850,
+      "sha256": "3a4de5f6153259bc742b9d65c3e24a2aae7cd1249c6b44c1544f7a1517d50944"
+    },
+    {
+      "path": "scripts/Verify-Handoff.ps1",
+      "bytes": 1268,
+      "sha256": "0265d308bc8804fbf5b950afbec164137d0c1a682225a68a70472fe7eae8a5fd"
+    },
+    {
+      "path": "SELF-TEST.md",
+      "bytes": 1558,
+      "sha256": "37e58a50513495ac28a45bae7f74b4944e56bbea6e30eddf9b0e167dce917abd"
+    },
+    {
+      "path": "templates/TEST-RESULTS.md",
+      "bytes": 1290,
+      "sha256": "7e07053e1e0f8ec929fffe431ca4355f25bf3e83f05484d64940420da7cc8500"
+    },
+    {
+      "path": "TRANSFER-NOTICE.md",
+      "bytes": 452,
+      "sha256": "702d273c80ef3ca3490404d67a44293790a282d4187066630776429d1e3c61a7"
+    },
+    {
+      "path": "workbench-fixture-baseline/.asset-pipeline-e2e-marker.json",
+      "bytes": 149,
+      "sha256": "ff6fb6669f54d66ca2bf2ff492f2e86dc6a048b771dca66d5081c61b7a53cba3"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.bigclaw.step-reference/db2865a35d12/assembly.snapshot.json",
+      "bytes": 2148,
+      "sha256": "44c21d445907176ec0b3b33c4e7399270ec33924dffe4ccb5c10b16a00f29613"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.bigclaw.step-reference/db2865a35d12/bundle.json",
+      "bytes": 1655,
+      "sha256": "dd4b75e2d5021527552ba3f37c00bed7bd6fa71a03942099c91a77a4cedcca90"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.bigclaw.step-reference/db2865a35d12/capability.json",
+      "bytes": 294,
+      "sha256": "8203aae0f5c4209582148f192c1e0b4c72d7ca89b5371fd9330fd46ea3c260cd"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.bigclaw.step-reference/db2865a35d12/entity-registry.json",
+      "bytes": 294,
+      "sha256": "d060e3914657ae62e29d2d324b80f6bdc7116aecdf82a478b9e48337254526ad"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.bigclaw.step-reference/db2865a35d12/files.sha256",
+      "bytes": 125,
+      "sha256": "989232b46c34a6d597912b93180eab35c05574418e47ef451d98bc576a9d0db6"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.bigclaw.step-reference/db2865a35d12/frame-graph.json",
+      "bytes": 255,
+      "sha256": "ab834ec91f117ed3544014f8e22d3ffc045ab4fd68a71ad6dfdcb633ee56a5d0"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.bigclaw.step-reference/db2865a35d12/geometry-roles.json",
+      "bytes": 367,
+      "sha256": "df87e2a0c41b5f297ffa7eebc5f9cd3a97211d5a95d1cefca35d7af91c7fdbbe"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.bigclaw.step-reference/db2865a35d12/provenance.json",
+      "bytes": 575,
+      "sha256": "9f8426290db8822c54ddc16bc93f01c0a4ebb7be336f0f3ed17f8c3f07bf3cff"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.bigclaw.step-reference/db2865a35d12/render-lod0.glb",
+      "bytes": 9008500,
+      "sha256": "f4db37fca62bae0d4fbfd64691133792c380b61befa2d586caf814a0e20125f3"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.bigclaw.step-reference/db2865a35d12/source.json",
+      "bytes": 479,
+      "sha256": "fe1dee2f99ec74dccdaf3b4539d537819d65ca1dcf9e1f1d2a8cb68e2a834af4"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.square-tactile/930385eda029/assembly.snapshot.json",
+      "bytes": 7043,
+      "sha256": "955206da54f17c75eea6e4fd94f7dcf88b73a7d08147828c112d047cecdf1ffc"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.square-tactile/930385eda029/bundle.json",
+      "bytes": 1654,
+      "sha256": "b420d288480d4af02eba53fd8e0a9918b8953695eadca0d5dc0022ebdd7eeaad"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.square-tactile/930385eda029/capability.json",
+      "bytes": 299,
+      "sha256": "73e9f4b91a1eebb0740527017375687b7df32526b588a045619e4d15cb2333e6"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.square-tactile/930385eda029/entity-registry.json",
+      "bytes": 840,
+      "sha256": "75565c899182f23801661dd537c4a442a5d2592491bd0de0713ee5123c29729f"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.square-tactile/930385eda029/files.sha256",
+      "bytes": 408,
+      "sha256": "c70e8379761548df32ed2e65fce74104477bafc31dd3230d247a0a9f09f3c3e6"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.square-tactile/930385eda029/frame-graph.json",
+      "bytes": 3476,
+      "sha256": "dba478d85ec252c35a721bd8bc3cea3bb74a7395823ff9ffff30467896347958"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.square-tactile/930385eda029/geometry-roles.json",
+      "bytes": 889,
+      "sha256": "c9cc8d3dc224059bd1d41f891d94e90c41195dbf8e98fd3b794cb30940da4d44"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.square-tactile/930385eda029/provenance.json",
+      "bytes": 683,
+      "sha256": "4a779f16f1e13667848aee634568cba27e87b350d6c42f262080903ea440a09e"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.square-tactile/930385eda029/render-lod0.glb",
+      "bytes": 4427592,
+      "sha256": "e12775621f29af4b24e5d161376ea56d2c994fb23070e4fa58b728bc3c30059c"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/instrument.square-tactile/930385eda029/source.json",
+      "bytes": 411,
+      "sha256": "ff60bc40cc67e1497249e4f42829a2cbb3a8f5198b86d93844435b8982819123"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/bundle.json",
+      "bytes": 1956,
+      "sha256": "49d885b3d656f5806bdd3ad69dd3ec4eb6cb95460f679f767323a03354181f20"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/capability.json",
+      "bytes": 321,
+      "sha256": "cb880740aa8433481824aad64a77956f0482f2f32b365c785914886c8761bc44"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/entity-registry.json",
+      "bytes": 170,
+      "sha256": "87cedd7577ae4a3d5ca99f9cb2d0a55bc44ce9c87de8a21f419ac8e19a812507"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/files.sha256",
+      "bytes": 343,
+      "sha256": "2e868b1397951916c57e303bb3b432466227612c4146b17549fa46e43a0a6eb8"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/frame-graph.json",
+      "bytes": 212,
+      "sha256": "6de4d22930b1447cc1e751171a071828f9f4a163598eba682329817937d32cfc"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/geometry-roles.json",
+      "bytes": 262,
+      "sha256": "91640416fba43da6d57c27220bbdeefa005ca09383cf43213518823c55cfd675"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/legacy.snapshot.json",
+      "bytes": 395,
+      "sha256": "70a36e497e0c63307d69859b0d4bc680926c2d22e101b207981de590c22905ed"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/mechanics.json",
+      "bytes": 319,
+      "sha256": "24d41b6eaa5d6f2c7bc63ad96a7f6c60144d775bff7f17dd47604aad67dee6b7"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/provenance.json",
+      "bytes": 580,
+      "sha256": "eb3b27b26b49c90137b365737c9078666dbe9dcee8a936e84014aa46c1fe4bf0"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/render-lod0.glb",
+      "bytes": 127404,
+      "sha256": "30da0cd87baab1eb0aed3bcbd68c4af629c9bacc9a898140aef7dcb278f4f0e7"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/reports/blender.console.log",
+      "bytes": 1172,
+      "sha256": "721fe034b18848104b86aa46bac6aaa869a03a8b17906faef37eb91a97b05b44"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/reports/render.json",
+      "bytes": 639,
+      "sha256": "e617c8bdea8c9ae7f921d04a30c8e50b7820a717fc5e20d5ca263d09c5e0fced"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.250ml-reagent-tray/86c0ea20937d/source.json",
+      "bytes": 504,
+      "sha256": "98e8577b4cf88fad7c4c791e5a4ac68b5b53d0e6dd43630ab998b811912c9dee"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/bundle.json",
+      "bytes": 1959,
+      "sha256": "48fcb450d8d0b9f528beab9735aa860b24e1229c403c61cae841c90b5487a8ef"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/capability.json",
+      "bytes": 362,
+      "sha256": "a9c114e983b7bdc21ac6cd15d302f196a8c3bd9e9d0e1c0704217bea23b0146d"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/entity-registry.json",
+      "bytes": 674,
+      "sha256": "36a6b35f7b6acb90074f65ebb66b7341828c42b39582eab2e43f0e1f9589d000"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/files.sha256",
+      "bytes": 1139,
+      "sha256": "26392e73528b9c5351b099627283a578723285b2a3be978c22b9fc1f892b020c"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/frame-graph.json",
+      "bytes": 2239,
+      "sha256": "65d9537082366a35b7d048bc3b60fa4371e97f4ceb1ffad764f89edb07e2fd8b"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/geometry-roles.json",
+      "bytes": 1239,
+      "sha256": "5b19add9d13110c87e3881eccd34fb1620bfbfd455fd89af920075010a704522"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/legacy.snapshot.json",
+      "bytes": 4176,
+      "sha256": "c95c37926ccc66378f9a34855fb57a7dce43f1609fdb021bc83d68ebe717b320"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/mechanics.json",
+      "bytes": 3701,
+      "sha256": "355be37adea92d6b90196ab74debd4df7a1bc6426522610fa30e74622dabae4b"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/provenance.json",
+      "bytes": 583,
+      "sha256": "bab803420e966e56892fccb25f7563dc45e2cb04b449faf556fc2077ef9022de"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/render-lod0.glb",
+      "bytes": 3759708,
+      "sha256": "0f8ce4d826bef8bf2c50eb1dfdc657adffc8fa52fbb42a98f640efeb91bb0a61"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/reports/blender.console.log",
+      "bytes": 1884,
+      "sha256": "459103343c7be7b8ed8c1d076bf31e905a6c18f8f08ce886c1786e54a82aa86d"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/reports/render.json",
+      "bytes": 661,
+      "sha256": "c38ea1ebaa323b2f6fa35e1a4f8e5a6567b32e2e3103d9c91d70a09fc70bffad"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.capping-gripper/85b2c06dc4ca/source.json",
+      "bytes": 500,
+      "sha256": "dd6577c93f1665206fc07d8cd10fb7e0dee4c7753d19cbad0fc4c61a56385c6f"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/bundle.json",
+      "bytes": 1957,
+      "sha256": "39415a9d310d9d90b397044e984e5e1a19d8ebbe7636d73cfa687ba14c9c48b0"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/capability.json",
+      "bytes": 362,
+      "sha256": "a9c114e983b7bdc21ac6cd15d302f196a8c3bd9e9d0e1c0704217bea23b0146d"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/entity-registry.json",
+      "bytes": 274,
+      "sha256": "49beb19844b41d575f2730e8f0d62ff159246f826a4d3f97feccddebd60945a4"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/files.sha256",
+      "bytes": 547,
+      "sha256": "dc80e63f35569040effcae6ba4daddff472564247f2918e675dd1cfd83356dc4"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/frame-graph.json",
+      "bytes": 616,
+      "sha256": "989d451a808aa6de39b54afac5065a093011280ab9267c125cd6ae773bff2aaa"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/geometry-roles.json",
+      "bytes": 459,
+      "sha256": "ec680ba50419986dd710df8831ee54d9c1488423ea12c0a1389daa9df9aa0780"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/legacy.snapshot.json",
+      "bytes": 1182,
+      "sha256": "be01f7c74bd152324e4d2f8b09aab6afd58a40f4cee551139fb6bcef50a22d84"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/mechanics.json",
+      "bytes": 990,
+      "sha256": "18360655efce71f4fb2959b146fd74d7420e728442c4237bda2931cdcbe28c63"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/provenance.json",
+      "bytes": 580,
+      "sha256": "e7062d387eec31a08af35e0d58eccd94fdb8ddd7103d58cb13e3b54f4c21dcd4"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/render-lod0.glb",
+      "bytes": 483708,
+      "sha256": "7caa2b4f753f47b6df9b68e0f1ce721cce01c506c664853ef2c239ed81d59130"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/reports/blender.console.log",
+      "bytes": 1320,
+      "sha256": "0d45be065dfe8c9b29c1a9fddf1ed7b8b75fab913b9e252f2a01b44f246cc710"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/reports/render.json",
+      "bytes": 665,
+      "sha256": "03f9f437f3d56e7c00aae27a4c8e14f3abdc92eef2f9cd0e849dcbfcbc1661bb"
+    },
+    {
+      "path": "workbench-fixture-baseline/bundles/synthesis.ptb22-linear-guide/85f932bba2bf/source.json",
+      "bytes": 522,
+      "sha256": "3c33022b31e2d1da1131bdb0a6bbb2df9f40b9044b95a847808b3fe2118974e9"
+    },
+    {
+      "path": "workbench-fixture-baseline/CHECKSUMS.sha256",
+      "bytes": 8082,
+      "sha256": "2b3fb51e0296a3bf59c68b3891c790529fd47b2f2e3bb9f754bd4f9d875cbe17"
+    },
+    {
+      "path": "workbench-fixture-baseline/scene-catalog.json",
+      "bytes": 5110,
+      "sha256": "84e2e67b73e9b074a46a8081caf282fdbb9c92a714cba50c94277a833feb9710"
+    },
+    {
+      "path": "WORKBENCH-TEST-PLAN.md",
+      "bytes": 3731,
+      "sha256": "71abb8e143d0caba3478148e3fcb0b27786e50a46e01a4de97f9ce6feab19526"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/250ml试剂瓶托盘.urdf/CMakeLists.txt",
+      "bytes": 303,
+      "sha256": "d38cd547962dcc1aeabca5bf759972e9ab5d165f7a98c5fb6d6f56250c7ff0bb"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/250ml试剂瓶托盘.urdf/config/joint_names_250ml试剂瓶托盘.urdf.yaml",
+      "bytes": 32,
+      "sha256": "f6290e815235669241e479da79d1f8359b5a1f95c1d9bc9eebdc1d3dd4d97fd5"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/250ml试剂瓶托盘.urdf/export.log",
+      "bytes": 52891,
+      "sha256": "7937563ba6ea23fab2988889a2c47148f802b5310771c7ea9689e24d65bae109"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/250ml试剂瓶托盘.urdf/launch/display.launch",
+      "bytes": 536,
+      "sha256": "89c059abcf02339fd7b773b32e5a3e2b5bb2e62be44f23608b84996ce776beaf"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/250ml试剂瓶托盘.urdf/launch/gazebo.launch",
+      "bytes": 603,
+      "sha256": "47b81c386e4bfe40dd7c363efe16f3225a20b154a1adcf1b29850a0dc459c029"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/250ml试剂瓶托盘.urdf/meshes/base_link.STL",
+      "bytes": 126584,
+      "sha256": "50c0570827d09da221b1994382b70c3faf0dfed6465758d9ea82e4aa7cb2d1c0"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/250ml试剂瓶托盘.urdf/package.xml",
+      "bytes": 690,
+      "sha256": "e7db32a024db6cb0ba17f0dfab9d24a8a54ad8269e9efc09d0efda2054d23603"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/250ml试剂瓶托盘.urdf/urdf/250ml试剂瓶托盘.urdf.csv",
+      "bytes": 1207,
+      "sha256": "b2d10c996b4f468a3dfb324ff763d6a015d6a0cca24cb4fd373e6fd683243d0a"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/250ml试剂瓶托盘.urdf/urdf/250ml试剂瓶托盘.urdf.urdf",
+      "bytes": 1317,
+      "sha256": "5b2e43047ba2edc18f867a97ef7e63920cecd45f475721e0a055f38e46e020d9"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/导轨PTB22-L40-1000-R-M75-C3-0.urdf/CMakeLists.txt",
+      "bytes": 310,
+      "sha256": "4ee0e1e9112382fcdc5fe901e774cb12d7046ade12ebe6f10046909624fa7ec5"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/导轨PTB22-L40-1000-R-M75-C3-0.urdf/config/joint_names_PTB22-L40-1000-R-M75-C3-0.SLDASM.yaml",
+      "bytes": 46,
+      "sha256": "ab6c9d413d512fd8d5838f04981e40490f205d5e2f3fb5190e22967c43dcd3cb"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/导轨PTB22-L40-1000-R-M75-C3-0.urdf/export.log",
+      "bytes": 2789634,
+      "sha256": "6524edabdd85ed1823e76c6838a5c2c1df407bbde5d9aaf861b382f42c3df5ef"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/导轨PTB22-L40-1000-R-M75-C3-0.urdf/launch/display.launch",
+      "bytes": 557,
+      "sha256": "02da0f9d720dff1dde8c0ff6d398db76167587515cc34f0d1e645e778804f6c2"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/导轨PTB22-L40-1000-R-M75-C3-0.urdf/launch/gazebo.launch",
+      "bytes": 624,
+      "sha256": "80918d55493d59833af41dc2b7d7db23bd66740fd39cb234a644d527d9357ee5"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/导轨PTB22-L40-1000-R-M75-C3-0.urdf/meshes/base_link.STL",
+      "bytes": 383084,
+      "sha256": "43aa4a8b4fa03ccea1fdbb5ec261848955afbf854e56185cb27c025a00a02c5e"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/导轨PTB22-L40-1000-R-M75-C3-0.urdf/meshes/move_link.STL",
+      "bytes": 94284,
+      "sha256": "d7c236d30c3f6c6c178298600f4c1dfe003bec889cd91746a7420df040c01660"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/导轨PTB22-L40-1000-R-M75-C3-0.urdf/package.xml",
+      "bytes": 711,
+      "sha256": "6bc1b2fe07e102e1dca3a143200243779018e9e133e01d5b31ca8ab86e301c35"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/导轨PTB22-L40-1000-R-M75-C3-0.urdf/urdf/PTB22-L40-1000-R-M75-C3-0.SLDASM.csv",
+      "bytes": 2136,
+      "sha256": "ae542d5641defe61a451b146ece67d57e958e2976b1451c447baf9686db8877c"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/导轨PTB22-L40-1000-R-M75-C3-0.urdf/urdf/PTB22-L40-1000-R-M75-C3-0.SLDASM.urdf",
+      "bytes": 2615,
+      "sha256": "9e03cdfc711b8664c58ccb75b0f201df423e977b66f4b9fb87daa13ca5873859"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/CMakeLists.txt",
+      "bytes": 301,
+      "sha256": "075b75bef1c5863104ba11c735353c6adb69e7b5815b69f4ed417bc7c2b5974e"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/config/joint_names_拧盖夹爪组件.urdf.yaml",
+      "bytes": 94,
+      "sha256": "9be8339584445043040de39e1691fedf4de45030876a46340c684ffa7d5e112c"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/export.log",
+      "bytes": 714208,
+      "sha256": "7ebdfa176a5368417ee7f869ebd0c1fd5e9b6e73948af44176b2191650d8abb2"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/launch/display.launch",
+      "bytes": 530,
+      "sha256": "9c65a2b1d646a5650256ee4dc9512bfa682db2f7abed0613f43c0893aaffce2a"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/launch/gazebo.launch",
+      "bytes": 597,
+      "sha256": "f89117f9151bdad1635196284a2d7b9b1904478affce4a152dd75f05a9ebb693"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/meshes/base_link.STL",
+      "bytes": 1933984,
+      "sha256": "6784e45b4c79eeb9198cd27671ec3af09b66fae8fdb6053564cd62566ae5c730"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/meshes/l2_Link.STL",
+      "bytes": 318284,
+      "sha256": "030f03d6beb31d3d61d67e56c3513c0138879534eba80f75ab2c2959a98737b1"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/meshes/l_Link.STL",
+      "bytes": 181284,
+      "sha256": "d6c4dfb1f3644c5fe5730f2ca1a8056c3273486371f48511e4da6ba33e1ae623"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/meshes/r2_Link.STL",
+      "bytes": 318284,
+      "sha256": "9e8cb06471ad3095090728a5f18e5bc6c15ecf83db3889c0146b4ecf6a2a417b"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/meshes/r_Link.STL",
+      "bytes": 181284,
+      "sha256": "f94307bc0358fcb23ef82136e987b35de2316baa89f1a95ea7f7762a4af0e2e4"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/meshes/rotate_Link.STL",
+      "bytes": 181684,
+      "sha256": "886d814454f0258c815c7afd1f010acca021321fffc5a7d5baa0c88238597b92"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/package.xml",
+      "bytes": 684,
+      "sha256": "7ddbc8670b095f6a294bbda8cf38c1aa133feac2fcef9df463de192995b2fe5b"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/urdf/拧盖夹爪组件.urdf.csv",
+      "bytes": 5039,
+      "sha256": "f7a1c1ebd46a0891a7f43d2ccedce720afa26cff3f663f263ccc56ff9405e9d2"
+    },
+    {
+      "path": "workspace/inputs/legacy-urdf/拧盖夹爪组件.urdf/urdf/拧盖夹爪组件.urdf.urdf",
+      "bytes": 7640,
+      "sha256": "f85f97b6ddae8f5b7588f018b4be1ec1da138f7430a3f095da8c2cfed7b64b92"
+    },
+    {
+      "path": "workspace/inputs/solidworks/方形视触觉/Cap2.sldprt",
+      "bytes": 592122,
+      "sha256": "d5c17ed98eadc95921a566bf92b4410d3f8ec147f406e3938688eac4847c4972"
+    },
+    {
+      "path": "workspace/inputs/solidworks/方形视触觉/pin2.sldprt",
+      "bytes": 552451,
+      "sha256": "5eb9913c7f6834d4dc0501971d726ff9c94a00d177b7291b3866926ad98dc6a0"
+    },
+    {
+      "path": "workspace/inputs/solidworks/方形视触觉/底.sldprt",
+      "bytes": 1145838,
+      "sha256": "d5f615745015cf5973544ee67df8285a5d99c4feda9366164460b9578dfac75f"
+    },
+    {
+      "path": "workspace/inputs/solidworks/方形视触觉/方形视触觉2.sldasm",
+      "bytes": 944106,
+      "sha256": "37f96d5424d21b02753b3da14abf8b1be01f00b5ad62f4a69e7a6505fded4231"
+    },
+    {
+      "path": "workspace/inputs/solidworks/方形视触觉/盖板.sldprt",
+      "bytes": 89434,
+      "sha256": "5d50535e64e8330c1a07cefebe49ef65106951594691173c808651e6f6c00696"
+    },
+    {
+      "path": "workspace/inputs/step/BIgClaw.stp",
+      "bytes": 13718340,
+      "sha256": "db2865a35d129aea321c50ed419f0317760bcada4e36af9b1cd3c7d7ff91150e"
+    },
+    {
+      "path": "workspace/work/README.md",
+      "bytes": 324,
+      "sha256": "69f2000a0a960ed2304d74ef3e5c943f1acb09f27633fb00618d0253a468a0e4"
+    }
+  ]
+}

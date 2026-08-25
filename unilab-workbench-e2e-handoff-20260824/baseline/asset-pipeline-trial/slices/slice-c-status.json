@@ -1,0 +1,9 @@
+{
+  "schema": "lab.trial_slice_status/v0",
+  "slice": "C",
+  "status": "interface-only",
+  "reason": "no controller export was found in the current folder",
+  "published_pointset": false,
+  "published_programset": false,
+  "published_current_values_as_targets": false
+}

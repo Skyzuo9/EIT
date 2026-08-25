@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Controller raw snapshot fixture schema; no fabricated records included",
+  "type": "object",
+  "required": [
+    "controller_revision",
+    "captured_at",
+    "native_units",
+    "records"
+  ],
+  "properties": {
+    "controller_revision": {
+      "type": "string"
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "native_units": {
+      "type": "object"
+    },
+    "records": {
+      "type": "array"
+    }
+  }
+}

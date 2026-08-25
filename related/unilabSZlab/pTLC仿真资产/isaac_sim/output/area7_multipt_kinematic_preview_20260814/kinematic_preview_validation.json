@@ -1,0 +1,64 @@
+{
+  "schema": "unilab.kinematic-preview-validation/v1",
+  "passed": true,
+  "artifact": "pTLC仿真资产/isaac_sim/output/area7_multipt_kinematic_preview_20260814/ptlc_area7_13_points_kinematic_preview.mp4",
+  "artifact_sha256": "61b634c944635490ac3d085c8e0f9c7a4e6511dd667df4682544b738cd288ec0",
+  "renderer": "Pillow CPU software rasterizer with CR5 URDF forward kinematics",
+  "sequence": [
+    "P45",
+    "P46",
+    "P47",
+    "P48",
+    "P80",
+    "P79",
+    "P78",
+    "P45",
+    "P49",
+    "P50",
+    "P51",
+    "P83",
+    "P82",
+    "P81",
+    "P45"
+  ],
+  "stop_count": 15,
+  "unique_target_count": 13,
+  "unique_targets": [
+    "P45",
+    "P46",
+    "P47",
+    "P48",
+    "P80",
+    "P79",
+    "P78",
+    "P49",
+    "P50",
+    "P51",
+    "P83",
+    "P82",
+    "P81"
+  ],
+  "frame_count_expected": 297,
+  "frame_count_decoded": 297,
+  "frame_shape_decoded": [
+    540,
+    960,
+    3
+  ],
+  "resolution": [
+    960,
+    540
+  ],
+  "fps": 12,
+  "duration_seconds": 24.75,
+  "move_frames": 18,
+  "hold_frames": 3,
+  "source_sha256": {
+    "point_set": "67b2d60c7ca560bad1ee68111493d06014a6e91e1fa7972331c825fdc988a180",
+    "layout": "71df2cf0a8f6c6ac2ebee1af564e0d50a4954ced4276b63450400d032d5a6adf",
+    "manifest": "3e9f80dededf1730b9183c02110371300668be8e819478480c642dcde04c47b5",
+    "urdf": "6e96f0434624e12570d8a8fcd2add9c37d6605245f69c9063cad5d686803f84f"
+  },
+  "endpoint_rule": "Every hold frame equals the exact recorded six-joint target; move frames use cosine-smoothed joint interpolation.",
+  "evidence_boundary": "Software kinematic preview only. It is not an Isaac Sim render and does not establish MoveIt planning, collision safety, rigid-body dynamics, controller/world calibration, or real-device execution."
+}

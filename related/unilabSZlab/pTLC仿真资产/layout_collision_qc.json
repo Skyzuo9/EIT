@@ -1,0 +1,121 @@
+{
+  "schema_version": "0.1",
+  "method": "asset broad-phase AABB followed by per-visual-component AABB intersections; touching faces within 1e-6 m are ignored",
+  "scope_boundary": "Conservative proxy QC only; it is not continuous collision detection and does not certify robot motion.",
+  "status": "passed",
+  "placed_asset_count": 15,
+  "broad_phase_pair_count": 3,
+  "unexpected_component_overlap_count": 0,
+  "unexpected_overlaps": [],
+  "all_broad_phase_pairs": [
+    {
+      "assets": [
+        "collection_station",
+        "staging_b_6slot"
+      ],
+      "broad_aabb_intersection_volume_m3": 0.020280001,
+      "component_aabb_hit_count": 6,
+      "component_aabb_intersection_volume_sum_m3": 0.000251523,
+      "allowed_support_or_nested_pair": true,
+      "allowance_reason": "tray intentionally mounted on collection-station deck",
+      "component_hits": [
+        {
+          "component_a": 0,
+          "component_b": 0,
+          "aabb_intersection_volume_m3": 6.7173e-05
+        },
+        {
+          "component_a": 0,
+          "component_b": 3,
+          "aabb_intersection_volume_m3": 4.4738e-05
+        },
+        {
+          "component_a": 0,
+          "component_b": 4,
+          "aabb_intersection_volume_m3": 6.7173e-05
+        },
+        {
+          "component_a": 0,
+          "component_b": 7,
+          "aabb_intersection_volume_m3": 1.4265e-05
+        },
+        {
+          "component_a": 0,
+          "component_b": 8,
+          "aabb_intersection_volume_m3": 5.2562e-05
+        },
+        {
+          "component_a": 0,
+          "component_b": 12,
+          "aabb_intersection_volume_m3": 5.613e-06
+        }
+      ]
+    },
+    {
+      "assets": [
+        "photo_scrape_station",
+        "powder_collector_fixture"
+      ],
+      "broad_aabb_intersection_volume_m3": 0.031823998,
+      "component_aabb_hit_count": 3,
+      "component_aabb_intersection_volume_sum_m3": 0.002400643,
+      "allowed_support_or_nested_pair": true,
+      "allowance_reason": "fixture intentionally nested on photo/scrape plate",
+      "component_hits": [
+        {
+          "component_a": 2,
+          "component_b": 0,
+          "aabb_intersection_volume_m3": 0.000502421
+        },
+        {
+          "component_a": 2,
+          "component_b": 3,
+          "aabb_intersection_volume_m3": 0.00133246
+        },
+        {
+          "component_a": 4,
+          "component_b": 3,
+          "aabb_intersection_volume_m3": 0.000565763
+        }
+      ]
+    },
+    {
+      "assets": [
+        "sampling_station",
+        "staging_a_6slot"
+      ],
+      "broad_aabb_intersection_volume_m3": 0.028080003,
+      "component_aabb_hit_count": 5,
+      "component_aabb_intersection_volume_sum_m3": 0.000174565,
+      "allowed_support_or_nested_pair": true,
+      "allowance_reason": "tray intentionally mounted on sampling-station deck",
+      "component_hits": [
+        {
+          "component_a": 11,
+          "component_b": 8,
+          "aabb_intersection_volume_m3": 1.6625e-05
+        },
+        {
+          "component_a": 11,
+          "component_b": 11,
+          "aabb_intersection_volume_m3": 1.6625e-05
+        },
+        {
+          "component_a": 11,
+          "component_b": 12,
+          "aabb_intersection_volume_m3": 1.6625e-05
+        },
+        {
+          "component_a": 11,
+          "component_b": 15,
+          "aabb_intersection_volume_m3": 1.6625e-05
+        },
+        {
+          "component_a": 11,
+          "component_b": 17,
+          "aabb_intersection_volume_m3": 0.000108064
+        }
+      ]
+    }
+  ]
+}

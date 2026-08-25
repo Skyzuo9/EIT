@@ -1,0 +1,26 @@
+{
+  "schema": "lab.provenance/v0",
+  "adapter": "SwPackAndGoAdapter/SolidWorks-2025-SP05/trial-v0",
+  "source_digest": "930385eda02935524c33d97a8e20888a722fdeb4231d6ad24106f92e246f9a3b",
+  "com_revision": "33.5.0",
+  "open_errors": 0,
+  "open_warnings": 34,
+  "open_warning_flags": [
+    "read-only",
+    "needs-regeneration"
+  ],
+  "component_count": 4,
+  "mate_candidate_count": 14,
+  "render": {
+    "bytes": 4427592,
+    "sha256": "e12775621f29af4b24e5d161376ea56d2c994fb23070e4fa58b728bc3c30059c",
+    "nodes": 6,
+    "meshes": 4,
+    "primitives": 4,
+    "accessors": 12,
+    "materials": 1,
+    "animations": 0,
+    "skins": 0,
+    "scenes": 1
+  }
+}

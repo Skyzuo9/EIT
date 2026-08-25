@@ -1,0 +1,29 @@
+{
+  "schema": "lab.entity_registry/v0",
+  "entities": [
+    {
+      "scene_entity_id": "legacy-link:0000:base_link",
+      "link_alias": "base_link"
+    },
+    {
+      "scene_entity_id": "legacy-link:0001:rotate_Link",
+      "link_alias": "rotate_Link"
+    },
+    {
+      "scene_entity_id": "legacy-link:0002:l_Link",
+      "link_alias": "l_Link"
+    },
+    {
+      "scene_entity_id": "legacy-link:0003:l2_Link",
+      "link_alias": "l2_Link"
+    },
+    {
+      "scene_entity_id": "legacy-link:0004:r_Link",
+      "link_alias": "r_Link"
+    },
+    {
+      "scene_entity_id": "legacy-link:0005:r2_Link",
+      "link_alias": "r2_Link"
+    }
+  ]
+}

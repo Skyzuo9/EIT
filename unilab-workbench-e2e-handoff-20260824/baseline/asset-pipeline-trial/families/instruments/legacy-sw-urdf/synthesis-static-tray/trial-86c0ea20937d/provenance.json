@@ -1,0 +1,20 @@
+{
+  "schema": "lab.provenance/v0",
+  "adapter": "LegacySwUrdfFixtureAdapter/trial-v0",
+  "source_digest": "86c0ea20937de7c1c862150cfc2b660d7c5c65138a290f75ed5b018735aba9d4",
+  "render": {
+    "bytes": 127404,
+    "sha256": "30da0cd87baab1eb0aed3bcbd68c4af629c9bacc9a898140aef7dcb278f4f0e7",
+    "nodes": 2,
+    "meshes": 1,
+    "primitives": 1,
+    "accessors": 3,
+    "materials": 0,
+    "animations": 0,
+    "skins": 0,
+    "scenes": 1
+  },
+  "candidate_joint_count": 0,
+  "visual_collision_same_mesh_links": 1,
+  "promotion_requires_human_approval": true
+}

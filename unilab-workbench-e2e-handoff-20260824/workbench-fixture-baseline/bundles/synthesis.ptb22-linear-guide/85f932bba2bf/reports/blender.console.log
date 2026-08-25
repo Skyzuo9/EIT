@@ -1,0 +1,13 @@
+INFO Draco is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_draco_bridge.dll
+INFO MeshOptimizer is available, use library at C:\Program Files\Blender Foundation\Blender 5.2\5.2\scripts\addons_core\io_scene_gltf2\bf_intern_meshopt_bridge.dll
+00:35:00 | INFO: Starting glTF 2.0 export
+00:35:00 | INFO: Extracting primitive: base_link
+00:35:00 | INFO: Primitives created: 1
+00:35:00 | INFO: Extracting primitive: move_link
+00:35:00 | INFO: Primitives created: 1
+00:35:00 | INFO: Finished glTF 2.0 export in 0.05316305160522461 s
+Blender 5.2.0 LTS (hash fbe6228777e7 built 2026-07-14 01:35:40)
+Timer 'STL Import' took 2.00 ms
+Timer 'STL Import' took 0.91 ms
+
+TRIAL_BLENDER_RESULT={"schema": "lab.render_capture/v0", "source_kind": "legacy-sw-urdf", "robot_name": "PTB22-L40-1000-R-M75-C3-0.SLDASM", "root_link": "base_link", "link_count": 2, "source_joint_count": 1, "imported_mesh_objects": 2, "triangle_count": 9544, "bounds_source_z_up_m": {"min": [-0.8962557315826416, -0.12370000034570694, -0.0010000000474974513], "max": [0.6845443248748779, 0.11500000208616257, 0.13300000131130219]}, "exported_glb": "C:\\unilab_asset_trial_tmp\\urdf_synthesis-linear-guide\\render.glb", "animations_exported": false, "skins_exported": false}

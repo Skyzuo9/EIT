@@ -1,0 +1,49 @@
+{
+  "schema": "lab.legacy_urdf_snapshot/v0",
+  "source_document": "E:\\资产管线unilab\\合成-化学反应站-urdf\\导轨PTB22-L40-1000-R-M75-C3-0.urdf\\urdf\\PTB22-L40-1000-R-M75-C3-0.SLDASM.urdf",
+  "root_link": "base_link",
+  "links": [
+    {
+      "id": "base_link",
+      "source_visual": "package://PTB22-L40-1000-R-M75-C3-0.SLDASM/meshes/base_link.STL"
+    },
+    {
+      "id": "move_link",
+      "source_visual": "package://PTB22-L40-1000-R-M75-C3-0.SLDASM/meshes/move_link.STL"
+    }
+  ],
+  "source_joint_evidence": [
+    {
+      "id": "move_joint",
+      "type": "prismatic",
+      "parent": "base_link",
+      "child": "move_link",
+      "origin": {
+        "xyz": [
+          -0.54196,
+          0.0,
+          0.0955
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "axis": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "limits": {
+        "lower": 0.0,
+        "upper": 1.1,
+        "velocity": 0.0,
+        "effort": 0.0
+      },
+      "role": "candidate",
+      "status": "unproven",
+      "evidence": "legacy SolidWorks URDF exporter output"
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "schema": "lab.workbench_fixture_marker/v0",
+  "fixtureId": "asset-pipeline-e2e-baseline-20260824",
+  "safeToRemoveAsOneTestFolder": true
+}

@@ -1,0 +1,88 @@
+{
+  "schema": "lab.assembly_snapshot/v0",
+  "source_document": "E:\\资产管线unilab\\五轴机械臂20250912\\BIgClaw.stp",
+  "capture_adapter": "StepAssemblyAdapter/cascadio-0.1.1/trial-v0",
+  "units": {
+    "length": "m",
+    "angle": "rad",
+    "orientation": "quaternion_xyzw"
+  },
+  "coordinate_note": "world transforms are expressed in the converted glTF root frame",
+  "instances": [
+    {
+      "id": "step-node:0000",
+      "name": "Document",
+      "document": "E:\\资产管线unilab\\五轴机械臂20250912\\BIgClaw.stp",
+      "parent": null,
+      "transform_world": {
+        "xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "quat_xyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "frame_ref": "gltf_root"
+      },
+      "source_gltf_node": 0,
+      "has_render_mesh": false,
+      "suppressed": false
+    },
+    {
+      "id": "step-node:0001",
+      "name": "=>[0:1:1:2]",
+      "document": "E:\\资产管线unilab\\五轴机械臂20250912\\BIgClaw.stp",
+      "parent": "step-node:0000",
+      "transform_world": {
+        "xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "quat_xyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "frame_ref": "gltf_root"
+      },
+      "source_gltf_node": 1,
+      "has_render_mesh": true,
+      "suppressed": false
+    },
+    {
+      "id": "step-node:0002",
+      "name": "=>[0:1:1:3]",
+      "document": "E:\\资产管线unilab\\五轴机械臂20250912\\BIgClaw.stp",
+      "parent": "step-node:0000",
+      "transform_world": {
+        "xyz_m": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "quat_xyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "frame_ref": "gltf_root"
+      },
+      "source_gltf_node": 2,
+      "has_render_mesh": true,
+      "suppressed": false
+    }
+  ],
+  "mates_candidate": [],
+  "missing": [
+    "solidworks_mates",
+    "solidworks_configuration",
+    "stable_solidworks_occurrence_identity"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "grade": "semantic-scene",
+  "allows": [
+    "workbench_display",
+    "stable_picking"
+  ],
+  "forbids": [
+    "motion",
+    "spatial_interlock_enforced",
+    "execution"
+  ],
+  "missing": [
+    "approved_mate_semantics",
+    "qualified_collision",
+    "site_calibration"
+  ]
+}

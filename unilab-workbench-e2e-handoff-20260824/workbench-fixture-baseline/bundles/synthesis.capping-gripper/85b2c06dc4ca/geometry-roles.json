@@ -1,0 +1,59 @@
+{
+  "schema": "lab.geometry_roles/v0",
+  "entities": [
+    {
+      "id": "base_link",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unqualified-same-as-visual"
+    },
+    {
+      "id": "rotate_Link",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unqualified-same-as-visual"
+    },
+    {
+      "id": "l_Link",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unqualified-same-as-visual"
+    },
+    {
+      "id": "l2_Link",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unqualified-same-as-visual"
+    },
+    {
+      "id": "r_Link",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unqualified-same-as-visual"
+    },
+    {
+      "id": "r2_Link",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unqualified-same-as-visual"
+    }
+  ]
+}

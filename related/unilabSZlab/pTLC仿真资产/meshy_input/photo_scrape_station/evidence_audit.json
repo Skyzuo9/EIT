@@ -1,0 +1,169 @@
+{
+  "schema_version": "1.0",
+  "asset_id": "photo_scrape_station",
+  "created_by": "deterministic_crop_and_manual_polygon_mask",
+  "source": {
+    "path": "现场照片/现场照片4.jpg",
+    "sha256": "1146ec111f9c8e36b37a53b4ba2df7c0785d5a9c6e57842a644c6874fe6abf05",
+    "pixel_size": [
+      4096,
+      3072
+    ],
+    "orientation": "upper-left"
+  },
+  "crop": {
+    "coordinate_convention": "source pixels; [left, upper, right, lower), origin at top-left",
+    "box_xyxy": [
+      300,
+      200,
+      1750,
+      2300
+    ],
+    "pixel_size": [
+      1450,
+      2100
+    ],
+    "raw_png": {
+      "path": "photo4_crop_x300-1750_y200-2300.png",
+      "sha256": "28058522733e68c552209e2d59bc3472f6024ed02adfc83ea7572d8265f3d49f"
+    },
+    "high_quality_jpeg": {
+      "path": "photo4_crop_x300-1750_y200-2300_q98.jpg",
+      "sha256": "64f2b74a60a2baa02c3a1059777c80461ba077235b26d0b9b742126666cf054c",
+      "quality": 98,
+      "chroma_subsampling": 0
+    }
+  },
+  "manual_mask": {
+    "coordinate_convention": "crop-local pixels; origin at top-left",
+    "polygons": [
+      [
+        [
+          150,
+          470
+        ],
+        [
+          530,
+          455
+        ],
+        [
+          695,
+          750
+        ],
+        [
+          690,
+          1715
+        ],
+        [
+          230,
+          1835
+        ],
+        [
+          130,
+          1640
+        ]
+      ],
+      [
+        [
+          390,
+          85
+        ],
+        [
+          835,
+          80
+        ],
+        [
+          1165,
+          210
+        ],
+        [
+          1215,
+          965
+        ],
+        [
+          1020,
+          1225
+        ],
+        [
+          645,
+          1115
+        ],
+        [
+          445,
+          740
+        ]
+      ],
+      [
+        [
+          245,
+          910
+        ],
+        [
+          1295,
+          925
+        ],
+        [
+          1365,
+          1785
+        ],
+        [
+          1195,
+          1905
+        ],
+        [
+          300,
+          1905
+        ],
+        [
+          170,
+          1750
+        ]
+      ]
+    ],
+    "mask_path": "photo4_subject_manual_mask.png",
+    "mask_sha256": "1818c2e7170b5b046ce53a85f6cbc4ce934de0ada811736eca1cb3f5fcbe6d61",
+    "transparent_path": "photo4_subject_manual_transparent.png",
+    "transparent_sha256": "804900e7798c162d6435b6c523ec1cc0c606ce9f2e75619cfb0fb46f005d9a3f",
+    "operation": "binary alpha mask only; RGB values inside mask copied from source crop",
+    "generative_content": false
+  },
+  "subject_scope": {
+    "included": [
+      "left black enclosure",
+      "vertical camera or actuator head",
+      "white striped working platform",
+      "aluminum-profile support frame",
+      "attached visible pneumatic lines and mechanisms"
+    ],
+    "excluded_or_mostly_excluded": [
+      "DOBOT CR5A on the right",
+      "right-side tool rack",
+      "foreground parcel and loose tabletop objects",
+      "most rear chemistry workstation background"
+    ],
+    "unavoidable_contamination": [
+      "some rear workstation pixels visible through open-frame gaps",
+      "occluding cables, hoses, and adjacent mechanisms",
+      "left enclosure may be a neighboring subsystem rather than part of the target"
+    ]
+  },
+  "fitness": {
+    "recommended_primary_input": "photo4_subject_manual_transparent.png",
+    "recommended_audit_reference": "photo4_crop_x300-1750_y200-2300.png",
+    "intended_use": "Meshy pilot/reference for a layout-grade photo_scrape_station proxy",
+    "not_suitable_for": [
+      "manufacturing geometry",
+      "collision-critical dimensions",
+      "precise hidden-side reconstruction",
+      "exact device identity claims"
+    ],
+    "single_view_risk": "high",
+    "risk_reasons": [
+      "only one oblique view",
+      "rear, left, and underside geometry are hidden",
+      "strong occlusion and reflective white/metal surfaces",
+      "target boundary is ambiguous because it is integrated into a larger custom workstation",
+      "no scale marker or calibrated camera intrinsics"
+    ]
+  }
+}

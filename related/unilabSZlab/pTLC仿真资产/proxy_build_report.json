@@ -1,0 +1,305 @@
+{
+  "count": 15,
+  "assets": [
+    {
+      "asset_id": "machine_deck",
+      "visual_glb": "pTLC仿真资产/proxies/machine_deck/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/machine_deck/collision.stl",
+      "visual_extents_m": [
+        3.8,
+        1.8,
+        0.85
+      ],
+      "target_dimensions_mm": [
+        3800,
+        1800,
+        850
+      ],
+      "collision_mode": "solid_aabb",
+      "collision_component_count": 1,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": null
+    },
+    {
+      "asset_id": "rail_11y",
+      "visual_glb": "pTLC仿真资产/proxies/rail_11y/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/rail_11y/collision.stl",
+      "visual_extents_m": [
+        2.3,
+        0.18,
+        0.15
+      ],
+      "target_dimensions_mm": [
+        2300,
+        180,
+        150
+      ],
+      "collision_mode": "solid_aabb",
+      "collision_component_count": 1,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": null
+    },
+    {
+      "asset_id": "tool_station",
+      "visual_glb": "pTLC仿真资产/proxies/tool_station/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/tool_station/collision.stl",
+      "visual_extents_m": [
+        0.56,
+        0.38,
+        0.42
+      ],
+      "target_dimensions_mm": [
+        560,
+        380,
+        420
+      ],
+      "collision_mode": "multi_body_open",
+      "collision_component_count": 6,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": true
+    },
+    {
+      "asset_id": "develop_tank_rack",
+      "visual_glb": "pTLC仿真资产/proxies/develop_tank_rack/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/develop_tank_rack/collision.stl",
+      "visual_extents_m": [
+        1.05,
+        0.62,
+        0.98
+      ],
+      "target_dimensions_mm": [
+        1050,
+        620,
+        980
+      ],
+      "collision_mode": "multi_body_open",
+      "collision_component_count": 16,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": true
+    },
+    {
+      "asset_id": "feed_lift",
+      "visual_glb": "pTLC仿真资产/proxies/feed_lift/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/feed_lift/collision.stl",
+      "visual_extents_m": [
+        0.48,
+        0.45,
+        1.05
+      ],
+      "target_dimensions_mm": [
+        480,
+        450,
+        1050
+      ],
+      "collision_mode": "multi_body_open",
+      "collision_component_count": 10,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": true
+    },
+    {
+      "asset_id": "sampling_station",
+      "visual_glb": "pTLC仿真资产/proxies/sampling_station/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/sampling_station/collision.stl",
+      "visual_extents_m": [
+        0.9,
+        0.65,
+        0.9
+      ],
+      "target_dimensions_mm": [
+        900,
+        650,
+        900
+      ],
+      "collision_mode": "multi_body_open",
+      "collision_component_count": 6,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": true
+    },
+    {
+      "asset_id": "photo_scrape_station",
+      "visual_glb": "pTLC仿真资产/proxies/photo_scrape_station/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/photo_scrape_station/collision.stl",
+      "visual_extents_m": [
+        0.76,
+        0.65,
+        1.05
+      ],
+      "target_dimensions_mm": [
+        760,
+        650,
+        1050
+      ],
+      "collision_mode": "solid_aabb",
+      "collision_component_count": 1,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": null
+    },
+    {
+      "asset_id": "powder_collector_fixture",
+      "visual_glb": "pTLC仿真资产/proxies/powder_collector_fixture/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/powder_collector_fixture/collision.stl",
+      "visual_extents_m": [
+        0.42,
+        0.26,
+        0.36
+      ],
+      "target_dimensions_mm": [
+        420,
+        260,
+        360
+      ],
+      "collision_mode": "multi_body_shaped",
+      "collision_component_count": 4,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": null
+    },
+    {
+      "asset_id": "group_rack_4x3",
+      "visual_glb": "pTLC仿真资产/proxies/group_rack_4x3/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/group_rack_4x3/collision.stl",
+      "visual_extents_m": [
+        0.62,
+        0.6,
+        0.76
+      ],
+      "target_dimensions_mm": [
+        620,
+        600,
+        760
+      ],
+      "collision_mode": "multi_body_open",
+      "collision_component_count": 8,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": true
+    },
+    {
+      "asset_id": "staging_a_6slot",
+      "visual_glb": "pTLC仿真资产/proxies/staging_a_6slot/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/staging_a_6slot/collision.stl",
+      "visual_extents_m": [
+        0.36,
+        0.3,
+        0.26
+      ],
+      "target_dimensions_mm": [
+        360,
+        300,
+        260
+      ],
+      "collision_mode": "multi_body_open",
+      "collision_component_count": 6,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": true
+    },
+    {
+      "asset_id": "staging_b_6slot",
+      "visual_glb": "pTLC仿真资产/proxies/staging_b_6slot/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/staging_b_6slot/collision.stl",
+      "visual_extents_m": [
+        0.3,
+        0.26,
+        0.26
+      ],
+      "target_dimensions_mm": [
+        300,
+        260,
+        260
+      ],
+      "collision_mode": "multi_body_open",
+      "collision_component_count": 6,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": true
+    },
+    {
+      "asset_id": "collection_station",
+      "visual_glb": "pTLC仿真资产/proxies/collection_station/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/collection_station/collision.stl",
+      "visual_extents_m": [
+        0.65,
+        0.52,
+        0.85
+      ],
+      "target_dimensions_mm": [
+        650,
+        520,
+        850
+      ],
+      "collision_mode": "multi_body_open",
+      "collision_component_count": 6,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": true
+    },
+    {
+      "asset_id": "tool_suction",
+      "visual_glb": "pTLC仿真资产/proxies/tool_suction/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/tool_suction/collision.stl",
+      "visual_extents_m": [
+        0.15,
+        0.12,
+        0.16
+      ],
+      "target_dimensions_mm": [
+        150,
+        120,
+        160
+      ],
+      "collision_mode": "multi_body_shaped",
+      "collision_component_count": 4,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": null
+    },
+    {
+      "asset_id": "tool_large_gripper",
+      "visual_glb": "pTLC仿真资产/proxies/tool_large_gripper/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/tool_large_gripper/collision.stl",
+      "visual_extents_m": [
+        0.2,
+        0.11,
+        0.19
+      ],
+      "target_dimensions_mm": [
+        200,
+        110,
+        190
+      ],
+      "collision_mode": "multi_body_shaped",
+      "collision_component_count": 4,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": null
+    },
+    {
+      "asset_id": "tool_small_gripper",
+      "visual_glb": "pTLC仿真资产/proxies/tool_small_gripper/visual.glb",
+      "collision_stl": "pTLC仿真资产/proxies/tool_small_gripper/collision.stl",
+      "visual_extents_m": [
+        0.1,
+        0.08,
+        0.15
+      ],
+      "target_dimensions_mm": [
+        100,
+        80,
+        150
+      ],
+      "collision_mode": "multi_body_shaped",
+      "collision_component_count": 4,
+      "collision_watertight": true,
+      "collision_bounds_match_target": true,
+      "open_cavity_preserved": null
+    }
+  ]
+}

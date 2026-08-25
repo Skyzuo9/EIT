@@ -1,0 +1,1776 @@
+diff --git a/apps/kernel-web/build/assetPipelineE2eFixturePlugin.ts b/apps/kernel-web/build/assetPipelineE2eFixturePlugin.ts
+new file mode 100644
+index 0000000..1167525
+--- /dev/null
++++ b/apps/kernel-web/build/assetPipelineE2eFixturePlugin.ts
+@@ -0,0 +1,99 @@
++import { createReadStream, existsSync, statSync } from 'node:fs'
++import { extname, resolve, sep } from 'node:path'
++import { fileURLToPath } from 'node:url'
++import type { IncomingMessage, ServerResponse } from 'node:http'
++import type { Plugin } from 'vite'
++
++const URL_PREFIX = '/__asset_pipeline_e2e__'
++const FIXTURE_RUN_ID = 'asset-pipeline-e2e-20260824'
++const PLUGIN_DIR = fileURLToPath(new URL('.', import.meta.url))
++const DEFAULT_FIXTURE_ROOT = resolve(
++  PLUGIN_DIR,
++  '../../../../unilab-workbench-e2e-handoff-20260824/workbench-fixture-baseline'
++)
++const MIME_TYPES: Readonly<Record<string, string>> = {
++  '.json': 'application/json; charset=utf-8',
++  '.glb': 'model/gltf-binary',
++  '.png': 'image/png',
++  '.log': 'text/plain; charset=utf-8',
++  '.sha256': 'text/plain; charset=utf-8'
++}
++
++/**
++ * 开发/预览时把交接包基线夹具挂到隔离 URL，不把大 GLB 打进 Git 或生产包。
++ */
++export function assetPipelineE2eFixturePlugin(): Plugin {
++  const fixtureRoot = resolve(
++    process.env.UNILAB_ASSET_PIPELINE_FIXTURE_ROOT ?? DEFAULT_FIXTURE_ROOT
++  )
++
++  const middleware = (
++    request: IncomingMessage,
++    response: ServerResponse,
++    next: () => void
++  ): void => {
++    const pathOnly = request.url?.split('?')[0] ?? ''
++    if (!pathOnly.startsWith(`${URL_PREFIX}/`) && pathOnly !== URL_PREFIX) {
++      next()
++      return
++    }
++    response.setHeader('Cache-Control', 'no-store')
++    if (!existsSync(fixtureRoot)) {
++      response.statusCode = 404
++      response.setHeader('Content-Type', 'text/plain; charset=utf-8')
++      response.end(`Asset pipeline fixture is missing: ${fixtureRoot}`)
++      return
++    }
++    const rest = decodeURIComponent(pathOnly.slice(URL_PREFIX.length)).replace(
++      /^\/+/,
++      ''
++    )
++    const runPrefix = `${FIXTURE_RUN_ID}/`
++    if (!rest.startsWith(runPrefix)) {
++      response.statusCode = 404
++      response.setHeader('Content-Type', 'text/plain; charset=utf-8')
++      response.end(`Missing fixture file: ${rest || '(root)'}`)
++      return
++    }
++    const relative = rest.slice(runPrefix.length)
++    if (!relative || relative.split(/[\\/]/).includes('..')) {
++      response.statusCode = 400
++      response.setHeader('Content-Type', 'text/plain; charset=utf-8')
++      response.end('Invalid fixture path')
++      return
++    }
++    const filePath = resolve(fixtureRoot, relative)
++    const rootWithSep = fixtureRoot.endsWith(sep) ? fixtureRoot : `${fixtureRoot}${sep}`
++    if (filePath !== fixtureRoot && !filePath.startsWith(rootWithSep)) {
++      response.statusCode = 400
++      response.setHeader('Content-Type', 'text/plain; charset=utf-8')
++      response.end('Invalid fixture path')
++      return
++    }
++    if (!existsSync(filePath) || !statSync(filePath).isFile()) {
++      response.statusCode = 404
++      response.setHeader('Content-Type', 'text/plain; charset=utf-8')
++      response.end(`Missing fixture file: ${relative}`)
++      return
++    }
++    const mime = MIME_TYPES[extname(filePath).toLowerCase()] ?? 'application/octet-stream'
++    response.statusCode = 200
++    response.setHeader('Content-Type', mime)
++    response.setHeader('Cache-Control', 'no-store')
++    createReadStream(filePath).pipe(response)
++  }
++
++  return {
++    name: 'unilab-asset-pipeline-e2e-fixture',
++    configureServer(server) {
++      server.middlewares.use(middleware)
++    },
++    configurePreviewServer(server) {
++      server.middlewares.use(middleware)
++    }
++  }
++}
++
++export function assetPipelineE2eFixtureRoot(): string {
++  return resolve(process.env.UNILAB_ASSET_PIPELINE_FIXTURE_ROOT ?? DEFAULT_FIXTURE_ROOT)
++}
+diff --git a/apps/kernel-web/package.json b/apps/kernel-web/package.json
+index 9787e43..bf42d2a 100644
+--- a/apps/kernel-web/package.json
++++ b/apps/kernel-web/package.json
+@@ -7,6 +7,7 @@
+     "build": "vite build && node scripts/check-web-bundle-size.mjs",
+     "check:bundle-size": "node scripts/check-web-bundle-size.mjs",
+     "preview": "vite preview",
++    "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
+     "typecheck": "tsc --noEmit -p tsconfig.json",
+     "test": "vitest run",
+     "test:deployment": "node scripts/regress-web-deployment.mjs"
+diff --git a/apps/kernel-web/src/App.tsx b/apps/kernel-web/src/App.tsx
+index 8edba6f..250e69f 100644
+--- a/apps/kernel-web/src/App.tsx
++++ b/apps/kernel-web/src/App.tsx
+@@ -1,5 +1,5 @@
+ /** [AI] Model: Claude Opus 4.8 | 2026-07-31 | 应用根:可选登录 + 统一外壳 + 模式 Provider */
+-import { useCallback, type ReactNode } from 'react'
++import { lazy, Suspense, useCallback, type ReactNode } from 'react'
+ import { ServicesProvider } from '@unilab/services'
+ import type { HttpRequestTraceEvent } from '@unilab/services'
+ import { WorkflowSessionProvider } from '@unilab/workflow-editor'
+@@ -14,7 +14,24 @@ import AppShell from './components/AppShell'
+ import { DeviceCardAuthoringTargetConnector } from './components/device-cards/DeviceCardAuthoringTargetConnector'
+ import { DeviceStatusProvider } from './hooks/useDeviceStatus'
+ 
++const AssetPipelineFixturePage = lazy(() =>
++  import('./integrations/asset-pipeline-e2e/AssetPipelineFixturePage')
++)
++
++function isAssetPipelineFixtureMode(): boolean {
++  if (typeof window === 'undefined') return false
++  return new URLSearchParams(window.location.search).has('asset-pipeline-e2e')
++}
++
+ export default function App(): React.JSX.Element {
++  if (isAssetPipelineFixtureMode()) {
++    return (
++      <Suspense fallback={<div className="app-loading">正在加载资产管线夹具…</div>}>
++        <AssetPipelineFixturePage />
++      </Suspense>
++    )
++  }
++
+   return (
+     <AuthProvider>
+       <WorkbenchProvider>
+diff --git a/apps/kernel-web/src/integrations/asset-pipeline-e2e/AssetPipelineFixturePage.module.scss b/apps/kernel-web/src/integrations/asset-pipeline-e2e/AssetPipelineFixturePage.module.scss
+new file mode 100644
+index 0000000..a376c20
+--- /dev/null
++++ b/apps/kernel-web/src/integrations/asset-pipeline-e2e/AssetPipelineFixturePage.module.scss
+@@ -0,0 +1,116 @@
++.page {
++  display: grid;
++  grid-template-rows: auto minmax(0, 1fr);
++  width: 100%;
++  height: 100vh;
++  min-height: 0;
++  background: var(--unilab-color-bg, #f3f4f6);
++  color: var(--unilab-color-text, #1f2329);
++}
++
++.banner,
++.status,
++.error {
++  margin: 0;
++  padding: 10px 16px;
++  font-size: 13px;
++  line-height: 1.45;
++}
++
++.banner {
++  color: #92400e;
++  background: #fff7ed;
++  border-bottom: 1px solid #fdba74;
++}
++
++.status {
++  color: var(--unilab-color-text-muted, #6b7280);
++}
++
++.error {
++  color: #b91c1c;
++  background: #fef2f2;
++}
++
++.body {
++  display: grid;
++  grid-template-columns: minmax(0, 1fr) 320px;
++  min-height: 0;
++}
++
++.viewport {
++  min-width: 0;
++  min-height: 0;
++}
++
++.inspector {
++  overflow: auto;
++  padding: 16px;
++  border-left: 1px solid var(--unilab-color-border, #e5e7eb);
++  background: #fff;
++  font-size: 13px;
++
++  h2,
++  h3 {
++    margin: 16px 0 8px;
++    font-size: 13px;
++  }
++
++  h2:first-child {
++    margin-top: 0;
++  }
++
++  dl {
++    display: grid;
++    gap: 8px;
++    margin: 0;
++  }
++
++  dt {
++    color: var(--unilab-color-text-muted, #6b7280);
++  }
++
++  dd {
++    margin: 2px 0 0;
++    overflow-wrap: anywhere;
++  }
++
++  ul {
++    margin: 0;
++    padding: 0;
++    list-style: none;
++  }
++
++  li {
++    margin: 0 0 8px;
++  }
++
++  button {
++    width: 100%;
++    padding: 6px 8px;
++    text-align: left;
++    border: 1px solid var(--unilab-color-border, #e5e7eb);
++    border-radius: 6px;
++    background: #fff;
++    cursor: pointer;
++  }
++}
++
++.assetSelected {
++  border-color: #4dabf7;
++  background: #edf7ff;
++}
++
++.assetError,
++.hint {
++  margin: 6px 0 0;
++  color: var(--unilab-color-text-muted, #6b7280);
++}
++
++.assetError {
++  color: #b91c1c;
++}
++
++code {
++  font-size: 12px;
++}
+diff --git a/apps/kernel-web/src/integrations/asset-pipeline-e2e/AssetPipelineFixturePage.tsx b/apps/kernel-web/src/integrations/asset-pipeline-e2e/AssetPipelineFixturePage.tsx
+new file mode 100644
+index 0000000..4ce34ec
+--- /dev/null
++++ b/apps/kernel-web/src/integrations/asset-pipeline-e2e/AssetPipelineFixturePage.tsx
+@@ -0,0 +1,272 @@
++import { PascalEditorHost, type SceneGraph } from '@unilab/pascal-host'
++import {
++  isLabDeviceNode,
++  preparePascalLabPlugin
++} from '@unilab/pascal-lab-plugin'
++import { useCallback, useEffect, useMemo, useState } from 'react'
++
++import { supportsWebGl } from '../lab-workbench/webGlCapability'
++import { loadAssetPipelineFixture } from './fixtureLoader'
++import {
++  AssetPipelineFixtureError,
++  readAssetPipelineFixtureCatalogUrl,
++  type ProjectedFixtureAsset
++} from './sceneCatalog'
++import styles from './AssetPipelineFixturePage.module.scss'
++
++/**
++ * 开发态入口：用现有 Pascal renderer 加载静态 scene-catalog。
++ * 不是物料图，也不是 WorkCellActivation；默认生产导航不会进入此页。
++ */
++export function AssetPipelineFixturePage(): React.JSX.Element {
++  const catalogUrl = useMemo(
++    () => readAssetPipelineFixtureCatalogUrl(window.location.search),
++    []
++  )
++  const [error, setError] = useState<string | null>(null)
++  const [loading, setLoading] = useState(true)
++  const [fixture, setFixture] = useState<Awaited<
++    ReturnType<typeof loadAssetPipelineFixture>
++  > | null>(null)
++  const [selectedAssetId, setSelectedAssetId] = useState<string | null>(null)
++  const [fitSceneRevision, setFitSceneRevision] = useState(1)
++
++  useEffect(() => {
++    if (!catalogUrl) {
++      setError('缺少 asset-pipeline-e2e catalog URL')
++      setLoading(false)
++      return
++    }
++    let cancelled = false
++    setLoading(true)
++    void loadAssetPipelineFixture(catalogUrl)
++      .then((loaded) => {
++        if (!cancelled) {
++          setFixture(loaded)
++          setError(null)
++        }
++      })
++      .catch((cause: unknown) => {
++        if (cancelled) return
++        const message = cause instanceof AssetPipelineFixtureError
++          ? `${cause.code}: ${cause.message}`
++          : cause instanceof Error
++            ? cause.message
++            : String(cause)
++        setError(message)
++      })
++      .finally(() => {
++        if (!cancelled) setLoading(false)
++      })
++    return () => {
++      cancelled = true
++    }
++  }, [catalogUrl])
++
++  const scene = useMemo(() => {
++    if (!fixture) return null
++    const site = fixture.scene.nodes.site_unilab
++    if (!site || typeof site !== 'object') return fixture.scene
++    return {
++      ...fixture.scene,
++      nodes: {
++        ...fixture.scene.nodes,
++        site_unilab: {
++          ...site,
++          fitSceneRevision
++        }
++      }
++    }
++  }, [fitSceneRevision, fixture])
++
++  const selectedAsset = useMemo(
++    () => fixture?.assets.find((asset) => asset.id === selectedAssetId) ?? null,
++    [fixture, selectedAssetId]
++  )
++
++  const prepare = useCallback(async () => {
++    await preparePascalLabPlugin()
++  }, [])
++
++  const handleSelectionChange = useCallback(
++    (sceneObjectIds: readonly string[]) => {
++      if (!fixture) return
++      const selected = sceneObjectIds.flatMap((id) => {
++        const node = fixture.scene.nodes[id]
++        return isLabDeviceNode(node) ? [node.materialNodeId] : []
++      })
++      setSelectedAssetId(selected[0] ?? null)
++    },
++    [fixture]
++  )
++
++  if (!supportsWebGl()) {
++    return (
++      <main className={styles.page}>
++        <Banner />
++        <p className={styles.error}>当前浏览器未启用 WebGL。</p>
++      </main>
++    )
++  }
++
++  if (loading) {
++    return (
++      <main className={styles.page}>
++        <Banner />
++        <p className={styles.status}>正在加载静态资产夹具…</p>
++      </main>
++    )
++  }
++
++  if (error || !fixture || !scene) {
++    return (
++      <main className={styles.page}>
++        <Banner />
++        <p className={styles.error} data-testid="asset-pipeline-e2e-error">
++          {error ?? '夹具未加载'}
++        </p>
++      </main>
++    )
++  }
++
++  return (
++    <main className={styles.page} data-testid="asset-pipeline-e2e-page">
++      <Banner />
++      <div className={styles.body}>
++        <section className={styles.viewport} aria-label="静态资产夹具三维视图">
++          <div className="pascal-lab-workbench">
++            <div className="pascal-lab-workbench__native">
++              <PascalEditorHost
++                scene={scene as SceneGraph}
++                projectId="asset-pipeline-e2e-fixture"
++                prepare={prepare}
++                readOnly
++                editorViewMode="3d"
++                sceneTheme="studio"
++                showGrid
++                suppressSelectionAfterPointerDrag
++                toolbar={
++                  <div className="pascal-lab-toolbar">
++                    <span className="pascal-lab-toolbar__title">
++                      资产管线静态夹具 · Pascal
++                    </span>
++                    <span className="pascal-lab-toolbar__status">
++                      {fixture.assets.length} 个候选 · 只读显示/拾取
++                    </span>
++                    <div className="pascal-lab-toolbar__actions">
++                      <button
++                        type="button"
++                        className="pascal-lab-toolbar__button"
++                        onClick={() => {
++                          setFitSceneRevision((revision) => revision + 1)
++                        }}
++                      >
++                        适配场景
++                      </button>
++                    </div>
++                  </div>
++                }
++                onSelectionChange={handleSelectionChange}
++              />
++            </div>
++          </div>
++        </section>
++        <aside className={styles.inspector} aria-label="夹具详情">
++          <h2>Catalog</h2>
++          <dl>
++            <div>
++              <dt>fixtureId</dt>
++              <dd>{fixture.catalog.fixtureId}</dd>
++            </div>
++            <div>
++              <dt>catalog</dt>
++              <dd><code>{fixture.catalogUrl}</code></dd>
++            </div>
++            <div>
++              <dt>gate sha256</dt>
++              <dd><code>{fixture.catalog.sourceFamilyGateSha256}</code></dd>
++            </div>
++          </dl>
++          <h2>资产</h2>
++          <ul>
++            {fixture.assets.map((asset) => (
++              <li key={asset.id}>
++                <button
++                  type="button"
++                  className={
++                    asset.id === selectedAssetId ? styles.assetSelected : undefined
++                  }
++                  onClick={() => setSelectedAssetId(asset.id)}
++                >
++                  {asset.family}
++                </button>
++                {fixture.assetFailures[asset.id] ? (
++                  <p className={styles.assetError}>
++                    {fixture.assetFailures[asset.id]}
++                  </p>
++                ) : null}
++              </li>
++            ))}
++          </ul>
++          <AssetDetails asset={selectedAsset} />
++        </aside>
++      </div>
++    </main>
++  )
++}
++
++function Banner(): React.JSX.Element {
++  return (
++    <p className={styles.banner} role="status">
++      候选静态夹具：仅显示与拾取。不是 WorkCellActivation，不启用运动、空间互锁或执行。
++    </p>
++  )
++}
++
++function AssetDetails({
++  asset
++}: {
++  asset: ProjectedFixtureAsset | null
++}): React.JSX.Element {
++  if (!asset) {
++    return <p className={styles.hint}>在场景中点选一个模型，或从左侧列表选择。</p>
++  }
++  return (
++    <section data-testid="asset-pipeline-e2e-details">
++      <h2>选中项</h2>
++      <dl>
++        <div>
++          <dt>family</dt>
++          <dd>{asset.family}</dd>
++        </div>
++        <div>
++          <dt>revision</dt>
++          <dd><code>{asset.trialRevision}</code></dd>
++        </div>
++        <div>
++          <dt>capability</dt>
++          <dd>{asset.capabilityGrade}</dd>
++        </div>
++        <div>
++          <dt>拾取粒度</dt>
++          <dd>lab-device / family。子实体来自 entity-registry，不是现场 device_id。</dd>
++        </div>
++      </dl>
++      <h3>entity-registry</h3>
++      {asset.entities.length === 0 ? (
++        <p className={styles.hint}>当前 bundle 没有可读的稳定实体。</p>
++      ) : (
++        <ul>
++          {asset.entities.map((entity) => (
++            <li key={entity.sceneEntityId}>
++              <code>{entity.sceneEntityId}</code>
++              <span>{entity.alias}</span>
++            </li>
++          ))}
++        </ul>
++      )}
++    </section>
++  )
++}
++
++export default AssetPipelineFixturePage
+diff --git a/apps/kernel-web/src/integrations/asset-pipeline-e2e/fixtureLoader.test.ts b/apps/kernel-web/src/integrations/asset-pipeline-e2e/fixtureLoader.test.ts
+new file mode 100644
+index 0000000..ed3c68f
+--- /dev/null
++++ b/apps/kernel-web/src/integrations/asset-pipeline-e2e/fixtureLoader.test.ts
+@@ -0,0 +1,197 @@
++import { describe, expect, it } from 'vitest'
++
++import { AssetPipelineFixtureError } from './sceneCatalog'
++import { loadAssetPipelineFixture, type FixtureIO } from './fixtureLoader'
++
++const CATALOG_URL = '/__asset_pipeline_e2e__/run/scene-catalog.json'
++const FAMILY = 'instrument.square-tactile'
++const BUNDLE_URL = `/__asset_pipeline_e2e__/run/bundles/${FAMILY}/abc123abc123/bundle.json`
++const GLB_URL = `/__asset_pipeline_e2e__/run/bundles/${FAMILY}/abc123abc123/render-lod0.glb`
++const CAPABILITY = {
++  grade: 'semantic-scene',
++  allows: ['workbench_display', 'stable_picking'],
++  forbids: ['motion', 'spatial_interlock_enforced', 'execution'],
++  missing: []
++}
++const REGISTRY = {
++  schema: 'lab.entity_registry/v0',
++  entities: [{ scene_entity_id: 'sw-occurrence:0000', cad_occurrence_alias: 'Cap2-1' }]
++}
++
++describe('静态夹具加载与哈希门禁', () => {
++  it('校验 sidecar 哈希并保留 entity-registry', async () => {
++    const files = fixtureFiles({ glbSha256: 'glb-digest' })
++    const loaded = await loadAssetPipelineFixture(CATALOG_URL, fakeIO(files))
++    expect(loaded.assets).toHaveLength(1)
++    expect(loaded.assets[0]?.entities).toEqual([
++      { sceneEntityId: 'sw-occurrence:0000', alias: 'Cap2-1' }
++    ])
++    expect(loaded.assetFailures).toEqual({})
++  })
++
++  it('GLB 哈希漂移时拒绝加载', async () => {
++    const files = fixtureFiles({ glbSha256: 'glb-digest' })
++    files[GLB_URL] = { json: null, body: 'tampered', sha256: 'other-digest' }
++    await expect(loadAssetPipelineFixture(CATALOG_URL, fakeIO(files)))
++      .rejects.toThrow('哈希漂移')
++  })
++
++  it('GLB 404 时保留其余场景并记录该资产失败', async () => {
++    const files = fixtureFiles({ glbSha256: 'glb-digest' })
++    delete files[GLB_URL]
++    const loaded = await loadAssetPipelineFixture(CATALOG_URL, fakeIO(files))
++    expect(loaded.scene.nodes['lab-fixture-instrument.square-tactile']).toBeDefined()
++    expect(loaded.assetFailures[FAMILY]).toMatch(/HTTP 404/)
++  })
++
++  it('capability 未禁止 motion 时失败关闭', async () => {
++    const files = fixtureFiles({ glbSha256: 'glb-digest' })
++    files[capabilityUrl()] = {
++      json: { ...CAPABILITY, forbids: ['execution'] },
++      body: '',
++      sha256: 'capability-digest'
++    }
++    await expect(loadAssetPipelineFixture(CATALOG_URL, fakeIO(files)))
++      .rejects.toBeInstanceOf(AssetPipelineFixtureError)
++  })
++
++  it('catalog 404 时受控失败，不把 HTML 当 JSON', async () => {
++    await expect(loadAssetPipelineFixture(CATALOG_URL, fakeIO({})))
++      .rejects.toThrow('无法读取 scene-catalog.json（HTTP 404）')
++  })
++
++  it('catalog 被 SPA 回成 HTML 时受控失败', async () => {
++    const io: FixtureIO = {
++      fetch: async () =>
++        new Response('<!doctype html>', {
++          status: 200,
++          headers: { 'Content-Type': 'text/html' }
++        }),
++      sha256Hex: async () => 'unused'
++    }
++    await expect(loadAssetPipelineFixture(CATALOG_URL, io)).rejects.toThrow(
++      'scene-catalog.json 不是 JSON'
++    )
++  })
++})
++
++function capabilityUrl(): string {
++  return BUNDLE_URL.replace(/bundle\.json$/, 'capability.json')
++}
++
++function fixtureFiles(options: { glbSha256: string }): Record<string, FakeFile> {
++  const capabilityBody = JSON.stringify(CAPABILITY)
++  const registryBody = JSON.stringify(REGISTRY)
++  const bundle = {
++    schema: 'lab.family_sim_bundle/v0',
++    family: FAMILY,
++    trial_revision: 'source-files-digest:abc',
++    immutable_candidate: true,
++    artifacts: [
++      { path: 'capability.json', bytes: 1, sha256: 'capability-digest' },
++      { path: 'entity-registry.json', bytes: 1, sha256: 'registry-digest' },
++      { path: 'render-lod0.glb', bytes: 4, sha256: options.glbSha256 }
++    ]
++  }
++  return {
++    [CATALOG_URL]: {
++      json: catalogDocument(),
++      body: '',
++      sha256: 'catalog'
++    },
++    [BUNDLE_URL]: {
++      json: bundle,
++      body: '',
++      sha256: 'bundle'
++    },
++    [capabilityUrl()]: {
++      json: CAPABILITY,
++      body: capabilityBody,
++      sha256: 'capability-digest'
++    },
++    [BUNDLE_URL.replace(/bundle\.json$/, 'entity-registry.json')]: {
++      json: REGISTRY,
++      body: registryBody,
++      sha256: 'registry-digest'
++    },
++    [GLB_URL]: {
++      json: null,
++      body: 'glb!',
++      sha256: options.glbSha256
++    }
++  }
++}
++
++function catalogDocument() {
++  return {
++    schema: 'lab.workbench_static_scene_fixture/v0',
++    fixtureId: 'run',
++    purpose: 'static_workbench_display_and_picking_only',
++    candidate: true,
++    notAWorkCellActivation: true,
++    sourceFamilyGateSha256: 'a'.repeat(64),
++    assetCount: 1,
++    safety: {
++      motionAllowed: false,
++      spatialInterlockAllowed: false,
++      executionAllowed: false,
++      reason: 'fixture'
++    },
++    assets: [
++      {
++        id: FAMILY,
++        family: FAMILY,
++        trialRevision: 'source-files-digest:abc',
++        capabilityGrade: 'semantic-scene',
++        bundleUrl: `bundles/${FAMILY}/abc123abc123/bundle.json`,
++        renderUrl: `bundles/${FAMILY}/abc123abc123/render-lod0.glb`,
++        previewTransform: {
++          translationM: [0, 0, 0],
++          rotationQuatXyzw: [0, 0, 0, 1],
++          scale: 1,
++          fixtureOnly: true
++        },
++        expected: {
++          display: true,
++          stablePicking: true,
++          motion: false,
++          spatialInterlockEnforced: false,
++          execution: false
++        }
++      }
++    ]
++  }
++}
++
++interface FakeFile {
++  json: unknown
++  body: string
++  sha256: string
++}
++
++function fakeIO(files: Record<string, FakeFile>): FixtureIO {
++  return {
++    fetch: async (url: string) => {
++      const file = files[url]
++      if (!file) {
++        return new Response(null, { status: 404 })
++      }
++      if (file.json !== null) {
++        return new Response(JSON.stringify(file.json), {
++          status: 200,
++          headers: { 'Content-Type': 'application/json' }
++        })
++      }
++      return new Response(file.body, { status: 200 })
++    },
++    sha256Hex: async (data: ArrayBuffer) => {
++      const text = new TextDecoder().decode(data)
++      const match = Object.values(files).find((file) =>
++        file.json !== null
++          ? JSON.stringify(file.json) === text
++          : file.body === text
++      )
++      return match?.sha256 ?? 'unknown'
++    }
++  }
++}
+diff --git a/apps/kernel-web/src/integrations/asset-pipeline-e2e/fixtureLoader.ts b/apps/kernel-web/src/integrations/asset-pipeline-e2e/fixtureLoader.ts
+new file mode 100644
+index 0000000..4fd385a
+--- /dev/null
++++ b/apps/kernel-web/src/integrations/asset-pipeline-e2e/fixtureLoader.ts
+@@ -0,0 +1,207 @@
++import {
++  AssetPipelineFixtureError,
++  parseCapabilityDocument,
++  parseEntityRegistry,
++  parseSceneCatalog,
++  projectSceneCatalogToGraph,
++  readExpectedGlbSha256,
++  resolveCatalogAssetUrl,
++  type ProjectedFixtureAsset,
++  type ProjectedFixtureScene,
++  type SceneCatalog
++} from './sceneCatalog'
++
++export interface FixtureIO {
++  fetch: (url: string) => Promise<Response>
++  sha256Hex: (data: ArrayBuffer) => Promise<string>
++}
++
++export interface LoadedAssetPipelineFixture {
++  catalog: SceneCatalog
++  catalogUrl: string
++  scene: ProjectedFixtureScene
++  assets: readonly ProjectedFixtureAsset[]
++  assetFailures: Readonly<Record<string, string>>
++}
++
++export const defaultFixtureIO: FixtureIO = {
++  fetch: (url) => globalThis.fetch(url),
++  sha256Hex: sha256Hex
++}
++
++/**
++ * 拉取并校验静态 scene-catalog。catalog 本身失败则整页失败；
++ * 单个 GLB 缺失只记录到该资产，避免拖垮其余模型。
++ */
++export async function loadAssetPipelineFixture(
++  catalogUrl: string,
++  io: FixtureIO = defaultFixtureIO
++): Promise<LoadedAssetPipelineFixture> {
++  const catalog = parseSceneCatalog(
++    await readJson(catalogUrl, io, 'scene-catalog.json')
++  )
++  const projected = projectSceneCatalogToGraph(catalog, catalogUrl)
++  const assets: ProjectedFixtureAsset[] = []
++  const assetFailures: Record<string, string> = {}
++  const nodes = { ...projected.scene.nodes }
++
++  for (const asset of projected.assets) {
++    try {
++      const verified = await verifyFixtureAsset(asset, io)
++      assets.push(verified)
++    } catch (cause) {
++      const message = cause instanceof Error ? cause.message : String(cause)
++      if (isMissingGlb(cause, message)) {
++        assetFailures[asset.id] = message
++        assets.push(asset)
++        continue
++      }
++      throw cause
++    }
++  }
++
++  return {
++    catalog,
++    catalogUrl,
++    scene: {
++      ...projected.scene,
++      nodes
++    },
++    assets,
++    assetFailures
++  }
++}
++
++async function verifyFixtureAsset(
++  asset: ProjectedFixtureAsset,
++  io: FixtureIO
++): Promise<ProjectedFixtureAsset> {
++  const bundle = await readJson(asset.bundleUrl, io, `${asset.family} bundle.json`)
++  if (
++    !isRecord(bundle) ||
++    bundle.schema !== 'lab.family_sim_bundle/v0' ||
++    bundle.family !== asset.family
++  ) {
++    throw new AssetPipelineFixtureError(
++      `${asset.family} bundle 与 catalog family 不一致`,
++      'invalid_catalog'
++    )
++  }
++  await verifyBundleArtifacts(bundle, asset.bundleUrl, io)
++  parseCapabilityDocument(
++    await readJson(
++      resolveCatalogAssetUrl(asset.bundleUrl, 'capability.json'),
++      io,
++      `${asset.family} capability.json`
++    ),
++    asset.family
++  )
++  const registryUrl = resolveCatalogAssetUrl(
++    asset.bundleUrl,
++    'entity-registry.json'
++  )
++  const entities = parseEntityRegistry(
++    await readJson(registryUrl, io, `${asset.family} entity-registry.json`)
++  )
++  const expectedGlbSha256 = readExpectedGlbSha256(bundle)
++  if (expectedGlbSha256) {
++    await verifyGlbHash(asset.renderUrl, expectedGlbSha256, io, asset.family)
++  }
++  return { ...asset, expectedGlbSha256, entities }
++}
++
++async function verifyBundleArtifacts(
++  bundle: Record<string, unknown>,
++  bundleUrl: string,
++  io: FixtureIO
++): Promise<void> {
++  const artifacts = Array.isArray(bundle.artifacts) ? bundle.artifacts : []
++  for (const artifact of artifacts) {
++    if (!isRecord(artifact) || typeof artifact.path !== 'string') continue
++    if (artifact.path === 'render-lod0.glb') continue
++    if (typeof artifact.sha256 !== 'string') continue
++    const url = resolveCatalogAssetUrl(bundleUrl, artifact.path)
++    const response = await io.fetch(url)
++    if (!response.ok) {
++      throw new AssetPipelineFixtureError(
++        `缺少 bundle 产物 ${artifact.path}（HTTP ${response.status}）`,
++        'missing_artifact'
++      )
++    }
++    const digest = await io.sha256Hex(await response.arrayBuffer())
++    if (digest !== artifact.sha256) {
++      throw new AssetPipelineFixtureError(
++        `${artifact.path} SHA-256 与 bundle 清单不一致`,
++        'hash_mismatch'
++      )
++    }
++  }
++}
++
++async function verifyGlbHash(
++  url: string,
++  expected: string,
++  io: FixtureIO,
++  family: string
++): Promise<void> {
++  const response = await io.fetch(url)
++  if (!response.ok) {
++    throw Object.assign(
++      new AssetPipelineFixtureError(
++        `${family} GLB 无法读取（HTTP ${response.status}）: ${url}`,
++        'missing_artifact'
++      ),
++      { missingGlb: true }
++    )
++  }
++  const digest = await io.sha256Hex(await response.arrayBuffer())
++  if (digest !== expected) {
++    throw new AssetPipelineFixtureError(
++      `${family} render-lod0.glb 哈希漂移`,
++      'hash_mismatch'
++    )
++  }
++}
++
++async function readJson(
++  url: string,
++  io: FixtureIO,
++  label: string
++): Promise<unknown> {
++  const response = await io.fetch(url)
++  const text = await response.text()
++  if (!response.ok) {
++    throw new AssetPipelineFixtureError(
++      `无法读取 ${label}（HTTP ${response.status}）`,
++      response.status === 404 ? 'missing_artifact' : 'invalid_catalog'
++    )
++  }
++  try {
++    return JSON.parse(text) as unknown
++  } catch {
++    throw new AssetPipelineFixtureError(
++      `${label} 不是 JSON（HTTP ${response.status}）`,
++      'invalid_catalog'
++    )
++  }
++}
++
++async function sha256Hex(data: ArrayBuffer): Promise<string> {
++  const digest = await crypto.subtle.digest('SHA-256', data)
++  return [...new Uint8Array(digest)]
++    .map((value) => value.toString(16).padStart(2, '0'))
++    .join('')
++}
++
++function isMissingGlb(cause: unknown, message: string): boolean {
++  return (
++    (cause instanceof AssetPipelineFixtureError &&
++      cause.code === 'missing_artifact' &&
++      (cause as { missingGlb?: boolean }).missingGlb === true) ||
++    message.includes('GLB 无法读取')
++  )
++}
++
++function isRecord(value: unknown): value is Record<string, unknown> {
++  return typeof value === 'object' && value !== null && !Array.isArray(value)
++}
+diff --git a/apps/kernel-web/src/integrations/asset-pipeline-e2e/index.ts b/apps/kernel-web/src/integrations/asset-pipeline-e2e/index.ts
+new file mode 100644
+index 0000000..d76f6f2
+--- /dev/null
++++ b/apps/kernel-web/src/integrations/asset-pipeline-e2e/index.ts
+@@ -0,0 +1,9 @@
++export {
++  AssetPipelineFixtureError,
++  DEFAULT_ASSET_PIPELINE_E2E_CATALOG_PATH,
++  parseSceneCatalog,
++  projectSceneCatalogToGraph,
++  readAssetPipelineFixtureCatalogUrl
++} from './sceneCatalog'
++export { loadAssetPipelineFixture } from './fixtureLoader'
++export { AssetPipelineFixturePage } from './AssetPipelineFixturePage'
+diff --git a/apps/kernel-web/src/integrations/asset-pipeline-e2e/sceneCatalog.test.ts b/apps/kernel-web/src/integrations/asset-pipeline-e2e/sceneCatalog.test.ts
+new file mode 100644
+index 0000000..db6df10
+--- /dev/null
++++ b/apps/kernel-web/src/integrations/asset-pipeline-e2e/sceneCatalog.test.ts
+@@ -0,0 +1,173 @@
++import { existsSync, readFileSync } from 'node:fs'
++import { resolve } from 'node:path'
++import { describe, expect, it } from 'vitest'
++
++import {
++  AssetPipelineFixtureError,
++  DEFAULT_ASSET_PIPELINE_E2E_CATALOG_PATH,
++  parseSceneCatalog,
++  projectSceneCatalogToGraph,
++  readAssetPipelineFixtureCatalogUrl,
++  resolveCatalogAssetUrl
++} from './sceneCatalog'
++
++const SAMPLE_CATALOG = {
++  schema: 'lab.workbench_static_scene_fixture/v0',
++  fixtureId: 'asset-pipeline-e2e-baseline-20260824',
++  purpose: 'static_workbench_display_and_picking_only',
++  candidate: true,
++  notAWorkCellActivation: true,
++  sourceFamilyGateSha256: 'a'.repeat(64),
++  assetCount: 2,
++  safety: {
++    motionAllowed: false,
++    spatialInterlockAllowed: false,
++    executionAllowed: false,
++    reason: 'No manufacturer robot URDF is present.'
++  },
++  assets: [
++    sampleAsset('synthesis.capping-gripper', [0, 0, 0]),
++    sampleAsset('instrument.square-tactile', [0, 2, 0])
++  ]
++}
++
++describe('静态 scene-catalog 合同', () => {
++  it('只在显式查询参数下打开夹具，并拒绝路径穿越', () => {
++    expect(readAssetPipelineFixtureCatalogUrl('')).toBeNull()
++    expect(readAssetPipelineFixtureCatalogUrl('?section=material')).toBeNull()
++    expect(readAssetPipelineFixtureCatalogUrl('?asset-pipeline-e2e=1')).toBe(
++      DEFAULT_ASSET_PIPELINE_E2E_CATALOG_PATH
++    )
++    expect(
++      readAssetPipelineFixtureCatalogUrl(
++        '?asset-pipeline-e2e=/__asset_pipeline_e2e__/run/scene-catalog.json'
++      )
++    ).toBe('/__asset_pipeline_e2e__/run/scene-catalog.json')
++    expect(() =>
++      readAssetPipelineFixtureCatalogUrl('?asset-pipeline-e2e=/foo/../secret')
++    ).toThrow(AssetPipelineFixtureError)
++  })
++
++  it('拒绝把 catalog 当成 activation 或放开运动/执行', () => {
++    expect(() => parseSceneCatalog({ ...SAMPLE_CATALOG, schema: 'other' }))
++      .toThrow('不支持的 catalog schema')
++    expect(() =>
++      parseSceneCatalog({ ...SAMPLE_CATALOG, notAWorkCellActivation: false })
++    ).toThrow('不是 WorkCellActivation')
++    expect(() =>
++      parseSceneCatalog({
++        ...SAMPLE_CATALOG,
++        safety: { ...SAMPLE_CATALOG.safety, motionAllowed: true }
++      })
++    ).toThrow('运动、互锁或执行')
++    expect(() =>
++      parseSceneCatalog({
++        ...SAMPLE_CATALOG,
++        assets: [
++          {
++            ...SAMPLE_CATALOG.assets[0],
++            expected: {
++              ...SAMPLE_CATALOG.assets[0]!.expected,
++              motion: true
++            }
++          }
++        ]
++      })
++    ).toThrow('expected.motion')
++  })
++
++  it('把五个隔离 GLB 投影为 lab-device，且不含 kinematics', () => {
++    const catalog = parseSceneCatalog(SAMPLE_CATALOG)
++    const catalogUrl = DEFAULT_ASSET_PIPELINE_E2E_CATALOG_PATH
++    const { scene, assets } = projectSceneCatalogToGraph(catalog, catalogUrl)
++    expect(assets).toHaveLength(2)
++    expect(assets[0]?.renderUrl).toBe(
++      resolveCatalogAssetUrl(
++        catalogUrl,
++        SAMPLE_CATALOG.assets[0]!.renderUrl
++      )
++    )
++    const gripper = scene.nodes['lab-fixture-synthesis.capping-gripper'] as {
++      type: string
++      kinematics?: unknown
++      model: { format: string; path: string }
++      graphMeta: { notAWorkCellActivation: boolean; fixtureOnlyPreviewTransform: boolean }
++    }
++    expect(gripper.type).toBe('lab-device')
++    expect(gripper.kinematics).toBeUndefined()
++    expect(gripper.model.format).toBe('gltf')
++    expect(gripper.graphMeta.notAWorkCellActivation).toBe(true)
++    expect(gripper.graphMeta.fixtureOnlyPreviewTransform).toBe(true)
++    const tactile = scene.nodes['lab-fixture-instrument.square-tactile'] as {
++      position: number[]
++      kinematics?: unknown
++    }
++    expect(tactile.position).toEqual([0, 0, -2])
++    expect(tactile.kinematics).toBeUndefined()
++  })
++
++  it('拒绝 bundle/render 路径穿越', () => {
++    expect(() =>
++      parseSceneCatalog({
++        ...SAMPLE_CATALOG,
++        assets: [
++          {
++            ...SAMPLE_CATALOG.assets[0],
++            renderUrl: '../secret.glb'
++          }
++        ]
++      })
++    ).toThrow('路径穿越')
++  })
++
++  it('能解析交接包基线 catalog', () => {
++    const path = resolve(
++      process.cwd(),
++      '../../../unilab-workbench-e2e-handoff-20260824/workbench-fixture-baseline/scene-catalog.json'
++    )
++    if (!existsSync(path)) return
++    const catalog = parseSceneCatalog(JSON.parse(readFileSync(path, 'utf8')))
++    expect(catalog.assetCount).toBe(5)
++    expect(catalog.assets.map((asset) => asset.family)).toEqual([
++      'synthesis.capping-gripper',
++      'synthesis.ptb22-linear-guide',
++      'synthesis.250ml-reagent-tray',
++      'instrument.square-tactile',
++      'instrument.bigclaw.step-reference'
++    ])
++    const { assets } = projectSceneCatalogToGraph(
++      catalog,
++      DEFAULT_ASSET_PIPELINE_E2E_CATALOG_PATH
++    )
++    expect(assets).toHaveLength(5)
++    expect(assets.every((asset) => asset.renderUrl.endsWith('render-lod0.glb'))).toBe(true)
++  })
++})
++
++function sampleAsset(
++  family: string,
++  translationM: [number, number, number]
++) {
++  const revision = 'deadbeefdeadbeef'
++  return {
++    id: family,
++    family,
++    trialRevision: `input-digest:${revision}`,
++    capabilityGrade: 'semantic-scene',
++    bundleUrl: `bundles/${family}/${revision.slice(0, 12)}/bundle.json`,
++    renderUrl: `bundles/${family}/${revision.slice(0, 12)}/render-lod0.glb`,
++    previewTransform: {
++      translationM,
++      rotationQuatXyzw: [0, 0, 0, 1] as [number, number, number, number],
++      scale: 1,
++      fixtureOnly: true as const
++    },
++    expected: {
++      display: true,
++      stablePicking: true,
++      motion: false,
++      spatialInterlockEnforced: false,
++      execution: false
++    }
++  }
++}
+diff --git a/apps/kernel-web/src/integrations/asset-pipeline-e2e/sceneCatalog.ts b/apps/kernel-web/src/integrations/asset-pipeline-e2e/sceneCatalog.ts
+new file mode 100644
+index 0000000..2095808
+--- /dev/null
++++ b/apps/kernel-web/src/integrations/asset-pipeline-e2e/sceneCatalog.ts
+@@ -0,0 +1,570 @@
++export const SCENE_CATALOG_SCHEMA = 'lab.workbench_static_scene_fixture/v0'
++export const DEFAULT_ASSET_PIPELINE_E2E_CATALOG_PATH =
++  '/__asset_pipeline_e2e__/asset-pipeline-e2e-20260824/scene-catalog.json'
++
++const SITE_ID = 'site_unilab'
++const BUILDING_ID = 'building_unilab'
++const LEVEL_ID = 'level_unilab'
++const FORBIDDEN_RUNTIME = [
++  'motion',
++  'spatialInterlockEnforced',
++  'execution'
++] as const
++
++export type Vector3Tuple = [number, number, number]
++
++export type AssetPipelineFixtureErrorCode =
++  | 'invalid_catalog'
++  | 'forbidden_capability'
++  | 'path_escape'
++  | 'hash_mismatch'
++  | 'missing_artifact'
++
++export class AssetPipelineFixtureError extends Error {
++  readonly code: AssetPipelineFixtureErrorCode
++
++  constructor(message: string, code: AssetPipelineFixtureErrorCode) {
++    super(message)
++    this.name = 'AssetPipelineFixtureError'
++    this.code = code
++  }
++}
++
++export interface SceneCatalogAsset {
++  id: string
++  family: string
++  trialRevision: string
++  capabilityGrade: string
++  bundleUrl: string
++  renderUrl: string
++  previewTransform: {
++    translationM: Vector3Tuple
++    rotationQuatXyzw: [number, number, number, number]
++    scale: number
++    fixtureOnly: true
++  }
++  expected: {
++    display: boolean
++    stablePicking: boolean
++    motion: false
++    spatialInterlockEnforced: false
++    execution: false
++  }
++}
++
++export interface ProjectedFixtureScene {
++  nodes: Record<string, unknown>
++  rootNodeIds: string[]
++  installedPlugins: string[]
++}
++
++export interface SceneCatalog {
++  schema: typeof SCENE_CATALOG_SCHEMA
++  fixtureId: string
++  purpose: 'static_workbench_display_and_picking_only'
++  candidate: true
++  notAWorkCellActivation: true
++  sourceFamilyGateSha256: string
++  assetCount: number
++  safety: {
++    motionAllowed: false
++    spatialInterlockAllowed: false
++    executionAllowed: false
++    reason: string
++  }
++  assets: readonly SceneCatalogAsset[]
++}
++
++export interface FixtureEntity {
++  sceneEntityId: string
++  alias: string
++}
++
++export interface ProjectedFixtureAsset {
++  id: string
++  family: string
++  trialRevision: string
++  capabilityGrade: string
++  bundleUrl: string
++  renderUrl: string
++  sceneObjectId: string
++  expectedGlbSha256?: string
++  entities: readonly FixtureEntity[]
++}
++
++/**
++ * 读取开发态查询参数。只有显式带 `asset-pipeline-e2e` 时才进入夹具页，
++ * 生产导航不会加载这份静态 catalog。
++ */
++export function readAssetPipelineFixtureCatalogUrl(
++  search: string
++): string | null {
++  const params = new URLSearchParams(search.startsWith('?') ? search.slice(1) : search)
++  if (!params.has('asset-pipeline-e2e')) return null
++  const value = params.get('asset-pipeline-e2e')?.trim() ?? ''
++  if (value === '' || value === '1' || value === 'true') {
++    return DEFAULT_ASSET_PIPELINE_E2E_CATALOG_PATH
++  }
++  return assertSameOriginCatalogPath(value)
++}
++
++export function resolveCatalogAssetUrl(
++  catalogUrl: string,
++  relativeUrl: string
++): string {
++  const relative = assertRelativeAssetPath(relativeUrl)
++  const base = catalogUrl.endsWith('/')
++    ? catalogUrl
++    : catalogUrl.slice(0, catalogUrl.lastIndexOf('/') + 1)
++  return `${base}${relative}`
++}
++
++export function parseSceneCatalog(value: unknown): SceneCatalog {
++  if (!isRecord(value)) {
++    throw new AssetPipelineFixtureError(
++      'scene-catalog.json 不是对象',
++      'invalid_catalog'
++    )
++  }
++  if (value.schema !== SCENE_CATALOG_SCHEMA) {
++    throw new AssetPipelineFixtureError(
++      `不支持的 catalog schema: ${String(value.schema)}`,
++      'invalid_catalog'
++    )
++  }
++  if (value.notAWorkCellActivation !== true) {
++    throw new AssetPipelineFixtureError(
++      'scene-catalog 不是 WorkCellActivation；缺少 notAWorkCellActivation',
++      'invalid_catalog'
++    )
++  }
++  if (value.candidate !== true) {
++    throw new AssetPipelineFixtureError(
++      '静态夹具必须显式标记为 candidate',
++      'invalid_catalog'
++    )
++  }
++  if (value.purpose !== 'static_workbench_display_and_picking_only') {
++    throw new AssetPipelineFixtureError(
++      'catalog purpose 必须是 static_workbench_display_and_picking_only',
++      'invalid_catalog'
++    )
++  }
++  const safety = isRecord(value.safety) ? value.safety : null
++  if (
++    !safety ||
++    safety.motionAllowed !== false ||
++    safety.spatialInterlockAllowed !== false ||
++    safety.executionAllowed !== false
++  ) {
++    throw new AssetPipelineFixtureError(
++      'catalog safety 允许了运动、互锁或执行',
++      'forbidden_capability'
++    )
++  }
++  if (!Array.isArray(value.assets) || value.assets.length === 0) {
++    throw new AssetPipelineFixtureError('catalog 没有资产', 'invalid_catalog')
++  }
++  const assets = value.assets.map((item, index) => parseCatalogAsset(item, index))
++  const ids = new Set(assets.map((asset) => asset.id))
++  if (ids.size !== assets.length) {
++    throw new AssetPipelineFixtureError('catalog 资产 id 重复', 'invalid_catalog')
++  }
++  if (
++    typeof value.assetCount === 'number' &&
++    value.assetCount !== assets.length
++  ) {
++    throw new AssetPipelineFixtureError(
++      'catalog assetCount 与 assets 长度不一致',
++      'invalid_catalog'
++    )
++  }
++
++  return {
++    schema: SCENE_CATALOG_SCHEMA,
++    fixtureId: requiredText(value.fixtureId, 'fixtureId'),
++    purpose: 'static_workbench_display_and_picking_only',
++    candidate: true,
++    notAWorkCellActivation: true,
++    sourceFamilyGateSha256: requiredText(
++      value.sourceFamilyGateSha256,
++      'sourceFamilyGateSha256'
++    ),
++    assetCount: assets.length,
++    safety: {
++      motionAllowed: false,
++      spatialInterlockAllowed: false,
++      executionAllowed: false,
++      reason: requiredText(safety.reason, 'safety.reason')
++    },
++    assets
++  }
++}
++
++/**
++ * 把通过门禁的静态 catalog 投影为 Pascal `lab-device` 场景图。
++ * 不写入 kinematics，也不把 previewTransform 当成现场 base_pose。
++ */
++export function projectSceneCatalogToGraph(
++  catalog: SceneCatalog,
++  catalogUrl: string,
++  options: { fitSceneRevision?: number } = {}
++): {
++  scene: ProjectedFixtureScene
++  assets: readonly ProjectedFixtureAsset[]
++} {
++  const projected: ProjectedFixtureAsset[] = catalog.assets.map((asset) => {
++    const renderUrl = resolveCatalogAssetUrl(catalogUrl, asset.renderUrl)
++    const bundleUrl = resolveCatalogAssetUrl(catalogUrl, asset.bundleUrl)
++    return {
++      id: asset.id,
++      family: asset.family,
++      trialRevision: asset.trialRevision,
++      capabilityGrade: asset.capabilityGrade,
++      bundleUrl,
++      renderUrl,
++      sceneObjectId: fixtureSceneObjectId(asset.id),
++      entities: []
++    }
++  })
++
++  const nodes: Record<string, unknown> = {}
++  const labNodeIds: string[] = []
++  for (const [index, asset] of catalog.assets.entries()) {
++    const projectedAsset = projected[index]!
++    const pose = labPreviewToPascal(
++      asset.previewTransform.translationM,
++      asset.previewTransform.rotationQuatXyzw
++    )
++    const id = projectedAsset.sceneObjectId
++    nodes[id] = {
++      id,
++      type: 'lab-device',
++      object: 'node',
++      name: asset.family,
++      parentId: LEVEL_ID,
++      visible: true,
++      metadata: {},
++      materialNodeId: asset.id,
++      displayName: asset.family,
++      showLabel: true,
++      deviceType: 'asset-pipeline-fixture',
++      children: [],
++      position: pose.position,
++      rotation: pose.rotation,
++      scale: [
++        asset.previewTransform.scale,
++        asset.previewTransform.scale,
++        asset.previewTransform.scale
++      ],
++      dimensions: [0.6, 0.5, 0.6],
++      materialKind: 'device',
++      renderBody: true,
++      model: {
++        path: projectedAsset.renderUrl,
++        format: 'gltf',
++        version: asset.trialRevision,
++        position: [0, 0, 0],
++        rotation: [0, 0, 0],
++        attachPoints: []
++      },
++      attach: {
++        parentDeviceId: null,
++        parentLinkName: null,
++        mountPoint: null
++      },
++      placementRef: {
++        kind: 'world',
++        parentMaterialId: null,
++        siteId: null,
++        anchorKind: 'root',
++        anchorLinkName: null
++      },
++      graphMeta: {
++        fixture: true,
++        notAWorkCellActivation: true,
++        family: asset.family,
++        trialRevision: asset.trialRevision,
++        capabilityGrade: asset.capabilityGrade,
++        bundleUrl: projectedAsset.bundleUrl,
++        fixtureOnlyPreviewTransform: true
++      }
++    }
++    labNodeIds.push(id)
++  }
++
++  nodes[SITE_ID] = {
++    id: SITE_ID,
++    type: 'site',
++    object: 'node',
++    name: 'Asset pipeline fixture',
++    parentId: null,
++    visible: true,
++    children: [BUILDING_ID],
++    fitSceneRevision: options.fitSceneRevision ?? 1,
++    fitSceneView: 'default',
++    fitSceneObjectIds: []
++  }
++  nodes[BUILDING_ID] = {
++    id: BUILDING_ID,
++    type: 'building',
++    object: 'node',
++    name: '静态夹具',
++    parentId: SITE_ID,
++    visible: true,
++    position: [0, 0, 0],
++    rotation: [0, 0, 0],
++    children: [LEVEL_ID]
++  }
++  nodes[LEVEL_ID] = {
++    id: LEVEL_ID,
++    type: 'level',
++    object: 'node',
++    name: 'Lab floor',
++    parentId: BUILDING_ID,
++    visible: true,
++    level: 0,
++    children: labNodeIds,
++    materialTransferLayer: null
++  }
++
++  return {
++    scene: {
++      nodes,
++      rootNodeIds: [SITE_ID],
++      installedPlugins: ['unilab.lab']
++    },
++    assets: projected
++  }
++}
++
++export function fixtureSceneObjectId(assetId: string): string {
++  return `lab-fixture-${assetId}`
++}
++
++export function parseCapabilityDocument(value: unknown, family: string): void {
++  if (!isRecord(value)) {
++    throw new AssetPipelineFixtureError(
++      `${family} capability.json 不是对象`,
++      'invalid_catalog'
++    )
++  }
++  const allows = Array.isArray(value.allows) ? value.allows : []
++  const forbids = Array.isArray(value.forbids) ? value.forbids : []
++  if (allows.includes('motion') || allows.includes('execution')) {
++    throw new AssetPipelineFixtureError(
++      `${family} capability 允许了禁止项`,
++      'forbidden_capability'
++    )
++  }
++  for (const forbidden of ['motion', 'spatial_interlock_enforced', 'execution']) {
++    if (!forbids.includes(forbidden)) {
++      throw new AssetPipelineFixtureError(
++        `${family} 未显式禁止 ${forbidden}`,
++        'forbidden_capability'
++      )
++    }
++  }
++}
++
++export function parseEntityRegistry(value: unknown): FixtureEntity[] {
++  if (!isRecord(value) || !Array.isArray(value.entities)) return []
++  return value.entities.flatMap((item) => {
++    if (!isRecord(item) || typeof item.scene_entity_id !== 'string') return []
++    const alias =
++      (typeof item.link_alias === 'string' && item.link_alias) ||
++      (typeof item.cad_occurrence_alias === 'string' && item.cad_occurrence_alias) ||
++      item.scene_entity_id
++    return [{ sceneEntityId: item.scene_entity_id, alias }]
++  })
++}
++
++export function readExpectedGlbSha256(bundle: unknown): string | undefined {
++  if (!isRecord(bundle) || !Array.isArray(bundle.artifacts)) return undefined
++  const glb = bundle.artifacts.find((item) =>
++    isRecord(item) && item.path === 'render-lod0.glb'
++  )
++  return isRecord(glb) && typeof glb.sha256 === 'string' ? glb.sha256 : undefined
++}
++
++function parseCatalogAsset(value: unknown, index: number): SceneCatalogAsset {
++  if (!isRecord(value)) {
++    throw new AssetPipelineFixtureError(
++      `assets[${index}] 不是对象`,
++      'invalid_catalog'
++    )
++  }
++  const transform = isRecord(value.previewTransform) ? value.previewTransform : null
++  if (!transform || transform.fixtureOnly !== true) {
++    throw new AssetPipelineFixtureError(
++      `${String(value.id)} 的 previewTransform 必须标记 fixtureOnly`,
++      'invalid_catalog'
++    )
++  }
++  const expected = isRecord(value.expected) ? value.expected : null
++  if (!expected) {
++    throw new AssetPipelineFixtureError(
++      `${String(value.id)} 缺少 expected 能力边界`,
++      'invalid_catalog'
++    )
++  }
++  for (const key of FORBIDDEN_RUNTIME) {
++    if (expected[key] !== false) {
++      throw new AssetPipelineFixtureError(
++        `${String(value.id)} expected.${key} 必须为 false`,
++        'forbidden_capability'
++      )
++    }
++  }
++  const scale = transform.scale
++  if (typeof scale !== 'number' || !Number.isFinite(scale) || scale <= 0) {
++    throw new AssetPipelineFixtureError(
++      `${String(value.id)} previewTransform.scale 无效`,
++      'invalid_catalog'
++    )
++  }
++  return {
++    id: requiredText(value.id, `assets[${index}].id`),
++    family: requiredText(value.family, `assets[${index}].family`),
++    trialRevision: requiredText(
++      value.trialRevision,
++      `assets[${index}].trialRevision`
++    ),
++    capabilityGrade: requiredText(
++      value.capabilityGrade,
++      `assets[${index}].capabilityGrade`
++    ),
++    bundleUrl: assertRelativeAssetPath(
++      requiredText(value.bundleUrl, `assets[${index}].bundleUrl`)
++    ),
++    renderUrl: assertRelativeAssetPath(
++      requiredText(value.renderUrl, `assets[${index}].renderUrl`)
++    ),
++    previewTransform: {
++      translationM: tuple3(transform.translationM, `${String(value.id)}.translationM`),
++      rotationQuatXyzw: tuple4(
++        transform.rotationQuatXyzw,
++        `${String(value.id)}.rotationQuatXyzw`
++      ),
++      scale,
++      fixtureOnly: true
++    },
++    expected: {
++      display: expected.display === true,
++      stablePicking: expected.stablePicking === true,
++      motion: false,
++      spatialInterlockEnforced: false,
++      execution: false
++    }
++  }
++}
++
++function assertSameOriginCatalogPath(value: string): string {
++  if (!value.startsWith('/') || value.startsWith('//') || value.includes('..')) {
++    throw new AssetPipelineFixtureError(
++      'catalog URL 必须是不含 .. 的同源绝对路径',
++      'path_escape'
++    )
++  }
++  return value
++}
++
++function assertRelativeAssetPath(value: string): string {
++  if (
++    value.startsWith('/') ||
++    value.includes('://') ||
++    value.split(/[\\/]/).includes('..')
++  ) {
++    throw new AssetPipelineFixtureError(
++      `拒绝路径穿越或绝对 URL: ${value}`,
++      'path_escape'
++    )
++  }
++  return value
++}
++
++function labPreviewToPascal(
++  translationM: Vector3Tuple,
++  quaternionXyzw: readonly [number, number, number, number]
++): { position: Vector3Tuple; rotation: Vector3Tuple } {
++  const [x, y, z] = translationM
++  return {
++    position: [clean(x), clean(z), clean(-y)],
++    rotation: quatXyzwToPascalEuler(quaternionXyzw)
++  }
++}
++
++function quatXyzwToPascalEuler(
++  quaternion: readonly [number, number, number, number]
++): Vector3Tuple {
++  const [qx, qy, qz, qw] = quaternion
++  if (
++    Math.abs(qx) < 1e-10 &&
++    Math.abs(qy) < 1e-10 &&
++    Math.abs(qz) < 1e-10 &&
++    Math.abs(Math.abs(qw) - 1) < 1e-10
++  ) {
++    return [0, 0, 0]
++  }
++  const labDeg = quatXyzwToEulerDeg(quaternion)
++  return [
++    clean((labDeg[0] * Math.PI) / 180),
++    clean((labDeg[2] * Math.PI) / 180),
++    clean((-labDeg[1] * Math.PI) / 180)
++  ]
++}
++
++function quatXyzwToEulerDeg(
++  quaternion: readonly [number, number, number, number]
++): Vector3Tuple {
++  const [x, y, z, w] = quaternion
++  const sinRoll = 2 * (w * x + y * z)
++  const cosRoll = 1 - 2 * (x * x + y * y)
++  const sinPitch = 2 * (w * y - z * x)
++  const sinYaw = 2 * (w * z + x * y)
++  const cosYaw = 1 - 2 * (y * y + z * z)
++  const pitch = Math.abs(sinPitch) >= 1
++    ? Math.sign(sinPitch) * (Math.PI / 2)
++    : Math.asin(sinPitch)
++  return [
++    (Math.atan2(sinRoll, cosRoll) * 180) / Math.PI,
++    (pitch * 180) / Math.PI,
++    (Math.atan2(sinYaw, cosYaw) * 180) / Math.PI
++  ]
++}
++
++function clean(value: number): number {
++  return Math.abs(value) < 1e-10 ? 0 : value
++}
++
++function tuple3(value: unknown, field: string): Vector3Tuple {
++  if (!Array.isArray(value) || value.length !== 3 || value.some(
++    (item) => typeof item !== 'number' || !Number.isFinite(item)
++  )) {
++    throw new AssetPipelineFixtureError(`${field} 必须是三个有限数字`, 'invalid_catalog')
++  }
++  return [value[0], value[1], value[2]]
++}
++
++function tuple4(
++  value: unknown,
++  field: string
++): [number, number, number, number] {
++  if (!Array.isArray(value) || value.length !== 4 || value.some(
++    (item) => typeof item !== 'number' || !Number.isFinite(item)
++  )) {
++    throw new AssetPipelineFixtureError(`${field} 必须是四个有限数字`, 'invalid_catalog')
++  }
++  return [value[0], value[1], value[2], value[3]]
++}
++
++function requiredText(value: unknown, field: string): string {
++  if (typeof value !== 'string' || value.trim() === '') {
++    throw new AssetPipelineFixtureError(`${field} 不能为空`, 'invalid_catalog')
++  }
++  return value
++}
++
++function isRecord(value: unknown): value is Record<string, unknown> {
++  return typeof value === 'object' && value !== null && !Array.isArray(value)
++}
+diff --git a/apps/kernel-web/vite.config.ts b/apps/kernel-web/vite.config.ts
+index 3e67e44..889ce89 100644
+--- a/apps/kernel-web/vite.config.ts
++++ b/apps/kernel-web/vite.config.ts
+@@ -1,6 +1,7 @@
+ import { resolve } from 'path'
+ import { defineConfig } from 'vite'
+ import tailwindcss from '@tailwindcss/vite'
++import { assetPipelineE2eFixturePlugin } from './build/assetPipelineE2eFixturePlugin'
+ import { webChunkName } from './build/webChunks'
+ 
+ const LOCAL_BACKEND_PROXY_PREFIX = '/__unilab_backend'
+@@ -20,7 +21,7 @@ function rewriteLocalBackendProxyPath(path: string): string {
+ 
+ // kernel-web 是浏览器与 Electron 共同使用的唯一 renderer。
+ export default defineConfig(({ mode }) => ({
+-  plugins: [tailwindcss()],
++  plugins: [tailwindcss(), assetPipelineE2eFixturePlugin()],
+   // @pascal-app/* 以 Next.js 目标的 TS 源码分发，模块顶层直接读 process.env.*
+   //（NODE_ENV / NEXT_PUBLIC_* 等），假设由 Next 在构建期替换。本 renderer 是纯 Vite，
+   // 浏览器/Electron 无 process 全局。明确保留资源 CDN 配置，并让其他
+@@ -35,6 +36,15 @@ export default defineConfig(({ mode }) => ({
+   server: {
+     port: 5173,
+     strictPort: true,
++    fs: {
++      allow: [
++        resolve(__dirname, '../..'),
++        resolve(
++          __dirname,
++          '../../../unilab-workbench-e2e-handoff-20260824'
++        )
++      ]
++    },
+     proxy: {
+       [LOCAL_BACKEND_PROXY_PREFIX]: {
+         target: LOCAL_BACKEND_PROXY_TARGET,

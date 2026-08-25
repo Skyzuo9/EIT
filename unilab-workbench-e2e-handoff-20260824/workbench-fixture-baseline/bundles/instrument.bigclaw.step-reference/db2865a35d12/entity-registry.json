@@ -1,0 +1,15 @@
+{
+  "schema": "lab.entity_registry/v0",
+  "entities": [
+    {
+      "scene_entity_id": "step-node:0001",
+      "source_node": 1,
+      "alias": "=>[0:1:1:2]"
+    },
+    {
+      "scene_entity_id": "step-node:0002",
+      "source_node": 2,
+      "alias": "=>[0:1:1:3]"
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "schema": "lab.frame_graph/v0",
+  "root": "base_link",
+  "frames": [
+    {
+      "id": "base_link",
+      "parent_candidate": null,
+      "status": "unproven"
+    },
+    {
+      "id": "rotate_Link",
+      "parent_candidate": "base_link",
+      "status": "unproven"
+    },
+    {
+      "id": "l_Link",
+      "parent_candidate": "rotate_Link",
+      "status": "unproven"
+    },
+    {
+      "id": "l2_Link",
+      "parent_candidate": "l_Link",
+      "status": "unproven"
+    },
+    {
+      "id": "r_Link",
+      "parent_candidate": "rotate_Link",
+      "status": "unproven"
+    },
+    {
+      "id": "r2_Link",
+      "parent_candidate": "r_Link",
+      "status": "unproven"
+    }
+  ],
+  "candidate_edges": [
+    {
+      "parent": "base_link",
+      "child": "rotate_Link",
+      "origin": {
+        "xyz": [
+          0.010369,
+          -5.5918e-05,
+          -0.1902
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "status": "unproven"
+    },
+    {
+      "parent": "rotate_Link",
+      "child": "l_Link",
+      "origin": {
+        "xyz": [
+          -0.0087096,
+          0.008136,
+          -0.0051
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "status": "unproven"
+    },
+    {
+      "parent": "l_Link",
+      "child": "l2_Link",
+      "origin": {
+        "xyz": [
+          -0.04125,
+          -0.008136,
+          -0.07925
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "status": "unproven"
+    },
+    {
+      "parent": "rotate_Link",
+      "child": "r_Link",
+      "origin": {
+        "xyz": [
+          0.0087904,
+          -0.008136,
+          -0.0051
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "status": "unproven"
+    },
+    {
+      "parent": "r_Link",
+      "child": "r2_Link",
+      "origin": {
+        "xyz": [
+          0.04125,
+          0.008136,
+          -0.07925
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "status": "unproven"
+    }
+  ]
+}

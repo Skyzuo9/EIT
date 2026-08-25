@@ -1,0 +1,9 @@
+{
+  "schema": "lab.source/v0",
+  "source_type": "solidworks-pack-and-go-candidate",
+  "source_document": "E:\\资产管线unilab\\装配体\\方形视触觉\\方形视触觉2.sldasm",
+  "source_root": "E:\\资产管线unilab\\装配体\\方形视触觉",
+  "cad_file_count": 5,
+  "source_files_digest": "930385eda02935524c33d97a8e20888a722fdeb4231d6ad24106f92e246f9a3b",
+  "read_policy": "read-only"
+}

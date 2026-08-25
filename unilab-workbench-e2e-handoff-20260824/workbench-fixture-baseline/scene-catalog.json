@@ -1,0 +1,167 @@
+{
+  "schema": "lab.workbench_static_scene_fixture/v0",
+  "fixtureId": "asset-pipeline-e2e-baseline-20260824",
+  "purpose": "static_workbench_display_and_picking_only",
+  "candidate": true,
+  "notAWorkCellActivation": true,
+  "sourceFamilyGateSha256": "926f227985d20e8c074be373c5fd4a235815936b4333495609876091818a5f50",
+  "assetCount": 5,
+  "safety": {
+    "motionAllowed": false,
+    "spatialInterlockAllowed": false,
+    "executionAllowed": false,
+    "reason": "No manufacturer robot URDF, qualified collision, deployment binding, or activation is present."
+  },
+  "assets": [
+    {
+      "id": "synthesis.capping-gripper",
+      "family": "synthesis.capping-gripper",
+      "trialRevision": "input-digest:85b2c06dc4caabd1166873f22299d2695b8d008ac0b56cc41960701dec109cec",
+      "capabilityGrade": "semantic-scene",
+      "bundleUrl": "bundles/synthesis.capping-gripper/85b2c06dc4ca/bundle.json",
+      "renderUrl": "bundles/synthesis.capping-gripper/85b2c06dc4ca/render-lod0.glb",
+      "previewTransform": {
+        "translationM": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "rotationQuatXyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": 1.0,
+        "fixtureOnly": true
+      },
+      "expected": {
+        "display": true,
+        "stablePicking": true,
+        "motion": false,
+        "spatialInterlockEnforced": false,
+        "execution": false
+      }
+    },
+    {
+      "id": "synthesis.ptb22-linear-guide",
+      "family": "synthesis.ptb22-linear-guide",
+      "trialRevision": "input-digest:85f932bba2bffdbd63d1ad270c441346efc35e55cc4db98ce6b5d47ee7173b38",
+      "capabilityGrade": "semantic-scene",
+      "bundleUrl": "bundles/synthesis.ptb22-linear-guide/85f932bba2bf/bundle.json",
+      "renderUrl": "bundles/synthesis.ptb22-linear-guide/85f932bba2bf/render-lod0.glb",
+      "previewTransform": {
+        "translationM": [
+          2.0,
+          0.0,
+          0.0
+        ],
+        "rotationQuatXyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": 1.0,
+        "fixtureOnly": true
+      },
+      "expected": {
+        "display": true,
+        "stablePicking": true,
+        "motion": false,
+        "spatialInterlockEnforced": false,
+        "execution": false
+      }
+    },
+    {
+      "id": "synthesis.250ml-reagent-tray",
+      "family": "synthesis.250ml-reagent-tray",
+      "trialRevision": "input-digest:86c0ea20937de7c1c862150cfc2b660d7c5c65138a290f75ed5b018735aba9d4",
+      "capabilityGrade": "semantic-scene",
+      "bundleUrl": "bundles/synthesis.250ml-reagent-tray/86c0ea20937d/bundle.json",
+      "renderUrl": "bundles/synthesis.250ml-reagent-tray/86c0ea20937d/render-lod0.glb",
+      "previewTransform": {
+        "translationM": [
+          4.0,
+          0.0,
+          0.0
+        ],
+        "rotationQuatXyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": 1.0,
+        "fixtureOnly": true
+      },
+      "expected": {
+        "display": true,
+        "stablePicking": true,
+        "motion": false,
+        "spatialInterlockEnforced": false,
+        "execution": false
+      }
+    },
+    {
+      "id": "instrument.square-tactile",
+      "family": "instrument.square-tactile",
+      "trialRevision": "source-files-digest:930385eda02935524c33d97a8e20888a722fdeb4231d6ad24106f92e246f9a3b",
+      "capabilityGrade": "semantic-scene",
+      "bundleUrl": "bundles/instrument.square-tactile/930385eda029/bundle.json",
+      "renderUrl": "bundles/instrument.square-tactile/930385eda029/render-lod0.glb",
+      "previewTransform": {
+        "translationM": [
+          0.0,
+          2.0,
+          0.0
+        ],
+        "rotationQuatXyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": 1.0,
+        "fixtureOnly": true
+      },
+      "expected": {
+        "display": true,
+        "stablePicking": true,
+        "motion": false,
+        "spatialInterlockEnforced": false,
+        "execution": false
+      }
+    },
+    {
+      "id": "instrument.bigclaw.step-reference",
+      "family": "instrument.bigclaw.step-reference",
+      "trialRevision": "source-sha256:db2865a35d129aea321c50ed419f0317760bcada4e36af9b1cd3c7d7ff91150e",
+      "capabilityGrade": "semantic-scene",
+      "bundleUrl": "bundles/instrument.bigclaw.step-reference/db2865a35d12/bundle.json",
+      "renderUrl": "bundles/instrument.bigclaw.step-reference/db2865a35d12/render-lod0.glb",
+      "previewTransform": {
+        "translationM": [
+          2.0,
+          2.0,
+          0.0
+        ],
+        "rotationQuatXyzw": [
+          0.0,
+          0.0,
+          0.0,
+          1.0
+        ],
+        "scale": 1.0,
+        "fixtureOnly": true
+      },
+      "expected": {
+        "display": true,
+        "stablePicking": true,
+        "motion": false,
+        "spatialInterlockEnforced": false,
+        "execution": false
+      }
+    }
+  ]
+}

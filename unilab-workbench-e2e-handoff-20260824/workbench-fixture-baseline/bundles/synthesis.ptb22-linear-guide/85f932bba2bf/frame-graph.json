@@ -1,0 +1,35 @@
+{
+  "schema": "lab.frame_graph/v0",
+  "root": "base_link",
+  "frames": [
+    {
+      "id": "base_link",
+      "parent_candidate": null,
+      "status": "unproven"
+    },
+    {
+      "id": "move_link",
+      "parent_candidate": "base_link",
+      "status": "unproven"
+    }
+  ],
+  "candidate_edges": [
+    {
+      "parent": "base_link",
+      "child": "move_link",
+      "origin": {
+        "xyz": [
+          -0.54196,
+          0.0,
+          0.0955
+        ],
+        "rpy": [
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "status": "unproven"
+    }
+  ]
+}

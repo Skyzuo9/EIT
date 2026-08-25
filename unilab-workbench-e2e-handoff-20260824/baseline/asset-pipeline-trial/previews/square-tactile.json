@@ -1,0 +1,27 @@
+{
+  "schema": "lab.render_preview_report/v0",
+  "input": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\families\\instruments\\solidworks\\square-tactile\\trial-930385eda029\\render-lod0.glb",
+  "output": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\previews\\square-tactile.png",
+  "mesh_objects": 4,
+  "triangle_count": 106658,
+  "bounds_m": {
+    "min": [
+      0.0017743464559316635,
+      -0.08657385408878326,
+      -0.03579551354050636
+    ],
+    "max": [
+      0.049274347722530365,
+      -0.02636035718023777,
+      -0.0025478778406977654
+    ],
+    "extent": [
+      0.04749999940395355,
+      0.06021349877119064,
+      0.03324763476848602
+    ]
+  },
+  "asset_id": "square-tactile",
+  "png_bytes": 219680,
+  "png_sha256": "fd1edb4491ffdf36eae9b2cb23159388357d36a1fc6fc192bd4abec6504a64af"
+}

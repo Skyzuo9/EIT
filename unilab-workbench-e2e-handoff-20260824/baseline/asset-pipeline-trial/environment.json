@@ -1,0 +1,32 @@
+{
+  "schema": "lab.trial_environment/v0",
+  "python": {
+    "executable": "C:\\ProgramData\\anaconda3\\python.exe",
+    "version": "3.13.5"
+  },
+  "blender": {
+    "available": true,
+    "exit_code": 0,
+    "output": [
+      "Blender 5.2.0 LTS",
+      "\tbuild date: 2026-07-14",
+      "\tbuild time: 01:35:40",
+      "\tbuild commit date: 2026-07-13",
+      "\tbuild commit time: 15:20"
+    ]
+  },
+  "solidworks_progid": "SldWorks.Application.33",
+  "workspace": "E:\\资产管线unilab",
+  "config": "E:\\资产管线unilab\\pipeline\\pipeline.yaml",
+  "cascadio": {
+    "available": true,
+    "exit_code": 0,
+    "output": [
+      "cascadio 0.1.1"
+    ]
+  },
+  "node": {
+    "available": false,
+    "error": "FileNotFoundError: [WinError 2] 系统找不到指定的文件。"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema": "lab.render_capture/v0",
+  "source_kind": "legacy-sw-urdf",
+  "robot_name": "250ml试剂瓶托盘.urdf",
+  "root_link": "base_link",
+  "link_count": 1,
+  "source_joint_count": 0,
+  "imported_mesh_objects": 1,
+  "triangle_count": 2530,
+  "bounds_source_z_up_m": {
+    "min": [
+      -0.1078091710805893,
+      -0.24144171178340912,
+      0.0
+    ],
+    "max": [
+      0.10819083452224731,
+      0.24055828154087067,
+      0.05299999937415123
+    ]
+  },
+  "exported_glb": "C:\\unilab_asset_trial_tmp\\urdf_synthesis-static-tray\\render.glb",
+  "animations_exported": false,
+  "skins_exported": false
+}

@@ -1,0 +1,10 @@
+{
+  "schema": "lab.trial_slice_status/v0",
+  "slice": "A",
+  "status": "blocked",
+  "reason": "manufacturer_robot_urdf_or_xacro_missing",
+  "xacro_count": 0,
+  "urdf_count": 82,
+  "solidworks_exporter_urdf_count": 82,
+  "published_robot_family": false
+}

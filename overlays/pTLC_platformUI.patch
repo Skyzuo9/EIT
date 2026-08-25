@@ -1,0 +1,30 @@
+diff --git a/eit_ptlc/web/package-lock.json b/eit_ptlc/web/package-lock.json
+index e1ca910..60f00e4 100644
+--- a/eit_ptlc/web/package-lock.json
++++ b/eit_ptlc/web/package-lock.json
+@@ -1685,8 +1685,7 @@
+       "version": "0.185.1",
+       "resolved": "https://registry.npmjs.org/three/-/three-0.185.1.tgz",
+       "integrity": "sha512-5aojFCXKwnjBRZvUnt3WFfEcvUJgkN5LlijRFN95hMy8WVkG4I0QNcJE+OuWvuJ0bOdStrbfXn0pkd6/QyiAlg==",
+-      "license": "MIT",
+-      "peer": true
++      "license": "MIT"
+     },
+     "node_modules/three-mesh-bvh": {
+       "version": "0.9.14",
+@@ -1703,7 +1702,6 @@
+       "integrity": "sha512-o5a9xKjbtuhY6Bi5S3+HvbRERmouabWbyUcpXXUA1u+GNUKoROi9byOJ8M0nHbHYHkYICiMlqxkg1KkYmm25Sw==",
+       "dev": true,
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "esbuild": "^0.21.3",
+         "postcss": "^8.4.43",
+@@ -1763,7 +1761,6 @@
+       "resolved": "https://registry.npmjs.org/vue/-/vue-3.5.38.tgz",
+       "integrity": "sha512-vAMKHfImQlYSy0C+PBue4s3ERZ2xGKfgZg5GXAsLInq1dyh2H78ILVP5sK0KPFPVW4kv+OGCIvBEondcjpZp7A==",
+       "license": "MIT",
+-      "peer": true,
+       "dependencies": {
+         "@vue/compiler-dom": "3.5.38",
+         "@vue/compiler-sfc": "3.5.38",

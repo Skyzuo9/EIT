@@ -1,0 +1,14 @@
+{
+  "schema": "lab.geometry_roles/v0",
+  "entities": [
+    {
+      "id": "base_link",
+      "roles": [
+        "visual",
+        "selection",
+        "collision-candidate"
+      ],
+      "collision_status": "unqualified-same-as-visual"
+    }
+  ]
+}

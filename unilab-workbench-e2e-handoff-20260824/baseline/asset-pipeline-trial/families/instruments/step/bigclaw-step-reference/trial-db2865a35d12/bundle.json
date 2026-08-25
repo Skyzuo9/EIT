@@ -1,0 +1,53 @@
+{
+  "schema": "lab.family_sim_bundle/v0",
+  "family": "instrument.bigclaw.step-reference",
+  "trial_revision": "source-sha256:db2865a35d129aea321c50ed419f0317760bcada4e36af9b1cd3c7d7ff91150e",
+  "immutable_candidate": true,
+  "artifacts": [
+    {
+      "path": "source.json",
+      "bytes": 479,
+      "sha256": "fe1dee2f99ec74dccdaf3b4539d537819d65ca1dcf9e1f1d2a8cb68e2a834af4"
+    },
+    {
+      "path": "files.sha256",
+      "bytes": 125,
+      "sha256": "989232b46c34a6d597912b93180eab35c05574418e47ef451d98bc576a9d0db6"
+    },
+    {
+      "path": "assembly.snapshot.json",
+      "bytes": 2148,
+      "sha256": "44c21d445907176ec0b3b33c4e7399270ec33924dffe4ccb5c10b16a00f29613"
+    },
+    {
+      "path": "entity-registry.json",
+      "bytes": 294,
+      "sha256": "d060e3914657ae62e29d2d324b80f6bdc7116aecdf82a478b9e48337254526ad"
+    },
+    {
+      "path": "frame-graph.json",
+      "bytes": 255,
+      "sha256": "ab834ec91f117ed3544014f8e22d3ffc045ab4fd68a71ad6dfdcb633ee56a5d0"
+    },
+    {
+      "path": "geometry-roles.json",
+      "bytes": 367,
+      "sha256": "df87e2a0c41b5f297ffa7eebc5f9cd3a97211d5a95d1cefca35d7af91c7fdbbe"
+    },
+    {
+      "path": "capability.json",
+      "bytes": 294,
+      "sha256": "8203aae0f5c4209582148f192c1e0b4c72d7ca89b5371fd9330fd46ea3c260cd"
+    },
+    {
+      "path": "provenance.json",
+      "bytes": 575,
+      "sha256": "9f8426290db8822c54ddc16bc93f01c0a4ebb7be336f0f3ed17f8c3f07bf3cff"
+    },
+    {
+      "path": "render-lod0.glb",
+      "bytes": 9008500,
+      "sha256": "f4db37fca62bae0d4fbfd64691133792c380b61befa2d586caf814a0e20125f3"
+    }
+  ]
+}

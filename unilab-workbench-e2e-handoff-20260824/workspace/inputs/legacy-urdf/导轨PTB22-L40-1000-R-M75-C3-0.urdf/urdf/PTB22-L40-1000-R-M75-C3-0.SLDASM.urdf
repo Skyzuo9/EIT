@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="PTB22-L40-1000-R-M75-C3-0.SLDASM">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="-0.13268 -0.0042284 0.045773"
+        rpy="0 0 0" />
+      <mass
+        value="15.34" />
+      <inertia
+        ixx="0.064683"
+        ixy="-1.7812E-05"
+        ixz="-5.6368E-06"
+        iyy="1.9113"
+        iyz="2.7016E-06"
+        izz="1.9662" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PTB22-L40-1000-R-M75-C3-0.SLDASM/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PTB22-L40-1000-R-M75-C3-0.SLDASM/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="move_link">
+    <inertial>
+      <origin
+        xyz="0 -8.6102E-05 -0.0065618"
+        rpy="0 0 0" />
+      <mass
+        value="1.3399" />
+      <inertia
+        ixx="0.0072298"
+        ixy="7.306E-19"
+        ixz="1.4623E-19"
+        iyy="0.0061875"
+        iyz="-7.3171E-07"
+        izz="0.012826" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PTB22-L40-1000-R-M75-C3-0.SLDASM/meshes/move_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.85882 0.85882 0.85882 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://PTB22-L40-1000-R-M75-C3-0.SLDASM/meshes/move_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="move_joint"
+    type="prismatic">
+    <origin
+      xyz="-0.54196 0 0.0955"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="move_link" />
+    <axis
+      xyz="1 0 0" />
+    <limit
+      lower="0"
+      upper="1.1"
+      effort="0"
+      velocity="0" />
+  </joint>
+</robot>

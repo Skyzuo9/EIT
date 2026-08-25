@@ -1,0 +1,25 @@
+{
+  "schema": "lab.entity_registry/v0",
+  "entities": [
+    {
+      "scene_entity_id": "sw-occurrence:0000",
+      "cad_occurrence_alias": "Cap2-1",
+      "cad_document": "E:\\资产管线unilab\\装配体\\方形视触觉\\Cap2.sldprt"
+    },
+    {
+      "scene_entity_id": "sw-occurrence:0001",
+      "cad_occurrence_alias": "pin2-1",
+      "cad_document": "E:\\资产管线unilab\\装配体\\方形视触觉\\pin2.sldprt"
+    },
+    {
+      "scene_entity_id": "sw-occurrence:0002",
+      "cad_occurrence_alias": "底-1",
+      "cad_document": "E:\\资产管线unilab\\装配体\\方形视触觉\\底.sldprt"
+    },
+    {
+      "scene_entity_id": "sw-occurrence:0003",
+      "cad_occurrence_alias": "盖板-1",
+      "cad_document": "E:\\资产管线unilab\\装配体\\方形视触觉\\盖板.sldprt"
+    }
+  ]
+}

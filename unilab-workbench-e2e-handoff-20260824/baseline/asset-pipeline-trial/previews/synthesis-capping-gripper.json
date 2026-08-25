@@ -1,0 +1,27 @@
+{
+  "schema": "lab.render_preview_report/v0",
+  "input": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\families\\instruments\\legacy-sw-urdf\\synthesis-capping-gripper\\trial-85b2c06dc4ca\\render-lod0.glb",
+  "output": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\previews\\synthesis-capping-gripper.png",
+  "mesh_objects": 6,
+  "triangle_count": 62268,
+  "bounds_m": {
+    "min": [
+      -0.05259060114622116,
+      -0.04505591839551926,
+      -0.3010999858379364
+    ],
+    "max": [
+      0.24230895936489105,
+      0.04494408518075943,
+      3.023176153860163e-10
+    ],
+    "extent": [
+      0.2948995530605316,
+      0.09000000357627869,
+      0.3010999858379364
+    ]
+  },
+  "asset_id": "synthesis-capping-gripper",
+  "png_bytes": 202040,
+  "png_sha256": "9baffb55dd1d1000806fc679a7718a5e801b0e0b3686f07e44a3f0c4b9d15c94"
+}

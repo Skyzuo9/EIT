@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Device telemetry projection",
+  "type": "object",
+  "required": [
+    "topology_digest",
+    "boot_id",
+    "sequence",
+    "observed_at",
+    "joint_positions_rad",
+    "stale"
+  ],
+  "properties": {
+    "topology_digest": {
+      "type": "string"
+    },
+    "boot_id": {
+      "type": "string"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "joint_positions_rad": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "stale": {
+      "type": "boolean"
+    }
+  }
+}

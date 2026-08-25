@@ -1,0 +1,33 @@
+实验室 3D 贴图资产生成器｜一键团队版
+版本：1.2.0
+构建日期：2026-07-25
+
+同事入口：
+- 完整解压
+- 用 Codex 打开解压根目录
+- 修改并粘贴“复制到Codex的提示词.txt”
+
+提示词会提供：
+- 仪器名称
+- 每台最多 30 Meshy credits 的一次首轮生成授权
+- 无付费重试授权
+- 强制证据、几何和视觉质检规则
+
+包含：
+- 项目级 .agents/skills/lab-3d-asset-pipeline
+- 一段提示词首次运行向导
+- asset_pipeline 流水线源码与锁定依赖
+- 空白仪器输入表
+- 空白“模型资产”输出目录
+- 团队使用说明
+
+明确排除：
+- asset_pipeline/.env
+- asset_pipeline/.venv
+- asset_pipeline/data/*.sqlite3*
+- asset_pipeline/assets/
+- 任何已生成 GLB/STL
+- 原作者任务、审批、credits 和 API 密钥
+- .git、缓存和系统临时文件
+
+只有在 PBR/高清纹理、几何和 Codex 视觉检查全部通过且不使用覆盖时，资产才会自动发布。

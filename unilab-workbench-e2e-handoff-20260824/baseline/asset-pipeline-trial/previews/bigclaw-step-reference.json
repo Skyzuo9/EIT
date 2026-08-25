@@ -1,0 +1,27 @@
+{
+  "schema": "lab.render_preview_report/v0",
+  "input": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\families\\instruments\\step\\bigclaw-step-reference\\trial-db2865a35d12\\render-lod0.glb",
+  "output": "E:\\资产管线unilab\\work\\asset-pipeline-trial\\previews\\bigclaw-step-reference.png",
+  "mesh_objects": 2,
+  "triangle_count": 238174,
+  "bounds_m": {
+    "min": [
+      -0.04964608699083328,
+      -0.07211828976869583,
+      -0.06769883632659912
+    ],
+    "max": [
+      0.045248959213495255,
+      0.001500032260082662,
+      0.03519761189818382
+    ],
+    "extent": [
+      0.09489504992961884,
+      0.0736183226108551,
+      0.10289645195007324
+    ]
+  },
+  "asset_id": "bigclaw-step-reference",
+  "png_bytes": 268471,
+  "png_sha256": "3cc70b25930510669421a85698714baf8a317dc565262add34e929b7dad06105"
+}

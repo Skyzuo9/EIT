@@ -1,0 +1,8 @@
+{
+  "schema": "lab.family_release_gate/v0",
+  "passed": true,
+  "checks_run": 51,
+  "json_files": 46,
+  "glb_files": 5,
+  "failures": []
+}
