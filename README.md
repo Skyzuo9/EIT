@@ -91,6 +91,8 @@ Mac 侧 P1/P2 门禁的当前实现与测试边界见
 [`2026-08-27-mac-station-handoff-decomposition-v1-report.md`](./2026-08-27-mac-station-handoff-decomposition-v1-report.md)。
 win03 的 Windows W1 复采结果、不可变 GLB 哈希和 Mac 两阶段验收步骤见
 [`2026-08-27-feeding-station-win03-to-mac-handoff.md`](./2026-08-27-feeding-station-win03-to-mac-handoff.md)。
+win03 的 Mac GLB 真实诊断已通过；Windows 封装、自检和返回完整目录时使用
+[`2026-08-27-feeding-station-win03-mac-to-windows-p1-packaging-handoff.md`](./2026-08-27-feeding-station-win03-mac-to-windows-p1-packaging-handoff.md)。
 
 Windows W2 设备级几何必须等待真实 P1 验证和 P2 人签完成。批准后复制
 `config/station-geometry-export-plan.template.json`，只填写批准 layout 中的精确

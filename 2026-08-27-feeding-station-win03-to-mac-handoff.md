@@ -4,13 +4,19 @@
 
 Run ID：`feeding-station-20260827-win03`
 
-当前状态：`ready-for-mac-glb-semantic-diagnosis`
+原始接收状态：`ready-for-mac-glb-semantic-diagnosis`
+
+Mac 已完成状态：`approved-for-p1-packaging`
 
 禁止状态：尚未封装，不是 `source-input-validated`
 
 本文只处理 win03 两次 SolidWorks W1 采集的 GLB 字节差异。Mac 必须先独立运行
 平台无关的语义诊断，把与本轮两个 SHA-256 精确绑定的 JSON 通过非 Git 通道返回
 Windows；Windows 封装后，Mac 再对完整 handoff 做 P1 独立验收。
+
+2026-08-27 Mac 真实诊断已通过。Windows 现在应按
+[`2026-08-27-feeding-station-win03-mac-to-windows-p1-packaging-handoff.md`](./2026-08-27-feeding-station-win03-mac-to-windows-p1-packaging-handoff.md)
+核对诊断 SHA-256、执行 finalizer 并返回完整 win03。
 
 总流程仍以
 [`2026-08-27-feeding-station-windows-mac-p0-p1-runbook.md`](./2026-08-27-feeding-station-windows-mac-p0-p1-runbook.md)
