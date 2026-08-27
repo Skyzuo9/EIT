@@ -1,4 +1,4 @@
-"""SourceRelease 预览包的两种机器人 Registry 声明。"""
+"""SourceRelease 预览包的机器人 Registry 声明。"""
 
 from unilabos.registry.decorators import device
 
@@ -37,4 +37,21 @@ class FairinoFr5Arm:
         del kwargs
 
 
-__all__ = ["DobotCr5Arm", "FairinoFr5Arm"]
+@device(
+    id="duco_gcr5_910",
+    category=["robot", "gcr5", "source-release-preview", "project-cad-export"],
+    displayname="DUCO GCR5-910",
+    description="摘要锁定的项目 CAD URDF 预览；非厂家关节限位，不授予真机执行权。",
+    version="0.3.0",
+    model={
+        "type": "package_moveit",
+        "provider": "cr5_telemetry_lab.source_release_model:build_duco_gcr5_910_model",
+        "source_digest": "c91cd096d8c6acde34bb57c85d4b7916c6ab17dc22feff09c502f29256230612",
+    },
+)
+class DucoGcr5910Arm:
+    def __init__(self, **kwargs):
+        del kwargs
+
+
+__all__ = ["DobotCr5Arm", "DucoGcr5910Arm", "FairinoFr5Arm"]

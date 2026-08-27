@@ -125,6 +125,63 @@ class StationDecompositionTest(unittest.TestCase):
             self.assertIn("可进入发布候选：`false`", review)
             self.assertIn("不授予部署、碰撞、空间互锁或执行资格", review)
 
+    def test_v1_1_exclusions_partition_parent_minus_child(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            manifest = self._handoff(root)
+            value = self._decomposition_value(manifest)
+            value["schema"] = "lab.station_decomposition/v1.1"
+            rack = value["devices"][1]
+            rack["exclude_subtree_roots"] = ["RACK-PART-1"]
+            value["devices"].append(
+                {
+                    "family": "instrument.rack-part",
+                    "kind": "device",
+                    "subtree_root": "RACK-PART-1",
+                }
+            )
+            decomposition = root / "station-decomposition.yaml"
+            decomposition.write_text(
+                yaml.safe_dump(value, sort_keys=False),
+                encoding="utf-8",
+            )
+
+            layout = MODULE.compile_station(manifest, decomposition)
+            by_root = {item["subtree_root"]: item for item in layout["placements"]}
+            self.assertEqual(by_root["RACK-1"]["source_occurrences"], ["RACK-1"])
+            self.assertEqual(
+                by_root["RACK-1"]["excluded_subtree_roots"],
+                ["RACK-PART-1"],
+            )
+            self.assertEqual(
+                by_root["RACK-PART-1"]["source_occurrences"],
+                ["RACK-PART-1"],
+            )
+            self.assertEqual(len(layout["occurrence_coverage"]), 9)
+
+    def test_v1_rejects_exclusions_and_v1_1_rejects_invalid_exclusion(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            manifest = self._handoff(root)
+            value = self._decomposition_value(manifest)
+            value["devices"][1]["exclude_subtree_roots"] = ["RACK-PART-1"]
+            decomposition = root / "station-decomposition.yaml"
+            decomposition.write_text(
+                yaml.safe_dump(value, sort_keys=False),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(MODULE.DecompositionError, "只允许用于 decomposition/v1.1"):
+                MODULE.compile_station(manifest, decomposition)
+
+            value["schema"] = "lab.station_decomposition/v1.1"
+            value["devices"][1]["exclude_subtree_roots"] = ["CR5_BASE-1"]
+            decomposition.write_text(
+                yaml.safe_dump(value, sort_keys=False),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(MODULE.DecompositionError, "严格后代"):
+                MODULE.compile_station(manifest, decomposition)
+
     def test_cli_writes_layout_coverage_and_review_artifacts(self) -> None:
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)

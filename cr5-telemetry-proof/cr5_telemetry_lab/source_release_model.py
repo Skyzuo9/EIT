@@ -1,4 +1,4 @@
-"""从只读厂家 ZIP SourceRelease 构造 Workbench ``package_moveit`` 模型。"""
+"""从只读摘要锁定 ZIP SourceRelease 构造 Workbench ``package_moveit`` 模型。"""
 
 from __future__ import annotations
 
@@ -46,6 +46,9 @@ class SourceReleaseReceipt:
     exact_ref: str
     urdf_member: str
     urdf_sha256: str
+    authority: str
+    qualification: str
+    license_evidence: str
     archive_read_only: bool = True
 
 
@@ -93,6 +96,22 @@ def build_fairino_fr5_model(
 
     return build_source_release_model(
         "fairino_fr5",
+        device_id=device_id,
+        position=position,
+        rotation=rotation,
+    )
+
+
+def build_duco_gcr5_910_model(
+    *,
+    device_id: str,
+    position: Mapping[str, Any] | None = None,
+    rotation: Mapping[str, Any] | None = None,
+) -> SourceReleaseModelBundle:
+    """从摘要锁定的项目 CAD URDF 构造 DUCO GCR5-910 预览模型。"""
+
+    return build_source_release_model(
+        "duco_gcr5_910",
         device_id=device_id,
         position=position,
         rotation=rotation,
@@ -155,6 +174,9 @@ def build_source_release_model(
         exact_ref=_text(spec, "exact_ref"),
         urdf_member=_text(spec, "urdf_member"),
         urdf_sha256=expected_urdf_digest,
+        authority=_text(spec, "authority", default="manufacturer"),
+        qualification=_text(spec, "qualification", default="kinematic-preview-only"),
+        license_evidence=_text(spec, "license_evidence", default="not-recorded"),
     )
     with _receipt_lock:
         _verified_receipts[model_id] = receipt
@@ -259,6 +281,7 @@ def _compile_bundle(
         mesh_paths=mesh_paths,
         preview_effort_defaults=spec.get("preview_effort_defaults"),
         preview_velocity_default=spec.get("preview_velocity_default"),
+        preview_position_limits=spec.get("preview_position_limits"),
         render=True,
     )
     device_link = f"{prefix}device_link"
@@ -486,6 +509,7 @@ def _qualify_tree(
     mesh_paths: tuple[Path, ...],
     preview_effort_defaults: object,
     preview_velocity_default: object,
+    preview_position_limits: object,
     render: bool,
 ) -> None:
     for link in root.findall("link"):
@@ -497,6 +521,7 @@ def _qualify_tree(
     movable_seen: list[str] = []
     effort_defaults = _number_sequence_or_empty(preview_effort_defaults)
     velocity_default = _positive_number_or_none(preview_velocity_default)
+    position_limits = _position_limits_or_empty(preview_position_limits)
     for joint in root.findall("joint"):
         source_name = str(joint.attrib.get("name") or "")
         joint_type = str(joint.attrib.get("type") or "")
@@ -514,6 +539,7 @@ def _qualify_tree(
                 joint_index=source_joint_names.index(source_name),
                 effort_defaults=effort_defaults,
                 velocity_default=velocity_default,
+                position_limits=position_limits,
             )
         for relation in ("parent", "child"):
             element = joint.find(relation)
@@ -546,10 +572,23 @@ def _validate_and_repair_preview_limit(
     joint_index: int,
     effort_defaults: tuple[float, ...],
     velocity_default: float | None,
+    position_limits: tuple[tuple[float, float], ...],
 ) -> None:
     limit = joint.find("limit")
     if limit is None:
-        raise ValueError(f"{model_id} 可动关节缺少 limit")
+        if joint_index >= len(position_limits):
+            raise ValueError(f"{model_id} 可动关节缺少 limit 且没有受限预览替代值")
+        lower_default, upper_default = position_limits[joint_index]
+        limit = ET.SubElement(
+            joint,
+            "limit",
+            {
+                "lower": str(lower_default),
+                "upper": str(upper_default),
+                "effort": "0.0",
+                "velocity": "0.0",
+            },
+        )
     lower = _finite_attribute(limit, "lower", model_id=model_id)
     upper = _finite_attribute(limit, "upper", model_id=model_id)
     if lower >= upper:
@@ -698,8 +737,10 @@ def _moveit_controllers(
     }
 
 
-def _text(mapping: Mapping[str, Any], field: str) -> str:
+def _text(mapping: Mapping[str, Any], field: str, *, default: str | None = None) -> str:
     value = mapping.get(field)
+    if value is None and default is not None:
+        value = default
     if not isinstance(value, str) or not value.strip():
         raise ValueError(f"SourceRelease {field} 必须是非空文本")
     return value.strip()
@@ -740,6 +781,20 @@ def _positive_number_or_none(value: object) -> float | None:
     return result
 
 
+def _position_limits_or_empty(value: object) -> tuple[tuple[float, float], ...]:
+    if not isinstance(value, Sequence) or isinstance(value, (str, bytes)):
+        return ()
+    result: list[tuple[float, float]] = []
+    for index, raw in enumerate(value):
+        if not isinstance(raw, Sequence) or isinstance(raw, (str, bytes)) or len(raw) != 2:
+            raise ValueError(f"受限预览 position limit[{index}] 必须是 [lower, upper]")
+        lower, upper = (float(item) for item in raw)
+        if not math.isfinite(lower) or not math.isfinite(upper) or lower >= upper:
+            raise ValueError(f"受限预览 position limit[{index}] 无效")
+        result.append((lower, upper))
+    return tuple(result)
+
+
 def _safe_identifier(value: str) -> str:
     result = _SAFE_NAME.sub("_", str(value)).strip("_").lower()
     if not result:
@@ -751,6 +806,7 @@ __all__ = [
     "SourceReleaseModelBundle",
     "SourceReleaseReceipt",
     "build_dobot_cr5_model",
+    "build_duco_gcr5_910_model",
     "build_fairino_fr5_model",
     "build_source_release_model",
     "get_verified_source_release_receipt",

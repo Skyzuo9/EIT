@@ -1,4 +1,4 @@
-"""CR5 / FR5 Mac 本地 SourceRelease 运动预览合同测试。"""
+"""CR5 / GCR5 / FR5 Mac 本地 SourceRelease 运动预览合同测试。"""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from fastapi.testclient import TestClient
 
 from cr5_telemetry_lab.preview_app import (
     DOBOT_DEVICE_ID,
+    DUCO_DEVICE_ID,
     FAIRINO_DEVICE_ID,
     ROBOT_DEFINITIONS,
     PreviewRuntime,
@@ -25,6 +26,8 @@ ARCHIVES = {
     / "DOBOT_CR_CRA/ros/DOBOT_6Axis_ROS2_V4-37730d08.zip",
     FAIRINO_DEVICE_ID: SOURCE_ROOT
     / "FR5/ros/frcobot_ros2-v3.0.0_robot-v3.9.7.zip",
+    DUCO_DEVICE_ID: SOURCE_ROOT
+    / "DUCO_GCR5/robot_dc-94d4030db170edaa986b8d1243fd8ae27d45cffd.zip",
 }
 
 
@@ -95,7 +98,7 @@ class PreviewAppTest(unittest.TestCase):
             envelope = response.json()
             self.assertEqual(envelope["code"], 0)
             nodes = envelope["data"]["nodes"]
-            self.assertEqual(len(nodes), 2)
+            self.assertEqual(len(nodes), 3)
             by_device = {
                 node["material"]["meta_data"]["source_node_id"]: node
                 for node in nodes

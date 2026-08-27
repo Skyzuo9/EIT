@@ -1,6 +1,7 @@
-"""Mac 本地 DOBOT CR5 / FAIRINO FR5 运动学预览服务。
+"""Mac 本地摘要锁定机器人 SourceRelease 运动学预览服务。
 
-两个 ``package_moveit`` Provider 都从摘要锁定的只读厂家 ZIP 编译。服务复用
+Provider 从摘要锁定的只读 ZIP 编译；DUCO GCR5-910 来自项目 CAD 导出，
+其预览限位不是厂家控制参数。服务复用
 Uni-Lab-OS 的 ``JointStateProjector``、``DeviceTelemetryHub`` 和正式模型路由；
 不连接控制器、不启动 MoveIt、不授予执行或空间互锁资格。
 """
@@ -39,6 +40,7 @@ from .source_release_model import get_verified_source_release_receipt
 
 DOBOT_DEVICE_ID = "dobot_cr5"
 FAIRINO_DEVICE_ID = "fairino_fr5"
+DUCO_DEVICE_ID = "duco_gcr5_910"
 DEVICE_ID = DOBOT_DEVICE_ID  # 兼容第一版 CR5 证明调用方。
 
 
@@ -51,6 +53,7 @@ class RobotDefinition:
     class_name: str
     provider: str
     source_digest: str
+    source_authority: str
 
 
 ROBOT_DEFINITIONS = {
@@ -62,6 +65,7 @@ ROBOT_DEFINITIONS = {
         class_name="community.robot_source_release_preview.dobot_cr5",
         provider="cr5_telemetry_lab.source_release_model:build_dobot_cr5_model",
         source_digest="487463ecc4941fe7df57e9fb2fea38477164d91907699a0e0de3e0c2c44b468c",
+        source_authority="manufacturer",
     ),
     FAIRINO_DEVICE_ID: RobotDefinition(
         model_id="fairino_fr5",
@@ -71,6 +75,17 @@ ROBOT_DEFINITIONS = {
         class_name="community.robot_source_release_preview.fairino_fr5",
         provider="cr5_telemetry_lab.source_release_model:build_fairino_fr5_model",
         source_digest="5e46a19e271638a7e1420f2727aaf8fb977016101a354b3694cc440f1fb9f071",
+        source_authority="manufacturer",
+    ),
+    DUCO_DEVICE_ID: RobotDefinition(
+        model_id="duco_gcr5_910",
+        device_id=DUCO_DEVICE_ID,
+        material_uuid="a1000000-0000-4000-8000-000000000003",
+        display_name="DUCO GCR5-910",
+        class_name="community.robot_source_release_preview.duco_gcr5_910",
+        provider="cr5_telemetry_lab.source_release_model:build_duco_gcr5_910_model",
+        source_digest="c91cd096d8c6acde34bb57c85d4b7916c6ab17dc22feff09c502f29256230612",
+        source_authority="project-cad-export",
     ),
 }
 MATERIAL_UUID = ROBOT_DEFINITIONS[DOBOT_DEVICE_ID].material_uuid
@@ -125,7 +140,7 @@ def _graph_node(definition: RobotDefinition) -> dict[str, Any]:
 
 
 class PreviewRuntime:
-    """把两种机器人的受限预览工作流投影到 OS 正式遥测合同。"""
+    """把受限预览工作流投影到 OS 正式遥测合同。"""
 
     def __init__(self, *, rate_hz: float = 20.0, time_scale: float = 1.0) -> None:
         if not math.isfinite(rate_hz) or rate_hz <= 0:
@@ -149,7 +164,7 @@ class PreviewRuntime:
         owners = collect_package_joint_state_owners(nodes, registry)
         self.owners = {owner.device_id: owner for owner in owners}
         if set(self.owners) != set(ROBOT_DEFINITIONS):
-            raise RuntimeError("机器人预览没有编译出 CR5 与 FR5 的 exact 关节归属")
+            raise RuntimeError("机器人预览没有编译出全部 SourceRelease 的 exact 关节归属")
         self.projector = JointStateProjector(owners, max_publish_hz=rate_hz)
         self.material_by_device = {
             definition.device_id: definition.material_uuid
@@ -200,6 +215,9 @@ class PreviewRuntime:
                 "exact_ref": receipt.exact_ref,
                 "urdf_member": receipt.urdf_member,
                 "urdf_sha256": receipt.urdf_sha256,
+                "authority": receipt.authority,
+                "qualification": receipt.qualification,
+                "license_evidence": receipt.license_evidence,
                 "archive_read_only": receipt.archive_read_only,
             },
             "model": {
@@ -222,8 +240,13 @@ class PreviewRuntime:
                 "hardware_execution": False,
                 "spatial_interlock_enforced": False,
                 "reason": (
-                    "Mac 本地关节空间预览；厂家 ZIP 只读，"
-                    "无控制器、标定与合格碰撞资格。"
+                    "Mac 本地关节空间预览；源 ZIP 只读，"
+                    + (
+                        "项目 CAD 导出限位仅为受限预览替代值；"
+                        if definition.source_authority != "manufacturer"
+                        else ""
+                    )
+                    + "无控制器、标定与合格碰撞资格。"
                 ),
             },
             "workflows": [
@@ -379,7 +402,7 @@ class PreviewRuntime:
 
 
 def create_app(*, time_scale: float = 1.0) -> FastAPI:
-    """创建无 ROS、无硬件的双机器人本地运动预览应用。"""
+    """创建无 ROS、无硬件的本地运动预览应用。"""
 
     runtime = PreviewRuntime(time_scale=time_scale)
     authority = SimpleNamespace(telemetry=runtime.telemetry)
@@ -462,7 +485,7 @@ def create_app(*, time_scale: float = 1.0) -> FastAPI:
 
 
 def create_workbench_material_router(runtime: PreviewRuntime) -> APIRouter:
-    """把双机器人投影到正常 Workbench 消费的公共 Material Graph。"""
+    """把机器人预览投影到正常 Workbench 消费的公共 Material Graph。"""
 
     router = APIRouter(prefix="/api/v1")
 
@@ -487,7 +510,11 @@ def create_workbench_material_router(runtime: PreviewRuntime) -> APIRouter:
 
 def _material_graph_nodes(runtime: PreviewRuntime) -> list[dict[str, Any]]:
     timestamp = "2026-08-26T00:00:00Z"
-    x_positions_mm = {DOBOT_DEVICE_ID: -900.0, FAIRINO_DEVICE_ID: 900.0}
+    x_positions_mm = {
+        DOBOT_DEVICE_ID: -1200.0,
+        DUCO_DEVICE_ID: 0.0,
+        FAIRINO_DEVICE_ID: 1200.0,
+    }
     nodes: list[dict[str, Any]] = []
     for index, device_id in enumerate(ROBOT_DEFINITIONS, start=1):
         descriptor = runtime.descriptor(device_id)
@@ -505,7 +532,7 @@ def _material_graph_nodes(runtime: PreviewRuntime) -> list[dict[str, Any]]:
                     "type": "device",
                     "barcode": f"preview-{device_id}",
                     "name": definition.display_name,
-                    "description": "只读厂家 SourceRelease 的本地运动学预览实例",
+                    "description": "摘要锁定 SourceRelease 的本地运动学预览实例",
                     "config": {
                         "category": "robot-arm",
                         "rendering": {

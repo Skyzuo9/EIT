@@ -58,22 +58,22 @@
       }
     },
     {
-      "asset_instance": "cr5-cad-01",
+      "asset_instance": "gcr5-cad-01",
       "slice_role": "robot-cad-comparison",
-      "family": "robot-family:dobot.cr5",
-      "subtree_root": "REPLACE_WITH_APPROVED_EXACT_CR5_OCCURRENCE",
+      "family": "robot-family:duco.gcr5_910",
+      "subtree_root": "REPLACE_WITH_APPROVED_EXACT_GCR5_OCCURRENCE",
       "qualification": "comparison-only",
       "source_unit": "m",
       "comparison_only": true,
       "primary": {
-        "render_glb": "exports/cr5-cad-01/primary/render.glb",
-        "entity_map": "exports/cr5-cad-01/primary/entity-map.json",
+        "render_glb": "exports/gcr5-cad-01/primary/render.glb",
+        "entity_map": "exports/gcr5-cad-01/primary/entity-map.json",
         "source_digest_before": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST",
         "source_digest_after": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST"
       },
       "repeat": {
-        "render_glb": "exports/cr5-cad-01/repeat/render.glb",
-        "entity_map": "exports/cr5-cad-01/repeat/entity-map.json",
+        "render_glb": "exports/gcr5-cad-01/repeat/render.glb",
+        "entity_map": "exports/gcr5-cad-01/repeat/entity-map.json",
         "source_digest_before": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST",
         "source_digest_after": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST"
       }

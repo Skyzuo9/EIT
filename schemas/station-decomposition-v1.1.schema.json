@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/station-decomposition-v1.1.schema.json",
+  "title": "UniLab station occurrence decomposition proposal",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "station",
+    "source_handoff_digest",
+    "devices",
+    "robot_subtrees",
+    "unassigned_policy",
+    "approval"
+  ],
+  "properties": {
+    "schema": {"const": "lab.station_decomposition/v1.1"},
+    "station": {"type": "string", "minLength": 1},
+    "source_handoff_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "devices": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/deviceRule"}
+    },
+    "robot_subtrees": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/robotRule"}
+    },
+    "unassigned_policy": {"const": "fail"},
+    "approval": {"$ref": "#/$defs/approval"}
+  },
+  "$defs": {
+    "occurrence": {"type": "string", "minLength": 1},
+    "exclusions": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/occurrence"}
+    },
+    "deviceRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["family", "kind", "subtree_root"],
+      "properties": {
+        "family": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["device", "static_environment"]},
+        "subtree_root": {"$ref": "#/$defs/occurrence"},
+        "exclude_subtree_roots": {"$ref": "#/$defs/exclusions"},
+        "review_note": {"type": "string"}
+      }
+    },
+    "robotRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["replaced_by", "subtree_root"],
+      "properties": {
+        "replaced_by": {"type": "string", "pattern": "^robot-family:"},
+        "subtree_root": {"$ref": "#/$defs/occurrence"},
+        "exclude_subtree_roots": {"$ref": "#/$defs/exclusions"},
+        "review_note": {"type": "string"}
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reviewed_by", "reviewed_at", "notes"],
+      "properties": {
+        "status": {"enum": ["draft", "approved"]},
+        "reviewed_by": {"type": "string"},
+        "reviewed_at": {"type": "string"},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}

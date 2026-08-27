@@ -16,6 +16,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from verify_station_handoff import HandoffValidation  # noqa: E402
 
 DECOMPOSITION_SCHEMA = "lab.station_decomposition/v1"
+DECOMPOSITION_SCHEMA_V1_1 = "lab.station_decomposition/v1.1"
+DECOMPOSITION_SCHEMAS = {DECOMPOSITION_SCHEMA, DECOMPOSITION_SCHEMA_V1_1}
 LAYOUT_SCHEMA = "lab.station_layout_candidate/v1"
 COVERAGE_SCHEMA = "lab.station_decomposition_coverage/v1"
 FORBIDDEN_KEYS = {
@@ -39,8 +41,19 @@ TOP_LEVEL_KEYS = {
     "unassigned_policy",
     "approval",
 }
-DEVICE_KEYS = {"family", "kind", "subtree_root", "review_note"}
-ROBOT_KEYS = {"replaced_by", "subtree_root", "review_note"}
+DEVICE_KEYS = {
+    "family",
+    "kind",
+    "subtree_root",
+    "exclude_subtree_roots",
+    "review_note",
+}
+ROBOT_KEYS = {
+    "replaced_by",
+    "subtree_root",
+    "exclude_subtree_roots",
+    "review_note",
+}
 APPROVAL_KEYS = {"status", "reviewed_by", "reviewed_at", "notes"}
 
 
@@ -63,8 +76,11 @@ def compile_station(
         )
     manifest = _read_json(manifest_path)
     decomposition = _read_yaml(decomposition_path)
-    if decomposition.get("schema") != DECOMPOSITION_SCHEMA:
-        raise DecompositionError(f"decomposition schema 必须是 {DECOMPOSITION_SCHEMA}")
+    schema = decomposition.get("schema")
+    if schema not in DECOMPOSITION_SCHEMAS:
+        raise DecompositionError(
+            "decomposition schema 必须是 " + " 或 ".join(sorted(DECOMPOSITION_SCHEMAS))
+        )
     unexpected = sorted(set(decomposition) - TOP_LEVEL_KEYS)
     if unexpected:
         raise DecompositionError("decomposition 含不支持字段: " + ", ".join(unexpected))
@@ -120,7 +136,7 @@ def compile_station(
         root = rule["subtree_root"]
         if root not in by_id:
             raise DecompositionError(f"{rule['rule']}.subtree_root 不存在: {root}")
-        matched = _descendants(root, children)
+        matched = _matched_occurrences(rule, by_id=by_id, children=children, schema=schema)
         for occurrence_id in matched:
             previous = ownership.get(occurrence_id)
             if previous is not None:
@@ -145,6 +161,8 @@ def compile_station(
                 "quat_xyzw": transform.get("quat_xyzw"),
             },
         }
+        if rule["exclude_subtree_roots"]:
+            placement["excluded_subtree_roots"] = rule["exclude_subtree_roots"]
         if rule.get("review_note"):
             placement["review_note"] = rule["review_note"]
         if rule["kind"] == "robot_replacement":
@@ -228,6 +246,10 @@ def _parse_rules(decomposition: dict[str, Any]) -> list[dict[str, Any]]:
                     f"devices[{index}].subtree_root",
                 ),
                 "review_note": _optional_text(item.get("review_note")),
+                "exclude_subtree_roots": _exclude_roots(
+                    item.get("exclude_subtree_roots"),
+                    field=f"devices[{index}].exclude_subtree_roots",
+                ),
             }
         )
     for index, raw in enumerate(robots):
@@ -253,9 +275,62 @@ def _parse_rules(decomposition: dict[str, Any]) -> list[dict[str, Any]]:
                     f"robot_subtrees[{index}].subtree_root",
                 ),
                 "review_note": _optional_text(item.get("review_note")),
+                "exclude_subtree_roots": _exclude_roots(
+                    item.get("exclude_subtree_roots"),
+                    field=f"robot_subtrees[{index}].exclude_subtree_roots",
+                ),
             }
         )
     return rules
+
+
+def _exclude_roots(value: Any, *, field: str) -> list[str]:
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        raise DecompositionError(f"{field} 必须是数组")
+    result = [_text(item, f"{field}[{index}]") for index, item in enumerate(value)]
+    if len(result) != len(set(result)):
+        raise DecompositionError(f"{field} 不能包含重复根")
+    return result
+
+
+def _matched_occurrences(
+    rule: dict[str, Any],
+    *,
+    by_id: dict[str, dict[str, Any]],
+    children: dict[str, list[str]],
+    schema: Any,
+) -> list[str]:
+    root = rule["subtree_root"]
+    matched = set(_descendants(root, children))
+    excluded_roots = rule["exclude_subtree_roots"]
+    if excluded_roots and schema != DECOMPOSITION_SCHEMA_V1_1:
+        raise DecompositionError("exclude_subtree_roots 只允许用于 decomposition/v1.1")
+    excluded_sets: dict[str, set[str]] = {}
+    for excluded_root in excluded_roots:
+        if excluded_root not in by_id:
+            raise DecompositionError(
+                f"{rule['rule']}.exclude_subtree_roots 不存在: {excluded_root}"
+            )
+        descendants = set(_descendants(excluded_root, children))
+        if excluded_root == root or excluded_root not in matched:
+            raise DecompositionError(
+                f"{rule['rule']}.exclude_subtree_roots 必须是 subtree_root 的严格后代: "
+                f"{excluded_root}"
+            )
+        excluded_sets[excluded_root] = descendants
+    for left, left_set in excluded_sets.items():
+        for right in excluded_sets:
+            if left != right and right in left_set:
+                raise DecompositionError(
+                    f"{rule['rule']}.exclude_subtree_roots 包含嵌套冗余根: {left} -> {right}"
+                )
+    for descendants in excluded_sets.values():
+        matched.difference_update(descendants)
+    if not matched:
+        raise DecompositionError(f"{rule['rule']} 排除后没有 occurrence")
+    return sorted(matched)
 
 
 def _validate_approval(value: Any, *, allow_draft: bool) -> dict[str, str]:
@@ -322,6 +397,7 @@ def build_coverage_report(layout: dict[str, Any]) -> dict[str, Any]:
                 "family": item.get("family"),
                 "kind": item.get("kind"),
                 "source_occurrence_count": item.get("source_occurrence_count"),
+                "excluded_subtree_roots": item.get("excluded_subtree_roots", []),
             }
             for item in placements
         ],
@@ -345,8 +421,8 @@ def render_review_markdown(layout: dict[str, Any], coverage: dict[str, Any]) -> 
         f"- 审核时间：{approval.get('reviewed_at') or '未填写'}",
         f"- 可进入发布候选：`{str(layout.get('publication_eligible') is True).lower()}`",
         "",
-        "| 规则 | 精确 subtree root | family | kind | occurrence 数 |",
-        "|---|---|---|---|---:|",
+        "| 规则 | 精确 subtree root | 排除子树数 | family | kind | occurrence 数 |",
+        "|---|---|---:|---|---|---:|",
     ]
     for item in coverage.get("placements", []):
         lines.append(
@@ -356,6 +432,7 @@ def render_review_markdown(layout: dict[str, Any], coverage: dict[str, Any]) -> 
                 for key in (
                     "source_rule",
                     "subtree_root",
+                    "excluded_subtree_roots",
                     "family",
                     "kind",
                     "source_occurrence_count",

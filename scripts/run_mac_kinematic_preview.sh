@@ -24,6 +24,7 @@ export EIT_ROBOT_SOURCE_CACHE=${EIT_ROBOT_SOURCE_CACHE:-${workspace_root}/cr5-te
 
 for archive in \
   "${EIT_ROBOT_CONTROL_ROOT}/DOBOT_CR_CRA/ros/DOBOT_6Axis_ROS2_V4-37730d08.zip" \
+  "${EIT_ROBOT_CONTROL_ROOT}/DUCO_GCR5/robot_dc-94d4030db170edaa986b8d1243fd8ae27d45cffd.zip" \
   "${EIT_ROBOT_CONTROL_ROOT}/FR5/ros/frcobot_ros2-v3.0.0_robot-v3.9.7.zip"; do
   if [[ ! -f ${archive} ]]; then
     print -u2 "缺少只读机器人 SourceRelease: ${archive}"
@@ -51,7 +52,7 @@ for _ in {1..80}; do
     break
   fi
   if ! kill -0 ${backend_pid} 2>/dev/null; then
-    print -u2 "CR5 / FR5 SourceRelease 预览后端启动失败："
+    print -u2 "机器人 SourceRelease 预览后端启动失败："
     tail -80 ${backend_log} >&2
     exit 1
   fi
@@ -83,7 +84,7 @@ for argument in "$@"; do
   [[ ${argument} == '--no-open' ]] && should_open=false
 done
 
-print "UniLab Workbench CR5 / FR5 主场景已启动：${workbench_url}"
+print "UniLab Workbench CR5 / GCR5 / FR5 主场景已启动：${workbench_url}"
 print "诊断夹具：${diagnostic_url}"
 print "后端日志：${backend_log}"
 print "前端日志：${frontend_log}"

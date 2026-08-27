@@ -1,14 +1,16 @@
-schema: lab.station_decomposition/v1
+schema: lab.station_decomposition/v1.1
 station: eit.station-a
 source_handoff_digest: REPLACE_WITH_VERIFIED_HANDOFF_SHA256
 devices:
   - family: instrument.example
     kind: device
     subtree_root: REPLACE_WITH_EXACT_SOLIDWORKS_OCCURRENCE_ID
+    exclude_subtree_roots: []
     review_note: "精确根及其全部后代只归属此设备实例"
 robot_subtrees:
   - subtree_root: REPLACE_WITH_EXACT_ROBOT_OCCURRENCE_ID
-    replaced_by: robot-family:dobot.cr5
+    replaced_by: robot-family:duco.gcr5_910
+    exclude_subtree_roots: []
     review_note: "SolidWorks 几何仅作 comparison_only"
 unassigned_policy: fail
 approval:

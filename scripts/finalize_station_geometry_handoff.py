@@ -411,12 +411,15 @@ def _validate_device(
     if comparison_only is not is_robot:
         raise GeometryHandoffError(f"{field}.comparison_only 与纵切角色不一致")
     if is_robot:
+        kinematics_source = placement.get("kinematics_source")
         if (
             placement.get("kind") != "robot_replacement"
             or placement.get("solidworks_geometry_role") != "comparison_only"
-            or placement.get("kinematics_source") != "robot-family:dobot.cr5"
+            or not isinstance(kinematics_source, str)
+            or not kinematics_source.startswith("robot-family:")
+            or kinematics_source != placement.get("family")
         ):
-            raise GeometryHandoffError("机器人 W2 CAD 对照必须绑定批准的 Dobot CR5 replacement")
+            raise GeometryHandoffError("机器人 W2 CAD 对照必须绑定批准的 robot-family replacement")
         qualification = "comparison-only"
         geometry_role = "comparison"
     else:

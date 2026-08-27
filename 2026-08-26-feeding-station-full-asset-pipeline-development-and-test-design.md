@@ -10,6 +10,13 @@ P0–P1 当前执行入口：[`2026-08-27-feeding-station-windows-mac-p0-p1-runb
 
 本文是针对“投料站”真实输入的全流程开发与测试设计。它不替代上位分层规范；若发生冲突，以上位规范为准。本文把当前已经验证的 CR5/FR5 Workbench 预览、现有 handoff/decomposition 门禁、legacy SolidWorks URDF 迁移试验，以及尚未完成的部署、activation 和正式工作流运动串成一条可逐阶段验收的路线。
 
+> 2026-08-28 证据修正：win03 occurrence 与用户提供的固定 GitHub commit 已证明
+> 投料站总装中的七段机器人是 **DUCO GCR5-910**，不是 Dobot CR5。本文件较早的
+> Dobot CR5 内容仅保留为既有软件回归背景；投料站 P2/W2 的机器人 replacement
+> 必须使用 `robot-family:duco.gcr5_910`。该 GitHub 包属于项目 CAD 导出证据，仓库
+> 无根许可证且关节缺少厂家 limit，因此当前能力只到摘要锁定的
+> `kinematic-preview-only`，不满足厂家真源、碰撞或真机执行资格。
+
 ---
 
 ## 1. 目标、非目标与最终完成定义
@@ -99,23 +106,32 @@ P0–P1 当前执行入口：[`2026-08-27-feeding-station-windows-mac-p0-p1-runb
 - 包内 STL 的尺寸表现为米，10 个独立 STL 的尺寸表现为毫米；单位必须由清单显式声明，包围盒只用于发现异常，不能自动猜测并静默修正；
 - `投料站/投料站-urdf` 与根目录 `投料站-urdf` 的实际文件内容重复。扫描器必须只选择一个根或按摘要去重。
 
-### 2.3 厂家机械臂真源
+### 2.3 投料站机械臂身份与当前运动学源
 
-首选现有摘要锁定的 Dobot CR5 Provider：
+win03 snapshot 中的机器人子树由 `GCR5-J0_1.STEP` 至 `GCR5-J6_1.STEP`
+组成。固定 GitHub commit `94d4030db170edaa986b8d1243fd8ae27d45cffd` 的
+`duco_gcr5_910_urdf.csv` 对这七个组件形成唯一 exact occurrence 映射；当前预览
+Provider 为：
 
 ```text
-provider: unilab_arm_cr5:build_moveit_model
-source_digest: 8c8b9ea935fd83122b19b572c84d107e81b4864d4310c94d0906cc361e7631c2
+provider: cr5_telemetry_lab.source_release_model:build_duco_gcr5_910_model
+archive_digest: c91cd096d8c6acde34bb57c85d4b7916c6ab17dc22feff09c502f29256230612
+urdf_digest: 76e95464d07ec304bf9394b640540a87193fa977420486c348e578e9cbd38858
+authority: project-cad-export
+qualification: kinematic-preview-only
 ```
 
-FAIRINO FR5 可作为第二模型和异构回归样本，但不与 CR5 混成一个家族包。
+原 Dobot CR5 与 FAIRINO FR5 继续作为异构软件回归样本，但不能替换此投料站的
+GCR5-910。win03 P1 `station-handoff.json` 中原有 Dobot/CR5 字段属于此次识别前的
+陈旧假设；P1 源输入验证结果保留，P2/W2 机器人身份以新的摘要锁定证据和批准后的
+decomposition 为准。
 
 机械臂总装 CAD 子树必须在 decomposition 中标记：
 
 ```yaml
 kind: robot_replacement
 solidworks_geometry_role: comparison_only
-kinematics_source: robot-family:dobot.cr5
+kinematics_source: robot-family:duco.gcr5_910
 ```
 
 ### 2.4 当前已验证的软件基础
@@ -141,7 +157,7 @@ kinematics_source: robot-family:dobot.cr5
 |---|---|---|---|
 | 静态环境/料架 | `投料站料架.urdf` | 1 link、0 joint，约 0.510 × 0.140 × 0.450 m | `semantic-scene`、显示、拾取、稳定 digest |
 | 独立活动轴 | `滑轨ETH17-L5-1250-BL-M40-A1(0).urdf` | 2 links、1 个 0–1.28 m prismatic 候选轴，约 1.533 m 长 | 静态外壳 + 人签后的 `unilab_rail_linear` 运动学 |
-| 机械臂 | 官方 Dobot CR5 Provider | 6 个可动关节、7 个受管 mesh，摘要已锁定 | `package_moveit`、挂在导轨 `mount_link` 下、模拟运动 |
+| 机械臂 | 项目 CAD 导出的 DUCO GCR5-910 Provider | 6 个可动关节、7 个受管 mesh，commit/ZIP/URDF 摘要已锁定；厂家限位缺失 | `package_moveit`、挂在导轨 `mount_link` 下、仅模拟预览 |
 | 耗材/物料 | `4ml玻璃瓶(Default_按加工_).STL` | 原始包围盒约 15 × 46 × 15，单位为 mm | 显式 `scale=0.001`、作为物料/耗材，不产生关节 |
 
 第二阶段扩展资产：
@@ -337,22 +353,24 @@ incoming/feeding-station-<date>-capture/
 
 ### 6.2 人签 decomposition
 
-旧 v0 的 `occurrence_prefix` 一条规则只产生一个 placement，不足以自然表达重复料架和多台机器人。2026-08-27 已升级为精确子树 v1：
+旧 v0 的 `occurrence_prefix` 一条规则只产生一个 placement，不足以自然表达重复料架和多台机器人。2026-08-28 已升级为精确子树 v1.1；`exclude_subtree_roots` 用来表达“父装配壳减去已独立拆出的子设备”：
 
 ```yaml
-schema: lab.station_decomposition/v1
+schema: lab.station_decomposition/v1.1
 station: eit.feeding-station
 source_handoff_digest: <sha256>
 devices:
   - subtree_root: <exact-rack-occurrence-id>
     family: environment.feeding-station-rack
     kind: static_environment
+    exclude_subtree_roots: []
   - subtree_root: <exact-rail-occurrence-id>
     family: mechanism.eth17-linear-rail
     kind: device
 robot_subtrees:
   - subtree_root: <exact-robot-occurrence-id>
-    replaced_by: robot-family:dobot.cr5
+    replaced_by: robot-family:duco.gcr5_910
+    exclude_subtree_roots: []
 unassigned_policy: fail
 approval:
   status: approved
@@ -364,6 +382,7 @@ approval:
 
 - `subtree_root` 必须精确匹配 snapshot 中一个 occurrence；
 - 编译器沿 parent 图展开子树，不靠显示名前缀猜测；
+- v1.1 从父规则中减去列出的严格后代子树；排除根仍必须由其他规则唯一接管；
 - 一个 occurrence 只能属于一个实例；
 - 同一 family 可以出现多个 placement；
 - `subtree_root` 与规则位置共同提供候选身份，不引入部署层 `device_id`；
@@ -592,7 +611,7 @@ Mac 开发：
 |---|---|---|
 | `environment.feeding-station-rack` | `semantic-scene` | motion/interlock/execution |
 | `mechanism.eth17-linear-rail-shell` | `semantic-scene` | 未人签前 motion/interlock/execution |
-| `robot.dobot.cr5` | `kinematic-preview` | site execution/现场互锁 |
+| `robot.duco.gcr5_910` | `kinematic-preview-only` | 厂家限位、collision、site execution/现场互锁 |
 | `consumable.vial-4ml` | `semantic-scene` 或 material geometry | motion/interlock/execution |
 
 Mac 测试：
