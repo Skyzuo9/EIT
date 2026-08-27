@@ -1,10 +1,11 @@
 # Mac 工站 Handoff 加固与 Decomposition v1 实施报告
 
-日期：2026-08-27  
-主机：macOS 26.2（arm64）  
-Python：3.13.12  
-基线提交：`524405edf2d90e411ee563c2b9e529590ff43cce`  
-状态：`fixture-tested`；真实 Windows W1 handoff 尚未回传
+日期：2026-08-27
+主机：macOS 26.2（arm64）
+Python：3.13.12
+远端集成基线：`488609a`
+本轮实现提交：`839419b`
+状态：`fixture-tested`；完整真实 win02 handoff 尚未传入本机 `incoming/`
 
 ## 本轮结论
 
@@ -19,7 +20,7 @@ Mac 侧 P2 工具已经完成两个可独立验证的增量：
    occurrence coverage JSON 与人审 Markdown。
 
 这些结果只由确定性合成 occurrence/GLB 夹具和既有 CR5/FR5 软件服务证明。
-`incoming/` 中没有真实 W1 目录，因此没有形成真实投料站的
+`incoming/` 中没有完整真实 win02 目录，因此没有形成真实投料站的
 `source-input-validated`、人工批准 decomposition 或 W2 导出许可。
 
 ## 实现内容
@@ -35,7 +36,9 @@ Mac 侧 P2 工具已经完成两个可独立验证的增量：
 - 解析 GLB 2.0 header/chunk/JSON，验证非空 node、mesh、primitive、accessor、
   POSITION accessor，并把文件统计与 capture report 比对；
 - 校验两次规范化 snapshot、两次 GLB 字节摘要及复现性报告中的四个文件摘要；
-- 非零 `open_errors` 失败；非零 `open_warnings` 必须有明确说明；
+- 两份 GLB 字节不同时，复算 v2 静态场景语义并核对诊断算法、差异分类和绑定哈希；
+- 非零 `open_errors` 失败；非零 `open_warnings` 保留为 validation warning，并要求
+  在人工交接回执中解释；
 - Windows 绝对路径只允许留在 `source_document`/组件 `document` 等审计字段。
 
 ### P2 decomposition v1
@@ -55,9 +58,10 @@ Mac 侧 P2 工具已经完成两个可独立验证的增量：
 PYTHONDONTWRITEBYTECODE=1 ./.venv/bin/python -m unittest discover -s tests -v
 ```
 
-结果：`13 tests passed`。覆盖有效 handoff、父引用/父环/根集合、组件数、源摘要、
-路径越界、无效 GLB、重复采集漂移、未解释 warning、精确子树、多料架/双 CR5、
-重叠/未分配/无效根、旧 v0 前缀拒绝、draft 禁发布，以及 CLI 三份产物写出。
+结果：`17 tests passed`。覆盖有效 handoff、父引用/父环/根集合、组件数、源摘要、
+路径越界、无效 GLB、重复采集漂移、GLB 遍历顺序语义诊断、warning 回传、精确子树、
+多料架/双 CR5、重叠/未分配/无效根、旧 v0 前缀拒绝、draft 禁发布，以及 CLI 三份
+产物写出。
 
 ```bash
 PYTHONDONTWRITEBYTECODE=1 ./.venv/bin/python -m unittest discover \
@@ -82,11 +86,11 @@ git diff --check
 
 | 产物 | SHA-256 |
 |---|---|
-| `scripts/verify_station_handoff.py` | `590c9eb8d2d3722adcd8d1a9b38ef44c00c23b1b832afd85f2112f144551ad20` |
+| `scripts/verify_station_handoff.py` | `57c586e35fb7c3fda0b17c9556e72d80b89ec8955936384c8a6a669f860f09fc` |
 | `scripts/compile_station_decomposition.py` | `212374624c1afd69b19caa4af0585243a4c7318e2bf3e92d30aa453e3a789729` |
-| `scripts/finalize_station_handoff.py` | `24eed21ff9e9b46acfd48c552f9ca92462823d86909818d4446450ce692795a1` |
+| `scripts/finalize_station_handoff.py` | `690cdf6c61a2be133ab18a59e5f9bb33f397a85453dd064abba4df6bbf48803d` |
 | `config/station-decomposition.template.yaml` | `9315b092d425f44bdcf97a42d4766f637009e5ef95558f74c5334a0034a1d21a` |
-| `config/station-handoff.template.json` | `6cee63c1af3a8697a403ef1a32fc46dec2907cfcf42170eafa79ad89d6c0d9f3` |
+| `config/station-handoff.template.json` | `c0de15661607c8a3b1f1d1004c1d82e9c5484e4ce15a13a968156f3cdc9bf82b` |
 
 ## 资格与停止边界
 
@@ -94,7 +98,7 @@ git diff --check
 |---|---|
 | P1/P2 代码与失败关闭夹具 | `fixture-tested` |
 | CR5/FR5 既有 Mac 预览回归 | `software-tested`（单测） |
-| 真实 Windows W1 handoff | 未收到 |
+| 完整真实 win02 handoff | 未传入本机 `incoming/`，未独立验收 |
 | 真实投料站 `source-input-validated` | 未验证 |
 | 真实 occurrence decomposition | 未起草、未人签 |
 | W2 设备级几何导出 | 未授权开始 |

@@ -58,13 +58,13 @@ GLB 语义算法必须是
 
 ## 4. Mac 准备仓库和 Python
 
-下面假设仓库位于 `/Users/newtides/EIT/unilab-asset-pipeline`。如实际位置不同，
+下面假设仓库位于 `/Users/newtides/EIT`。如实际位置不同，
 只修改 `REPO`，不要修改 Run ID 或 handoff 内容。
 
 ```bash
 set -euo pipefail
 
-REPO=/Users/newtides/EIT/unilab-asset-pipeline
+REPO=/Users/newtides/EIT
 CORE_COMMIT=38d729b2fc87f3a8d8af9845b55fea82bb7b08da
 
 cd "$REPO"
@@ -97,7 +97,7 @@ python3.11 -m venv .venv
 ```bash
 set -euo pipefail
 
-REPO=/Users/newtides/EIT/unilab-asset-pipeline
+REPO=/Users/newtides/EIT
 RUN_ID=feeding-station-20260827-win02
 HANDOFF="$REPO/incoming/$RUN_ID"
 
@@ -113,7 +113,7 @@ test "$(shasum -a 256 "$HANDOFF/geometry/station.glb" | awk '{print $1}')" = \
 test "$(shasum -a 256 "$HANDOFF/audit/repeat/station.glb" | awk '{print $1}')" = \
   ad38a9f80dcf481d8793cd5fb962604d2c8a6e5c912f51ad70d9d8f509c9c85a
 test "$(shasum -a 256 "$HANDOFF/audit/glb-semantic-diagnosis.json" | awk '{print $1}')" = \
-  6a9f34150c1729a628238e556ae60decc24fa573d6106bbd9a1bf9f9f9a45b0b
+  6a9f34150c1729a628238e556ae60decc24fa573d6106bbd9a1bf9f9a45b0b
 ```
 
 任一检查失败都先按“传输损坏”处理：删除 Mac 上的不完整副本，再从 Windows
@@ -200,4 +200,3 @@ Mac 型号 / macOS 版本 / Python 版本:
 传输方式:
 验收人和时间:
 ```
-

@@ -22,6 +22,8 @@ GitHub 仓库名是 `unilab-asset-pipeline`（GitHub 仓库名只能用 ASCII）
 准备先在 Windows 完成投料站 P0–P1 时，从
 [`2026-08-27-feeding-station-windows-mac-p0-p1-runbook.md`](./2026-08-27-feeding-station-windows-mac-p0-p1-runbook.md)
 开始。该手册给出 Windows 只读采集、非 Git handoff、Mac 独立验收和双方状态词。
+Windows 已生成 win02、准备把完整交接包送回 Mac，或准备下一轮 P2/W2 协同时，使用
+[`2026-08-27-feeding-station-mac-to-windows-next-handoff.md`](./2026-08-27-feeding-station-mac-to-windows-next-handoff.md)。
 
 ## 克隆
 

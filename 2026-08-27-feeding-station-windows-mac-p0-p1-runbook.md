@@ -5,6 +5,8 @@
 上位计划：[`2026-08-26-feeding-station-full-asset-pipeline-development-and-test-design.md`](./2026-08-26-feeding-station-full-asset-pipeline-development-and-test-design.md)
 win02 精确哈希、Mac 命令和回执格式：
 [`2026-08-27-feeding-station-win02-mac-handoff.md`](./2026-08-27-feeding-station-win02-mac-handoff.md)
+Mac 完成门禁开发后的 Windows 下一轮动作与 W2 开发合同：
+[`2026-08-27-feeding-station-mac-to-windows-next-handoff.md`](./2026-08-27-feeding-station-mac-to-windows-next-handoff.md)
 
 本手册只覆盖当前第一步：Windows 对真实 SolidWorks 总装完成输入冻结和只读
 W1 采集，Mac 验证 handoff。P0–P1 通过不代表已经完成人签分解、家族包、碰撞、
