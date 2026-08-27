@@ -1,0 +1,64 @@
+{
+  "schema": "lab.station_workbench_preview_receipt/v0",
+  "station": "eit.feeding-station",
+  "run_id": "feeding-station-20260827-win03",
+  "qualification": "static-asset-pipeline-preview",
+  "files": {
+    "station_handoff": {
+      "path": "station-handoff.json",
+      "bytes": 981,
+      "sha256": "0cb3c3703c41f95ba7d569927939191944c7d5242c40b68b152523d3c71473f9"
+    },
+    "decomposition": {
+      "path": "p2-auto/station-decomposition.proposal.yaml",
+      "bytes": 16144,
+      "sha256": "725ca56250ca6d0c2f19d7ac0392ff40d91dd81a7776305a67929933ff8ebb8c"
+    },
+    "layout": {
+      "path": "p2-auto/station-layout.draft.json",
+      "bytes": 1134320,
+      "sha256": "f33c32ff39d0c63bc14f0911053c54aebb8aac8b5212953fb03852d9830eb76e"
+    },
+    "coverage": {
+      "path": "p2-auto/coverage-report.json",
+      "bytes": 860434,
+      "sha256": "c33913fc97ec9d9bf0a4e0890869a6dca95a14fc4bfd32de953ee77fc4ccc27e"
+    },
+    "geometry": {
+      "path": "geometry/station.glb",
+      "bytes": 283695812,
+      "sha256": "f0d1afd67f2e09a048ba4ddc1c1959c61459cc7a922f0db9ad310db16c124746"
+    }
+  },
+  "geometry": {
+    "counts": {
+      "nodes": 1543,
+      "meshes": 1396,
+      "primitives": 1588,
+      "accessors": 4764,
+      "materials": 45
+    },
+    "bounding_box_m": {
+      "min": [-1.1068799495697021, -0.12486358731985092, 1.8461335897445679],
+      "max": [1.2950041887165247, 0.882851630449295, 3.0461336374282837],
+      "size": [2.401884138286227, 1.007715217769146, 1.2000000476837158]
+    },
+    "source_coordinate_frame": "solidworks-z-up",
+    "workbench_coordinate_frame": "pascal-y-up"
+  },
+  "expected_p2": {
+    "occurrence_count": 2021,
+    "assigned_occurrence_count": 2021,
+    "placement_count": 53,
+    "robot_family": "robot-family:duco.gcr5_910",
+    "four_ml_family": "material-family:glass-bottle-4ml"
+  },
+  "capability": {
+    "display": true,
+    "hardware_execution": false,
+    "spatial_interlock_enforced": false,
+    "collision_qualified": false,
+    "w2_eligible": false,
+    "publication_eligible": false
+  }
+}

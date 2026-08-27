@@ -18,6 +18,8 @@ GitHub URDF 已证明总装机器人是 **DUCO GCR5-910**。
 前置报告：
 
 - [`2026-08-28-feeding-station-gcr5-automation-report.md`](./2026-08-28-feeding-station-gcr5-automation-report.md)
+- [`2026-08-28-feeding-station-pending-decisions.md`](./2026-08-28-feeding-station-pending-decisions.md)
+- [`2026-08-28-feeding-station-unilab-workbench-preview-report.md`](./2026-08-28-feeding-station-unilab-workbench-preview-report.md)
 - [`2026-08-26-feeding-station-full-asset-pipeline-development-and-test-design.md`](./2026-08-26-feeding-station-full-asset-pipeline-development-and-test-design.md)
 - [`2026-08-28-feeding-station-win03-windows-to-mac-p1-validation-handoff.md`](./2026-08-28-feeding-station-win03-windows-to-mac-p1-validation-handoff.md)
 
@@ -34,7 +36,9 @@ GitHub URDF 已证明总装机器人是 **DUCO GCR5-910**。
 | approval | `draft` |
 | publication eligible | `false` |
 | 根仓测试 | 26/26 |
-| CR5/GCR5/FR5 预览测试 | 6/6 |
+| SourceRelease + 投料站预览测试 | 8/8 |
+| Pascal glTF/Material Graph 回归 | 66/66 |
+| Mac Workbench Material Graph | 1 个投料站节点，`format=gltf` |
 
 机器人 exact root：
 
@@ -53,6 +57,10 @@ robot-family:duco.gcr5_910
 ```text
 投料站料架-1/4ml玻璃瓶料架.SLDPRT-1/4ml玻璃瓶(Default_按加工_)-1
 ```
+
+Mac 已增加摘要锁定的整站 Workbench 静态预览。它使用 P1 完整 GLB 和 P2 draft
+coverage receipt，不等于已批准的设备级 W2。Windows 审核前可把该画面作为边界检查
+参考，但不得从画面反推碰撞、TCP、槽位或执行资格。
 
 ## 2. Windows 同步 GitHub
 

@@ -59,11 +59,18 @@ git -C uni-lab-fe apply ../overlays/uni-lab-fe.patch
 - 静态夹具不是 `WorkCellActivation`，不授予运动、互锁或执行资格。
 - 未经碰撞与部署资格验证的模型不得作为强制空间互锁依据。
 
-## Mac 本地 CR5 / FR5 运动预览
+## Mac 本地投料站与机器人预览
 
 ```bash
 ./scripts/run_mac_kinematic_preview.sh
 ```
+
+当 `feeding-station-20260827-win03` 完整 handoff 在仓库根目录存在时，该命令的
+正常 Workbench 主场景显示摘要锁定的完整投料站；CR5/GCR5/FR5 单体保留为诊断夹具。
+投料站 receipt、验证结果和目视验收边界见
+[`2026-08-28-feeding-station-unilab-workbench-preview-report.md`](./2026-08-28-feeding-station-unilab-workbench-preview-report.md)，
+尚待机械/CAD/机器人/物料负责人决定的项目见
+[`2026-08-28-feeding-station-pending-decisions.md`](./2026-08-28-feeding-station-pending-decisions.md)。
 
 真实工站结果回传后，先执行：
 

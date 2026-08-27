@@ -17,6 +17,7 @@ import uuid
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
 from datetime import datetime, timezone
+from pathlib import Path
 from types import SimpleNamespace
 from typing import Any
 
@@ -37,6 +38,7 @@ from unilabos.device_mesh.package_moveit_model import (
 )
 
 from .source_release_model import get_verified_source_release_receipt
+from .station_preview import StationPreview, load_station_preview
 
 DOBOT_DEVICE_ID = "dobot_cr5"
 FAIRINO_DEVICE_ID = "fairino_fr5"
@@ -401,10 +403,20 @@ class PreviewRuntime:
         return definition
 
 
-def create_app(*, time_scale: float = 1.0) -> FastAPI:
+def create_app(
+    *,
+    time_scale: float = 1.0,
+    station_root: Path | None = None,
+    station_receipt: Path | None = None,
+) -> FastAPI:
     """创建无 ROS、无硬件的本地运动预览应用。"""
 
     runtime = PreviewRuntime(time_scale=time_scale)
+    station_preview: StationPreview | None = None
+    if station_root is not None:
+        if station_receipt is None:
+            raise ValueError("启用投料站预览时必须提供 station_receipt")
+        station_preview = load_station_preview(station_root, station_receipt)
     authority = SimpleNamespace(telemetry=runtime.telemetry)
 
     @asynccontextmanager
@@ -414,7 +426,7 @@ def create_app(*, time_scale: float = 1.0) -> FastAPI:
 
     app = FastAPI(
         title="Robot SourceRelease Kinematic Preview",
-        version="0.2.0",
+        version="0.3.0",
         lifespan=lifespan,
     )
     # Mac Workbench runs on Vite's :5173 origin while this bounded preview
@@ -428,8 +440,11 @@ def create_app(*, time_scale: float = 1.0) -> FastAPI:
         allow_headers=["*"],
     )
     app.state.preview_runtime = runtime
-    app.include_router(create_workbench_material_router(runtime))
+    app.state.station_preview = station_preview
+    app.include_router(create_workbench_material_router(runtime, station_preview))
     app.include_router(create_preview_model_router())
+    if station_preview is not None:
+        app.include_router(create_station_preview_router(station_preview))
     app.include_router(create_device_telemetry_router(authority))
 
     router = APIRouter(prefix="/api/v1/kinematic-preview")
@@ -484,7 +499,10 @@ def create_app(*, time_scale: float = 1.0) -> FastAPI:
     return app
 
 
-def create_workbench_material_router(runtime: PreviewRuntime) -> APIRouter:
+def create_workbench_material_router(
+    runtime: PreviewRuntime,
+    station_preview: StationPreview | None = None,
+) -> APIRouter:
     """把机器人预览投影到正常 Workbench 消费的公共 Material Graph。"""
 
     router = APIRouter(prefix="/api/v1")
@@ -493,17 +511,56 @@ def create_workbench_material_router(runtime: PreviewRuntime) -> APIRouter:
     def health() -> dict[str, Any]:
         return {
             "status": "ok",
-            "mode": "robot-source-release-kinematic-preview",
+            "mode": (
+                "feeding-station-static-asset-pipeline-preview"
+                if station_preview is not None
+                else "robot-source-release-kinematic-preview"
+            ),
+            "station_preview": station_preview is not None,
             "hardware_execution": False,
         }
 
     @router.get("/materials/graph")
     def material_graph() -> dict[str, Any]:
-        return {"code": 0, "data": {"nodes": _material_graph_nodes(runtime)}}
+        nodes = (
+            [station_preview.material_graph_node()]
+            if station_preview is not None
+            else _material_graph_nodes(runtime)
+        )
+        return {"code": 0, "data": {"nodes": nodes}}
 
     @router.get("/material-shapes")
     def material_shapes() -> dict[str, Any]:
         return {"code": 0, "data": {"items": []}}
+
+    return router
+
+
+def create_station_preview_router(station_preview: StationPreview) -> APIRouter:
+    """挂载摘要锁定的投料站描述符和只读 GLB。"""
+
+    router = APIRouter(prefix="/api/v1/station-preview")
+
+    @router.get("/descriptor")
+    def descriptor() -> dict[str, Any]:
+        return station_preview.descriptor()
+
+    @router.get("/model.glb", include_in_schema=False)
+    def read_station_model() -> FileResponse:
+        return FileResponse(
+            station_preview.model_path,
+            media_type="model/gltf-binary",
+            filename="feeding-station.preview.glb",
+            content_disposition_type="inline",
+            headers={
+                "Cache-Control": "no-store",
+                "ETag": f'"{station_preview.geometry_sha256}"',
+                "X-UniLab-Station": station_preview.station,
+                "X-UniLab-Preview-Only": "true",
+                "X-UniLab-Geometry-SHA256": station_preview.geometry_sha256,
+                "X-UniLab-Layout-SHA256": station_preview.layout_sha256,
+            },
+        )
 
     return router
 
@@ -694,8 +751,18 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", default=8002, type=int)
+    parser.add_argument("--station-root", type=Path)
+    parser.add_argument("--station-receipt", type=Path)
     args = parser.parse_args()
-    uvicorn.run(create_app(), host=args.host, port=args.port, log_level="info")
+    uvicorn.run(
+        create_app(
+            station_root=args.station_root,
+            station_receipt=args.station_receipt,
+        ),
+        host=args.host,
+        port=args.port,
+        log_level="info",
+    )
 
 
 if __name__ == "__main__":

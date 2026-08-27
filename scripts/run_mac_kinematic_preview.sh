@@ -21,6 +21,8 @@ export UNILAB_BACKEND_PROXY_TARGET=http://127.0.0.1:8002
 export EIT_ROBOT_CONTROL_ROOT=${EIT_ROBOT_CONTROL_ROOT:-${HOME}/Downloads/机械臂control}
 export EIT_ROBOT_SOURCE_MANIFEST=${EIT_ROBOT_SOURCE_MANIFEST:-${workspace_root}/config/robot-source-releases.json}
 export EIT_ROBOT_SOURCE_CACHE=${EIT_ROBOT_SOURCE_CACHE:-${workspace_root}/cr5-telemetry-proof/.unilabos/cache/robot-source-releases}
+export EIT_STATION_HANDOFF_ROOT=${EIT_STATION_HANDOFF_ROOT:-${workspace_root}/feeding-station-20260827-win03}
+export EIT_STATION_PREVIEW_RECEIPT=${EIT_STATION_PREVIEW_RECEIPT:-${workspace_root}/config/feeding-station-workbench-preview.json}
 
 for archive in \
   "${EIT_ROBOT_CONTROL_ROOT}/DOBOT_CR_CRA/ros/DOBOT_6Axis_ROS2_V4-37730d08.zip" \
@@ -31,6 +33,15 @@ for archive in \
     exit 2
   fi
 done
+
+if [[ ! -d ${EIT_STATION_HANDOFF_ROOT} ]]; then
+  print -u2 "缺少投料站 handoff 根目录: ${EIT_STATION_HANDOFF_ROOT}"
+  exit 2
+fi
+if [[ ! -f ${EIT_STATION_PREVIEW_RECEIPT} ]]; then
+  print -u2 "缺少投料站 Workbench receipt: ${EIT_STATION_PREVIEW_RECEIPT}"
+  exit 2
+fi
 
 backend_log=$(mktemp -t eit-cr5-preview-backend)
 frontend_log=$(mktemp -t eit-cr5-preview-frontend)
@@ -44,7 +55,11 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 cd ${workspace_root}
-${python_bin} -m cr5_telemetry_lab.preview_app --port 8002 >${backend_log} 2>&1 &
+${python_bin} -m cr5_telemetry_lab.preview_app \
+  --port 8002 \
+  --station-root "${EIT_STATION_HANDOFF_ROOT}" \
+  --station-receipt "${EIT_STATION_PREVIEW_RECEIPT}" \
+  >${backend_log} 2>&1 &
 backend_pid=$!
 
 for _ in {1..80}; do
@@ -84,8 +99,8 @@ for argument in "$@"; do
   [[ ${argument} == '--no-open' ]] && should_open=false
 done
 
-print "UniLab Workbench CR5 / GCR5 / FR5 主场景已启动：${workbench_url}"
-print "诊断夹具：${diagnostic_url}"
+print "UniLab Workbench 投料站资产管线主场景已启动：${workbench_url}"
+print "机器人 SourceRelease 诊断夹具：${diagnostic_url}"
 print "后端日志：${backend_log}"
 print "前端日志：${frontend_log}"
 print "按 Ctrl-C 停止。"
