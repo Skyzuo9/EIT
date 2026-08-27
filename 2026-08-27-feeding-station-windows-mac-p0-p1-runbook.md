@@ -196,26 +196,50 @@ Adapter 必须自己启动 SolidWorks、只关闭自己打开的文档并退出�
 
 ### 5.3 封装 handoff，并绑定 P0 摘要
 
+先比较两次 GLB。若 SHA-256 不同，Windows 暂停封装，把两份 GLB 通过非 Git
+通道交给 Mac。Mac 在相同仓库提交上运行平台无关的语义诊断：
+
+```bash
+./.venv/bin/python scripts/diagnose_station_glb_semantics.py \
+  /path/to/station.glb \
+  /path/to/station-repeat.glb \
+  --output /path/to/glb-semantic-diagnosis.json
+```
+
+只有诊断返回 `status=passed`、`normalized_glb_semantic_match=true`、
+`difference_class=component_traversal_order_only`，且报告中的两份 SHA-256 与待封装
+GLB 精确绑定时，才把该 JSON 通过非 Git 通道交回 Windows。任何语义差异都进入
+`needs-windows-recapture`，不能人工改写诊断。两次 GLB 字节一致时不需要诊断文件。
+
 ```powershell
-& $Python "$Repo\scripts\finalize_station_handoff.py" `
-  --output-root $RunRoot `
-  --source-release-root $Release `
-  --snapshot "$RunRoot\capture\assembly.snapshot.json" `
-  --capture-report "$RunRoot\capture\capture-report.json" `
-  --render-glb "$AsciiTemp\station.glb" `
-  --repeat-snapshot "$RunRoot\audit\repeat\assembly.snapshot.json" `
-  --repeat-capture-report "$RunRoot\audit\repeat\capture-report.json" `
-  --repeat-render-glb "$AsciiTemp\station-repeat.glb" `
-  --p0-files-sha256 "$RunRoot\audit\p0-a\files.sha256" `
-  --station "eit.feeding-station"
+$FinalizeArgs = @(
+  "--output-root", $RunRoot,
+  "--source-release-root", $Release,
+  "--snapshot", "$RunRoot\capture\assembly.snapshot.json",
+  "--capture-report", "$RunRoot\capture\capture-report.json",
+  "--render-glb", "$AsciiTemp\station.glb",
+  "--repeat-snapshot", "$RunRoot\audit\repeat\assembly.snapshot.json",
+  "--repeat-capture-report", "$RunRoot\audit\repeat\capture-report.json",
+  "--repeat-render-glb", "$AsciiTemp\station-repeat.glb",
+  "--p0-files-sha256", "$RunRoot\audit\p0-a\files.sha256",
+  "--station", "eit.feeding-station"
+)
+
+# 仅在 Mac 已返回与本轮两份 GLB 哈希绑定的通过报告时设置。
+if ($SemanticDiagnosis) {
+  $FinalizeArgs += @("--glb-semantic-diagnosis", $SemanticDiagnosis)
+}
+
+& $Python "$Repo\scripts\finalize_station_handoff.py" @FinalizeArgs
 
 if ($LASTEXITCODE -ne 0) { throw "P1 handoff 封装失败" }
 ```
 
 `finalize_station_handoff.py` 会拒绝：SourceRelease 与 P0 清单不一致、snapshot/report
 数量不一致、非只读/失败报告、空 occurrence、缺失或非法 GLB、两次规范化 snapshot
-不一致，或两次 GLB 字节摘要不一致。GLB 摘要不一致时先停下，由 Mac 判断是否只是
-exporter 遍历顺序差异；Windows 不自行降级门禁。
+不一致，或未附 Mac 通过报告的 GLB 字节摘要不一致。GLB 摘要不一致时必须由 Mac
+判断是否只是 exporter 遍历顺序差异；Windows 不自行降级门禁。通过报告会被复制为
+`audit/glb-semantic-diagnosis.json`，并由最终 Mac 验收再次独立复算。
 
 ### 5.4 Windows 自检与人工复核
 
@@ -276,8 +300,9 @@ qualification: source-input-validated
 not_qualified_for: 仍包含 collision / spatial-interlock-enforced / execution
 ```
 
-Mac 随后复核 `audit/reproducibility-report.json` 和两次采集。缺第二次采集时，P1
-直接不通过。P2 由 Mac 起草
+Mac 验证器会复核 `audit/reproducibility-report.json` 和两次采集；若 GLB 字节不同，
+还会重新计算两份 GLB 的语义签名，并核对 `audit/glb-semantic-diagnosis.json` 的算法、
+分类和文件哈希。缺第二次采集、缺诊断或复算不一致时，P1 直接不通过。P2 由 Mac 起草
 `station-decomposition.yaml`，Windows/CAD 负责人解释 occurrence，最终由人工审核人
 批准。批准前不回到 Windows 做设备级 W2 导出。
 

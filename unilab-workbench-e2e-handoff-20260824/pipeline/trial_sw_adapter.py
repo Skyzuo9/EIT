@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import subprocess
 import struct
 import sys
@@ -20,6 +21,7 @@ from typing import Any
 
 
 SW_TYPELIB = "{83A33D31-27C5-11CE-BFD4-00400513BB57}"
+SWX_SESSION_SEGMENT = re.compile(r"(?i)(?<=[\\/])swx\d+(?=[\\/])")
 
 
 def parse_args() -> argparse.Namespace:
@@ -67,6 +69,12 @@ def scalar(value: Any, default: Any = None) -> Any:
         return value() if callable(value) else value
     except Exception:
         return default
+
+
+def normalized_document_path(value: Any) -> str:
+    """Remove the per-process SolidWorks temp segment from virtual documents."""
+
+    return SWX_SESSION_SEGMENT.sub("swx<PID>", str(value or ""))
 
 
 def quaternion_xyzw(rotation: list[float]) -> list[float]:
@@ -127,7 +135,9 @@ def component_snapshot(component: Any) -> dict[str, Any]:
     suppression = int(scalar(getattr(component, "GetSuppression", None), -1))
     return {
         "id": str(scalar(getattr(component, "Name2", None), "")),
-        "document": str(scalar(getattr(component, "GetPathName", None), "")),
+        "document": normalized_document_path(
+            scalar(getattr(component, "GetPathName", None), "")
+        ),
         "parent": parent_name or None,
         "referenced_configuration": str(scalar(getattr(component, "ReferencedConfiguration", None), "")),
         "suppression_code": suppression,
@@ -278,7 +288,8 @@ def main() -> int:
         snapshot = {
             "schema": "lab.assembly_snapshot/v0",
             "source_document": str(assembly),
-            "capture_adapter": "SwPackAndGoAdapter/trial-v0",
+            "capture_adapter": "SwPackAndGoAdapter/trial-v1",
+            "document_path_normalization": "swx-pid-segment/v1",
             "units": {"length": "m", "angle": "rad", "orientation": "quaternion_xyzw"},
             "instances": instances,
             "mates_candidate": candidates,

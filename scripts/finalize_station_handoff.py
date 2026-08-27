@@ -11,6 +11,15 @@ import sys
 from pathlib import Path
 from typing import Any
 
+try:
+    from station_glb_semantics import ALGORITHM, DIAGNOSIS_SCHEMA, normalized_snapshot
+except ModuleNotFoundError:  # 允许测试从仓库根目录加载脚本
+    from scripts.station_glb_semantics import (
+        ALGORITHM,
+        DIAGNOSIS_SCHEMA,
+        normalized_snapshot,
+    )
+
 
 class FinalizeError(RuntimeError):
     """P1 输入不完整或与 P0 冻结摘要不一致。"""
@@ -56,16 +65,6 @@ def copy_if_needed(source: Path, target: Path) -> None:
     shutil.copy2(source, target)
 
 
-def normalized_snapshot(snapshot: dict[str, Any]) -> dict[str, Any]:
-    value = dict(snapshot)
-    value["instances"] = sorted(snapshot.get("instances", []), key=lambda item: item["id"])
-    value["mates_candidate"] = sorted(
-        snapshot.get("mates_candidate", []), key=lambda item: item.get("id", "")
-    )
-    value["root_occurrences"] = sorted(snapshot.get("root_occurrences", []))
-    return value
-
-
 def finalize(
     *,
     output_root: Path,
@@ -78,6 +77,7 @@ def finalize(
     repeat_glb_input: Path,
     station: str,
     p0_manifest: Path | None,
+    semantic_diagnosis_input: Path | None = None,
 ) -> dict[str, Any]:
     root = output_root.resolve()
     release = source_release_root.resolve()
@@ -131,10 +131,43 @@ def finalize(
             raise FinalizeError("repeat GLB magic 不是 glTF")
     primary_glb_digest = sha256(glb_input)
     repeat_glb_digest = sha256(repeat_glb_input)
-    if primary_glb_digest != repeat_glb_digest:
-        raise FinalizeError(
-            "两次 GLB 字节摘要不一致；P1 暂停，由 Mac 做语义几何差异诊断"
+    exact_glb_match = primary_glb_digest == repeat_glb_digest
+    semantic_glb_match = exact_glb_match
+    difference_class = "none"
+    semantic_diagnosis: dict[str, Any] | None = None
+    if not exact_glb_match:
+        if semantic_diagnosis_input is None:
+            raise FinalizeError(
+                "两次 GLB 字节摘要不一致；P1 暂停，由 Mac 做语义几何差异诊断"
+            )
+        semantic_diagnosis = load_json(
+            semantic_diagnosis_input,
+            "GLB semantic diagnosis",
         )
+        if semantic_diagnosis.get("schema") != DIAGNOSIS_SCHEMA:
+            raise FinalizeError("GLB semantic diagnosis schema 无效")
+        if semantic_diagnosis.get("algorithm") != ALGORITHM:
+            raise FinalizeError("GLB semantic diagnosis 算法版本无效")
+        if (
+            semantic_diagnosis.get("status") != "passed"
+            or semantic_diagnosis.get("normalized_glb_semantic_match") is not True
+            or semantic_diagnosis.get("approved_for_p1_packaging") is not True
+            or semantic_diagnosis.get("difference_class")
+            != "component_traversal_order_only"
+        ):
+            raise FinalizeError("GLB semantic diagnosis 未批准 P1 封装")
+        primary_value = semantic_diagnosis.get("primary_glb")
+        repeat_value = semantic_diagnosis.get("repeat_glb")
+        if not isinstance(primary_value, dict) or not isinstance(repeat_value, dict):
+            raise FinalizeError("GLB semantic diagnosis 缺少 GLB 摘要")
+        primary_diagnosed = primary_value.get("sha256")
+        repeat_diagnosed = repeat_value.get("sha256")
+        if primary_diagnosed != primary_glb_digest or repeat_diagnosed != repeat_glb_digest:
+            raise FinalizeError("GLB semantic diagnosis 与本次 GLB SHA-256 不绑定")
+        semantic_glb_match = True
+        difference_class = "component_traversal_order_only"
+    elif semantic_diagnosis_input is not None:
+        raise FinalizeError("两次 GLB 字节一致时不得附加不必要的语义诊断")
 
     manifest = source_manifest(release)
     if p0_manifest is not None:
@@ -148,6 +181,7 @@ def finalize(
     capture_dir = root / "capture"
     geometry_dir = root / "geometry"
     repeat_dir = root / "audit" / "repeat"
+    audit_dir = root / "audit"
     capture_dir.mkdir(parents=True, exist_ok=True)
     geometry_dir.mkdir(parents=True, exist_ok=True)
     repeat_dir.mkdir(parents=True, exist_ok=True)
@@ -160,6 +194,10 @@ def finalize(
     copy_if_needed(repeat_snapshot_input, repeat_dir / "assembly.snapshot.json")
     copy_if_needed(repeat_report_input, repeat_dir / "capture-report.json")
     copy_if_needed(repeat_glb_input, repeat_dir / "station.glb")
+    semantic_diagnosis_target: Path | None = None
+    if semantic_diagnosis_input is not None:
+        semantic_diagnosis_target = audit_dir / "glb-semantic-diagnosis.json"
+        copy_if_needed(semantic_diagnosis_input, semantic_diagnosis_target)
     (capture_dir / "files.sha256").write_text(manifest, encoding="utf-8")
     aggregate = hashlib.sha256(manifest.encode("utf-8")).hexdigest()
     source = {
@@ -190,6 +228,15 @@ def finalize(
             "provider": "unilab_arm_cr5:build_moveit_model",
             "source_digest": "8c8b9ea935fd83122b19b572c84d107e81b4864d4310c94d0906cc361e7631c2",
         },
+        "reproducibility": {
+            "report": "audit/reproducibility-report.json",
+            "repeat_snapshot": "audit/repeat/assembly.snapshot.json",
+            "repeat_capture_report": "audit/repeat/capture-report.json",
+            "repeat_glb": "audit/repeat/station.glb",
+            "glb_semantic_diagnosis": "audit/glb-semantic-diagnosis.json"
+            if semantic_diagnosis_target is not None
+            else None,
+        },
     }
     handoff_path = root / "station-handoff.json"
     handoff_path.write_text(
@@ -200,7 +247,12 @@ def finalize(
         "schema": "lab.station_capture_reproducibility/v0",
         "status": "passed",
         "normalized_snapshot_match": True,
-        "exact_glb_match": True,
+        "exact_glb_match": exact_glb_match,
+        "normalized_glb_semantic_match": semantic_glb_match,
+        "difference_class": difference_class,
+        "acceptance_basis": "exact-bytes"
+        if exact_glb_match
+        else "mac-semantic-diagnosis",
         "primary_snapshot_sha256": sha256(snapshot_target),
         "repeat_snapshot_sha256": sha256(repeat_dir / "assembly.snapshot.json"),
         "primary_glb_sha256": primary_glb_digest,
@@ -219,7 +271,8 @@ def finalize(
 - 源发布聚合摘要：`{aggregate}`
 - GLB SHA-256：`{sha256(glb_target)}`
 - 两次规范化 snapshot：一致
-- 两次 GLB 字节摘要：一致
+- 两次 GLB 字节摘要：{"一致" if exact_glb_match else "不一致；Mac 语义诊断一致"}
+- GLB 差异分类：`{difference_class}`
 - handoff SHA-256：`{sha256(handoff_path)}`
 
 本报告只说明 Windows 交接包结构完整且与 P0 摘要一致。Mac 运行
@@ -250,6 +303,7 @@ def main() -> int:
     parser.add_argument("--repeat-render-glb", required=True, type=Path)
     parser.add_argument("--station", default="eit.feeding-station")
     parser.add_argument("--p0-files-sha256", type=Path)
+    parser.add_argument("--glb-semantic-diagnosis", type=Path)
     args = parser.parse_args()
     try:
         result = finalize(
@@ -263,6 +317,7 @@ def main() -> int:
             repeat_glb_input=args.repeat_render_glb,
             station=args.station,
             p0_manifest=args.p0_files_sha256,
+            semantic_diagnosis_input=args.glb_semantic_diagnosis,
         )
     except (FinalizeError, OSError) as error:
         sys.stderr.write(f"P1 rejected: {error}\n")

@@ -42,6 +42,19 @@ class StationHandoffTest(unittest.TestCase):
             self.assertTrue(any("哈希不匹配" in item for item in result["errors"]))
             self.assertTrue(any("越出交接目录" in item for item in result["errors"]))
 
+    def test_repeat_glb_drift_requires_mac_semantic_diagnosis(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            manifest = self._fixture(root)
+            repeat_glb = root / "audit" / "repeat" / "station.glb"
+            repeat_glb.write_bytes(repeat_glb.read_bytes() + b"drift")
+            result = HandoffValidation(manifest).run()
+            self.assertFalse(result["passed"])
+            self.assertTrue(
+                any("Mac 语义诊断" in item for item in result["errors"]),
+                result["errors"],
+            )
+
     @staticmethod
     def _fixture(root: Path) -> Path:
         capture = root / "capture"
@@ -108,6 +121,37 @@ class StationHandoffTest(unittest.TestCase):
         (geometry / "station.glb").write_bytes(
             b"glTF" + b"\x02\x00\x00\x00" + b"\x20\x00\x00\x00" + b"0" * 20
         )
+        repeat = root / "audit" / "repeat"
+        repeat.mkdir(parents=True)
+        (repeat / "assembly.snapshot.json").write_bytes(
+            (capture / "assembly.snapshot.json").read_bytes()
+        )
+        (repeat / "capture-report.json").write_bytes(
+            (capture / "capture-report.json").read_bytes()
+        )
+        (repeat / "station.glb").write_bytes((geometry / "station.glb").read_bytes())
+        primary_snapshot_hash = hashlib.sha256(
+            (capture / "assembly.snapshot.json").read_bytes()
+        ).hexdigest()
+        primary_glb_hash = hashlib.sha256(
+            (geometry / "station.glb").read_bytes()
+        ).hexdigest()
+        reproducibility = {
+            "schema": "lab.station_capture_reproducibility/v0",
+            "status": "passed",
+            "normalized_snapshot_match": True,
+            "exact_glb_match": True,
+            "normalized_glb_semantic_match": True,
+            "difference_class": "none",
+            "acceptance_basis": "exact-bytes",
+            "primary_snapshot_sha256": primary_snapshot_hash,
+            "repeat_snapshot_sha256": primary_snapshot_hash,
+            "primary_glb_sha256": primary_glb_hash,
+            "repeat_glb_sha256": primary_glb_hash,
+        }
+        (root / "audit" / "reproducibility-report.json").write_text(
+            json.dumps(reproducibility), encoding="utf-8"
+        )
         handoff = {
             "schema": "lab.station_source_handoff/v0",
             "station": "eit.station-a",
@@ -125,6 +169,13 @@ class StationHandoffTest(unittest.TestCase):
                 "model": "CR5",
                 "provider": "unilab_arm_cr5:build_moveit_model",
                 "source_digest": "8c8b9ea935fd83122b19b572c84d107e81b4864d4310c94d0906cc361e7631c2",
+            },
+            "reproducibility": {
+                "report": "audit/reproducibility-report.json",
+                "repeat_snapshot": "audit/repeat/assembly.snapshot.json",
+                "repeat_capture_report": "audit/repeat/capture-report.json",
+                "repeat_glb": "audit/repeat/station.glb",
+                "glb_semantic_diagnosis": None,
             },
         }
         manifest = root / "station-handoff.json"

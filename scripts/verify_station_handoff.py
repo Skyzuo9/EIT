@@ -13,10 +13,24 @@ import sys
 from pathlib import Path
 from typing import Any
 
+try:
+    from station_glb_semantics import (
+        DIAGNOSIS_SCHEMA,
+        diagnose_glb_pair,
+        normalized_snapshot,
+    )
+except ModuleNotFoundError:  # 允许测试从仓库根目录加载脚本
+    from scripts.station_glb_semantics import (
+        DIAGNOSIS_SCHEMA,
+        diagnose_glb_pair,
+        normalized_snapshot,
+    )
+
 HANDOFF_SCHEMA = "lab.station_source_handoff/v0"
 SNAPSHOT_SCHEMA = "lab.assembly_snapshot/v0"
 CAPTURE_SCHEMA = "lab.solidworks_capture_report/v0"
 SOURCE_SCHEMA = "lab.source/v0"
+REPRODUCIBILITY_SCHEMA = "lab.station_capture_reproducibility/v0"
 DIGEST = re.compile(r"^[0-9a-f]{64}$")
 PROVIDER = re.compile(
     r"^(?P<module>[A-Za-z_][A-Za-z0-9_.]*):"
@@ -41,6 +55,10 @@ class HandoffValidation:
         station = self._text(manifest.get("station"), "station")
         capture = self._mapping(manifest.get("solidworks_capture"), "solidworks_capture")
         robot = self._mapping(manifest.get("robot_release"), "robot_release")
+        reproducibility = self._mapping(
+            manifest.get("reproducibility"),
+            "reproducibility",
+        )
 
         snapshot_path = self._path(capture.get("assembly_snapshot"), "assembly_snapshot")
         report_path = self._path(capture.get("capture_report"), "capture_report")
@@ -52,6 +70,24 @@ class HandoffValidation:
             require_file=False,
         )
         render_path = self._path(capture.get("render_glb"), "render_glb")
+        reproducibility_report_path = self._repro_path(
+            reproducibility.get("report"), "report"
+        )
+        repeat_snapshot_path = self._repro_path(
+            reproducibility.get("repeat_snapshot"), "repeat_snapshot"
+        )
+        repeat_capture_report_path = self._repro_path(
+            reproducibility.get("repeat_capture_report"), "repeat_capture_report"
+        )
+        repeat_glb_path = self._repro_path(
+            reproducibility.get("repeat_glb"), "repeat_glb"
+        )
+        diagnosis_value = reproducibility.get("glb_semantic_diagnosis")
+        diagnosis_path = (
+            self._repro_path(diagnosis_value, "glb_semantic_diagnosis")
+            if isinstance(diagnosis_value, str) and diagnosis_value.strip()
+            else None
+        )
 
         snapshot = self._json(snapshot_path, "assembly_snapshot")
         report = self._json(report_path, "capture_report")
@@ -61,6 +97,17 @@ class HandoffValidation:
         self._validate_source(source)
         self._verify_source_hashes(hashes_path, source_root)
         self._validate_glb(render_path)
+        self._validate_reproducibility(
+            snapshot=snapshot,
+            snapshot_path=snapshot_path,
+            report=report,
+            primary_glb=render_path,
+            reproducibility_report_path=reproducibility_report_path,
+            repeat_snapshot_path=repeat_snapshot_path,
+            repeat_capture_report_path=repeat_capture_report_path,
+            repeat_glb_path=repeat_glb_path,
+            diagnosis_path=diagnosis_path,
+        )
         self._validate_robot(robot)
 
         result = {
@@ -190,6 +237,143 @@ class HandoffValidation:
         self.details["render_glb_bytes"] = size
         self.details["render_glb_sha256"] = self._sha256(path)
 
+    def _validate_reproducibility(
+        self,
+        *,
+        snapshot: dict[str, Any],
+        snapshot_path: Path,
+        report: dict[str, Any],
+        primary_glb: Path,
+        reproducibility_report_path: Path,
+        repeat_snapshot_path: Path,
+        repeat_capture_report_path: Path,
+        repeat_glb_path: Path,
+        diagnosis_path: Path | None,
+    ) -> None:
+        reproducibility = self._json(
+            reproducibility_report_path,
+            "reproducibility.report",
+        )
+        repeat_snapshot = self._json(
+            repeat_snapshot_path,
+            "reproducibility.repeat_snapshot",
+        )
+        repeat_report = self._json(
+            repeat_capture_report_path,
+            "reproducibility.repeat_capture_report",
+        )
+        if reproducibility.get("schema") != REPRODUCIBILITY_SCHEMA:
+            self.errors.append(
+                f"reproducibility schema 必须是 {REPRODUCIBILITY_SCHEMA}"
+            )
+        if reproducibility.get("status") != "passed":
+            self.errors.append("reproducibility status 不是 passed")
+        if repeat_snapshot.get("schema") != SNAPSHOT_SCHEMA:
+            self.errors.append("repeat snapshot schema 无效")
+        if (
+            repeat_report.get("schema") != CAPTURE_SCHEMA
+            or repeat_report.get("status") != "passed"
+            or repeat_report.get("source_read_only") is not True
+        ):
+            self.errors.append("repeat capture report 未证明第二次只读采集通过")
+
+        primary_instances = snapshot.get("instances", [])
+        repeat_instances = repeat_snapshot.get("instances", [])
+        if report.get("component_count") != len(primary_instances):
+            self.errors.append("primary snapshot occurrence 数量与 capture report 不一致")
+        if repeat_report.get("component_count") != len(repeat_instances):
+            self.errors.append("repeat snapshot occurrence 数量与 capture report 不一致")
+        normalized_match = normalized_snapshot(snapshot) == normalized_snapshot(
+            repeat_snapshot
+        )
+        if not normalized_match:
+            self.errors.append("Mac 复算发现两次规范化 snapshot 不一致")
+        if reproducibility.get("normalized_snapshot_match") is not normalized_match:
+            self.errors.append("reproducibility 的 snapshot 判定与 Mac 复算不一致")
+
+        if not primary_glb.is_file() or not repeat_glb_path.is_file():
+            return
+        with repeat_glb_path.open("rb") as handle:
+            if handle.read(4) != b"glTF":
+                self.errors.append("repeat GLB 文件头不是 glTF")
+                return
+        primary_glb_hash = self._sha256(primary_glb)
+        repeat_glb_hash = self._sha256(repeat_glb_path)
+        primary_snapshot_hash = self._sha256(snapshot_path)
+        repeat_snapshot_hash = self._sha256(repeat_snapshot_path)
+        expected_hashes = {
+            "primary_glb_sha256": primary_glb_hash,
+            "repeat_glb_sha256": repeat_glb_hash,
+            "primary_snapshot_sha256": primary_snapshot_hash,
+            "repeat_snapshot_sha256": repeat_snapshot_hash,
+        }
+        for field, actual in expected_hashes.items():
+            if reproducibility.get(field) != actual:
+                self.errors.append(f"reproducibility.{field} 与实际文件不一致")
+
+        exact_match = primary_glb_hash == repeat_glb_hash
+        if reproducibility.get("exact_glb_match") is not exact_match:
+            self.errors.append("reproducibility 的 GLB 字节判定与实际不一致")
+
+        semantic_match = exact_match
+        difference_class = "none"
+        diagnosis: dict[str, Any] | None = None
+        if not exact_match:
+            if diagnosis_path is None:
+                self.errors.append("GLB 字节不一致时必须包含 Mac 语义诊断")
+            else:
+                diagnosis = self._json(
+                    diagnosis_path,
+                    "reproducibility.glb_semantic_diagnosis",
+                )
+                if diagnosis.get("schema") != DIAGNOSIS_SCHEMA:
+                    self.errors.append("GLB semantic diagnosis schema 无效")
+                try:
+                    recomputed = diagnose_glb_pair(primary_glb, repeat_glb_path)
+                except (OSError, ValueError, KeyError, IndexError, json.JSONDecodeError) as error:
+                    self.errors.append(f"Mac 无法复算 GLB 语义签名: {error}")
+                else:
+                    semantic_match = bool(
+                        recomputed.get("normalized_glb_semantic_match")
+                    )
+                    difference_class = str(recomputed.get("difference_class") or "")
+                    for field in (
+                        "status",
+                        "algorithm",
+                        "exact_glb_match",
+                        "normalized_glb_semantic_match",
+                        "difference_class",
+                        "primary_semantic_sha256",
+                        "repeat_semantic_sha256",
+                    ):
+                        if diagnosis.get(field) != recomputed.get(field):
+                            self.errors.append(
+                                f"GLB semantic diagnosis.{field} 与 Mac 复算不一致"
+                            )
+                    for side, actual in (
+                        ("primary_glb", primary_glb_hash),
+                        ("repeat_glb", repeat_glb_hash),
+                    ):
+                        value = diagnosis.get(side)
+                        if not isinstance(value, dict) or value.get("sha256") != actual:
+                            self.errors.append(f"GLB semantic diagnosis.{side} 哈希不匹配")
+                    if diagnosis.get("approved_for_p1_packaging") is not True:
+                        self.errors.append("GLB semantic diagnosis 未批准 P1 封装")
+            if not semantic_match or difference_class != "component_traversal_order_only":
+                self.errors.append("GLB 存在需要调查的语义差异")
+
+        if reproducibility.get("normalized_glb_semantic_match") is not semantic_match:
+            self.errors.append("reproducibility 的 GLB 语义判定与 Mac 复算不一致")
+        if reproducibility.get("difference_class") != difference_class:
+            self.errors.append("reproducibility 的 GLB 差异分类与 Mac 复算不一致")
+        self.details["reproducibility"] = {
+            "normalized_snapshot_match": normalized_match,
+            "exact_glb_match": exact_match,
+            "normalized_glb_semantic_match": semantic_match,
+            "difference_class": difference_class,
+            "repeat_glb_sha256": repeat_glb_hash,
+        }
+
     def _validate_robot(self, robot: dict[str, Any]) -> None:
         if robot.get("authority") != "manufacturer":
             self.errors.append("robot_release.authority 必须是 manufacturer")
@@ -254,6 +438,13 @@ class HandoffValidation:
             self.errors.append(f"{field} 文件缺失: {path}")
         if not require_file and not path.is_dir():
             self.errors.append(f"{field} 目录缺失: {path}")
+        return path
+
+    def _repro_path(self, value: Any, field: str) -> Path:
+        relative = self._text(value, f"reproducibility.{field}")
+        path = self._within(self.root, relative, f"reproducibility.{field}")
+        if not path.is_file():
+            self.errors.append(f"reproducibility.{field} 文件缺失: {path}")
         return path
 
     def _within(self, root: Path, relative: str, field: str) -> Path:

@@ -103,9 +103,11 @@ class StationDecompositionTest(unittest.TestCase):
         capture = root / "capture"
         release = root / "source-release"
         geometry = root / "geometry"
+        repeat = root / "audit" / "repeat"
         capture.mkdir()
         release.mkdir()
         geometry.mkdir()
+        repeat.mkdir(parents=True)
         source_file = release / "station.sldasm"
         source_file.write_bytes(b"solidworks-source")
         source_hash = hashlib.sha256(source_file.read_bytes()).hexdigest()
@@ -148,26 +150,24 @@ class StationDecompositionTest(unittest.TestCase):
             "root_occurrences": ["FRAME-1", "CR5_BASE-1"],
             "mates_candidate": [],
         }
-        (capture / "assembly.snapshot.json").write_text(
-            json.dumps(snapshot), encoding="utf-8"
-        )
-        (capture / "capture-report.json").write_text(
-            json.dumps(
-                {
-                    "schema": "lab.solidworks_capture_report/v0",
-                    "source_read_only": True,
-                    "status": "passed",
-                    "com_revision": "33.5.0",
-                    "component_count": 3,
-                    "glb_export": {
-                        "save_result": True,
-                        "exists": True,
-                        "magic": "glTF",
-                    },
-                }
-            ),
-            encoding="utf-8",
-        )
+        snapshot_text = json.dumps(snapshot)
+        (capture / "assembly.snapshot.json").write_text(snapshot_text, encoding="utf-8")
+        (repeat / "assembly.snapshot.json").write_text(snapshot_text, encoding="utf-8")
+        capture_report = {
+            "schema": "lab.solidworks_capture_report/v0",
+            "source_read_only": True,
+            "status": "passed",
+            "com_revision": "33.5.0",
+            "component_count": 3,
+            "glb_export": {
+                "save_result": True,
+                "exists": True,
+                "magic": "glTF",
+            },
+        }
+        report_text = json.dumps(capture_report)
+        (capture / "capture-report.json").write_text(report_text, encoding="utf-8")
+        (repeat / "capture-report.json").write_text(report_text, encoding="utf-8")
         (capture / "source.json").write_text(
             json.dumps(
                 {
@@ -178,8 +178,36 @@ class StationDecompositionTest(unittest.TestCase):
             ),
             encoding="utf-8",
         )
-        (geometry / "station.glb").write_bytes(
+        glb_bytes = (
             b"glTF" + b"\x02\x00\x00\x00" + b"\x20\x00\x00\x00" + b"0" * 20
+        )
+        (geometry / "station.glb").write_bytes(glb_bytes)
+        (repeat / "station.glb").write_bytes(glb_bytes)
+        (root / "audit" / "reproducibility-report.json").write_text(
+            json.dumps(
+                {
+                    "schema": "lab.station_capture_reproducibility/v0",
+                    "status": "passed",
+                    "normalized_snapshot_match": True,
+                    "exact_glb_match": True,
+                    "normalized_glb_semantic_match": True,
+                    "difference_class": "none",
+                    "acceptance_basis": "exact-bytes",
+                    "primary_snapshot_sha256": StationDecompositionTest._sha256(
+                        capture / "assembly.snapshot.json"
+                    ),
+                    "repeat_snapshot_sha256": StationDecompositionTest._sha256(
+                        repeat / "assembly.snapshot.json"
+                    ),
+                    "primary_glb_sha256": StationDecompositionTest._sha256(
+                        geometry / "station.glb"
+                    ),
+                    "repeat_glb_sha256": StationDecompositionTest._sha256(
+                        repeat / "station.glb"
+                    ),
+                }
+            ),
+            encoding="utf-8",
         )
         manifest = root / "station-handoff.json"
         manifest.write_text(
@@ -194,6 +222,13 @@ class StationDecompositionTest(unittest.TestCase):
                         "files_sha256": "capture/files.sha256",
                         "source_release_root": "source-release",
                         "render_glb": "geometry/station.glb",
+                    },
+                    "reproducibility": {
+                        "report": "audit/reproducibility-report.json",
+                        "repeat_snapshot": "audit/repeat/assembly.snapshot.json",
+                        "repeat_capture_report": "audit/repeat/capture-report.json",
+                        "repeat_glb": "audit/repeat/station.glb",
+                        "glb_semantic_diagnosis": None,
                     },
                     "robot_release": {
                         "authority": "manufacturer",
