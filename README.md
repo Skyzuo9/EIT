@@ -89,6 +89,27 @@ git -C uni-lab-fe apply ../overlays/uni-lab-fe.patch
 
 Mac 侧 P1/P2 门禁的当前实现与测试边界见
 [`2026-08-27-mac-station-handoff-decomposition-v1-report.md`](./2026-08-27-mac-station-handoff-decomposition-v1-report.md)。
+win03 的 Windows W1 复采结果、不可变 GLB 哈希和 Mac 两阶段验收步骤见
+[`2026-08-27-feeding-station-win03-to-mac-handoff.md`](./2026-08-27-feeding-station-win03-to-mac-handoff.md)。
+
+Windows W2 设备级几何必须等待真实 P1 验证和 P2 人签完成。批准后复制
+`config/station-geometry-export-plan.template.json`，只填写批准 layout 中的精确
+`subtree_root`，准备两次独立导出的 GLB 与 node/occurrence map，再运行：
+
+```powershell
+& .\.venv\Scripts\python.exe scripts\finalize_station_geometry_handoff.py `
+  --plan <staging>\geometry-export-plan.json `
+  --output-root <handoff>\feeding-station-<date>-<run>-w2 `
+  --station-handoff <approved-w1>\station-handoff.json `
+  --decomposition <approval>\station-decomposition.yaml `
+  --station-layout <approval>\station-layout.json `
+  --coverage-report <approval>\coverage-report.json `
+  --review <approval>\DECOMPOSITION-REVIEW.md
+```
+
+该命令重编译批准产物，并对四个首批纵切执行精确 occurrence、entity map、双导出
+语义签名、单位、包围盒和硬预算门禁。Windows 当前实现状态及 win02 父图诊断见
+[`2026-08-27-windows-w2-contract-development-report.md`](./2026-08-27-windows-w2-contract-development-report.md)。
 
 ## 大文件
 

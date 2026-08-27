@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/station-geometry-handoff-v1.schema.json",
+  "title": "UniLab Windows W2 device geometry handoff",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "run_id", "station", "status", "qualification",
+    "source_handoff_digest", "source_decomposition_digest", "source_files_digest",
+    "approval", "solidworks", "exporter", "semantic_algorithm", "devices",
+    "payload_file_count", "payload_total_bytes", "not_a_deploy_manifest",
+    "not_a_workcell_activation", "not_qualified_for"
+  ],
+  "properties": {
+    "schema": {"const": "lab.station_geometry_handoff/v1"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*-w2$"},
+    "station": {"type": "string", "minLength": 1},
+    "status": {"const": "ready-for-mac-w2-validation"},
+    "qualification": {"const": "device-geometry-candidate"},
+    "source_handoff_digest": {"$ref": "#/$defs/digest"},
+    "source_decomposition_digest": {"$ref": "#/$defs/digest"},
+    "source_files_digest": {"$ref": "#/$defs/digest"},
+    "approval": {"type": "object", "minProperties": 4},
+    "solidworks": {"type": "object"},
+    "exporter": {"type": "object"},
+    "semantic_algorithm": {"const": "solidworks-gltf-scene-geometry-payload/v2"},
+    "devices": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "asset_instance", "slice_role", "family", "kind", "exact_subtree_root",
+          "qualification", "source_unit", "comparison_only", "path", "files_sha256",
+          "files_manifest_sha256"
+        ],
+        "properties": {
+          "asset_instance": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+          "slice_role": {"enum": ["rack", "rail-shell", "robot-cad-comparison", "bottle-4ml"]},
+          "family": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["device", "static_environment", "robot_replacement"]},
+          "exact_subtree_root": {"type": "string", "minLength": 1},
+          "qualification": {"enum": ["semantic-scene", "comparison-only"]},
+          "source_unit": {"enum": ["mm", "m"]},
+          "comparison_only": {"type": "boolean"},
+          "path": {"type": "string", "pattern": "^devices/[a-z0-9][a-z0-9._-]*$"},
+          "files_sha256": {"type": "string", "pattern": "^devices/[a-z0-9][a-z0-9._-]*/files\\.sha256$"},
+          "files_manifest_sha256": {"$ref": "#/$defs/digest"}
+        }
+      }
+    },
+    "payload_file_count": {"type": "integer", "minimum": 1},
+    "payload_total_bytes": {"type": "integer", "minimum": 1},
+    "not_a_deploy_manifest": {"const": true},
+    "not_a_workcell_activation": {"const": true},
+    "not_qualified_for": {"type": "array", "contains": {"const": "execution"}}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

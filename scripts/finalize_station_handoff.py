@@ -65,6 +65,32 @@ def copy_if_needed(source: Path, target: Path) -> None:
     shutil.copy2(source, target)
 
 
+def validate_name2_parent_graph(snapshot: dict[str, Any], label: str) -> None:
+    """Reject a flattened graph when exact SOLIDWORKS Name2 ancestors exist."""
+
+    raw_instances = snapshot.get("instances")
+    if not isinstance(raw_instances, list):
+        return
+    by_id = {
+        str(item.get("id")): item
+        for item in raw_instances
+        if isinstance(item, dict) and isinstance(item.get("id"), str)
+    }
+    for occurrence_id, item in by_id.items():
+        parts = occurrence_id.split("/")
+        exact_parent = None
+        for length in range(len(parts) - 1, 0, -1):
+            candidate = "/".join(parts[:length])
+            if candidate in by_id:
+                exact_parent = candidate
+                break
+        if exact_parent is not None and item.get("parent") != exact_parent:
+            raise FinalizeError(
+                f"{label} parent 图退化: {occurrence_id} 的精确 Name2 parent "
+                f"应为 {exact_parent}"
+            )
+
+
 def finalize(
     *,
     output_root: Path,
@@ -107,6 +133,8 @@ def finalize(
         raise FinalizeError("repeat capture report 未证明第二次只读采集通过")
     if repeat_snapshot.get("schema") != "lab.assembly_snapshot/v0":
         raise FinalizeError("repeat assembly snapshot schema 无效")
+    validate_name2_parent_graph(snapshot, "assembly snapshot")
+    validate_name2_parent_graph(repeat_snapshot, "repeat assembly snapshot")
     instances = snapshot.get("instances")
     if not isinstance(instances, list) or not instances:
         raise FinalizeError("assembly snapshot 没有 occurrence")
@@ -198,7 +226,9 @@ def finalize(
     if semantic_diagnosis_input is not None:
         semantic_diagnosis_target = audit_dir / "glb-semantic-diagnosis.json"
         copy_if_needed(semantic_diagnosis_input, semantic_diagnosis_target)
-    (capture_dir / "files.sha256").write_text(manifest, encoding="utf-8")
+    # files.sha256 是跨 Windows/macOS 的字节级合同，固定 UTF-8 + LF，避免
+    # Windows 文本模式把 \n 改写成 \r\n 后造成聚合摘要漂移。
+    (capture_dir / "files.sha256").write_bytes(manifest.encode("utf-8"))
     aggregate = hashlib.sha256(manifest.encode("utf-8")).hexdigest()
     source = {
         "schema": "lab.source/v0",

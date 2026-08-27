@@ -56,6 +56,29 @@ VERIFY = load_script("verify_station_handoff")
 
 
 class StationP0P1ToolsTest(unittest.TestCase):
+    def test_adapter_recovers_only_exact_name2_parents_and_rejects_conflicts(self) -> None:
+        instances = [
+            {"id": "station-1", "parent": None},
+            {"id": "station-1/rack-1", "parent": None},
+            {"id": "station-1/rack-1/shelf-1", "parent": None},
+            {"id": "loose-part-1", "parent": None},
+        ]
+        evidence = ADAPTER.resolve_component_parents(instances)
+        self.assertEqual(instances[1]["parent"], "station-1")
+        self.assertEqual(instances[2]["parent"], "station-1/rack-1")
+        self.assertEqual(instances[3]["parent"], None)
+        self.assertEqual(evidence["name2_hierarchy_fallback"], 2)
+        self.assertEqual(evidence["top_level"], 2)
+
+        with self.assertRaisesRegex(RuntimeError, "disagrees"):
+            ADAPTER.resolve_component_parents(
+                [
+                    {"id": "station-1", "parent": None},
+                    {"id": "other-1", "parent": None},
+                    {"id": "station-1/rack-1", "parent": "other-1"},
+                ]
+            )
+
     def test_swx_pid_document_paths_are_normalized_without_hiding_other_drift(self) -> None:
         first = r"C:\Users\operator\AppData\Local\Temp\swx10144\VC~~\虚拟件\装配体.SLDASM"
         repeat = r"C:\Users\operator\AppData\Local\Temp\swx19676\VC~~\虚拟件\装配体.SLDASM"

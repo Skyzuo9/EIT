@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/station-geometry-entity-map-v1.schema.json",
+  "title": "UniLab station W2 exact GLB-node occurrence map",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "subtree_root", "qualification", "nodes"],
+  "properties": {
+    "schema": {"const": "lab.station_geometry_entity_map/v1"},
+    "subtree_root": {"type": "string", "minLength": 1},
+    "qualification": {"enum": ["semantic-scene", "comparison-only"]},
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["node_index", "node_name", "occurrence_id", "mapping", "geometry_role"],
+        "properties": {
+          "node_index": {"type": "integer", "minimum": 0},
+          "node_name": {"type": ["string", "null"]},
+          "occurrence_id": {"type": "string", "minLength": 1},
+          "mapping": {"const": "exact-occurrence"},
+          "geometry_role": {"enum": ["semantic", "comparison"]}
+        }
+      }
+    }
+  }
+}

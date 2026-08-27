@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/station-geometry-export-plan-v1.schema.json",
+  "title": "UniLab approved Windows W2 geometry export plan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "run_id", "station", "solidworks", "exporter", "devices"],
+  "properties": {
+    "schema": {"const": "lab.station_geometry_export_plan/v1"},
+    "run_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*-w2$"},
+    "station": {"type": "string", "minLength": 1},
+    "solidworks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["revision", "configuration", "source_read_only"],
+      "properties": {
+        "revision": {"type": "string", "minLength": 1},
+        "configuration": {"type": "string", "minLength": 1},
+        "source_read_only": {"const": true}
+      }
+    },
+    "exporter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "version", "selection_mode"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "selection_mode": {"const": "exact-subtree-root"}
+      }
+    },
+    "devices": {
+      "type": "array",
+      "minItems": 4,
+      "items": {"$ref": "#/$defs/device"},
+      "allOf": [
+        {"contains": {"properties": {"slice_role": {"const": "rack"}}, "required": ["slice_role"]}},
+        {"contains": {"properties": {"slice_role": {"const": "rail-shell"}}, "required": ["slice_role"]}},
+        {"contains": {"properties": {"slice_role": {"const": "robot-cad-comparison"}}, "required": ["slice_role"]}},
+        {"contains": {"properties": {"slice_role": {"const": "bottle-4ml"}}, "required": ["slice_role"]}}
+      ]
+    }
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "vector3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"type": "number"}
+    },
+    "capture": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["render_glb", "entity_map", "source_digest_before", "source_digest_after"],
+      "properties": {
+        "render_glb": {"type": "string", "minLength": 1},
+        "entity_map": {"type": "string", "minLength": 1},
+        "source_digest_before": {"$ref": "#/$defs/digest"},
+        "source_digest_after": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "device": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "asset_instance", "slice_role", "family", "subtree_root", "qualification",
+        "source_unit", "comparison_only", "primary", "repeat"
+      ],
+      "properties": {
+        "asset_instance": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+        "slice_role": {"enum": ["rack", "rail-shell", "robot-cad-comparison", "bottle-4ml"]},
+        "family": {"type": "string", "minLength": 1},
+        "subtree_root": {"type": "string", "minLength": 1},
+        "qualification": {"enum": ["semantic-scene", "comparison-only"]},
+        "source_unit": {"enum": ["mm", "m"]},
+        "comparison_only": {"type": "boolean"},
+        "expected_size_m": {"$ref": "#/$defs/vector3"},
+        "size_tolerance_m": {"$ref": "#/$defs/vector3"},
+        "primary": {"$ref": "#/$defs/capture"},
+        "repeat": {"$ref": "#/$defs/capture"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"slice_role": {"const": "robot-cad-comparison"}}, "required": ["slice_role"]},
+          "then": {
+            "properties": {"qualification": {"const": "comparison-only"}, "comparison_only": {"const": true}}
+          },
+          "else": {
+            "properties": {"qualification": {"const": "semantic-scene"}, "comparison_only": {"const": false}}
+          }
+        },
+        {
+          "if": {"properties": {"slice_role": {"enum": ["rail-shell", "bottle-4ml"]}}, "required": ["slice_role"]},
+          "then": {"required": ["expected_size_m", "size_tolerance_m"]}
+        },
+        {
+          "if": {"properties": {"slice_role": {"const": "bottle-4ml"}}, "required": ["slice_role"]},
+          "then": {"properties": {"source_unit": {"const": "mm"}}}
+        }
+      ]
+    }
+  }
+}

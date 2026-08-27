@@ -180,11 +180,29 @@ class HandoffValidation:
             if not self._finite(scale) or float(scale) <= 0:
                 self.errors.append(f"{instance_id} scale 必须为正有限数")
 
+        name2_parent_mismatches: list[str] = []
         for instance_id, parent in parents.items():
             if parent is not None and parent not in ids:
                 self.errors.append(f"{field} parent 引用不存在: {instance_id} -> {parent}")
             if parent == instance_id:
                 self.errors.append(f"{field} occurrence 不得以自身为 parent: {instance_id}")
+            parts = instance_id.split("/")
+            exact_name2_parent = None
+            for length in range(len(parts) - 1, 0, -1):
+                candidate = "/".join(parts[:length])
+                if candidate in ids:
+                    exact_name2_parent = candidate
+                    break
+            if exact_name2_parent is not None and parent != exact_name2_parent:
+                name2_parent_mismatches.append(
+                    f"{instance_id} -> {exact_name2_parent}"
+                )
+        if name2_parent_mismatches:
+            sample = "; ".join(name2_parent_mismatches[:5])
+            self.errors.append(
+                f"{field} parent 图退化: {len(name2_parent_mismatches)} 个 occurrence "
+                f"未绑定精确 Name2 parent；示例: {sample}"
+            )
         self._validate_parent_cycles(parents, field)
 
         roots = snapshot.get("root_occurrences")

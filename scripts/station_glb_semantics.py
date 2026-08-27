@@ -348,6 +348,210 @@ def glb_stats(path: Path) -> dict[str, Any]:
     }
 
 
+def _matrix_multiply(left: list[float], right: list[float]) -> list[float]:
+    """Multiply two glTF column-major 4x4 matrices."""
+
+    return [
+        sum(left[k * 4 + row] * right[column * 4 + k] for k in range(4))
+        for column in range(4)
+        for row in range(4)
+    ]
+
+
+def _node_matrix(node: dict[str, Any]) -> list[float]:
+    if "matrix" in node:
+        matrix = [float(value) for value in node["matrix"]]
+        if len(matrix) != 16:
+            raise ValueError("GLB node matrix must contain 16 values")
+        return matrix
+    translation = [float(value) for value in node.get("translation", [0.0, 0.0, 0.0])]
+    rotation = [float(value) for value in node.get("rotation", [0.0, 0.0, 0.0, 1.0])]
+    scale = [float(value) for value in node.get("scale", [1.0, 1.0, 1.0])]
+    if len(translation) != 3 or len(rotation) != 4 or len(scale) != 3:
+        raise ValueError("GLB node TRS dimensions are invalid")
+    x, y, z, w = rotation
+    norm = (x * x + y * y + z * z + w * w) ** 0.5
+    if norm == 0.0:
+        raise ValueError("GLB node quaternion has zero norm")
+    x, y, z, w = x / norm, y / norm, z / norm, w / norm
+    sx, sy, sz = scale
+    matrix = [
+        (1.0 - 2.0 * (y * y + z * z)) * sx,
+        (2.0 * (x * y + z * w)) * sx,
+        (2.0 * (x * z - y * w)) * sx,
+        0.0,
+        (2.0 * (x * y - z * w)) * sy,
+        (1.0 - 2.0 * (x * x + z * z)) * sy,
+        (2.0 * (y * z + x * w)) * sy,
+        0.0,
+        (2.0 * (x * z + y * w)) * sz,
+        (2.0 * (y * z - x * w)) * sz,
+        (1.0 - 2.0 * (x * x + y * y)) * sz,
+        0.0,
+        translation[0],
+        translation[1],
+        translation[2],
+        1.0,
+    ]
+    return matrix
+
+
+def _transform_point(matrix: list[float], point: list[float]) -> list[float]:
+    x, y, z = point
+    return [
+        matrix[0] * x + matrix[4] * y + matrix[8] * z + matrix[12],
+        matrix[1] * x + matrix[5] * y + matrix[9] * z + matrix[13],
+        matrix[2] * x + matrix[6] * y + matrix[10] * z + matrix[14],
+    ]
+
+
+def glb_geometry_stats(path: Path) -> dict[str, Any]:
+    """Return auditable geometry, material, and world-bounds statistics."""
+
+    document, _, _ = read_glb_layout(path)
+    nodes = document.get("nodes", [])
+    meshes = document.get("meshes", [])
+    accessors = document.get("accessors", [])
+    materials = document.get("materials", [])
+    parent_counts = [0] * len(nodes)
+    for node_index, node in enumerate(nodes):
+        if not isinstance(node, dict):
+            raise ValueError(f"GLB node {node_index} is not an object")
+        for child in node.get("children", []):
+            if not isinstance(child, int) or child < 0 or child >= len(nodes):
+                raise ValueError(f"GLB node {node_index} has an invalid child index")
+            parent_counts[child] += 1
+            if parent_counts[child] > 1:
+                raise ValueError(f"GLB node {child} has multiple parents")
+
+    primitive_count = 0
+    vertex_count = 0
+    triangle_count = 0
+    material_assignments = 0
+    local_bounds: dict[int, tuple[list[float], list[float]]] = {}
+    for mesh_index, mesh in enumerate(meshes):
+        if not isinstance(mesh, dict):
+            raise ValueError(f"GLB mesh {mesh_index} is not an object")
+        mesh_min: list[float] | None = None
+        mesh_max: list[float] | None = None
+        for primitive in mesh.get("primitives", []):
+            primitive_count += 1
+            attributes = primitive.get("attributes", {})
+            position_index = attributes.get("POSITION") if isinstance(attributes, dict) else None
+            if not isinstance(position_index, int) or not 0 <= position_index < len(accessors):
+                raise ValueError(f"GLB mesh {mesh_index} primitive lacks a valid POSITION accessor")
+            position = accessors[position_index]
+            count = int(position.get("count", 0))
+            if count <= 0:
+                raise ValueError("GLB POSITION accessor count must be positive")
+            vertex_count += count
+            minimum = position.get("min")
+            maximum = position.get("max")
+            if (
+                not isinstance(minimum, list)
+                or not isinstance(maximum, list)
+                or len(minimum) != 3
+                or len(maximum) != 3
+            ):
+                raise ValueError("GLB POSITION accessor must declare three-dimensional min/max")
+            primitive_min = [float(value) for value in minimum]
+            primitive_max = [float(value) for value in maximum]
+            if any(low > high for low, high in zip(primitive_min, primitive_max)):
+                raise ValueError("GLB POSITION accessor min exceeds max")
+            mesh_min = primitive_min if mesh_min is None else [
+                min(left, right) for left, right in zip(mesh_min, primitive_min)
+            ]
+            mesh_max = primitive_max if mesh_max is None else [
+                max(left, right) for left, right in zip(mesh_max, primitive_max)
+            ]
+            element_count = count
+            if "indices" in primitive:
+                index = primitive["indices"]
+                if not isinstance(index, int) or not 0 <= index < len(accessors):
+                    raise ValueError("GLB primitive has an invalid indices accessor")
+                element_count = int(accessors[index].get("count", 0))
+            mode = int(primitive.get("mode", 4))
+            if mode == 4:
+                triangle_count += element_count // 3
+            elif mode in {5, 6}:
+                triangle_count += max(0, element_count - 2)
+            if "material" in primitive:
+                material_index = primitive["material"]
+                if not isinstance(material_index, int) or not 0 <= material_index < len(materials):
+                    raise ValueError("GLB primitive has an invalid material index")
+                material_assignments += 1
+        if mesh_min is not None and mesh_max is not None:
+            local_bounds[mesh_index] = (mesh_min, mesh_max)
+
+    identity = [
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0,
+    ]
+    world_min: list[float] | None = None
+    world_max: list[float] | None = None
+    visited: set[int] = set()
+    active: set[int] = set()
+
+    def visit(index: int, parent_matrix: list[float]) -> None:
+        nonlocal world_min, world_max
+        if index in active:
+            raise ValueError(f"GLB node graph contains a cycle at node {index}")
+        active.add(index)
+        visited.add(index)
+        node = nodes[index]
+        world = _matrix_multiply(parent_matrix, _node_matrix(node))
+        mesh_index = node.get("mesh")
+        if mesh_index is not None:
+            if not isinstance(mesh_index, int) or mesh_index not in local_bounds:
+                raise ValueError(f"GLB node {index} has an invalid or empty mesh")
+            low, high = local_bounds[mesh_index]
+            for x in (low[0], high[0]):
+                for y in (low[1], high[1]):
+                    for z in (low[2], high[2]):
+                        point = _transform_point(world, [x, y, z])
+                        world_min = point if world_min is None else [
+                            min(left, right) for left, right in zip(world_min, point)
+                        ]
+                        world_max = point if world_max is None else [
+                            max(left, right) for left, right in zip(world_max, point)
+                        ]
+        for child in node.get("children", []):
+            visit(child, world)
+        active.remove(index)
+
+    for root in (index for index, count in enumerate(parent_counts) if count == 0):
+        visit(root, identity)
+    if len(visited) != len(nodes):
+        raise ValueError("GLB node graph contains unreachable or cyclic nodes")
+    if world_min is None or world_max is None:
+        raise ValueError("GLB contains no bounded render geometry")
+    return {
+        "bytes": path.stat().st_size,
+        "sha256": sha256_file(path),
+        "nodes": len(nodes),
+        "meshes": len(meshes),
+        "primitives": primitive_count,
+        "vertices": vertex_count,
+        "triangles": triangle_count,
+        "materials": {
+            "count": len(materials),
+            "assigned_primitives": material_assignments,
+            "names": sorted(
+                str(item.get("name"))
+                for item in materials
+                if isinstance(item, dict) and item.get("name") is not None
+            ),
+        },
+        "bounding_box_m": {
+            "min": world_min,
+            "max": world_max,
+            "size": [high - low for low, high in zip(world_min, world_max)],
+        },
+    }
+
+
 def diagnose_glb_pair(primary: Path, repeat: Path) -> dict[str, Any]:
     primary = primary.resolve()
     repeat = repeat.resolve()

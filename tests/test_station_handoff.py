@@ -116,6 +116,27 @@ class StationHandoffTest(unittest.TestCase):
             self.assertTrue(any("结构/几何无效" in item for item in result["errors"]))
             self.assertTrue(any("snapshot 不一致" in item for item in result["errors"]))
 
+    def test_flattened_name2_hierarchy_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            manifest = self._fixture(root, two_nodes=True)
+            for relative in (
+                "capture/assembly.snapshot.json",
+                "audit/repeat/assembly.snapshot.json",
+            ):
+                path = root / relative
+                snapshot = json.loads(path.read_text(encoding="utf-8"))
+                snapshot["instances"][1]["id"] = "FRAME-1/CHILD-1"
+                snapshot["instances"][1]["parent"] = None
+                snapshot["root_occurrences"] = ["FRAME-1", "FRAME-1/CHILD-1"]
+                path.write_text(json.dumps(snapshot), encoding="utf-8")
+            result = HandoffValidation(manifest).run()
+            self.assertFalse(result["passed"])
+            self.assertTrue(
+                any("parent 图退化: 1 个 occurrence" in item for item in result["errors"]),
+                result["errors"],
+            )
+
     def test_unexpected_absolute_path_fails_and_warning_is_reported(self) -> None:
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw)

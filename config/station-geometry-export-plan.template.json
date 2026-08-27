@@ -1,0 +1,105 @@
+{
+  "schema": "lab.station_geometry_export_plan/v1",
+  "run_id": "feeding-station-YYYYMMDD-winNN-w2",
+  "station": "eit.feeding-station",
+  "solidworks": {
+    "revision": "REPLACE_WITH_SOLIDWORKS_REVISION",
+    "configuration": "REPLACE_WITH_APPROVED_CONFIGURATION",
+    "source_read_only": true
+  },
+  "exporter": {
+    "name": "SwExactSubtreeExporter",
+    "version": "w2-contract-v1",
+    "selection_mode": "exact-subtree-root"
+  },
+  "devices": [
+    {
+      "asset_instance": "rack-left-01",
+      "slice_role": "rack",
+      "family": "REPLACE_WITH_APPROVED_RACK_FAMILY",
+      "subtree_root": "REPLACE_WITH_APPROVED_EXACT_RACK_OCCURRENCE",
+      "qualification": "semantic-scene",
+      "source_unit": "m",
+      "comparison_only": false,
+      "primary": {
+        "render_glb": "exports/rack-left-01/primary/render.glb",
+        "entity_map": "exports/rack-left-01/primary/entity-map.json",
+        "source_digest_before": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST",
+        "source_digest_after": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST"
+      },
+      "repeat": {
+        "render_glb": "exports/rack-left-01/repeat/render.glb",
+        "entity_map": "exports/rack-left-01/repeat/entity-map.json",
+        "source_digest_before": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST",
+        "source_digest_after": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST"
+      }
+    },
+    {
+      "asset_instance": "rail-front-01",
+      "slice_role": "rail-shell",
+      "family": "REPLACE_WITH_APPROVED_RAIL_FAMILY",
+      "subtree_root": "REPLACE_WITH_APPROVED_EXACT_RAIL_OCCURRENCE",
+      "qualification": "semantic-scene",
+      "source_unit": "m",
+      "comparison_only": false,
+      "expected_size_m": [1.0, 0.2, 0.1],
+      "size_tolerance_m": [0.01, 0.01, 0.01],
+      "primary": {
+        "render_glb": "exports/rail-front-01/primary/render.glb",
+        "entity_map": "exports/rail-front-01/primary/entity-map.json",
+        "source_digest_before": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST",
+        "source_digest_after": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST"
+      },
+      "repeat": {
+        "render_glb": "exports/rail-front-01/repeat/render.glb",
+        "entity_map": "exports/rail-front-01/repeat/entity-map.json",
+        "source_digest_before": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST",
+        "source_digest_after": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST"
+      }
+    },
+    {
+      "asset_instance": "cr5-cad-01",
+      "slice_role": "robot-cad-comparison",
+      "family": "robot-family:dobot.cr5",
+      "subtree_root": "REPLACE_WITH_APPROVED_EXACT_CR5_OCCURRENCE",
+      "qualification": "comparison-only",
+      "source_unit": "m",
+      "comparison_only": true,
+      "primary": {
+        "render_glb": "exports/cr5-cad-01/primary/render.glb",
+        "entity_map": "exports/cr5-cad-01/primary/entity-map.json",
+        "source_digest_before": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST",
+        "source_digest_after": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST"
+      },
+      "repeat": {
+        "render_glb": "exports/cr5-cad-01/repeat/render.glb",
+        "entity_map": "exports/cr5-cad-01/repeat/entity-map.json",
+        "source_digest_before": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST",
+        "source_digest_after": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST"
+      }
+    },
+    {
+      "asset_instance": "bottle-4ml-01",
+      "slice_role": "bottle-4ml",
+      "family": "REPLACE_WITH_APPROVED_BOTTLE_FAMILY",
+      "subtree_root": "REPLACE_WITH_APPROVED_EXACT_BOTTLE_OCCURRENCE",
+      "qualification": "semantic-scene",
+      "source_unit": "mm",
+      "comparison_only": false,
+      "expected_size_m": [0.015, 0.046, 0.015],
+      "size_tolerance_m": [0.003, 0.003, 0.003],
+      "primary": {
+        "render_glb": "exports/bottle-4ml-01/primary/render.glb",
+        "entity_map": "exports/bottle-4ml-01/primary/entity-map.json",
+        "source_digest_before": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST",
+        "source_digest_after": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST"
+      },
+      "repeat": {
+        "render_glb": "exports/bottle-4ml-01/repeat/render.glb",
+        "entity_map": "exports/bottle-4ml-01/repeat/entity-map.json",
+        "source_digest_before": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST",
+        "source_digest_after": "REPLACE_WITH_W1_SOURCE_FILES_DIGEST"
+      }
+    }
+  ]
+}

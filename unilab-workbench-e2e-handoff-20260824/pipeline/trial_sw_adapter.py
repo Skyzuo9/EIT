@@ -147,6 +147,63 @@ def component_snapshot(component: Any) -> dict[str, Any]:
     }
 
 
+def resolve_component_parents(instances: list[dict[str, Any]]) -> dict[str, int]:
+    """Resolve and validate the Component2 hierarchy using exact Name2 identities.
+
+    SOLIDWORKS documents that ``Name2`` contains the full ``/``-separated
+    component path for members of a subassembly.  Some pywin32 dispatch paths
+    return ``None`` from ``GetParent`` even for those members.  A missing COM
+    parent may therefore fall back only to the longest *existing exact* Name2
+    ancestor; fuzzy/display-name matching is never used.
+    """
+
+    by_id: dict[str, dict[str, Any]] = {}
+    for item in instances:
+        occurrence_id = str(item.get("id") or "")
+        if not occurrence_id:
+            raise RuntimeError("SOLIDWORKS returned an empty Component2.Name2")
+        if occurrence_id in by_id:
+            raise RuntimeError(f"duplicate Component2.Name2: {occurrence_id}")
+        by_id[occurrence_id] = item
+
+    counts = {"component2_get_parent": 0, "name2_hierarchy_fallback": 0, "top_level": 0}
+    for occurrence_id, item in by_id.items():
+        path_parts = occurrence_id.split("/")
+        exact_ancestor = None
+        for length in range(len(path_parts) - 1, 0, -1):
+            candidate = "/".join(path_parts[:length])
+            if candidate in by_id:
+                exact_ancestor = candidate
+                break
+
+        declared = item.get("parent")
+        if declared is not None:
+            declared = str(declared).strip() or None
+        if declared is not None and declared not in by_id:
+            raise RuntimeError(
+                f"Component2.GetParent returned an unknown occurrence: "
+                f"{occurrence_id} -> {declared}"
+            )
+        if declared is not None and exact_ancestor is not None and declared != exact_ancestor:
+            raise RuntimeError(
+                f"Component2.GetParent disagrees with exact Name2 hierarchy: "
+                f"{occurrence_id} -> {declared}, expected {exact_ancestor}"
+            )
+        if declared is not None:
+            item["parent"] = declared
+            item["parent_evidence"] = "component2-get-parent"
+            counts["component2_get_parent"] += 1
+        elif exact_ancestor is not None:
+            item["parent"] = exact_ancestor
+            item["parent_evidence"] = "name2-exact-hierarchy-fallback"
+            counts["name2_hierarchy_fallback"] += 1
+        else:
+            item["parent"] = None
+            item["parent_evidence"] = "top-level"
+            counts["top_level"] += 1
+    return counts
+
+
 def mate_candidates(components: list[Any]) -> list[dict[str, Any]]:
     candidates: dict[str, dict[str, Any]] = {}
     for component in components:
@@ -283,12 +340,13 @@ def main() -> int:
             (component_snapshot(component) for component in components),
             key=lambda item: item["id"],
         )
+        parent_evidence = resolve_component_parents(instances)
         candidates = mate_candidates(components)
         roots = [item for item in instances if item["parent"] is None]
         snapshot = {
             "schema": "lab.assembly_snapshot/v0",
             "source_document": str(assembly),
-            "capture_adapter": "SwPackAndGoAdapter/trial-v1",
+            "capture_adapter": "SwPackAndGoAdapter/trial-v2-exact-parent",
             "document_path_normalization": "swx-pid-segment/v1",
             "units": {"length": "m", "angle": "rad", "orientation": "quaternion_xyzw"},
             "instances": instances,
@@ -297,6 +355,8 @@ def main() -> int:
         }
         write_json(snapshot_path, snapshot)
         report["component_count"] = len(instances)
+        report["root_occurrence_count"] = len(roots)
+        report["parent_evidence"] = parent_evidence
         report["mate_candidate_count"] = len(candidates)
 
         if glb_path is not None:
