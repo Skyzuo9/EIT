@@ -161,10 +161,16 @@ win03 的 P0 `files.sha256` 原始字节是 Windows CRLF。finalizer 以标准�
 
 ## 5. Windows 运行 P1 finalizer
 
-使用与本仓测试相同的 Python 环境：
+使用仓库虚拟环境。finalizer 本身不实例化机器人 Provider，但封装后 verifier
+会导入 `unilab_arm_cr5`；因此两步必须统一使用能够加载仓库领域包的 `.venv`，
+不能改用只安装了基础依赖的系统 Python：
 
 ```powershell
-$Python = "C:\Program Files\Python311\python.exe"
+$Python = "$Repo\.venv\Scripts\python.exe"
+
+if (-not (Test-Path $Python -PathType Leaf)) { throw "缺少仓库 Python 环境" }
+& $Python -c "import unilab_arm_cr5; print(unilab_arm_cr5.__file__)"
+if ($LASTEXITCODE -ne 0) { throw "仓库环境无法加载 unilab_arm_cr5 Provider" }
 
 & $Python "$Repo\scripts\finalize_station_handoff.py" `
   --output-root $RunRoot `
