@@ -1,0 +1,324 @@
+#!/usr/bin/env python3
+"""验证 Windows 工站源发布是否足以进入 Mac 后半段编译链。"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import importlib
+import json
+import math
+import re
+import sys
+from pathlib import Path
+from typing import Any
+
+HANDOFF_SCHEMA = "lab.station_source_handoff/v0"
+SNAPSHOT_SCHEMA = "lab.assembly_snapshot/v0"
+CAPTURE_SCHEMA = "lab.solidworks_capture_report/v0"
+SOURCE_SCHEMA = "lab.source/v0"
+DIGEST = re.compile(r"^[0-9a-f]{64}$")
+PROVIDER = re.compile(
+    r"^(?P<module>[A-Za-z_][A-Za-z0-9_.]*):"
+    r"(?P<symbol>[A-Za-z_][A-Za-z0-9_]*)$"
+)
+
+
+class HandoffValidation:
+    """收集失败关闭错误和不阻塞警告。"""
+
+    def __init__(self, manifest: Path) -> None:
+        self.manifest = manifest.resolve()
+        self.root = self.manifest.parent
+        self.errors: list[str] = []
+        self.warnings: list[str] = []
+        self.details: dict[str, Any] = {}
+
+    def run(self) -> dict[str, Any]:
+        manifest = self._json(self.manifest, "station-handoff.json")
+        if manifest.get("schema") != HANDOFF_SCHEMA:
+            self.errors.append(f"manifest schema 必须是 {HANDOFF_SCHEMA}")
+        station = self._text(manifest.get("station"), "station")
+        capture = self._mapping(manifest.get("solidworks_capture"), "solidworks_capture")
+        robot = self._mapping(manifest.get("robot_release"), "robot_release")
+
+        snapshot_path = self._path(capture.get("assembly_snapshot"), "assembly_snapshot")
+        report_path = self._path(capture.get("capture_report"), "capture_report")
+        source_path = self._path(capture.get("source"), "source")
+        hashes_path = self._path(capture.get("files_sha256"), "files_sha256")
+        source_root = self._path(
+            capture.get("source_release_root"),
+            "source_release_root",
+            require_file=False,
+        )
+        render_path = self._path(capture.get("render_glb"), "render_glb")
+
+        snapshot = self._json(snapshot_path, "assembly_snapshot")
+        report = self._json(report_path, "capture_report")
+        source = self._json(source_path, "source")
+        self._validate_snapshot(snapshot)
+        self._validate_capture_report(report)
+        self._validate_source(source)
+        self._verify_source_hashes(hashes_path, source_root)
+        self._validate_glb(render_path)
+        self._validate_robot(robot)
+
+        result = {
+            "schema": "lab.station_source_handoff_validation/v0",
+            "passed": not self.errors,
+            "station": station,
+            "manifest": str(self.manifest),
+            "manifest_sha256": self._sha256(self.manifest) if self.manifest.is_file() else None,
+            "errors": self.errors,
+            "warnings": self.warnings,
+            "details": self.details,
+            "qualification": "source-input-validated" if not self.errors else "rejected",
+            "not_qualified_for": [
+                "kinematic-preview",
+                "collision",
+                "spatial-interlock-enforced",
+                "execution",
+            ],
+        }
+        return result
+
+    def _validate_snapshot(self, snapshot: dict[str, Any]) -> None:
+        if snapshot.get("schema") != SNAPSHOT_SCHEMA:
+            self.errors.append(f"assembly snapshot schema 必须是 {SNAPSHOT_SCHEMA}")
+        units = self._mapping(snapshot.get("units"), "assembly_snapshot.units")
+        expected_units = {
+            "length": "m",
+            "angle": "rad",
+            "orientation": "quaternion_xyzw",
+        }
+        if units != expected_units:
+            self.errors.append("assembly snapshot 单位必须是 m/rad/quaternion_xyzw")
+        instances = snapshot.get("instances")
+        if not isinstance(instances, list) or not instances:
+            self.errors.append("assembly snapshot 必须包含非空 instances")
+            return
+        ids: set[str] = set()
+        for index, raw in enumerate(instances):
+            item = self._mapping(raw, f"instances[{index}]")
+            instance_id = self._text(item.get("id"), f"instances[{index}].id")
+            if instance_id in ids:
+                self.errors.append(f"occurrence id 重复: {instance_id}")
+            ids.add(instance_id)
+            transform = self._mapping(
+                item.get("transform_world"),
+                f"instances[{index}].transform_world",
+            )
+            xyz = self._vector(transform.get("xyz_m"), 3, f"{instance_id}.xyz_m")
+            quat = self._vector(transform.get("quat_xyzw"), 4, f"{instance_id}.quat_xyzw")
+            if xyz and any(abs(value) > 1000 for value in xyz):
+                self.errors.append(f"{instance_id} 世界位姿超过 1000 m，疑似单位错误")
+            if quat:
+                norm = math.sqrt(sum(value * value for value in quat))
+                if not math.isclose(norm, 1.0, rel_tol=1e-5, abs_tol=1e-5):
+                    self.errors.append(f"{instance_id} 四元数未归一化")
+            scale = transform.get("scale")
+            if not self._finite(scale) or float(scale) <= 0:
+                self.errors.append(f"{instance_id} scale 必须为正有限数")
+        roots = snapshot.get("root_occurrences")
+        if not isinstance(roots, list) or not roots:
+            self.errors.append("assembly snapshot 缺少 root_occurrences")
+        elif any(root not in ids for root in roots):
+            self.errors.append("root_occurrences 引用了不存在的 occurrence")
+        self.details["instance_count"] = len(instances)
+        self.details["root_occurrence_count"] = len(roots) if isinstance(roots, list) else 0
+
+    def _validate_capture_report(self, report: dict[str, Any]) -> None:
+        if report.get("schema") != CAPTURE_SCHEMA:
+            self.errors.append(f"capture report schema 必须是 {CAPTURE_SCHEMA}")
+        if report.get("status") != "passed":
+            self.errors.append("SolidWorks capture status 不是 passed")
+        if report.get("source_read_only") is not True:
+            self.errors.append("SolidWorks capture 必须是只读打开")
+        glb = self._mapping(report.get("glb_export"), "capture_report.glb_export")
+        if glb.get("exists") is not True or glb.get("save_result") is not True:
+            self.errors.append("capture report 未证明 GLB 导出成功")
+        if glb.get("magic") != "glTF":
+            self.errors.append("capture report 的 GLB magic 不是 glTF")
+        self.details["solidworks_com_revision"] = report.get("com_revision")
+        self.details["capture_component_count"] = report.get("component_count")
+
+    def _validate_source(self, source: dict[str, Any]) -> None:
+        if source.get("schema") != SOURCE_SCHEMA:
+            self.errors.append(f"source schema 必须是 {SOURCE_SCHEMA}")
+        if source.get("read_policy") != "read-only":
+            self.errors.append("source read_policy 必须是 read-only")
+        digest = str(source.get("source_files_digest") or "")
+        if DIGEST.fullmatch(digest) is None:
+            self.errors.append("source_files_digest 不是 SHA-256")
+
+    def _verify_source_hashes(self, hashes_path: Path, source_root: Path) -> None:
+        if not hashes_path.is_file() or not source_root.is_dir():
+            return
+        checked = 0
+        for line_number, raw in enumerate(hashes_path.read_text(encoding="utf-8").splitlines(), 1):
+            if not raw.strip():
+                continue
+            parts = raw.split(maxsplit=1)
+            if len(parts) != 2 or DIGEST.fullmatch(parts[0]) is None:
+                self.errors.append(f"files.sha256 第 {line_number} 行格式无效")
+                continue
+            relative = parts[1].strip().lstrip("*")
+            target = self._within(source_root, relative, f"files.sha256:{line_number}")
+            if not target.is_file():
+                self.errors.append(f"源发布文件缺失: {relative}")
+                continue
+            actual = self._sha256(target)
+            if actual != parts[0]:
+                self.errors.append(f"源发布哈希不匹配: {relative}")
+                continue
+            checked += 1
+        if checked == 0:
+            self.errors.append("files.sha256 没有验证通过的源文件")
+        self.details["source_files_verified"] = checked
+
+    def _validate_glb(self, path: Path) -> None:
+        if not path.is_file():
+            return
+        size = path.stat().st_size
+        if size < 20:
+            self.errors.append("工站 GLB 过小")
+            return
+        with path.open("rb") as handle:
+            magic = handle.read(4)
+        if magic != b"glTF":
+            self.errors.append("工站 GLB 文件头不是 glTF")
+        self.details["render_glb_bytes"] = size
+        self.details["render_glb_sha256"] = self._sha256(path)
+
+    def _validate_robot(self, robot: dict[str, Any]) -> None:
+        if robot.get("authority") != "manufacturer":
+            self.errors.append("robot_release.authority 必须是 manufacturer")
+        vendor = self._text(robot.get("vendor"), "robot_release.vendor")
+        model = self._text(robot.get("model"), "robot_release.model")
+        provider_ref = self._text(robot.get("provider"), "robot_release.provider")
+        expected_digest = str(robot.get("source_digest") or "").lower()
+        if DIGEST.fullmatch(expected_digest) is None:
+            self.errors.append("robot_release.source_digest 不是 SHA-256")
+            return
+        match = PROVIDER.fullmatch(provider_ref)
+        if match is None:
+            self.errors.append("robot_release.provider 必须是 module:symbol")
+            return
+        try:
+            provider = getattr(
+                importlib.import_module(match.group("module")),
+                match.group("symbol"),
+            )
+            bundle = provider(device_id="handoff_probe")
+        except Exception as error:  # noqa: BLE001 - 形成稳定门禁诊断
+            self.errors.append(f"机械臂 Provider 无法实例化: {error}")
+            return
+        actual_digest = str(getattr(bundle, "source_digest", "")).lower()
+        if actual_digest != expected_digest:
+            self.errors.append("机械臂 Provider source_digest 与交接清单不一致")
+        joints = tuple(getattr(bundle, "qualified_joint_names", ()))
+        meshes = tuple(Path(path) for path in getattr(bundle, "mesh_paths", ()))
+        if not joints or any(not name.startswith("handoff_probe_") for name in joints):
+            self.errors.append("机械臂 Provider 未产生实例限定关节名")
+        if not meshes or any(not path.is_file() for path in meshes):
+            self.errors.append("机械臂 Provider mesh 不完整")
+        self.details["robot"] = {
+            "vendor": vendor,
+            "model": model,
+            "source_digest": actual_digest,
+            "joint_count": len(joints),
+            "mesh_count": len(meshes),
+        }
+
+    def _json(self, path: Path, field: str) -> dict[str, Any]:
+        if not path.is_file():
+            self.errors.append(f"{field} 文件缺失: {path}")
+            return {}
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, UnicodeError, json.JSONDecodeError) as error:
+            self.errors.append(f"{field} 不是可读 JSON: {error}")
+            return {}
+        return self._mapping(value, field)
+
+    def _path(
+        self,
+        value: Any,
+        field: str,
+        *,
+        require_file: bool = True,
+    ) -> Path:
+        relative = self._text(value, f"solidworks_capture.{field}")
+        path = self._within(self.root, relative, field)
+        if require_file and not path.is_file():
+            self.errors.append(f"{field} 文件缺失: {path}")
+        if not require_file and not path.is_dir():
+            self.errors.append(f"{field} 目录缺失: {path}")
+        return path
+
+    def _within(self, root: Path, relative: str, field: str) -> Path:
+        raw = Path(relative)
+        if raw.is_absolute():
+            self.errors.append(f"{field} 必须使用相对路径")
+            return root / "__invalid_absolute_path__"
+        target = (root / raw).resolve()
+        try:
+            target.relative_to(root.resolve())
+        except ValueError:
+            self.errors.append(f"{field} 路径越出交接目录")
+            return root / "__invalid_escape_path__"
+        return target
+
+    def _mapping(self, value: Any, field: str) -> dict[str, Any]:
+        if not isinstance(value, dict):
+            self.errors.append(f"{field} 必须是对象")
+            return {}
+        return value
+
+    def _text(self, value: Any, field: str) -> str:
+        if not isinstance(value, str) or not value.strip():
+            self.errors.append(f"{field} 必须是非空文本")
+            return ""
+        return value.strip()
+
+    def _vector(self, value: Any, size: int, field: str) -> list[float]:
+        if not isinstance(value, list) or len(value) != size or any(
+            not self._finite(item) for item in value
+        ):
+            self.errors.append(f"{field} 必须包含 {size} 个有限数")
+            return []
+        return [float(item) for item in value]
+
+    @staticmethod
+    def _finite(value: Any) -> bool:
+        return (
+            not isinstance(value, bool)
+            and isinstance(value, (int, float))
+            and math.isfinite(float(value))
+        )
+
+    @staticmethod
+    def _sha256(path: Path) -> str:
+        digest = hashlib.sha256()
+        with path.open("rb") as handle:
+            for block in iter(lambda: handle.read(1 << 20), b""):
+                digest.update(block)
+        return digest.hexdigest()
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("manifest", type=Path)
+    parser.add_argument("--output", type=Path)
+    args = parser.parse_args()
+    validation = HandoffValidation(args.manifest)
+    result = validation.run()
+    encoded = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
+    if args.output:
+        args.output.write_text(encoded, encoding="utf-8")
+    sys.stdout.write(encoded)
+    return 0 if result["passed"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

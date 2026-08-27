@@ -14,6 +14,14 @@ GitHub 仓库名是 `unilab-asset-pipeline`（GitHub 仓库名只能用 ASCII）
 - `dependencies/unilab_robot_template/`：机器人领域包，包括 `unilab_arm_cr5` Provider（Git submodule）。
 - `vendor/DOBOT_6Axis_ROS2_V4/`：Dobot 官方 URDF、mesh 与 MoveIt 配置，固定到审计提交（Git submodule）。
 - `overlays/`：上述 submodule 在本机尚未提交的工作树改动；不会改写原仓库历史。
+- `cr5-telemetry-proof/`：Mac 本地 CR5/FR5 `kinematic-preview` 证明服务；把
+  `机械臂control` 中的只读厂家 ZIP 编译为摘要锁定 Provider，复用 OS 遥测合同
+  与现有 Workbench renderer，不授予真机执行资格。
+- `incoming/`：Windows/SolidWorks 工站结果的本地回传区；二进制内容默认不进 Git。
+
+准备先在 Windows 完成投料站 P0–P1 时，从
+[`2026-08-27-feeding-station-windows-mac-p0-p1-runbook.md`](./2026-08-27-feeding-station-windows-mac-p0-p1-runbook.md)
+开始。该手册给出 Windows 只读采集、非 Git handoff、Mac 独立验收和双方状态词。
 
 ## 克隆
 
@@ -48,6 +56,21 @@ git -C uni-lab-fe apply ../overlays/uni-lab-fe.patch
 - `device_id`、基座位姿、TCP、payload、PointSet/ProgramSet 属于部署层。
 - 静态夹具不是 `WorkCellActivation`，不授予运动、互锁或执行资格。
 - 未经碰撞与部署资格验证的模型不得作为强制空间互锁依据。
+
+## Mac 本地 CR5 / FR5 运动预览
+
+```bash
+./scripts/run_mac_kinematic_preview.sh
+```
+
+真实工站结果回传后，先执行：
+
+```bash
+./.venv/bin/python scripts/verify_station_handoff.py \
+  incoming/<station>/station-handoff.json
+```
+
+检查通过只说明输入完整，仍需人签工站分解与部署清单。
 
 ## 大文件
 

@@ -1,5 +1,11 @@
 # 实验室资产管线 — Windows Agent 交接说明
 
+> 2026-08-27 更新：本文保留通用家族/部署分层说明。当前“投料站”第一轮不要按
+> 本文的宽泛 Slice A/B/C 自由扩展；请以
+> [`2026-08-27-feeding-station-windows-mac-p0-p1-runbook.md`](./2026-08-27-feeding-station-windows-mac-p0-p1-runbook.md)
+> 为直接执行入口，只完成 P0 输入冻结与 P1/W1 只读总装采集。Mac 验证通过并由
+> 人工批准 decomposition 之前，不开始设备级 W2 导出。
+
 日期：2026-08-23  
 读者：已配置 SolidWorks / Blender / miniforge 的 Windows 机器上的 agent  
 目的：理解分层设计，并按该设计做 **第一次生成尝试**  

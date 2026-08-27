@@ -167,8 +167,9 @@ SW Adapter 已经能提取每个 occurrence 的 `transform_world.xyz_m` + `quat_
 
 家族包本身仍是内容寻址的目录（保持现有 `lab.family_sim_bundle/v0`），但要**同时**支持两种消费：
 
-1. **静态 catalog**（已实现）：给夹具页做显示/拾取验证。
-2. **领域包 Provider**（新增）：给 OS 真正加载。
+1. **静态 catalog**（已实现）：只给辅助诊断夹具查看来源、模型和负向用例。
+2. **领域包 Provider**（已实现首批 CR5/FR5）：由 OS 投影为正常 Workbench
+   `Material Graph`，不经诊断页加载生产场景。
 
 Provider 形态的约束（由 OS 校验，必须满足）：
 
@@ -289,17 +290,37 @@ packages/
 
 ### M1 — 机械臂家族包 + Workbench 显示 + 关节可动
 
+**2026-08-26 实施更新**：原计划以 Elite CS Xacro 为首个样例；本机随后发现了
+来源、固定提交和 SHA-256 更完整的 Dobot CR5 与 FAIRINO FR5 ROS 2 ZIP，因此
+首批样例改为这两种直接 URDF，分层契约不变。现已完成只读 ZIP SourceRelease
+校验、双 `package_moveit` Provider、正常 Workbench Material Graph 同屏加载、
+实际显示/拾取和受限 SSE 关节预览。两个模型均为 6 个可动关节、7 个受管 mesh，
+浏览器预览终态均为 `succeeded`。辅助诊断夹具不计入本条主场景验收。仍未完成
+正式 UniLab `WorkflowTask`、ROS `/joint_states`、MoveIt
+规划及真实控制器路径，所以 M1 的“本地 kinematic-preview 子目标”完成，M4 和
+执行资格没有因此提前完成。
+
 **做什么**
-1. 实现 `RobotUrdfAdapter`：Elite CS xacro → 展开、抽取 link/joint/limits/collision → `mechanics.json`（正式关节非空）+ mesh 集合。
-2. 把该家族包发布为领域包 Provider（`package_moveit`）：产出 `execution_urdf` / `render_urdf` / `srdf` / `qualified_joint_names` / `topology_digest` / `source_digest`。
-3. 注册表 YAML 声明 `model: { type: package_moveit, provider: "...:build", source_digest: "..." }`。
-4. 物理图放一个该设备节点，给出位姿。
+
+1. [x] 实现 CR5/FR5 `SourceRelease` Adapter：校验只读 ZIP 与 URDF 摘要，
+   抽取 link/joint/limits/collision 和 mesh；不修改原 ZIP。
+2. [x] 发布双领域包 Provider（`package_moveit`）：产出 `execution_urdf` /
+   `render_urdf` / `srdf` / `qualified_joint_names` / `topology_digest` /
+   `source_digest`。
+3. [x] 预览注册表声明 `model: { type: package_moveit, provider: "...:build",
+   source_digest: "..." }`，摘要漂移失败关闭。
+4. [x] 物理图投影两个 Material 节点与预览位姿，由正常 Workbench 主场景加载。
+5. [ ] Elite CS Xacro Adapter 保留为后续家族扩展，不是 CR5/FR5 本地闭环的阻塞项。
 
 **验收**
-- `GET /api/v1/kinematic-models/{device_id}.urdf` 返回，响应头带 `X-UniLab-Topology-Digest`。
-- Workbench 里出现该臂，位姿正确，可拾取。
-- 手动发一组限定名 `/joint_states` → 臂在 Workbench 里动。
-- 故意改 `source_digest` → OS 启动关闭（失败关闭生效）。
+
+| 条目 | 2026-08-26 状态 |
+|---|---|
+| `GET /api/v1/kinematic-models/{device_id}.urdf` 与拓扑响应头 | CR5/FR5 均通过 |
+| 正常 Workbench 主场景显示与拾取 | 同屏 2 个 Material，通过 |
+| 完整限定关节帧 → SSE → Workbench 运动 | 受限预览通过 |
+| ROS `/joint_states` 输入 | 未验证；本机无 ROS2 |
+| 错误 `source_digest` 启动失败关闭 | 通过 |
 
 **为什么先做这个**：它是最短的一条「显示 + 运动」闭环，且不依赖 SolidWorks 与工站分解。做完就证明整条消费链通了。
 

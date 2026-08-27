@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cr5-telemetry-lab"
+version = "0.2.0"
+description = "Mac-local CR5 and FR5 SourceRelease providers for Workbench telemetry preview"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+]
+
+[project.scripts]
+cr5-kinematic-preview = "cr5_telemetry_lab.preview_app:main"
+
+[tool.setuptools.packages.find]
+include = ["cr5_telemetry_lab*"]
+
+[tool.unilabos.startup]
+graph = "graph.json"

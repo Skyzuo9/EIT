@@ -13,6 +13,7 @@ coverage/
 __pycache__/
 **/__pycache__/
 *.py[cod]
+*.egg-info/
 
 # Local runtime state and IDE/session data
 .unilabos/
@@ -48,3 +49,11 @@ assets.db
 # Asset-pipeline generated scratch space
 unilab-workbench-e2e-handoff-20260824/workspace/work/*
 !unilab-workbench-e2e-handoff-20260824/workspace/work/README.md
+
+# Windows 工站结果回传区：只跟踪说明，不把受限 CAD/生成物误提交。
+incoming/*
+!incoming/README.md
+
+# 本机投料站原始输入：只作为 Windows/Mac 交接源，不进入 GitHub。
+/投料站/
+/投料站-urdf/

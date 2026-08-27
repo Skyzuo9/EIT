@@ -1,0 +1,57 @@
+{
+  "schema": "lab.robot_source_releases/v0",
+  "source_root": {
+    "environment": "EIT_ROBOT_CONTROL_ROOT",
+    "default_home_relative": "Downloads/机械臂control"
+  },
+  "releases": {
+    "dobot_cr5": {
+      "display_name": "Dobot CR5",
+      "vendor": "Dobot",
+      "model": "CR5",
+      "archive": "DOBOT_CR_CRA/ros/DOBOT_6Axis_ROS2_V4-37730d08.zip",
+      "archive_sha256": "487463ecc4941fe7df57e9fb2fea38477164d91907699a0e0de3e0c2c44b468c",
+      "repository": "https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4",
+      "exact_ref": "37730d08b08c74061ae10d4fa5565b4c4c914885",
+      "urdf_member": "DOBOT_6Axis_ROS2_V4-37730d08b08c74061ae10d4fa5565b4c4c914885/dobot_rviz/urdf/cr5_robot.urdf",
+      "urdf_sha256": "8c8b9ea935fd83122b19b572c84d107e81b4864d4310c94d0906cc361e7631c2",
+      "mesh_member_prefix": "DOBOT_6Axis_ROS2_V4-37730d08b08c74061ae10d4fa5565b4c4c914885/dobot_rviz/meshes/cr5/",
+      "source_root_link": "dummy_link",
+      "source_tip_link": "Link6",
+      "source_joint_names": ["joint1", "joint2", "joint3", "joint4", "joint5", "joint6"],
+      "canonical_joint_names": [
+        "cr5_joint_1",
+        "cr5_joint_2",
+        "cr5_joint_3",
+        "cr5_joint_4",
+        "cr5_joint_5",
+        "cr5_joint_6"
+      ],
+      "preview_effort_defaults": [150.0, 150.0, 150.0, 30.0, 30.0, 30.0],
+      "preview_velocity_default": 3.14
+    },
+    "fairino_fr5": {
+      "display_name": "FAIRINO FR5",
+      "vendor": "FAIRINO",
+      "model": "FR5",
+      "archive": "FR5/ros/frcobot_ros2-v3.0.0_robot-v3.9.7.zip",
+      "archive_sha256": "5e46a19e271638a7e1420f2727aaf8fb977016101a354b3694cc440f1fb9f071",
+      "repository": "https://github.com/FAIR-INNOVATION/frcobot_ros2",
+      "exact_ref": "60755d44d521a5ad6bee8494cc19522f8801aa20",
+      "urdf_member": "frcobot_ros2-3.0.0_RobotV3.9.7/fairino_description/urdf/fairino5_v6.urdf",
+      "urdf_sha256": "82640e0e3d204c7d8b87ae7da513542dd1879d2aa1cd6a4ac233090dfb0d104b",
+      "mesh_member_prefix": "frcobot_ros2-3.0.0_RobotV3.9.7/fairino_description/meshes/fairino5_v6/",
+      "source_root_link": "base_link",
+      "source_tip_link": "wrist3_link",
+      "source_joint_names": ["j1", "j2", "j3", "j4", "j5", "j6"],
+      "canonical_joint_names": [
+        "fr5_joint_1",
+        "fr5_joint_2",
+        "fr5_joint_3",
+        "fr5_joint_4",
+        "fr5_joint_5",
+        "fr5_joint_6"
+      ]
+    }
+  }
+}
