@@ -9,6 +9,13 @@
     "source_release_root": "source-release",
     "render_glb": "geometry/station.glb"
   },
+  "reproducibility": {
+    "report": "audit/reproducibility-report.json",
+    "repeat_snapshot": "audit/repeat/assembly.snapshot.json",
+    "repeat_capture_report": "audit/repeat/capture-report.json",
+    "repeat_glb": "audit/repeat/station.glb",
+    "glb_semantic_diagnosis": null
+  },
   "robot_release": {
     "authority": "manufacturer",
     "vendor": "Dobot",

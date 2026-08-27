@@ -9,6 +9,7 @@ import importlib
 import json
 import math
 import re
+import struct
 import sys
 from pathlib import Path
 from typing import Any
@@ -31,11 +32,14 @@ SNAPSHOT_SCHEMA = "lab.assembly_snapshot/v0"
 CAPTURE_SCHEMA = "lab.solidworks_capture_report/v0"
 SOURCE_SCHEMA = "lab.source/v0"
 REPRODUCIBILITY_SCHEMA = "lab.station_capture_reproducibility/v0"
+VALIDATION_SCHEMA = "lab.station_source_handoff_validation/v1"
+MANIFEST_ALGORITHM = "sha256(utf8(files.sha256))"
 DIGEST = re.compile(r"^[0-9a-f]{64}$")
 PROVIDER = re.compile(
     r"^(?P<module>[A-Za-z_][A-Za-z0-9_.]*):"
     r"(?P<symbol>[A-Za-z_][A-Za-z0-9_]*)$"
 )
+WINDOWS_ABSOLUTE = re.compile(r"^(?:[A-Za-z]:[\\/]|\\\\)")
 
 
 class HandoffValidation:
@@ -92,11 +96,13 @@ class HandoffValidation:
         snapshot = self._json(snapshot_path, "assembly_snapshot")
         report = self._json(report_path, "capture_report")
         source = self._json(source_path, "source")
-        self._validate_snapshot(snapshot)
-        self._validate_capture_report(report)
-        self._validate_source(source)
-        self._verify_source_hashes(hashes_path, source_root)
-        self._validate_glb(render_path)
+        snapshot_info = self._validate_snapshot(snapshot, "assembly_snapshot")
+        report_info = self._validate_capture_report(report, "capture_report")
+        self._validate_component_count(snapshot_info, report_info, "主采集")
+        source_digest = self._verify_source_hashes(hashes_path, source_root)
+        self._validate_source(source, source_digest)
+        glb_stats = self._validate_glb(render_path, "render_glb")
+        self._validate_report_glb(report_info, glb_stats, render_path, "主采集")
         self._validate_reproducibility(
             snapshot=snapshot,
             snapshot_path=snapshot_path,
@@ -108,10 +114,12 @@ class HandoffValidation:
             repeat_glb_path=repeat_glb_path,
             diagnosis_path=diagnosis_path,
         )
+        self._validate_absolute_path_locations(snapshot, "assembly_snapshot")
+        self._validate_absolute_path_locations(report, "capture_report")
         self._validate_robot(robot)
 
-        result = {
-            "schema": "lab.station_source_handoff_validation/v0",
+        return {
+            "schema": VALIDATION_SCHEMA,
             "passed": not self.errors,
             "station": station,
             "manifest": str(self.manifest),
@@ -127,33 +135,38 @@ class HandoffValidation:
                 "execution",
             ],
         }
-        return result
 
-    def _validate_snapshot(self, snapshot: dict[str, Any]) -> None:
+    def _validate_snapshot(self, snapshot: dict[str, Any], field: str) -> dict[str, Any]:
         if snapshot.get("schema") != SNAPSHOT_SCHEMA:
-            self.errors.append(f"assembly snapshot schema 必须是 {SNAPSHOT_SCHEMA}")
-        units = self._mapping(snapshot.get("units"), "assembly_snapshot.units")
+            self.errors.append(f"{field} schema 必须是 {SNAPSHOT_SCHEMA}")
+        units = self._mapping(snapshot.get("units"), f"{field}.units")
         expected_units = {
             "length": "m",
             "angle": "rad",
             "orientation": "quaternion_xyzw",
         }
         if units != expected_units:
-            self.errors.append("assembly snapshot 单位必须是 m/rad/quaternion_xyzw")
+            self.errors.append(f"{field} 单位必须是 m/rad/quaternion_xyzw")
         instances = snapshot.get("instances")
         if not isinstance(instances, list) or not instances:
-            self.errors.append("assembly snapshot 必须包含非空 instances")
-            return
+            self.errors.append(f"{field} 必须包含非空 instances")
+            return {"count": 0, "ids": set(), "roots": set()}
         ids: set[str] = set()
+        parents: dict[str, str | None] = {}
         for index, raw in enumerate(instances):
-            item = self._mapping(raw, f"instances[{index}]")
-            instance_id = self._text(item.get("id"), f"instances[{index}].id")
+            item = self._mapping(raw, f"{field}.instances[{index}]")
+            instance_id = self._text(item.get("id"), f"{field}.instances[{index}].id")
             if instance_id in ids:
-                self.errors.append(f"occurrence id 重复: {instance_id}")
+                self.errors.append(f"{field} occurrence id 重复: {instance_id}")
             ids.add(instance_id)
+            parent = item.get("parent")
+            if parent is not None and (not isinstance(parent, str) or not parent.strip()):
+                self.errors.append(f"{instance_id}.parent 必须是 null 或非空 occurrence id")
+                parent = None
+            parents[instance_id] = parent.strip() if isinstance(parent, str) else None
             transform = self._mapping(
                 item.get("transform_world"),
-                f"instances[{index}].transform_world",
+                f"{field}.instances[{index}].transform_world",
             )
             xyz = self._vector(transform.get("xyz_m"), 3, f"{instance_id}.xyz_m")
             quat = self._vector(transform.get("quat_xyzw"), 4, f"{instance_id}.quat_xyzw")
@@ -166,43 +179,125 @@ class HandoffValidation:
             scale = transform.get("scale")
             if not self._finite(scale) or float(scale) <= 0:
                 self.errors.append(f"{instance_id} scale 必须为正有限数")
+
+        for instance_id, parent in parents.items():
+            if parent is not None and parent not in ids:
+                self.errors.append(f"{field} parent 引用不存在: {instance_id} -> {parent}")
+            if parent == instance_id:
+                self.errors.append(f"{field} occurrence 不得以自身为 parent: {instance_id}")
+        self._validate_parent_cycles(parents, field)
+
         roots = snapshot.get("root_occurrences")
+        declared_roots: list[str] = []
         if not isinstance(roots, list) or not roots:
-            self.errors.append("assembly snapshot 缺少 root_occurrences")
-        elif any(root not in ids for root in roots):
-            self.errors.append("root_occurrences 引用了不存在的 occurrence")
-        self.details["instance_count"] = len(instances)
-        self.details["root_occurrence_count"] = len(roots) if isinstance(roots, list) else 0
+            self.errors.append(f"{field} 缺少 root_occurrences")
+        else:
+            for index, root in enumerate(roots):
+                if not isinstance(root, str) or not root.strip():
+                    self.errors.append(f"{field}.root_occurrences[{index}] 必须是非空文本")
+                    continue
+                declared_roots.append(root.strip())
+            if len(declared_roots) != len(set(declared_roots)):
+                self.errors.append(f"{field}.root_occurrences 含重复项")
+        actual_roots = {item for item, parent in parents.items() if parent is None}
+        if set(declared_roots) != actual_roots:
+            self.errors.append(
+                f"{field}.root_occurrences 与 parent 图根集合不一致: "
+                f"declared={sorted(set(declared_roots))}, actual={sorted(actual_roots)}"
+            )
+        info = {"count": len(instances), "ids": ids, "roots": actual_roots}
+        if field == "assembly_snapshot":
+            self.details["instance_count"] = len(instances)
+            self.details["root_occurrence_count"] = len(actual_roots)
+        return info
 
-    def _validate_capture_report(self, report: dict[str, Any]) -> None:
+    def _validate_parent_cycles(self, parents: dict[str, str | None], field: str) -> None:
+        complete: set[str] = set()
+        for start in parents:
+            if start in complete:
+                continue
+            path: list[str] = []
+            positions: dict[str, int] = {}
+            current: str | None = start
+            while current is not None and current in parents and current not in complete:
+                if current in positions:
+                    cycle = path[positions[current] :] + [current]
+                    self.errors.append(f"{field} parent 图存在环: {' -> '.join(cycle)}")
+                    break
+                positions[current] = len(path)
+                path.append(current)
+                current = parents[current]
+            complete.update(path)
+
+    def _validate_capture_report(self, report: dict[str, Any], field: str) -> dict[str, Any]:
         if report.get("schema") != CAPTURE_SCHEMA:
-            self.errors.append(f"capture report schema 必须是 {CAPTURE_SCHEMA}")
+            self.errors.append(f"{field} schema 必须是 {CAPTURE_SCHEMA}")
         if report.get("status") != "passed":
-            self.errors.append("SolidWorks capture status 不是 passed")
+            self.errors.append(f"{field} status 不是 passed")
         if report.get("source_read_only") is not True:
-            self.errors.append("SolidWorks capture 必须是只读打开")
-        glb = self._mapping(report.get("glb_export"), "capture_report.glb_export")
+            self.errors.append(f"{field} 必须证明 SolidWorks 只读打开")
+        component_count = report.get("component_count")
+        if isinstance(component_count, bool) or not isinstance(component_count, int) or component_count <= 0:
+            self.errors.append(f"{field}.component_count 必须是正整数")
+            component_count = None
+        open_errors = report.get("open_errors")
+        if isinstance(open_errors, int) and open_errors != 0:
+            self.errors.append(f"{field}.open_errors 非零: {open_errors}")
+        open_warnings = report.get("open_warnings")
+        if isinstance(open_warnings, int) and open_warnings != 0:
+            explanation = report.get("open_warning_explanation")
+            if not isinstance(explanation, str) or not explanation.strip():
+                self.warnings.append(
+                    f"{field}.open_warnings={open_warnings}；交接回执必须人工解释该位掩码"
+                )
+            self.details.setdefault("open_warning_masks", {})[field] = open_warnings
+        glb = self._mapping(report.get("glb_export"), f"{field}.glb_export")
         if glb.get("exists") is not True or glb.get("save_result") is not True:
-            self.errors.append("capture report 未证明 GLB 导出成功")
+            self.errors.append(f"{field} 未证明 GLB 导出成功")
         if glb.get("magic") != "glTF":
-            self.errors.append("capture report 的 GLB magic 不是 glTF")
-        self.details["solidworks_com_revision"] = report.get("com_revision")
-        self.details["capture_component_count"] = report.get("component_count")
+            self.errors.append(f"{field} 的 GLB magic 不是 glTF")
+        if field == "capture_report":
+            self.details["solidworks_com_revision"] = report.get("com_revision")
+            self.details["capture_component_count"] = component_count
+        return {"component_count": component_count, "glb_export": glb}
 
-    def _validate_source(self, source: dict[str, Any]) -> None:
+    def _validate_component_count(
+        self,
+        snapshot: dict[str, Any],
+        report: dict[str, Any],
+        label: str,
+    ) -> None:
+        if report.get("component_count") != snapshot.get("count"):
+            self.errors.append(
+                f"{label} snapshot occurrence 数量与 capture report component_count 不一致"
+            )
+
+    def _validate_source(self, source: dict[str, Any], manifest_digest: str | None) -> None:
         if source.get("schema") != SOURCE_SCHEMA:
             self.errors.append(f"source schema 必须是 {SOURCE_SCHEMA}")
         if source.get("read_policy") != "read-only":
             self.errors.append("source read_policy 必须是 read-only")
+        if source.get("manifest_algorithm") != MANIFEST_ALGORITHM:
+            self.errors.append(f"source.manifest_algorithm 必须是 {MANIFEST_ALGORITHM}")
         digest = str(source.get("source_files_digest") or "")
         if DIGEST.fullmatch(digest) is None:
             self.errors.append("source_files_digest 不是 SHA-256")
+        elif manifest_digest is not None and digest != manifest_digest:
+            self.errors.append("source_files_digest 与 files.sha256 聚合摘要不一致")
+        self.details["source_files_digest"] = manifest_digest
 
-    def _verify_source_hashes(self, hashes_path: Path, source_root: Path) -> None:
+    def _verify_source_hashes(self, hashes_path: Path, source_root: Path) -> str | None:
         if not hashes_path.is_file() or not source_root.is_dir():
-            return
+            return None
+        try:
+            manifest_text = hashes_path.read_text(encoding="utf-8")
+        except (OSError, UnicodeError) as error:
+            self.errors.append(f"files.sha256 不是 UTF-8 文本: {error}")
+            return None
         checked = 0
-        for line_number, raw in enumerate(hashes_path.read_text(encoding="utf-8").splitlines(), 1):
+        paths: list[str] = []
+        seen: set[str] = set()
+        for line_number, raw in enumerate(manifest_text.splitlines(), 1):
             if not raw.strip():
                 continue
             parts = raw.split(maxsplit=1)
@@ -210,6 +305,14 @@ class HandoffValidation:
                 self.errors.append(f"files.sha256 第 {line_number} 行格式无效")
                 continue
             relative = parts[1].strip().lstrip("*")
+            if "\\" in relative or relative.startswith("./"):
+                self.errors.append(f"files.sha256 第 {line_number} 行必须使用规范 POSIX 相对路径")
+                continue
+            if relative in seen:
+                self.errors.append(f"files.sha256 路径重复: {relative}")
+                continue
+            seen.add(relative)
+            paths.append(relative)
             target = self._within(source_root, relative, f"files.sha256:{line_number}")
             if not target.is_file():
                 self.errors.append(f"源发布文件缺失: {relative}")
@@ -219,23 +322,181 @@ class HandoffValidation:
                 self.errors.append(f"源发布哈希不匹配: {relative}")
                 continue
             checked += 1
+        if paths != sorted(paths):
+            self.errors.append("files.sha256 路径未按字典序排列")
         if checked == 0:
             self.errors.append("files.sha256 没有验证通过的源文件")
         self.details["source_files_verified"] = checked
+        return self._sha256(hashes_path)
 
-    def _validate_glb(self, path: Path) -> None:
+    def _validate_glb(self, path: Path, field: str) -> dict[str, int]:
+        empty = {
+            "nodes": 0,
+            "meshes": 0,
+            "primitives": 0,
+            "accessors": 0,
+            "vertices": 0,
+            "triangles": 0,
+        }
         if not path.is_file():
+            return empty
+        try:
+            data = path.read_bytes()
+            if len(data) < 20:
+                raise ValueError("文件过小")
+            magic, version, declared_length = struct.unpack_from("<4sII", data, 0)
+            if magic != b"glTF":
+                raise ValueError("文件头不是 glTF")
+            if version != 2:
+                raise ValueError(f"GLB version 必须是 2，实际为 {version}")
+            if declared_length != len(data):
+                raise ValueError(
+                    f"GLB header length={declared_length} 与实际 bytes={len(data)} 不一致"
+                )
+            offset = 12
+            chunks: list[tuple[int, bytes]] = []
+            while offset < len(data):
+                if offset + 8 > len(data):
+                    raise ValueError("GLB chunk header 截断")
+                chunk_length, chunk_type = struct.unpack_from("<II", data, offset)
+                offset += 8
+                if chunk_length % 4 != 0 or offset + chunk_length > len(data):
+                    raise ValueError("GLB chunk 长度非法或越界")
+                chunks.append((chunk_type, data[offset : offset + chunk_length]))
+                offset += chunk_length
+            if not chunks or chunks[0][0] != 0x4E4F534A:
+                raise ValueError("GLB 首个 chunk 必须是 JSON")
+            document = json.loads(chunks[0][1].rstrip(b" \t\r\n\x00").decode("utf-8"))
+            asset = document.get("asset") if isinstance(document, dict) else None
+            if not isinstance(asset, dict) or str(asset.get("version")) != "2.0":
+                raise ValueError("GLB JSON 缺少 asset.version=2.0")
+            nodes = document.get("nodes", [])
+            meshes = document.get("meshes", [])
+            accessors = document.get("accessors", [])
+            if not all(isinstance(value, list) for value in (nodes, meshes, accessors)):
+                raise ValueError("GLB nodes/meshes/accessors 必须是数组")
+            primitive_count = 0
+            vertices = 0
+            triangles = 0
+            for mesh_index, mesh in enumerate(meshes):
+                if not isinstance(mesh, dict) or not isinstance(mesh.get("primitives"), list):
+                    raise ValueError(f"GLB meshes[{mesh_index}].primitives 无效")
+                for primitive in mesh["primitives"]:
+                    if not isinstance(primitive, dict):
+                        raise ValueError("GLB primitive 必须是对象")
+                    primitive_count += 1
+                    attributes = primitive.get("attributes")
+                    if not isinstance(attributes, dict) or not isinstance(attributes.get("POSITION"), int):
+                        raise ValueError("GLB primitive 缺少 POSITION accessor")
+                    position_index = attributes["POSITION"]
+                    if position_index < 0 or position_index >= len(accessors):
+                        raise ValueError("GLB POSITION accessor 越界")
+                    position_accessor = accessors[position_index]
+                    count = position_accessor.get("count") if isinstance(position_accessor, dict) else None
+                    if isinstance(count, bool) or not isinstance(count, int) or count <= 0:
+                        raise ValueError("GLB POSITION accessor count 无效")
+                    vertices += count
+                    if primitive.get("mode", 4) == 4:
+                        index_index = primitive.get("indices")
+                        if isinstance(index_index, int):
+                            if index_index < 0 or index_index >= len(accessors):
+                                raise ValueError("GLB index accessor 越界")
+                            index_accessor = accessors[index_index]
+                            index_count = (
+                                index_accessor.get("count")
+                                if isinstance(index_accessor, dict)
+                                else None
+                            )
+                            if isinstance(index_count, int) and not isinstance(index_count, bool):
+                                triangles += index_count // 3
+                        else:
+                            triangles += count // 3
+            stats = {
+                "nodes": len(nodes),
+                "meshes": len(meshes),
+                "primitives": primitive_count,
+                "accessors": len(accessors),
+                "vertices": vertices,
+                "triangles": triangles,
+            }
+            if (
+                stats["nodes"] == 0
+                or stats["meshes"] == 0
+                or stats["primitives"] == 0
+                or stats["accessors"] == 0
+            ):
+                raise ValueError("GLB 没有可验证的非空几何")
+        except (
+            AttributeError,
+            KeyError,
+            OSError,
+            TypeError,
+            UnicodeError,
+            json.JSONDecodeError,
+            struct.error,
+            ValueError,
+        ) as error:
+            self.errors.append(f"{field} 结构/几何无效: {error}")
+            return empty
+        if field == "render_glb":
+            self.details["render_glb_bytes"] = len(data)
+            self.details["render_glb_sha256"] = self._sha256(path)
+            self.details["render_glb_geometry"] = stats
+        return stats
+
+    def _validate_report_glb(
+        self,
+        report: dict[str, Any],
+        stats: dict[str, int],
+        path: Path,
+        label: str,
+    ) -> None:
+        glb = report.get("glb_export", {})
+        reported_bytes = glb.get("bytes") if isinstance(glb, dict) else None
+        if path.is_file() and reported_bytes != path.stat().st_size:
+            self.errors.append(f"{label} capture report GLB bytes 与文件不一致")
+        geometry = glb.get("geometry") if isinstance(glb, dict) else None
+        if not isinstance(geometry, dict):
+            self.errors.append(f"{label} capture report 缺少 GLB geometry 统计")
             return
-        size = path.stat().st_size
-        if size < 20:
-            self.errors.append("工站 GLB 过小")
-            return
-        with path.open("rb") as handle:
-            magic = handle.read(4)
-        if magic != b"glTF":
-            self.errors.append("工站 GLB 文件头不是 glTF")
-        self.details["render_glb_bytes"] = size
-        self.details["render_glb_sha256"] = self._sha256(path)
+        for key in ("nodes", "meshes", "primitives", "accessors"):
+            if geometry.get(key) != stats.get(key):
+                self.errors.append(
+                    f"{label} capture report GLB geometry.{key} 与文件不一致"
+                )
+
+    def _validate_absolute_path_locations(self, value: Any, field: str) -> None:
+        allowed = (
+            re.compile(r"^(?:assembly_snapshot|repeat_assembly_snapshot)\.source_document$"),
+            re.compile(
+                r"^(?:assembly_snapshot|repeat_assembly_snapshot)\.instances\[\d+\]\.document$"
+            ),
+            re.compile(r"^(?:capture_report|repeat_capture_report)\.source_document$"),
+        )
+        audit_paths = 0
+
+        def visit(item: Any, path: str) -> None:
+            nonlocal audit_paths
+            if isinstance(item, dict):
+                for key, child in item.items():
+                    visit(child, f"{path}.{key}")
+            elif isinstance(item, list):
+                for index, child in enumerate(item):
+                    visit(child, f"{path}[{index}]")
+            elif isinstance(item, str) and self._is_absolute_path(item):
+                if any(pattern.fullmatch(path) for pattern in allowed):
+                    audit_paths += 1
+                else:
+                    self.errors.append(f"绝对路径只能出现在审计字段，发现于 {path}")
+
+        visit(value, field)
+        self.details["absolute_audit_path_count"] = (
+            int(self.details.get("absolute_audit_path_count", 0)) + audit_paths
+        )
+
+    @staticmethod
+    def _is_absolute_path(value: str) -> bool:
+        return value.startswith("/") or WINDOWS_ABSOLUTE.match(value) is not None
 
     def _validate_reproducibility(
         self,
@@ -261,6 +522,34 @@ class HandoffValidation:
         repeat_report = self._json(
             repeat_capture_report_path,
             "reproducibility.repeat_capture_report",
+        )
+        repeat_snapshot_info = self._validate_snapshot(
+            repeat_snapshot,
+            "repeat_assembly_snapshot",
+        )
+        repeat_report_info = self._validate_capture_report(
+            repeat_report,
+            "repeat_capture_report",
+        )
+        self._validate_component_count(
+            repeat_snapshot_info,
+            repeat_report_info,
+            "第二次采集",
+        )
+        repeat_glb_stats = self._validate_glb(repeat_glb_path, "repeat_render_glb")
+        self._validate_report_glb(
+            repeat_report_info,
+            repeat_glb_stats,
+            repeat_glb_path,
+            "第二次采集",
+        )
+        self._validate_absolute_path_locations(
+            repeat_snapshot,
+            "repeat_assembly_snapshot",
+        )
+        self._validate_absolute_path_locations(
+            repeat_report,
+            "repeat_capture_report",
         )
         if reproducibility.get("schema") != REPRODUCIBILITY_SCHEMA:
             self.errors.append(
@@ -366,6 +655,9 @@ class HandoffValidation:
             self.errors.append("reproducibility 的 GLB 语义判定与 Mac 复算不一致")
         if reproducibility.get("difference_class") != difference_class:
             self.errors.append("reproducibility 的 GLB 差异分类与 Mac 复算不一致")
+        expected_basis = "exact-bytes" if exact_match else "mac-semantic-diagnosis"
+        if reproducibility.get("acceptance_basis") != expected_basis:
+            self.errors.append("reproducibility 的 acceptance_basis 与 Mac 复算不一致")
         self.details["reproducibility"] = {
             "normalized_snapshot_match": normalized_match,
             "exact_glb_match": exact_match,
@@ -432,7 +724,7 @@ class HandoffValidation:
         *,
         require_file: bool = True,
     ) -> Path:
-        relative = self._text(value, f"solidworks_capture.{field}")
+        relative = self._text(value, field)
         path = self._within(self.root, relative, field)
         if require_file and not path.is_file():
             self.errors.append(f"{field} 文件缺失: {path}")
@@ -449,7 +741,7 @@ class HandoffValidation:
 
     def _within(self, root: Path, relative: str, field: str) -> Path:
         raw = Path(relative)
-        if raw.is_absolute():
+        if raw.is_absolute() or WINDOWS_ABSOLUTE.match(relative):
             self.errors.append(f"{field} 必须使用相对路径")
             return root / "__invalid_absolute_path__"
         target = (root / raw).resolve()
@@ -506,6 +798,7 @@ def main() -> int:
     result = validation.run()
     encoded = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     if args.output:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(encoded, encoding="utf-8")
     sys.stdout.write(encoded)
     return 0 if result["passed"] else 1

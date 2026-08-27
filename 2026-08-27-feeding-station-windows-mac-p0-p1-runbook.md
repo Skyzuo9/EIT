@@ -302,11 +302,18 @@ qualification: source-input-validated
 not_qualified_for: 仍包含 collision / spatial-interlock-enforced / execution
 ```
 
-Mac 验证器会复核 `audit/reproducibility-report.json` 和两次采集；若 GLB 字节不同，
-还会重新计算两份 GLB 的语义签名，并核对 `audit/glb-semantic-diagnosis.json` 的算法、
-分类和文件哈希。缺第二次采集、缺诊断或复算不一致时，P1 直接不通过。P2 由 Mac 起草
-`station-decomposition.yaml`，Windows/CAD 负责人解释 occurrence，最终由人工审核人
-批准。批准前不回到 Windows 做设备级 W2 导出。
+Mac 随后复核 `audit/reproducibility-report.json` 和两次采集。缺第二次采集时，P1
+直接不通过。`station-handoff.json` 必须通过 `reproducibility` 块显式引用报告、重复
+snapshot、重复 capture report 和重复 GLB；Mac 会独立重算摘要、父图和 GLB 几何。
+若 GLB 字节不同，还会重新计算两份 GLB 的语义签名，并核对
+`audit/glb-semantic-diagnosis.json` 的算法、差异分类和文件哈希。缺诊断或复算不一致
+时，P1 直接不通过。
+
+P2 由 Mac 基于 `config/station-decomposition.template.yaml` 起草 v1 分解表；每条规则
+只接受 snapshot 中精确 `subtree_root`，不再接受 occurrence 前缀。Windows/CAD 负责人
+解释 occurrence，最终由人工审核人批准。编译命令同时生成 `station-layout.json`、
+`coverage-report.json` 和 `DECOMPOSITION-REVIEW.md`。批准前不回到 Windows 做设备级
+W2 导出；draft 即使显式 `--allow-draft` 生成，也保持不可发布。
 
 ## 8. 每轮交接状态词
 

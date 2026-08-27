@@ -141,25 +141,33 @@ UniLab（能看见+真机在动时能跟）
 新增一份人签配置 `station-decomposition.yaml`，是 pTLC `rig_map.yaml` 中**仅几何归属**部分的对应物：
 
 ```yaml
-schema: lab.station_decomposition/v0
+schema: lab.station_decomposition/v1
 station: eit.station-a
-source_assembly: <Pack and Go 顶层 SLDASM>
+source_handoff_digest: <verified-station-handoff-sha256>
 devices:
   - family: instrument.ptb22-linear-guide
-    match: { occurrence_prefix: "PTB22-" }
     kind: device
+    subtree_root: <exact-ptb22-occurrence-id>
   - family: environment.station-frame
-    match: { occurrence_prefix: "机架-" }
     kind: static_environment
+    subtree_root: <exact-frame-occurrence-id>
 robot_subtrees:
-  - match: { occurrence_prefix: "CS_" }
+  - subtree_root: <exact-robot-occurrence-id>
     replaced_by: robot-family:elite.cs
+unassigned_policy: fail
+approval:
+  status: draft
+  reviewed_by: ""
+  reviewed_at: ""
 ```
 
 规则：
-- `match` 只允许基于 SW occurrence 身份，不允许基于显示名猜测。
+- `subtree_root` 必须精确等于 snapshot 中一个 occurrence ID；编译器只沿
+  `parent` 图展开后代，不再接受显示名或前缀匹配。
+- 同一 family 的多个实例写成多条、各自带精确根的规则，每个根生成一个 placement。
 - 未被任何规则覆盖的 occurrence 一律进入 `unassigned`，**门禁失败**，不静默丢弃。
 - `robot_subtrees` 命中的几何**不进任何家族包的运动学**，只留对照记录。
+- draft 只有显式 `--allow-draft` 才能生成预览，且 `publication_eligible=false`。
 
 SW Adapter 已经能提取每个 occurrence 的 `transform_world.xyz_m` + `quat_xyzw`，因此工站内各设备的**相对位姿可以自动导出**，作为 `station-layout.json` 的候选值，等待人签后进入部署层。
 
@@ -326,11 +334,17 @@ packages/
 
 ### M2 — 工站分解
 
+**2026-08-27 Mac 实施更新**：P2 工具部分已完成 `lab.station_decomposition/v1`
+精确子树编译、同 family/机器人多实例、全 occurrence coverage JSON 和人审 Markdown；
+父图、重复归属、无效根、未分配、摘要漂移与 draft 发布均有失败关闭单测。当前仍只有
+合成 occurrence 夹具，没有 Windows 真实 W1 handoff 或人工批准，因此 M2 整体仍未完成，
+更没有产生真实设备家族包。
+
 **做什么**
-1. `station-decomposition.yaml` schema + 人签流程。
+1. [x] `station-decomposition.yaml` v1 schema、精确子树与人签门禁工具。
 2. SW Adapter 支持按 occurrence 子树导出多个家族包（今天是单装配单包）。
 3. 臂子树标 `replaced_by: robot-family:<vendor>.<model>`。
-4. 自动导出 `station-layout.json`（各设备相对工站原点位姿，来自 SW `transform_world`）。
+4. [x] 自动导出 layout 候选、coverage report 与人审摘要；真实值待 W1 handoff。
 
 **验收**
 - 一个工站总装 → N 个家族包 + 1 份 layout 候选，无 `unassigned` occurrence。

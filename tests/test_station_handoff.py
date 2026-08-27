@@ -5,12 +5,22 @@ from __future__ import annotations
 import hashlib
 import importlib.util
 import json
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
 
-SCRIPT = Path(__file__).parents[1] / "scripts" / "verify_station_handoff.py"
+ROOT = Path(__file__).parents[1]
+sys.path.insert(0, str(ROOT / "tests"))
+from station_fixture_support import (  # noqa: E402
+    capture_report,
+    minimal_glb,
+    sha256,
+    write_reproducibility,
+)
+
+SCRIPT = ROOT / "scripts" / "verify_station_handoff.py"
 SPEC = importlib.util.spec_from_file_location("verify_station_handoff", SCRIPT)
 assert SPEC is not None and SPEC.loader is not None
 MODULE = importlib.util.module_from_spec(SPEC)
@@ -25,6 +35,8 @@ class StationHandoffTest(unittest.TestCase):
             result = HandoffValidation(manifest).run()
             self.assertTrue(result["passed"], result["errors"])
             self.assertEqual(result["details"]["instance_count"], 1)
+            self.assertEqual(result["details"]["render_glb_geometry"]["triangles"], 1)
+            self.assertTrue(result["details"]["reproducibility"]["exact_glb_match"])
             self.assertEqual(result["details"]["robot"]["joint_count"], 6)
             self.assertIn("execution", result["not_qualified_for"])
 
@@ -55,8 +67,72 @@ class StationHandoffTest(unittest.TestCase):
                 result["errors"],
             )
 
+    def test_parent_graph_component_count_and_source_aggregate_fail_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            manifest = self._fixture(root)
+            snapshot_path = root / "capture" / "assembly.snapshot.json"
+            snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+            snapshot["instances"][0]["parent"] = "MISSING-PARENT"
+            snapshot_path.write_text(json.dumps(snapshot), encoding="utf-8")
+            report_path = root / "capture" / "capture-report.json"
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["component_count"] = 2
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+            source_path = root / "capture" / "source.json"
+            source = json.loads(source_path.read_text(encoding="utf-8"))
+            source["source_files_digest"] = hashlib.sha256(b"wrong").hexdigest()
+            source_path.write_text(json.dumps(source), encoding="utf-8")
+
+            result = HandoffValidation(manifest).run()
+            self.assertFalse(result["passed"])
+            self.assertTrue(any("parent 引用不存在" in item for item in result["errors"]))
+            self.assertTrue(any("component_count 不一致" in item for item in result["errors"]))
+            self.assertTrue(any("聚合摘要不一致" in item for item in result["errors"]))
+
+    def test_parent_cycle_invalid_glb_and_repeat_drift_fail_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            manifest = self._fixture(root, two_nodes=True)
+            for relative in (
+                "capture/assembly.snapshot.json",
+                "audit/repeat/assembly.snapshot.json",
+            ):
+                path = root / relative
+                snapshot = json.loads(path.read_text(encoding="utf-8"))
+                snapshot["instances"][0]["parent"] = "CHILD-1"
+                snapshot["instances"][1]["parent"] = "FRAME-1"
+                snapshot["root_occurrences"] = ["FRAME-1"]
+                path.write_text(json.dumps(snapshot), encoding="utf-8")
+            (root / "geometry" / "station.glb").write_bytes(b"glTF" + b"broken")
+            repeat_snapshot = root / "audit" / "repeat" / "assembly.snapshot.json"
+            repeat = json.loads(repeat_snapshot.read_text(encoding="utf-8"))
+            repeat["instances"][1]["transform_world"]["xyz_m"] = [2.0, 0.0, 0.0]
+            repeat_snapshot.write_text(json.dumps(repeat), encoding="utf-8")
+
+            result = HandoffValidation(manifest).run()
+            self.assertFalse(result["passed"])
+            self.assertTrue(any("parent 图存在环" in item for item in result["errors"]))
+            self.assertTrue(any("结构/几何无效" in item for item in result["errors"]))
+            self.assertTrue(any("snapshot 不一致" in item for item in result["errors"]))
+
+    def test_unexpected_absolute_path_fails_and_warning_is_reported(self) -> None:
+        with tempfile.TemporaryDirectory() as raw:
+            root = Path(raw)
+            manifest = self._fixture(root)
+            report_path = root / "capture" / "capture-report.json"
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            report["open_warnings"] = 34
+            report["semantic_output"] = "C:\\private\\unexpected.json"
+            report_path.write_text(json.dumps(report), encoding="utf-8")
+
+            result = HandoffValidation(manifest).run()
+            self.assertFalse(result["passed"])
+            self.assertTrue(any("open_warnings=34" in item for item in result["warnings"]))
+            self.assertTrue(any("绝对路径只能" in item for item in result["errors"]))
+
     @staticmethod
-    def _fixture(root: Path) -> Path:
+    def _fixture(root: Path, *, two_nodes: bool = False) -> Path:
         capture = root / "capture"
         release = root / "source-release"
         geometry = root / "geometry"
@@ -66,10 +142,33 @@ class StationHandoffTest(unittest.TestCase):
         source_file = release / "station.sldasm"
         source_file.write_bytes(b"solidworks-source")
         source_hash = hashlib.sha256(source_file.read_bytes()).hexdigest()
-        (capture / "files.sha256").write_text(
-            f"{source_hash}  station.sldasm\n",
-            encoding="utf-8",
-        )
+        hashes_path = capture / "files.sha256"
+        hashes_path.write_text(f"{source_hash}  station.sldasm\n", encoding="utf-8")
+        instances = [
+            {
+                "id": "FRAME-1",
+                "document": "C:\\station\\frame.sldprt",
+                "parent": None,
+                "transform_world": {
+                    "xyz_m": [0.0, 0.0, 0.0],
+                    "quat_xyzw": [0.0, 0.0, 0.0, 1.0],
+                    "scale": 1.0,
+                },
+            }
+        ]
+        if two_nodes:
+            instances.append(
+                {
+                    "id": "CHILD-1",
+                    "document": "C:\\station\\child.sldprt",
+                    "parent": "FRAME-1",
+                    "transform_world": {
+                        "xyz_m": [1.0, 0.0, 0.0],
+                        "quat_xyzw": [0.0, 0.0, 0.0, 1.0],
+                        "scale": 1.0,
+                    },
+                }
+            )
         snapshot = {
             "schema": "lab.assembly_snapshot/v0",
             "source_document": "C:\\station\\station.sldasm",
@@ -79,79 +178,26 @@ class StationHandoffTest(unittest.TestCase):
                 "angle": "rad",
                 "orientation": "quaternion_xyzw",
             },
-            "instances": [
-                {
-                    "id": "FRAME-1",
-                    "document": "C:\\station\\frame.sldprt",
-                    "parent": None,
-                    "transform_world": {
-                        "xyz_m": [0.0, 0.0, 0.0],
-                        "quat_xyzw": [0.0, 0.0, 0.0, 1.0],
-                        "scale": 1.0,
-                    },
-                }
-            ],
+            "instances": instances,
             "root_occurrences": ["FRAME-1"],
             "mates_candidate": [],
         }
-        (capture / "assembly.snapshot.json").write_text(
-            json.dumps(snapshot), encoding="utf-8"
-        )
-        report = {
-            "schema": "lab.solidworks_capture_report/v0",
-            "source_read_only": True,
-            "status": "passed",
-            "com_revision": "33.5.0",
-            "component_count": 1,
-            "glb_export": {
-                "save_result": True,
-                "exists": True,
-                "magic": "glTF",
-            },
-        }
+        snapshot_path = capture / "assembly.snapshot.json"
+        snapshot_path.write_text(json.dumps(snapshot), encoding="utf-8")
+        glb = minimal_glb()
+        (geometry / "station.glb").write_bytes(glb)
+        report = capture_report(len(instances), glb)
         (capture / "capture-report.json").write_text(
             json.dumps(report), encoding="utf-8"
         )
         source = {
             "schema": "lab.source/v0",
             "read_policy": "read-only",
-            "source_files_digest": source_hash,
+            "manifest_algorithm": "sha256(utf8(files.sha256))",
+            "source_files_digest": sha256(hashes_path),
         }
         (capture / "source.json").write_text(json.dumps(source), encoding="utf-8")
-        (geometry / "station.glb").write_bytes(
-            b"glTF" + b"\x02\x00\x00\x00" + b"\x20\x00\x00\x00" + b"0" * 20
-        )
-        repeat = root / "audit" / "repeat"
-        repeat.mkdir(parents=True)
-        (repeat / "assembly.snapshot.json").write_bytes(
-            (capture / "assembly.snapshot.json").read_bytes()
-        )
-        (repeat / "capture-report.json").write_bytes(
-            (capture / "capture-report.json").read_bytes()
-        )
-        (repeat / "station.glb").write_bytes((geometry / "station.glb").read_bytes())
-        primary_snapshot_hash = hashlib.sha256(
-            (capture / "assembly.snapshot.json").read_bytes()
-        ).hexdigest()
-        primary_glb_hash = hashlib.sha256(
-            (geometry / "station.glb").read_bytes()
-        ).hexdigest()
-        reproducibility = {
-            "schema": "lab.station_capture_reproducibility/v0",
-            "status": "passed",
-            "normalized_snapshot_match": True,
-            "exact_glb_match": True,
-            "normalized_glb_semantic_match": True,
-            "difference_class": "none",
-            "acceptance_basis": "exact-bytes",
-            "primary_snapshot_sha256": primary_snapshot_hash,
-            "repeat_snapshot_sha256": primary_snapshot_hash,
-            "primary_glb_sha256": primary_glb_hash,
-            "repeat_glb_sha256": primary_glb_hash,
-        }
-        (root / "audit" / "reproducibility-report.json").write_text(
-            json.dumps(reproducibility), encoding="utf-8"
-        )
+        reproducibility = write_reproducibility(root, snapshot, report, glb)
         handoff = {
             "schema": "lab.station_source_handoff/v0",
             "station": "eit.station-a",
@@ -163,6 +209,7 @@ class StationHandoffTest(unittest.TestCase):
                 "source_release_root": "source-release",
                 "render_glb": "geometry/station.glb",
             },
+            "reproducibility": reproducibility,
             "robot_release": {
                 "authority": "manufacturer",
                 "vendor": "Dobot",

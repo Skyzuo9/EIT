@@ -72,6 +72,22 @@ git -C uni-lab-fe apply ../overlays/uni-lab-fe.patch
 
 检查通过只说明输入完整，仍需人签工站分解与部署清单。
 
+复制 `config/station-decomposition.template.yaml`，用精确 SolidWorks occurrence
+`subtree_root` 完成人审后运行：
+
+```bash
+./.venv/bin/python scripts/compile_station_decomposition.py \
+  incoming/<station>/station-handoff.json \
+  incoming/<station>/station-decomposition.yaml \
+  --output incoming/<station>/station-layout.json
+```
+
+命令同时写出 `coverage-report.json` 和 `DECOMPOSITION-REVIEW.md`。未批准草稿只可
+显式加 `--allow-draft` 生成不可发布预览。
+
+Mac 侧 P1/P2 门禁的当前实现与测试边界见
+[`2026-08-27-mac-station-handoff-decomposition-v1-report.md`](./2026-08-27-mac-station-handoff-decomposition-v1-report.md)。
+
 ## 大文件
 
 GLB、SolidWorks、STEP、STL 等二进制资产由 Git LFS 管理。原始 CAD 及厂家包可能受各自许可约束；本仓保持私有，仅用于本项目研发和验证。

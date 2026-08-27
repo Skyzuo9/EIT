@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""把已验证工站 source handoff 与人审分解表编译为部署位姿候选。"""
+"""把已验证工站 handoff 与人审分解表编译为精确部署位姿候选。"""
 
 from __future__ import annotations
 
@@ -15,16 +15,33 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from verify_station_handoff import HandoffValidation  # noqa: E402
 
-DECOMPOSITION_SCHEMA = "lab.station_decomposition/v0"
-LAYOUT_SCHEMA = "lab.station_layout_candidate/v0"
+DECOMPOSITION_SCHEMA = "lab.station_decomposition/v1"
+LAYOUT_SCHEMA = "lab.station_layout_candidate/v1"
+COVERAGE_SCHEMA = "lab.station_decomposition_coverage/v1"
 FORBIDDEN_KEYS = {
     "device_id",
     "base_pose",
     "tcp",
     "payload",
     "point_table",
+    "pointset",
+    "programset",
+    "calibration",
     "current_joints",
+    "site_uuid",
 }
+TOP_LEVEL_KEYS = {
+    "schema",
+    "station",
+    "source_handoff_digest",
+    "devices",
+    "robot_subtrees",
+    "unassigned_policy",
+    "approval",
+}
+DEVICE_KEYS = {"family", "kind", "subtree_root", "review_note"}
+ROBOT_KEYS = {"replaced_by", "subtree_root", "review_note"}
+APPROVAL_KEYS = {"status", "reviewed_by", "reviewed_at", "notes"}
 
 
 class DecompositionError(ValueError):
@@ -48,6 +65,9 @@ def compile_station(
     decomposition = _read_yaml(decomposition_path)
     if decomposition.get("schema") != DECOMPOSITION_SCHEMA:
         raise DecompositionError(f"decomposition schema 必须是 {DECOMPOSITION_SCHEMA}")
+    unexpected = sorted(set(decomposition) - TOP_LEVEL_KEYS)
+    if unexpected:
+        raise DecompositionError("decomposition 含不支持字段: " + ", ".join(unexpected))
     if decomposition.get("station") != manifest.get("station"):
         raise DecompositionError("decomposition.station 与 handoff.station 不一致")
     forbidden = sorted(_find_forbidden_keys(decomposition))
@@ -57,13 +77,10 @@ def compile_station(
     actual_handoff_digest = _sha256(manifest_path)
     if expected_handoff_digest != actual_handoff_digest:
         raise DecompositionError("source_handoff_digest 与交接清单字节不一致")
-    approval = _mapping(decomposition.get("approval"), "approval")
-    approved = approval.get("status") == "approved"
-    if approved:
-        _text(approval.get("reviewed_by"), "approval.reviewed_by")
-        _text(approval.get("reviewed_at"), "approval.reviewed_at")
-    elif not allow_draft:
-        raise DecompositionError("分解表尚未 approved；仅预览可显式使用 --allow-draft")
+    if decomposition.get("unassigned_policy") != "fail":
+        raise DecompositionError("unassigned_policy 必须是 fail")
+    approval = _validate_approval(decomposition.get("approval"), allow_draft=allow_draft)
+    approved = approval["status"] == "approved"
 
     capture = _mapping(manifest.get("solidworks_capture"), "solidworks_capture")
     snapshot_path = _relative_file(
@@ -76,85 +93,60 @@ def compile_station(
     if not isinstance(instances, list) or not instances:
         raise DecompositionError("assembly snapshot 没有 instances")
     by_id: dict[str, dict[str, Any]] = {}
+    children: dict[str, list[str]] = {}
     for index, raw in enumerate(instances):
         item = _mapping(raw, f"instances[{index}]")
         occurrence_id = _text(item.get("id"), f"instances[{index}].id")
         if occurrence_id in by_id:
             raise DecompositionError(f"occurrence id 重复: {occurrence_id}")
         by_id[occurrence_id] = item
+        children[occurrence_id] = []
+    for occurrence_id, item in by_id.items():
+        parent = item.get("parent")
+        if parent is not None:
+            if parent not in by_id:
+                raise DecompositionError(f"occurrence parent 不存在: {occurrence_id} -> {parent}")
+            children[parent].append(occurrence_id)
+    for child_ids in children.values():
+        child_ids.sort()
 
-    rules: list[dict[str, Any]] = []
-    devices = decomposition.get("devices")
-    robots = decomposition.get("robot_subtrees")
-    if not isinstance(devices, list):
-        raise DecompositionError("devices 必须是数组")
-    if not isinstance(robots, list):
-        raise DecompositionError("robot_subtrees 必须是数组")
-    for index, raw in enumerate(devices):
-        item = _mapping(raw, f"devices[{index}]")
-        kind = _text(item.get("kind"), f"devices[{index}].kind")
-        if kind not in {"device", "static_environment"}:
-            raise DecompositionError(f"devices[{index}].kind 不受支持")
-        rules.append(
-            {
-                "rule": f"devices[{index}]",
-                "family": _text(item.get("family"), f"devices[{index}].family"),
-                "kind": kind,
-                "match": item.get("match"),
-                "anchor_occurrence": item.get("anchor_occurrence"),
-            }
-        )
-    for index, raw in enumerate(robots):
-        item = _mapping(raw, f"robot_subtrees[{index}]")
-        replacement = _text(
-            item.get("replaced_by"),
-            f"robot_subtrees[{index}].replaced_by",
-        )
-        if not replacement.startswith("robot-family:"):
-            raise DecompositionError("robot_subtrees.replaced_by 必须是 robot-family: 引用")
-        rules.append(
-            {
-                "rule": f"robot_subtrees[{index}]",
-                "family": replacement,
-                "kind": "robot_replacement",
-                "match": item.get("match"),
-                "anchor_occurrence": item.get("anchor_occurrence"),
-            }
-        )
+    rules = _parse_rules(decomposition)
+    if not rules:
+        raise DecompositionError("decomposition 至少需要一个 device 或 robot subtree")
 
-    ownership: dict[str, str] = {}
+    ownership: dict[str, dict[str, Any]] = {}
     placements: list[dict[str, Any]] = []
     for rule in rules:
-        match = _mapping(rule["match"], f"{rule['rule']}.match")
-        if set(match) != {"occurrence_prefix"}:
-            raise DecompositionError(
-                f"{rule['rule']}.match 只允许 occurrence_prefix"
-            )
-        prefix = _text(match.get("occurrence_prefix"), f"{rule['rule']}.match.occurrence_prefix")
-        matched = sorted(name for name in by_id if name.startswith(prefix))
-        if not matched:
-            raise DecompositionError(f"{rule['rule']} 未匹配任何 occurrence")
+        root = rule["subtree_root"]
+        if root not in by_id:
+            raise DecompositionError(f"{rule['rule']}.subtree_root 不存在: {root}")
+        matched = _descendants(root, children)
         for occurrence_id in matched:
-            previous = ownership.setdefault(occurrence_id, rule["rule"])
-            if previous != rule["rule"]:
+            previous = ownership.get(occurrence_id)
+            if previous is not None:
                 raise DecompositionError(
-                    f"occurrence {occurrence_id} 同时属于 {previous} 与 {rule['rule']}"
+                    f"occurrence {occurrence_id} 同时属于 {previous['rule']} 与 {rule['rule']}"
                 )
-        anchor = _resolve_anchor(rule, matched, by_id)
+            ownership[occurrence_id] = rule
         transform = _mapping(
-            by_id[anchor].get("transform_world"),
-            f"{anchor}.transform_world",
+            by_id[root].get("transform_world"),
+            f"{root}.transform_world",
         )
         placement: dict[str, Any] = {
             "family": rule["family"],
             "kind": rule["kind"],
-            "anchor_occurrence": anchor,
+            "subtree_root": root,
+            "anchor_occurrence": root,
+            "source_rule": rule["rule"],
+            "source_occurrence_count": len(matched),
             "source_occurrences": matched,
             "transform_world": {
                 "xyz_m": transform.get("xyz_m"),
                 "quat_xyzw": transform.get("quat_xyzw"),
             },
         }
+        if rule.get("review_note"):
+            placement["review_note"] = rule["review_note"]
         if rule["kind"] == "robot_replacement":
             placement["solidworks_geometry_role"] = "comparison_only"
             placement["kinematics_source"] = rule["family"]
@@ -166,21 +158,37 @@ def compile_station(
             "存在未分配 occurrence，按 unassigned_policy=fail 拒绝: "
             + ", ".join(unassigned[:20])
         )
-    if decomposition.get("unassigned_policy") != "fail":
-        raise DecompositionError("unassigned_policy 必须是 fail")
 
+    decomposition_digest = _sha256(decomposition_path)
+    coverage = [
+        {
+            "occurrence": occurrence_id,
+            "parent": by_id[occurrence_id].get("parent"),
+            "source_rule": ownership[occurrence_id]["rule"],
+            "subtree_root": ownership[occurrence_id]["subtree_root"],
+            "family": ownership[occurrence_id]["family"],
+            "kind": ownership[occurrence_id]["kind"],
+        }
+        for occurrence_id in sorted(by_id)
+    ]
+    qualification = (
+        "station-layout-candidate" if approved else "decomposition-draft-preview"
+    )
     return {
         "schema": LAYOUT_SCHEMA,
         "station": manifest["station"],
         "source_handoff_digest": actual_handoff_digest,
-        "source_decomposition_digest": _sha256(decomposition_path),
+        "source_decomposition_digest": decomposition_digest,
         "candidate": True,
         "human_reviewed": approved,
+        "publication_eligible": approved,
+        "approval": approval,
         "not_a_deploy_manifest": True,
         "not_a_workcell_activation": True,
         "placements": placements,
+        "occurrence_coverage": coverage,
         "unassigned_occurrences": [],
-        "qualification": "station-layout-candidate",
+        "qualification": qualification,
         "not_qualified_for": [
             "base_pose",
             "tcp",
@@ -192,30 +200,189 @@ def compile_station(
     }
 
 
-def _resolve_anchor(
-    rule: dict[str, Any],
-    matched: list[str],
-    by_id: dict[str, dict[str, Any]],
-) -> str:
-    explicit = rule.get("anchor_occurrence")
-    if explicit is not None:
-        anchor = _text(explicit, f"{rule['rule']}.anchor_occurrence")
-        if anchor not in matched:
+def _parse_rules(decomposition: dict[str, Any]) -> list[dict[str, Any]]:
+    devices = decomposition.get("devices")
+    robots = decomposition.get("robot_subtrees")
+    if not isinstance(devices, list):
+        raise DecompositionError("devices 必须是数组")
+    if not isinstance(robots, list):
+        raise DecompositionError("robot_subtrees 必须是数组")
+    rules: list[dict[str, Any]] = []
+    for index, raw in enumerate(devices):
+        item = _mapping(raw, f"devices[{index}]")
+        unexpected = sorted(set(item) - DEVICE_KEYS)
+        if unexpected:
             raise DecompositionError(
-                f"{rule['rule']}.anchor_occurrence 不属于该规则匹配结果"
+                f"devices[{index}] 含不支持字段: {', '.join(unexpected)}"
             )
-        return anchor
-    matched_set = set(matched)
-    candidates = [
-        occurrence_id
-        for occurrence_id in matched
-        if by_id[occurrence_id].get("parent") not in matched_set
-    ]
-    if len(candidates) != 1:
-        raise DecompositionError(
-            f"{rule['rule']} 无法唯一推导 anchor_occurrence；候选={candidates}"
+        kind = _text(item.get("kind"), f"devices[{index}].kind")
+        if kind not in {"device", "static_environment"}:
+            raise DecompositionError(f"devices[{index}].kind 不受支持")
+        rules.append(
+            {
+                "rule": f"devices[{index}]",
+                "family": _text(item.get("family"), f"devices[{index}].family"),
+                "kind": kind,
+                "subtree_root": _text(
+                    item.get("subtree_root"),
+                    f"devices[{index}].subtree_root",
+                ),
+                "review_note": _optional_text(item.get("review_note")),
+            }
         )
-    return candidates[0]
+    for index, raw in enumerate(robots):
+        item = _mapping(raw, f"robot_subtrees[{index}]")
+        unexpected = sorted(set(item) - ROBOT_KEYS)
+        if unexpected:
+            raise DecompositionError(
+                f"robot_subtrees[{index}] 含不支持字段: {', '.join(unexpected)}"
+            )
+        replacement = _text(
+            item.get("replaced_by"),
+            f"robot_subtrees[{index}].replaced_by",
+        )
+        if not replacement.startswith("robot-family:"):
+            raise DecompositionError("robot_subtrees.replaced_by 必须是 robot-family: 引用")
+        rules.append(
+            {
+                "rule": f"robot_subtrees[{index}]",
+                "family": replacement,
+                "kind": "robot_replacement",
+                "subtree_root": _text(
+                    item.get("subtree_root"),
+                    f"robot_subtrees[{index}].subtree_root",
+                ),
+                "review_note": _optional_text(item.get("review_note")),
+            }
+        )
+    return rules
+
+
+def _validate_approval(value: Any, *, allow_draft: bool) -> dict[str, str]:
+    approval = _mapping(value, "approval")
+    unexpected = sorted(set(approval) - APPROVAL_KEYS)
+    if unexpected:
+        raise DecompositionError("approval 含不支持字段: " + ", ".join(unexpected))
+    status = _text(approval.get("status"), "approval.status")
+    if status not in {"approved", "draft"}:
+        raise DecompositionError("approval.status 只允许 approved 或 draft")
+    reviewed_by = _optional_text(approval.get("reviewed_by"))
+    reviewed_at = _optional_text(approval.get("reviewed_at"))
+    notes = _optional_text(approval.get("notes"))
+    if status == "approved":
+        if not reviewed_by:
+            raise DecompositionError("approval.reviewed_by 必须是非空文本")
+        if not reviewed_at:
+            raise DecompositionError("approval.reviewed_at 必须是非空文本")
+    elif not allow_draft:
+        raise DecompositionError("分解表尚未 approved；仅预览可显式使用 --allow-draft")
+    return {
+        "status": status,
+        "reviewed_by": reviewed_by,
+        "reviewed_at": reviewed_at,
+        "notes": notes,
+    }
+
+
+def _descendants(root: str, children: dict[str, list[str]]) -> list[str]:
+    result: list[str] = []
+    pending = [root]
+    while pending:
+        current = pending.pop()
+        result.append(current)
+        pending.extend(reversed(children[current]))
+    return sorted(result)
+
+
+def build_coverage_report(layout: dict[str, Any]) -> dict[str, Any]:
+    """从已编译 layout 生成可单独审计的 occurrence coverage 报告。"""
+
+    coverage = layout.get("occurrence_coverage")
+    placements = layout.get("placements")
+    if not isinstance(coverage, list) or not isinstance(placements, list):
+        raise DecompositionError("layout 缺少 occurrence coverage 或 placements")
+    return {
+        "schema": COVERAGE_SCHEMA,
+        "status": "passed" if layout.get("human_reviewed") else "draft-preview",
+        "station": layout.get("station"),
+        "source_handoff_digest": layout.get("source_handoff_digest"),
+        "source_decomposition_digest": layout.get("source_decomposition_digest"),
+        "approval": layout.get("approval"),
+        "placement_count": len(placements),
+        "occurrence_count": len(coverage),
+        "assigned_occurrence_count": len(coverage),
+        "unassigned_occurrences": [],
+        "overlapping_occurrences": [],
+        "exact_coverage": True,
+        "publication_eligible": layout.get("publication_eligible") is True,
+        "placements": [
+            {
+                "source_rule": item.get("source_rule"),
+                "subtree_root": item.get("subtree_root"),
+                "family": item.get("family"),
+                "kind": item.get("kind"),
+                "source_occurrence_count": item.get("source_occurrence_count"),
+            }
+            for item in placements
+        ],
+        "occurrences": coverage,
+        "not_qualified_for": layout.get("not_qualified_for", []),
+    }
+
+
+def render_review_markdown(layout: dict[str, Any], coverage: dict[str, Any]) -> str:
+    """渲染供机械/自动化负责人签阅的只读摘要。"""
+
+    approval = _mapping(layout.get("approval"), "layout.approval")
+    lines = [
+        "# 工站分解人审摘要",
+        "",
+        f"- station：`{layout.get('station')}`",
+        f"- 状态：`{coverage.get('status')}`",
+        f"- occurrence 覆盖：{coverage.get('assigned_occurrence_count')}/{coverage.get('occurrence_count')}",
+        f"- placement 数量：{coverage.get('placement_count')}",
+        f"- 审核人：{approval.get('reviewed_by') or '未填写'}",
+        f"- 审核时间：{approval.get('reviewed_at') or '未填写'}",
+        f"- 可进入发布候选：`{str(layout.get('publication_eligible') is True).lower()}`",
+        "",
+        "| 规则 | 精确 subtree root | family | kind | occurrence 数 |",
+        "|---|---|---|---|---:|",
+    ]
+    for item in coverage.get("placements", []):
+        lines.append(
+            "| "
+            + " | ".join(
+                _markdown_cell(item.get(key))
+                for key in (
+                    "source_rule",
+                    "subtree_root",
+                    "family",
+                    "kind",
+                    "source_occurrence_count",
+                )
+            )
+            + " |"
+        )
+    lines.extend(
+        [
+            "",
+            "## 人工确认项",
+            "",
+            "- [ ] 设备边界与重复实例数量正确",
+            "- [ ] 机器人 CAD 子树仅作 `comparison_only`，运动学来自厂家家族",
+            "- [ ] 每个 subtree root 是稳定 SolidWorks occurrence 身份",
+            "- [ ] 隐藏、抑制和活动机构候选已逐项处置",
+            "- [ ] CAD 位姿仅为 `station-layout-candidate`，不是现场 `base_pose`",
+            "",
+            "该报告不授予部署、碰撞、空间互锁或执行资格。",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def _markdown_cell(value: Any) -> str:
+    return str(value if value is not None else "").replace("|", "\\|").replace("\n", " ")
 
 
 def _find_forbidden_keys(value: Any) -> set[str]:
@@ -272,6 +439,14 @@ def _text(value: Any, field: str) -> str:
     return value.strip()
 
 
+def _optional_text(value: Any) -> str:
+    if value is None:
+        return ""
+    if not isinstance(value, str):
+        raise DecompositionError("可选说明字段必须是文本")
+    return value.strip()
+
+
 def _sha256(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -290,24 +465,53 @@ def _write_json(path: Path, value: dict[str, Any]) -> None:
     temporary.replace(path)
 
 
+def _write_text(path: Path, value: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(value, encoding="utf-8")
+    temporary.replace(path)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("manifest", type=Path)
     parser.add_argument("decomposition", type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--coverage-output", type=Path)
+    parser.add_argument("--review-output", type=Path)
     parser.add_argument("--allow-draft", action="store_true")
     args = parser.parse_args()
     try:
-        result = compile_station(
+        layout = compile_station(
             args.manifest,
             args.decomposition,
             allow_draft=args.allow_draft,
         )
+        coverage = build_coverage_report(layout)
+        review = render_review_markdown(layout, coverage)
     except DecompositionError as error:
         sys.stderr.write(f"station decomposition rejected: {error}\n")
         return 1
-    _write_json(args.output, result)
-    sys.stdout.write(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
+    coverage_output = args.coverage_output or args.output.with_name("coverage-report.json")
+    review_output = args.review_output or args.output.with_name("DECOMPOSITION-REVIEW.md")
+    _write_json(args.output, layout)
+    _write_json(coverage_output, coverage)
+    _write_text(review_output, review)
+    sys.stdout.write(
+        json.dumps(
+            {
+                "layout": layout,
+                "outputs": {
+                    "layout": str(args.output),
+                    "coverage": str(coverage_output),
+                    "review": str(review_output),
+                },
+            },
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n"
+    )
     return 0
 
 

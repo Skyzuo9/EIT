@@ -5,12 +5,15 @@ from __future__ import annotations
 import importlib.util
 import json
 import struct
+import sys
 import tempfile
 import unittest
 from pathlib import Path
 
 
 ROOT = Path(__file__).parents[1]
+sys.path.insert(0, str(ROOT / "tests"))
+from station_fixture_support import capture_report, minimal_glb  # noqa: E402
 
 
 def load_module(name: str, path: Path):
@@ -49,6 +52,7 @@ def write_glb(path: Path, document: dict, binary: bytes) -> None:
         + struct.pack("<II", len(binary), 0x004E4942)
         + binary
     )
+VERIFY = load_script("verify_station_handoff")
 
 
 class StationP0P1ToolsTest(unittest.TestCase):
@@ -197,24 +201,13 @@ class StationP0P1ToolsTest(unittest.TestCase):
                 encoding="utf-8",
             )
             report = capture / "raw-report.json"
+            glb_bytes = minimal_glb()
             report.write_text(
-                json.dumps(
-                    {
-                        "schema": "lab.solidworks_capture_report/v0",
-                        "status": "passed",
-                        "source_read_only": True,
-                        "component_count": 1,
-                        "glb_export": {
-                            "save_result": True,
-                            "exists": True,
-                            "magic": "glTF",
-                        },
-                    }
-                ),
+                json.dumps(capture_report(1, glb_bytes)),
                 encoding="utf-8",
             )
             glb = root / "temporary.glb"
-            glb.write_bytes(b"glTF" + b"\x02\x00\x00\x00" + b"\x20\x00\x00\x00" + b"0" * 20)
+            glb.write_bytes(glb_bytes)
             repeat_snapshot = root / "repeat-snapshot.json"
             repeat_snapshot.write_bytes(snapshot.read_bytes())
             repeat_report = root / "repeat-report.json"
@@ -251,6 +244,8 @@ class StationP0P1ToolsTest(unittest.TestCase):
             )
             self.assertTrue(reproducibility["exact_glb_match"])
             self.assertEqual(reproducibility["acceptance_basis"], "exact-bytes")
+            validation = VERIFY.HandoffValidation(root / "station-handoff.json").run()
+            self.assertTrue(validation["passed"], validation["errors"])
 
     def test_finalize_accepts_hash_bound_semantic_traversal_diagnosis(self) -> None:
         with tempfile.TemporaryDirectory() as raw:
@@ -378,7 +373,6 @@ class StationP0P1ToolsTest(unittest.TestCase):
                     p0_manifest=p0,
                     semantic_diagnosis_input=diagnosis,
                 )
-
     def test_finalize_rejects_source_drift(self) -> None:
         with tempfile.TemporaryDirectory() as raw:
             root = Path(raw) / "handoff"

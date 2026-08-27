@@ -337,25 +337,22 @@ incoming/feeding-station-<date>-capture/
 
 ### 6.2 人签 decomposition
 
-现有 v0 的 `occurrence_prefix` 一条规则只产生一个 placement，不足以自然表达重复料架和多台机器人。正式实装前应升级 schema，至少支持：
+旧 v0 的 `occurrence_prefix` 一条规则只产生一个 placement，不足以自然表达重复料架和多台机器人。2026-08-27 已升级为精确子树 v1：
 
 ```yaml
 schema: lab.station_decomposition/v1
 station: eit.feeding-station
 source_handoff_digest: <sha256>
-instances:
-  - placement_key: rack-left-01
+devices:
+  - subtree_root: <exact-rack-occurrence-id>
     family: environment.feeding-station-rack
     kind: static_environment
-    subtree_root: <exact-occurrence-id>
-  - placement_key: rail-front-01
+  - subtree_root: <exact-rail-occurrence-id>
     family: mechanism.eth17-linear-rail
     kind: device
-    subtree_root: <exact-occurrence-id>
-  - placement_key: robot-on-rail-01
-    family: robot-family:dobot.cr5
-    kind: robot_replacement
-    subtree_root: <exact-occurrence-id>
+robot_subtrees:
+  - subtree_root: <exact-robot-occurrence-id>
+    replaced_by: robot-family:dobot.cr5
 unassigned_policy: fail
 approval:
   status: approved
@@ -369,7 +366,7 @@ approval:
 - 编译器沿 parent 图展开子树，不靠显示名前缀猜测；
 - 一个 occurrence 只能属于一个实例；
 - 同一 family 可以出现多个 placement；
-- `placement_key` 不是 `device_id`，仍属于工站布局候选；
+- `subtree_root` 与规则位置共同提供候选身份，不引入部署层 `device_id`；
 - 机械臂 occurrence 只输出 comparison record，不进入仪器几何运动学。
 
 ### 6.3 W2 设备级几何交接
@@ -488,6 +485,10 @@ P1 的所有权是“Windows 生产，Mac 验收”：Windows 封装成功时只
 
 目标：把真实 occurrence 图变成无遗漏、无重叠的设备实例候选。
 
+2026-08-27 实施状态：以下 Mac 代码和夹具测试已完成；真实 W1 handoff、真实
+occurrence coverage 与人工批准仍待 Windows 回传，因此当前状态是
+`fixture-tested`，不是 `source-input-validated` 或真实工站 P2 完成。
+
 Mac 开发：
 
 - 加固 `verify_station_handoff.py`：
@@ -509,7 +510,7 @@ Mac 测试：
 - 修改一个 occurrence 的 parent 后 coverage 测试失败；
 - draft 只能显式 `--allow-draft` 生成预览，不能进入发布。
 
-建议目标命令（拟新增/升级）：
+当前可运行命令：
 
 ```bash
 ./.venv/bin/python scripts/compile_station_decomposition.py \
