@@ -3,6 +3,8 @@
 日期：2026-08-27
 状态：可执行；Windows 先做 P0–P1，Mac 负责独立验收
 上位计划：[`2026-08-26-feeding-station-full-asset-pipeline-development-and-test-design.md`](./2026-08-26-feeding-station-full-asset-pipeline-development-and-test-design.md)
+win02 精确哈希、Mac 命令和回执格式：
+[`2026-08-27-feeding-station-win02-mac-handoff.md`](./2026-08-27-feeding-station-win02-mac-handoff.md)
 
 本手册只覆盖当前第一步：Windows 对真实 SolidWorks 总装完成输入冻结和只读
 W1 采集，Mac 验证 handoff。P0–P1 通过不代表已经完成人签分解、家族包、碰撞、
