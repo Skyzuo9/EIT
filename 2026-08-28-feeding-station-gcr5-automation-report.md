@@ -1,8 +1,11 @@
 # 投料站 GCR5-910 自动分解与 Mac 验证报告
 
-日期：2026-08-28  
-Run ID：`feeding-station-20260827-win03`  
-状态：`p2-draft-generated`  
+日期：2026-08-28
+
+Run ID：`feeding-station-20260827-win03`
+
+状态：`p2-draft-generated`
+
 发布资格：`false`
 
 ## 1. 结论
