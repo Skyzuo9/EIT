@@ -26,6 +26,7 @@ from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, Response
 
+from unilabos.app.workflow_api import install_workflow_api
 from unilabos.app.edge_control.device_telemetry import DeviceTelemetryHub
 from unilabos.app.edge_control.device_telemetry_api import (
     create_device_telemetry_router,
@@ -38,6 +39,11 @@ from unilabos.device_mesh.package_moveit_model import (
 )
 
 from .source_release_model import get_verified_source_release_receipt
+from .demo_workflow import (
+    FeedingStationDemoWorkflow,
+    create_demo_model_router,
+    create_demo_router,
+)
 from .station_preview import StationPreview, load_station_preview
 
 DOBOT_DEVICE_ID = "dobot_cr5"
@@ -185,6 +191,9 @@ class PreviewRuntime:
             )
             for device_id, owner in self.owners.items()
         }
+        self._last_publish_epoch_s = {
+            device_id: 0.0 for device_id in self.owners
+        }
         self._lock = asyncio.Lock()
 
     def catalog(self) -> dict[str, Any]:
@@ -320,6 +329,29 @@ class PreviewRuntime:
         for device_id in ROBOT_DEFINITIONS:
             await self.stop(device_id)
 
+    async def maintain_current_frames(self, *, interval_s: float = 0.4) -> None:
+        """Keep the local visual projection live without commanding hardware.
+
+        Device telemetry intentionally expires stale joint frames.  This local
+        demo republishes only the already-current in-memory preview positions,
+        so Workbench does not fall back to the URDF zero pose after one second.
+        """
+
+        if not math.isfinite(interval_s) or interval_s <= 0:
+            raise ValueError("telemetry keepalive interval 必须为正有限数")
+        while True:
+            await asyncio.sleep(interval_s)
+            now = time.time()
+            for device_id, state in self._states.items():
+                if now - self._last_publish_epoch_s[device_id] < interval_s:
+                    continue
+                try:
+                    self._publish(device_id, state.positions)
+                except RuntimeError:
+                    # A simultaneous interpolation/action owns this publish
+                    # slot; the next keepalive interval will retry.
+                    continue
+
     async def _run(self, device_id: str, workflow: PreviewWorkflow) -> None:
         state = self._states[device_id]
         try:
@@ -372,6 +404,7 @@ class PreviewRuntime:
         )
         if not accepted:
             raise RuntimeError(f"JointStateProjector 拒绝了 {device_id} 完整关节状态")
+        self._last_publish_epoch_s[device_id] = now
         for frame in self.projector.drain(now_epoch_s=now):
             observed_at = datetime.fromtimestamp(
                 frame.observed_epoch_s,
@@ -395,6 +428,22 @@ class PreviewRuntime:
             )
             self.telemetry.notify(commit.notification_payload())
 
+    def publish_positions(
+        self,
+        device_id: str,
+        positions: tuple[float, ...],
+    ) -> None:
+        """Publish one exact, complete simulation-only joint-state frame."""
+
+        self._definition(device_id)
+        owner = self.owners[device_id]
+        if len(positions) != len(owner.qualified_joint_names):
+            raise ValueError(f"{device_id} 关节状态必须完整覆盖全部关节")
+        if any(not math.isfinite(value) for value in positions):
+            raise ValueError(f"{device_id} 关节状态必须全部为有限数")
+        self._states[device_id].positions = tuple(positions)
+        self._publish(device_id, tuple(positions))
+
     @staticmethod
     def _definition(device_id: str) -> RobotDefinition:
         definition = ROBOT_DEFINITIONS.get(str(device_id))
@@ -408,6 +457,7 @@ def create_app(
     time_scale: float = 1.0,
     station_root: Path | None = None,
     station_receipt: Path | None = None,
+    demo_workflow_db: Path | None = None,
 ) -> FastAPI:
     """创建无 ROS、无硬件的本地运动预览应用。"""
 
@@ -417,12 +467,34 @@ def create_app(
         if station_receipt is None:
             raise ValueError("启用投料站预览时必须提供 station_receipt")
         station_preview = load_station_preview(station_root, station_receipt)
+    demo_workflow: FeedingStationDemoWorkflow | None = None
+    if demo_workflow_db is not None:
+        if station_preview is None:
+            raise ValueError("启用投料站 Demo Workflow 时必须启用 station preview")
+        demo_workflow = FeedingStationDemoWorkflow(
+            station=station_preview,
+            robot_runtime=runtime,
+            database_path=demo_workflow_db,
+        )
     authority = SimpleNamespace(telemetry=runtime.telemetry)
 
     @asynccontextmanager
     async def lifespan(_app: FastAPI):
-        yield
-        await runtime.close()
+        keepalive = asyncio.create_task(
+            runtime.maintain_current_frames(),
+            name="kinematic-preview-telemetry-keepalive",
+        )
+        try:
+            yield
+        finally:
+            keepalive.cancel()
+            try:
+                await keepalive
+            except asyncio.CancelledError:
+                pass
+            await runtime.close()
+            if demo_workflow is not None:
+                demo_workflow.close()
 
     app = FastAPI(
         title="Robot SourceRelease Kinematic Preview",
@@ -441,10 +513,21 @@ def create_app(
     )
     app.state.preview_runtime = runtime
     app.state.station_preview = station_preview
-    app.include_router(create_workbench_material_router(runtime, station_preview))
+    app.state.demo_workflow = demo_workflow
+    app.include_router(
+        create_workbench_material_router(
+            runtime,
+            station_preview,
+            demo_workflow,
+        )
+    )
     app.include_router(create_preview_model_router())
     if station_preview is not None:
         app.include_router(create_station_preview_router(station_preview))
+    if demo_workflow is not None:
+        app.include_router(create_demo_router(demo_workflow))
+        app.include_router(create_demo_model_router(demo_workflow))
+        install_workflow_api(app, demo_workflow.service)
     app.include_router(create_device_telemetry_router(authority))
 
     router = APIRouter(prefix="/api/v1/kinematic-preview")
@@ -502,6 +585,7 @@ def create_app(
 def create_workbench_material_router(
     runtime: PreviewRuntime,
     station_preview: StationPreview | None = None,
+    demo_workflow: FeedingStationDemoWorkflow | None = None,
 ) -> APIRouter:
     """把机器人预览投影到正常 Workbench 消费的公共 Material Graph。"""
 
@@ -512,21 +596,28 @@ def create_workbench_material_router(
         return {
             "status": "ok",
             "mode": (
-                "feeding-station-static-asset-pipeline-preview"
-                if station_preview is not None
-                else "robot-source-release-kinematic-preview"
+                "feeding-station-demo-workflow-preview"
+                if demo_workflow is not None
+                else (
+                    "feeding-station-static-asset-pipeline-preview"
+                    if station_preview is not None
+                    else "robot-source-release-kinematic-preview"
+                )
             ),
             "station_preview": station_preview is not None,
+            "demo_workflow": demo_workflow is not None,
             "hardware_execution": False,
+            "publication_eligible": False,
         }
 
     @router.get("/materials/graph")
     def material_graph() -> dict[str, Any]:
-        nodes = (
-            [station_preview.material_graph_node()]
-            if station_preview is not None
-            else _material_graph_nodes(runtime)
-        )
+        if demo_workflow is not None:
+            nodes = demo_workflow.material_graph_nodes()
+        elif station_preview is not None:
+            nodes = [station_preview.material_graph_node()]
+        else:
+            nodes = _material_graph_nodes(runtime)
         return {"code": 0, "data": {"nodes": nodes}}
 
     @router.get("/material-shapes")
@@ -753,11 +844,13 @@ def main() -> None:
     parser.add_argument("--port", default=8002, type=int)
     parser.add_argument("--station-root", type=Path)
     parser.add_argument("--station-receipt", type=Path)
+    parser.add_argument("--demo-workflow-db", type=Path)
     args = parser.parse_args()
     uvicorn.run(
         create_app(
             station_root=args.station_root,
             station_receipt=args.station_receipt,
+            demo_workflow_db=args.demo_workflow_db,
         ),
         host=args.host,
         port=args.port,

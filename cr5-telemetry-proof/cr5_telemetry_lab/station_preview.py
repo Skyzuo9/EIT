@@ -40,6 +40,33 @@ class StationPreview:
     coverage: Mapping[str, Any]
     robot: Mapping[str, Any]
     four_ml_representative: Mapping[str, Any]
+    cad_comparison_pose: Mapping[str, Any]
+    cad_comparison_pose_sha256: str
+
+    def solidworks_world_to_lab_mm(
+        self,
+        xyz_m: list[float] | tuple[float, float, float],
+    ) -> list[float]:
+        """Map one SolidWorks Z-up world point into Uni-Lab Z-up millimetres.
+
+        The station render model is recentered horizontally and lowered by the
+        audited minimum Z.  Material Graph placements must apply that same
+        recentering in the public Uni-Lab frame.  Pascal's Y-up conversion is a
+        renderer detail and is intentionally absent from this contract.
+        """
+
+        if len(xyz_m) != 3 or any(not math.isfinite(float(value)) for value in xyz_m):
+            raise ValueError("SolidWorks world point 必须是三个有限米制坐标")
+        bounds = self.geometry["bounding_box_m"]
+        low = bounds["min"]
+        high = bounds["max"]
+        center_x = (float(low[0]) + float(high[0])) / 2.0
+        center_y = (float(low[1]) + float(high[1])) / 2.0
+        return [
+            (float(xyz_m[0]) - center_x) * 1000.0,
+            (float(xyz_m[1]) - center_y) * 1000.0,
+            (float(xyz_m[2]) - float(low[2])) * 1000.0,
+        ]
 
     def descriptor(self) -> dict[str, Any]:
         """Return the evidence-bounded public preview contract."""
@@ -79,7 +106,8 @@ class StationPreview:
                 "dimensionsMm": dimensions_mm,
                 "footprintMm": [dimensions_mm[0], dimensions_mm[2]],
                 "source_coordinate_frame": "solidworks-z-up",
-                "workbench_coordinate_frame": "pascal-y-up",
+                "material_graph_coordinate_frame": "unilab-z-up",
+                "renderer_coordinate_frame": "pascal-y-up-internal",
             },
             "geometry": dict(self.geometry),
             "p2_draft": {
@@ -100,6 +128,10 @@ class StationPreview:
             "identified_assets": {
                 "robot": dict(self.robot),
                 "four_ml_representative": dict(self.four_ml_representative),
+            },
+            "cad_urdf_visual_registration": {
+                **dict(self.cad_comparison_pose),
+                "sha256": self.cad_comparison_pose_sha256,
             },
             "capability": {
                 "grade": "static-asset-pipeline-preview",
@@ -251,6 +283,28 @@ def load_station_preview(root: Path, receipt_path: Path) -> StationPreview:
     bottle_family = _nonempty_string(expected.get("four_ml_family"), "expected_p2.four_ml_family")
     bottle_matches = [item for item in placements if isinstance(item, dict) and item.get("family") == bottle_family]
     _require(len(bottle_matches) == 1, "P2 layout 必须唯一识别 4 ml 代表几何")
+    robot_transform = _validated_transform_world(
+        robot_matches[0].get("transform_world"),
+        "P2 GCR5",
+    )
+    bottle_transform = _validated_transform_world(
+        bottle_matches[0].get("transform_world"),
+        "P2 4 ml",
+    )
+    comparison_pose = _validated_cad_comparison_pose(
+        receipt.get("cad_urdf_visual_registration"),
+        geometry_sha256=digests["geometry"],
+        layout_sha256=digests["layout"],
+        robot_subtree_root=robot_matches[0]["subtree_root"],
+    )
+    comparison_pose_sha256 = hashlib.sha256(
+        json.dumps(
+            comparison_pose,
+            ensure_ascii=True,
+            separators=(",", ":"),
+            sort_keys=True,
+        ).encode("utf-8")
+    ).hexdigest()
 
     return StationPreview(
         root=root,
@@ -269,13 +323,185 @@ def load_station_preview(root: Path, receipt_path: Path) -> StationPreview:
             "subtree_root": robot_matches[0]["subtree_root"],
             "solidworks_geometry_role": robot_matches[0].get("solidworks_geometry_role"),
             "kinematics_source": robot_matches[0].get("kinematics_source"),
+            "transform_world": robot_transform,
         },
         four_ml_representative={
             "family": bottle_family,
             "occurrence": bottle_matches[0]["anchor_occurrence"],
+            "transform_world": bottle_transform,
             "physical_site_approved": False,
         },
+        cad_comparison_pose=comparison_pose,
+        cad_comparison_pose_sha256=comparison_pose_sha256,
     )
+
+
+def _validated_transform_world(value: Any, label: str) -> dict[str, list[float]]:
+    transform = _mapping(value, f"{label}.transform_world")
+    xyz = transform.get("xyz_m")
+    quaternion = transform.get("quat_xyzw")
+    _require(
+        isinstance(xyz, list)
+        and len(xyz) == 3
+        and all(
+            isinstance(item, (int, float)) and math.isfinite(float(item))
+            for item in xyz
+        ),
+        f"{label}.transform_world.xyz_m 无效",
+    )
+    _require(
+        isinstance(quaternion, list)
+        and len(quaternion) == 4
+        and all(
+            isinstance(item, (int, float)) and math.isfinite(float(item))
+            for item in quaternion
+        ),
+        f"{label}.transform_world.quat_xyzw 无效",
+    )
+    norm = math.sqrt(sum(float(item) ** 2 for item in quaternion))
+    _require(
+        math.isclose(norm, 1.0, rel_tol=1e-6, abs_tol=1e-6),
+        f"{label}.transform_world.quat_xyzw 未归一化",
+    )
+    return {
+        "xyz_m": [float(item) for item in xyz],
+        "quat_xyzw": [float(item) for item in quaternion],
+    }
+
+
+def _validated_cad_comparison_pose(
+    value: Any,
+    *,
+    geometry_sha256: str,
+    layout_sha256: str,
+    robot_subtree_root: Any,
+) -> dict[str, Any]:
+    pose = _mapping(value, "receipt.cad_urdf_visual_registration")
+    _require(
+        pose.get("schema") == "lab.cad_urdf_visual_registration/v0",
+        "CAD/URDF visual registration schema 无效",
+    )
+    _require(
+        pose.get("qualification") == "cad-comparison-only",
+        "CAD/URDF visual registration 只能是 cad-comparison-only",
+    )
+    _require(pose.get("comparison_only") is True, "CAD/URDF registration 缺少 comparison_only")
+    for boundary in (
+        "not_a_deploy_base_pose",
+        "not_calibrated",
+        "hardware_execution",
+        "publication_eligible",
+        "collision_qualified",
+    ):
+        expected = False if boundary in {
+            "hardware_execution",
+            "publication_eligible",
+            "collision_qualified",
+        } else True
+        _require(pose.get(boundary) is expected, f"CAD/URDF registration.{boundary} 边界无效")
+    _require(
+        pose.get("station_geometry_sha256") == geometry_sha256,
+        "CAD/URDF registration 未绑定当前 station GLB",
+    )
+    _require(
+        pose.get("station_layout_sha256") == layout_sha256,
+        "CAD/URDF registration 未绑定当前 P2 layout",
+    )
+    _require(
+        pose.get("robot_subtree_root") == robot_subtree_root,
+        "CAD/URDF registration 未绑定当前 GCR5 subtree root",
+    )
+    _require(
+        pose.get("source_coordinate_frame") == "solidworks-z-up",
+        "CAD/URDF registration source 必须是 SolidWorks Z-up",
+    )
+    _require(
+        pose.get("material_graph_coordinate_frame") == "unilab-z-up",
+        "CAD/URDF registration Material Graph 必须是 UniLab Z-up",
+    )
+    _require(pose.get("joint_position_unit") == "rad", "CAD comparison joint 单位必须是 rad")
+    topology_digest = _sha_string(
+        pose.get("robot_topology_digest"),
+        "CAD registration.robot_topology_digest",
+    )
+    root_pose = _mapping(pose.get("root_pose_solidworks_world"), "CAD registration.root_pose")
+    root_xyz = _finite_vector(root_pose.get("xyz_m"), 3, "CAD registration.root_pose.xyz_m")
+    _require(
+        root_pose.get("rotation_convention") == "three-euler-intrinsic-XYZ-deg",
+        "CAD registration root rotation convention 无效",
+    )
+    root_rotation = _finite_vector(
+        root_pose.get("rotation_xyz_deg"),
+        3,
+        "CAD registration.root_pose.rotation_xyz_deg",
+    )
+    positions = _mapping(pose.get("joint_positions"), "CAD registration.joint_positions")
+    _require(len(positions) == 6, "CAD registration 必须 exact 覆盖六轴")
+    normalized_positions: dict[str, float] = {}
+    for name, position in positions.items():
+        joint_name = _nonempty_string(name, "CAD registration joint name")
+        _require(
+            isinstance(position, (int, float)) and math.isfinite(float(position)),
+            f"CAD registration joint position 无效: {joint_name}",
+        )
+        normalized_positions[joint_name] = float(position)
+    metrics = _mapping(pose.get("residuals"), "CAD registration.residuals")
+    normalized_metrics = {
+        "max_moving_joint_translation_mm": _finite_nonnegative(
+            metrics.get("max_moving_joint_translation_mm"),
+            "CAD registration residual translation",
+        ),
+        "max_moving_joint_rotation_deg": _finite_nonnegative(
+            metrics.get("max_moving_joint_rotation_deg"),
+            "CAD registration residual rotation",
+        ),
+        "base_mesh_trimmed_rms_mm": _finite_nonnegative(
+            metrics.get("base_mesh_trimmed_rms_mm"),
+            "CAD registration base mesh residual",
+        ),
+    }
+    _require(
+        normalized_metrics["max_moving_joint_translation_mm"] <= 0.1,
+        "CAD/URDF moving-link translation residual 超过 0.1 mm",
+    )
+    _require(
+        normalized_metrics["max_moving_joint_rotation_deg"] <= 0.001,
+        "CAD/URDF moving-link rotation residual 超过 0.001 degree",
+    )
+    return {
+        **dict(pose),
+        "robot_topology_digest": topology_digest,
+        "root_pose_solidworks_world": {
+            **dict(root_pose),
+            "xyz_m": root_xyz,
+            "rotation_xyz_deg": root_rotation,
+        },
+        "joint_positions": normalized_positions,
+        "residuals": {**dict(metrics), **normalized_metrics},
+    }
+
+
+def _finite_vector(value: Any, size: int, label: str) -> list[float]:
+    _require(
+        isinstance(value, list)
+        and len(value) == size
+        and all(
+            isinstance(item, (int, float)) and math.isfinite(float(item))
+            for item in value
+        ),
+        f"{label} 必须是 {size} 个有限数",
+    )
+    return [float(item) for item in value]
+
+
+def _finite_nonnegative(value: Any, label: str) -> float:
+    _require(
+        isinstance(value, (int, float))
+        and math.isfinite(float(value))
+        and float(value) >= 0.0,
+        f"{label} 必须是非负有限数",
+    )
+    return float(value)
 
 
 def _validate_geometry_receipt(path: Path, geometry: Mapping[str, Any]) -> None:

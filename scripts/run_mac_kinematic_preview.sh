@@ -16,13 +16,14 @@ if [[ ! -x ${node22_bin}/node || ! -x ${node22_bin}/pnpm ]]; then
 fi
 
 export PATH="${node22_bin}:${PATH}"
-export PYTHONPATH="${workspace_root}/cr5-telemetry-proof:${workspace_root}/Uni-Lab-OS${PYTHONPATH:+:${PYTHONPATH}}"
+export PYTHONPATH="${workspace_root}/cr5-telemetry-proof:${workspace_root}/Uni-Lab-OS:${workspace_root}/dependencies/unilab_robot_template/packages/unilab-rail-linear/src${PYTHONPATH:+:${PYTHONPATH}}"
 export UNILAB_BACKEND_PROXY_TARGET=http://127.0.0.1:8002
 export EIT_ROBOT_CONTROL_ROOT=${EIT_ROBOT_CONTROL_ROOT:-${HOME}/Downloads/机械臂control}
 export EIT_ROBOT_SOURCE_MANIFEST=${EIT_ROBOT_SOURCE_MANIFEST:-${workspace_root}/config/robot-source-releases.json}
 export EIT_ROBOT_SOURCE_CACHE=${EIT_ROBOT_SOURCE_CACHE:-${workspace_root}/cr5-telemetry-proof/.unilabos/cache/robot-source-releases}
 export EIT_STATION_HANDOFF_ROOT=${EIT_STATION_HANDOFF_ROOT:-${workspace_root}/feeding-station-20260827-win03}
 export EIT_STATION_PREVIEW_RECEIPT=${EIT_STATION_PREVIEW_RECEIPT:-${workspace_root}/config/feeding-station-workbench-preview.json}
+export EIT_DEMO_WORKFLOW_DB=${EIT_DEMO_WORKFLOW_DB:-${workspace_root}/cr5-telemetry-proof/.unilabos/feeding-station-demo-workflow.db}
 
 for archive in \
   "${EIT_ROBOT_CONTROL_ROOT}/DOBOT_CR_CRA/ros/DOBOT_6Axis_ROS2_V4-37730d08.zip" \
@@ -59,6 +60,7 @@ ${python_bin} -m cr5_telemetry_lab.preview_app \
   --port 8002 \
   --station-root "${EIT_STATION_HANDOFF_ROOT}" \
   --station-receipt "${EIT_STATION_PREVIEW_RECEIPT}" \
+  --demo-workflow-db "${EIT_DEMO_WORKFLOW_DB}" \
   >${backend_log} 2>&1 &
 backend_pid=$!
 

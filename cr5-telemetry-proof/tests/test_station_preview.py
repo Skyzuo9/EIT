@@ -31,9 +31,22 @@ class StationPreviewTest(unittest.TestCase):
                 descriptor["rendering"]["dimensionsMm"],
                 [2000.0, 1000.0, 800.0],
             )
+            self.assertEqual(
+                descriptor["rendering"]["material_graph_coordinate_frame"],
+                "unilab-z-up",
+            )
+            self.assertEqual(
+                preview.solidworks_world_to_lab_mm([0.5, 0.2, 0.75]),
+                [500.0, 200.0, 750.0],
+            )
             self.assertTrue(descriptor["p2_draft"]["exact_coverage"])
             self.assertFalse(descriptor["p2_draft"]["human_reviewed"])
             self.assertFalse(descriptor["capability"]["hardware_execution"])
+            registration = descriptor["cad_urdf_visual_registration"]
+            self.assertEqual(registration["qualification"], "cad-comparison-only")
+            self.assertEqual(len(registration["joint_positions"]), 6)
+            self.assertTrue(registration["not_a_deploy_base_pose"])
+            self.assertRegex(registration["sha256"], r"^[0-9a-f]{64}$")
             self.assertFalse(descriptor["capability"]["collision_qualified"])
             self.assertFalse(descriptor["capability"]["w2_eligible"])
 
@@ -103,11 +116,19 @@ def _write_fixture(base: Path) -> tuple[Path, Path]:
             "anchor_occurrence": "station/robot",
             "solidworks_geometry_role": "comparison_only",
             "kinematics_source": "robot-family:duco.gcr5_910",
+            "transform_world": {
+                "xyz_m": [0.5, 0.1, 0.75],
+                "quat_xyzw": [0.0, -0.7071067811865475, 0.0, 0.7071067811865476],
+            },
         },
         {
             "family": "material-family:glass-bottle-4ml",
             "subtree_root": "station/bottle-1",
             "anchor_occurrence": "station/bottle-1",
+            "transform_world": {
+                "xyz_m": [-0.5, -0.1, 0.5],
+                "quat_xyzw": [0.0, 0.0, 0.0, 1.0],
+            },
         },
     ]
     layout_path = p2 / "station-layout.draft.json"
@@ -178,6 +199,46 @@ def _write_fixture(base: Path) -> tuple[Path, Path]:
                         "min": [-1.0, -0.4, 0.0],
                         "max": [1.0, 0.4, 1.0],
                         "size": [2.0, 0.8, 1.0],
+                    },
+                },
+                "cad_urdf_visual_registration": {
+                    "schema": "lab.cad_urdf_visual_registration/v0",
+                    "qualification": "cad-comparison-only",
+                    "comparison_only": True,
+                    "not_a_deploy_base_pose": True,
+                    "not_calibrated": True,
+                    "hardware_execution": False,
+                    "publication_eligible": False,
+                    "collision_qualified": False,
+                    "station_geometry_sha256": files["geometry"]["sha256"],
+                    "station_layout_sha256": files["layout"]["sha256"],
+                    "robot_subtree_root": "station/robot",
+                    "source_coordinate_frame": "solidworks-z-up",
+                    "material_graph_coordinate_frame": "unilab-z-up",
+                    "renderer_coordinate_frame": "pascal-y-up-internal",
+                    "joint_position_unit": "rad",
+                    "robot_topology_digest": (
+                        "583e2b65e6422a7fe0c9332f8172bd03"
+                        "c3da267ba66da853cb854650eb08ac48"
+                    ),
+                    "root_pose_solidworks_world": {
+                        "xyz_m": [0.5, 0.1, 0.75],
+                        "rotation_convention": (
+                            "three-euler-intrinsic-XYZ-deg"
+                        ),
+                        "rotation_xyz_deg": [-90.0, 0.0, -180.0],
+                    },
+                    "joint_positions": {
+                        f"duco_gcr5_910_gcr5_joint_{index}": position
+                        for index, position in enumerate(
+                            [-0.01, 0.2, 1.6, -0.3, -1.5, -1.6],
+                            start=1,
+                        )
+                    },
+                    "residuals": {
+                        "max_moving_joint_translation_mm": 0.01,
+                        "max_moving_joint_rotation_deg": 0.0001,
+                        "base_mesh_trimmed_rms_mm": 2.0,
                     },
                 },
                 "expected_p2": {

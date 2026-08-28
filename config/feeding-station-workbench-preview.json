@@ -44,7 +44,64 @@
       "size": [2.401884138286227, 1.007715217769146, 1.2000000476837158]
     },
     "source_coordinate_frame": "solidworks-z-up",
-    "workbench_coordinate_frame": "pascal-y-up"
+    "material_graph_coordinate_frame": "unilab-z-up",
+    "renderer_coordinate_frame": "pascal-y-up-internal"
+  },
+  "cad_urdf_visual_registration": {
+    "schema": "lab.cad_urdf_visual_registration/v0",
+    "qualification": "cad-comparison-only",
+    "comparison_only": true,
+    "not_a_deploy_base_pose": true,
+    "not_calibrated": true,
+    "hardware_execution": false,
+    "publication_eligible": false,
+    "collision_qualified": false,
+    "station_geometry_sha256": "f0d1afd67f2e09a048ba4ddc1c1959c61459cc7a922f0db9ad310db16c124746",
+    "station_layout_sha256": "f33c32ff39d0c63bc14f0911053c54aebb8aac8b5212953fb03852d9830eb76e",
+    "robot_subtree_root": "机器人移动轴模组(默认-_flexible1)-1/机器人_GCR5-910_新松(默认-_flexible1)(默认-_flexible1)-1",
+    "source_coordinate_frame": "solidworks-z-up",
+    "material_graph_coordinate_frame": "unilab-z-up",
+    "renderer_coordinate_frame": "pascal-y-up-internal",
+    "joint_position_unit": "rad",
+    "robot_source_archive_sha256": "c91cd096d8c6acde34bb57c85d4b7916c6ab17dc22feff09c502f29256230612",
+    "robot_urdf_sha256": "76e95464d07ec304bf9394b640540a87193fa977420486c348e578e9cbd38858",
+    "robot_topology_digest": "583e2b65e6422a7fe0c9332f8172bd03c3da267ba66da853cb854650eb08ac48",
+    "root_pose_solidworks_world": {
+      "xyz_m": [
+        0.6943200946757215,
+        0.07213641626201381,
+        2.761133510467083
+      ],
+      "quat_xyzw": [
+        0.000001298674,
+        0.707106781185,
+        0.707106781185,
+        -0.000001298674
+      ],
+      "rotation_convention": "three-euler-intrinsic-XYZ-deg",
+      "rotation_xyz_deg": [-90.0, 0.0, -179.99978954086956]
+    },
+    "joint_positions": {
+      "duco_gcr5_910_gcr5_joint_1": -0.0188806598031334,
+      "duco_gcr5_910_gcr5_joint_2": 0.237927598042834,
+      "duco_gcr5_910_gcr5_joint_3": 1.68890767618547,
+      "duco_gcr5_910_gcr5_joint_4": -0.35603894743342,
+      "duco_gcr5_910_gcr5_joint_5": -1.5707963267949,
+      "duco_gcr5_910_gcr5_joint_6": -1.58967698659804
+    },
+    "residuals": {
+      "max_moving_joint_translation_mm": 0.0000097746855,
+      "max_moving_joint_rotation_deg": 0.0,
+      "max_fk_translation_mm": 0.000008868248,
+      "max_rotation_matrix_frobenius": 1.7361477e-14,
+      "base_mesh_trimmed_rms_mm": 2.694,
+      "base_mesh_aabb_axis_delta_mm": 44.708
+    },
+    "mesh_registration": {
+      "moving_links": "J1-J6 dimension delta below 0.1 mm",
+      "base_link": "J0 differs from URDF base mesh; frame registered but surface geometry is not an exact match",
+      "snapshot_quaternion_rule": "J0-J5 snapshot rotations require inverse/transpose before GLB world comparison"
+    }
   },
   "expected_p2": {
     "occurrence_count": 2021,
