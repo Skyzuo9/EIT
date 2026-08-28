@@ -183,7 +183,7 @@ publication_eligible=false
 ```text
 station_geometry_sha256 = f0d1afd67f2e09a048ba4ddc1c1959c61459cc7a922f0db9ad310db16c124746
 station_layout_sha256   = f33c32ff39d0c63bc14f0911053c54aebb8aac8b5212953fb03852d9830eb76e
-cad_comparison_pose     = 3aa58aad8850433c55d29d8003673a8cab78bc3b5143cfb6625189e1185522ce
+cad_comparison_pose     = 73af6e122c0e28cf526e0aefd9e54d5cf396a5b30643a311473542d79e89b411
 ```
 
 ## 7. 可见检查
@@ -191,7 +191,9 @@ cad_comparison_pose     = 3aa58aad8850433c55d29d8003673a8cab78bc3b5143cfb6625189
 确认：
 
 1. 页面显示 `4 个物料`，Edge 为已连接；
-2. 投料站方向正确、落地且完整；公开 Material Graph 是 Z-up；
+2. 投料站方向正确、落地且完整；公开 Material Graph 是 Z-up；原始
+   `SOLIDWORKSGLTF` 模型已经是 glTF Y-up，Pascal 中的 `model.rotation` 必须为零，
+   不得重复施加 `Rx(-90°)`；
 3. 青色 GCR5 J1–J6 与灰色 CAD 连杆基本重合，只在轮廓/三角面边缘可见；
 4. 不要求 J0 表面完全重合，因为两份 base mesh revision/几何不同；
 5. 运行 Demo 后 GCR5 最终回 comparison pose，遥测不会一秒后回六轴零位；

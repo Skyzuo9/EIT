@@ -6,6 +6,8 @@ Run ID：`feeding-station-20260827-win03`
 
 实现提交：`87b7ba727548c02dd6aae40d7ef7131883ac3642`
 
+坐标修正提交：`2432a0497171908f462231945cbab513b54371ab`
+
 状态：`demo-workflow-verified / moving-link-registration-passed / base-mesh-not-exact`
 
 ## 1. 可展示结果
@@ -38,14 +40,17 @@ MoveIt、碰撞、空间互锁或硬件执行结果。
 公开合同统一为：
 
 ```text
-SolidWorks source: Z-up, metre, quaternion_xyzw
+SolidWorks CAD source: Z-up
+SOLIDWORKSGLTF exported GLB: Y-up, metre, quaternion_xyzw
 UniLab Material Graph: Z-up, millimetre, intrinsic XYZ degree
 Pascal renderer: Y-up, metre, radian, internal only
 ```
 
-整站 GLB 的 `-π/2 X` 只属于 Pascal 内部渲染转换；不能把 Workbench 的公开资产
-坐标写成 Y-up。GCR5 不再直接使用总装 occurrence 的四元数，而是使用 GLB component
-frame、同源 URDF/STL 和 frozen joint chain 反解得到的 comparison pose。
+`SOLIDWORKSGLTF` 已在导出时把 CAD 换成标准 glTF Y-up，因此整站 GLB 在 Pascal
+中的模型旋转为零；重复施加 `-π/2 X` 会把整站侧立。GLB 点/姿态进入公开
+Material Graph 时转换为 UniLab Z-up，再由 Pascal 的内部换轴还原。GCR5 不再直接
+使用总装 occurrence 的四元数，而是使用 GLB component frame、同源 URDF/STL 和
+frozen joint chain 反解得到的 comparison pose。
 
 反解六轴弧度为：
 
@@ -72,7 +77,7 @@ root pose 当作已标定的部署 `base_pose`。
 comparison pose 摘要：
 
 ```text
-3aa58aad8850433c55d29d8003673a8cab78bc3b5143cfb6625189e1185522ce
+73af6e122c0e28cf526e0aefd9e54d5cf396a5b30643a311473542d79e89b411
 ```
 
 ## 3. Demo WorkflowTask
@@ -105,7 +110,7 @@ publication_eligible=false
 
 | 项目 | 结果 |
 |---|---|
-| WorkflowTask UUID | `a24a6e1f-9c40-402c-96a7-e566ec620861` |
+| WorkflowTask UUID | `9bb60e6c-6b24-4901-b099-acf375c73f69` |
 | Task | `succeeded` |
 | Jobs | `6/6 succeeded` |
 | Runtime events | `21` |

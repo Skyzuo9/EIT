@@ -68,7 +68,9 @@ git -C uni-lab-fe apply ../overlays/uni-lab-fe.patch
 当 `feeding-station-20260827-win03` 完整 handoff 在仓库根目录存在时，该命令的
 正常 Workbench 主场景显示摘要锁定的完整投料站、独立模拟导轨、GCR5 CAD comparison
 运动学层和 4 ml 演示瓶；CR5/GCR5/FR5 单体保留为诊断夹具。主场景公开资产合同是
-UniLab Z-up，Pascal Y-up 只属于渲染内部实现。
+UniLab Z-up，Pascal Y-up 只属于渲染内部实现。`SOLIDWORKSGLTF` 已把源 CAD 的
+Z-up 转成标准 glTF Y-up，因此 GLB 在 Pascal 中保持零模型旋转；只有位置/姿态进入
+Material Graph 时才转换为公开的 UniLab Z-up，禁止再对 GLB 重复施加 `Rx(-90°)`。
 
 Demo 激活 token 从后端 descriptor 取得并原样提交：
 
