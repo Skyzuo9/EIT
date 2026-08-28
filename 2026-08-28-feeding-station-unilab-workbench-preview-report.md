@@ -1,22 +1,21 @@
-# 投料站 UniLab Workbench 资产管线预览报告
+# 投料站 UniLab Workbench Demo Workflow 验证报告
 
 日期：2026-08-28
 
 Run ID：`feeding-station-20260827-win03`
 
-状态：`api-and-render-contract-verified / visual-review-pending`
+实现提交：`87b7ba727548c02dd6aae40d7ef7131883ac3642`
 
-## 1. 已完成
+状态：`demo-workflow-verified / moving-link-registration-passed / base-mesh-not-exact`
 
-正常 UniLab Workbench 的 Material Graph 已可加载一个投料站主节点：
+## 1. 可展示结果
 
-```text
-投料站（P1 几何 + P2 草案）
-```
+正常 UniLab Workbench 主场景现在通过标准 Material Graph 同时显示四个对象：
 
-该节点使用完整 P1 `geometry/station.glb`，并把 P2 自动分解结果作为只读草案凭据。
-它不是把未审核的 53 条规则冒充为已批准设备包，也不授予真实 W2、碰撞、空间互锁
-或硬件执行资格。
+1. 摘要锁定的完整 P1 投料站 GLB；
+2. 独立的单轴导轨仿真层；
+3. 青色 DUCO GCR5-910 URDF 运动学比较层；
+4. 由 P2 occurrence 候选实例化的 4 ml 演示瓶。
 
 启动命令：
 
@@ -24,15 +23,99 @@ Run ID：`feeding-station-20260827-win03`
 ./scripts/run_mac_kinematic_preview.sh
 ```
 
-正常主场景 URL：
+主场景：
 
 ```text
 http://127.0.0.1:5173/?backend=local-python&backendUrl=http%3A%2F%2F127.0.0.1%3A8002&section=scene
 ```
 
-## 2. 资产 receipt
+场景和任务均明确标记 `DEMO / DRAFT / NO HARDWARE`。这次成功只证明资产加载、
+可视投影和 Uni-Lab OS WorkflowTask/Job/Event 合同能连通，不是 P2 批准、W2、
+MoveIt、碰撞、空间互锁或硬件执行结果。
 
-`config/feeding-station-workbench-preview.json` 锁定以下输入：
+## 2. 坐标合同与 GCR5 配准
+
+公开合同统一为：
+
+```text
+SolidWorks source: Z-up, metre, quaternion_xyzw
+UniLab Material Graph: Z-up, millimetre, intrinsic XYZ degree
+Pascal renderer: Y-up, metre, radian, internal only
+```
+
+整站 GLB 的 `-π/2 X` 只属于 Pascal 内部渲染转换；不能把 Workbench 的公开资产
+坐标写成 Y-up。GCR5 不再直接使用总装 occurrence 的四元数，而是使用 GLB component
+frame、同源 URDF/STL 和 frozen joint chain 反解得到的 comparison pose。
+
+反解六轴弧度为：
+
+```text
+[-0.0188806598031334, 0.237927598042834, 1.68890767618547,
+ -0.356038947433420, -1.57079632679490, -1.58967698659804]
+```
+
+数值重构证据：
+
+| 指标 | 结果 |
+|---|---:|
+| 最大逐关节平移残差 | `9.7746855e-9 m` |
+| 最大整链 FK 平移残差 | `8.8682480e-9 m` |
+| 最大旋转矩阵 Frobenius 残差 | `1.7361477e-14` |
+| J1–J6 网格尺寸差 | `< 0.1 mm` |
+| J0 与 URDF base mesh 的一轴 AABB 差 | `约 44.708 mm` |
+
+因此准确结论是“frozen-snapshot kinematic-frame registration passed”；J1–J6 的青色
+运动连杆在 Workbench 中基本被灰色 CAD 连杆遮住，只在轮廓/三角面边缘可见。J0
+来自不同基座几何/revision，不能称为全网格 perfect alignment，也不能把 comparison
+root pose 当作已标定的部署 `base_pose`。
+
+comparison pose 摘要：
+
+```text
+3aa58aad8850433c55d29d8003673a8cab78bc3b5143cfb6625189e1185522ce
+```
+
+## 3. Demo WorkflowTask
+
+后端复用真实 `WorkflowStore`、`TaskSchedulerBridge`、`EdgeScheduler`、
+`WorkflowService` 和公开 workflow API。唯一 dispatcher 是进程内可视状态模拟器，
+不会打开 PLC、ROS、MoveIt、机器人 controller 或硬件 transport。
+
+六步演示顺序：
+
+```text
+rail_move_pick
+→ gcr5_pick_pose
+→ vial_4ml_attach
+→ gcr5_carry_pose
+→ vial_4ml_detach
+→ robot_rail_reset
+```
+
+启动 token 必须 exact 匹配 station GLB、P2 layout、GCR5 topology 和 comparison pose
+四个摘要，并强制：
+
+```text
+mode=demo-simulation
+hardware_execution=false
+publication_eligible=false
+```
+
+本轮真实 API 运行回执：
+
+| 项目 | 结果 |
+|---|---|
+| WorkflowTask UUID | `a24a6e1f-9c40-402c-96a7-e566ec620861` |
+| Task | `succeeded` |
+| Jobs | `6/6 succeeded` |
+| Runtime events | `21` |
+| Validation | `demo-workflow-validated` |
+| 终态 | rail reset；瓶在 synthetic destination；GCR5 回 comparison pose |
+| 终态遥测 | `stale=false`，六轴 exact comparison values |
+
+`succeeded` 仅表示六个进程内 visualization actions 被 OS store/scheduler 正常处理。
+
+## 4. 摘要锁定资产
 
 | 输入 | SHA-256 |
 |---|---|
@@ -41,64 +124,40 @@ http://127.0.0.1:5173/?backend=local-python&backendUrl=http%3A%2F%2F127.0.0.1%3A
 | P2 layout draft | `f33c32ff39d0c63bc14f0911053c54aebb8aac8b5212953fb03852d9830eb76e` |
 | P2 coverage | `c33913fc97ec9d9bf0a4e0890869a6dca95a14fc4bfd32de953ee77fc4ccc27e` |
 | P1 station GLB | `f0d1afd67f2e09a048ba4ddc1c1959c61459cc7a922f0db9ad310db16c124746` |
+| GCR5 archive | `c91cd096d8c6acde34bb57c85d4b7916c6ab17dc22feff09c502f29256230612` |
+| GCR5 URDF | `76e95464d07ec304bf9394b640540a87193fa977420486c348e578e9cbd38858` |
 
 GLB 为 283,695,812 bytes，包含 1543 nodes、1396 meshes、1588 primitives、
-4764 accessors 和 45 materials。审计包围盒为
-`2.401884 × 1.007715 × 1.200000 m`。
+4764 accessors 和 45 materials。后端启动前会校验 bytes/SHA-256、GLB v2 结构、
+2021/2021 唯一覆盖、53 placements、唯一 GCR5 根、唯一 4 ml 代表几何和 visual
+registration 边界；任一项漂移即失败关闭。
 
-Workbench 使用 Y-up；源 SolidWorks GLB 为 Z-up。预览合同显式应用 `-π/2` X 轴旋转，
-并以审计包围盒把模型水平居中、最低 Z 落到场景地面。尺寸投影为：
-
-```text
-[width, height, depth] = [2401.884, 1200.000, 1007.715] mm
-```
-
-## 3. Fail-closed 边界
-
-预览后端启动前会验证五个文件的 bytes 和 SHA-256、GLB v2 header/JSON 几何计数、
-P2 草案资格、2021/2021 唯一覆盖、53 placements、0 unassigned、0 overlap，以及唯一
-GCR5 根和唯一 4 ml 代表几何。任一项漂移都启动失败。
-
-Material capability 固定为：
-
-```text
-display=true
-motion_preview=false
-hardware_execution=false
-spatial_interlock_enforced=false
-collision_qualified=false
-w2_eligible=false
-```
-
-完整待决策项见
-[`2026-08-28-feeding-station-pending-decisions.md`](./2026-08-28-feeding-station-pending-decisions.md)。
-
-## 4. 验证证据
+## 5. 回归与可见检查
 
 | 检查 | 结果 |
 |---|---:|
-| 根仓工站合同 | 26/26 passed |
-| SourceRelease + station preview 合同 | 8/8 passed |
-| Pascal glTF/Material Graph 前端回归 | 66/66 passed |
-| Material Graph | 1 个投料站节点、`format=gltf` |
-| GLB HTTP Range | `206 Partial Content`，`0-31/283695812` |
-| GLB magic | `glTF` |
-| CORS / health | passed |
+| 根仓资产管线合同 | `26/26 passed` |
+| SourceRelease + station + demo workflow | `11/11 passed` |
+| services 定向前端合同 | `16/16 passed` |
+| Pascal units/joint/aggregate 定向合同 | `26/26 passed` |
+| Material Graph | `4` 个节点 |
+| 浏览器主场景 | 完整加载，Edge connected |
+| 浏览器 console errors | `0` |
 
-本次本地服务已成功启动，后端和 Vite 前端均无启动错误。当前自动化环境没有可用的
-可见浏览器实例，所以不能把 API/加载合同通过写成“已完成目视验收”，也没有截图证据。
+完整 `@unilab/services` 套件另有一个位于用户脏 submodule 的既有
+`workflow-node-template-cursor.test.ts` 失败；本次未改该 submodule，也不把定向
+`42/42` 写成全前端套件通过。
 
-## 5. 仍需一次可见验收
+## 6. 保留边界
 
-运行启动脚本后，在主场景确认：
+- 导轨几何、范围和安装关系仍是演示值，不是批准 ETH17 参数；
+- 4 ml source 只是一条 P2 代表 occurrence，attached/destination 是 synthetic；
+- GCR5 comparison pose 是 CAD/URDF 视觉配准，不是厂家控制器零位或实机测量；
+- `hardware_execution=false`、`publication_eligible=false`、
+  `collision_qualified=false`、`spatial_interlock_enforced=false`；
+- 真实 W2 仍须等待机械/CAD、机器人、物料和碰撞审核。
 
-1. 场景中只有一个投料站主节点，不出现三个独立机器人占位；
-2. 投料站直立、落地且水平居中，没有侧躺或悬空；
-3. 机架、手套箱/外壳、料架和总装内 GCR5 比较几何可见；
-4. 标签为“投料站（P1 几何 + P2 草案）”；
-5. 浏览器控制台没有 GLB fetch/parse、WebGL out-of-memory 或材质错误；
-6. 记录首次完整出现耗时和峰值内存，再决定 `ENG-001` 是否需要 LOD/分包。
-
-若模型方向错误，只允许修正 preview receipt/模型基准变换；不得修改冻结 GLB。若 283.7
-MB 导致浏览器不可接受，只能建立可复算的 LOD/分包派生物并保留原 GLB 摘要，不得用
-未经记录的手工减面文件替换。
+开放决策见
+[`2026-08-28-feeding-station-pending-decisions.md`](./2026-08-28-feeding-station-pending-decisions.md)，
+Windows 复现步骤见
+[`2026-08-28-feeding-station-mac-to-windows-demo-workflow-handoff.md`](./2026-08-28-feeding-station-mac-to-windows-demo-workflow-handoff.md)。

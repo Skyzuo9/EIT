@@ -12,6 +12,11 @@ compiler 输出保持 2021/2021 唯一覆盖，才可启动新的 W2 Run ID。
 禁止状态：当前不是 `approved-for-w2-geometry-export`，不得把 draft、URDF 能运动或
 GLB 能显示当作真实 W2、碰撞或执行许可。
 
+若本轮目标只是复现 Workbench 展示和模拟 WorkflowTask，不进行 P2 签署或 W2，使用
+独立的
+[`2026-08-28-feeding-station-mac-to-windows-demo-workflow-handoff.md`](./2026-08-28-feeding-station-mac-to-windows-demo-workflow-handoff.md)。
+Demo 路径不会推进本手册中的正式门禁。
+
 本手册替代较早文档中针对投料站的 Dobot CR5 假设。真实 win03 occurrence 和固定
 GitHub URDF 已证明总装机器人是 **DUCO GCR5-910**。
 
@@ -36,9 +41,9 @@ GitHub URDF 已证明总装机器人是 **DUCO GCR5-910**。
 | approval | `draft` |
 | publication eligible | `false` |
 | 根仓测试 | 26/26 |
-| SourceRelease + 投料站预览测试 | 8/8 |
-| Pascal glTF/Material Graph 回归 | 66/66 |
-| Mac Workbench Material Graph | 1 个投料站节点，`format=gltf` |
+| SourceRelease + 投料站 + Demo Workflow 测试 | 11/11 |
+| 定向前端合同 | services 16/16；Pascal 26/26 |
+| Mac Workbench Material Graph | 4 个节点；整站、导轨、GCR5、4 ml 瓶 |
 
 机器人 exact root：
 
@@ -58,9 +63,9 @@ robot-family:duco.gcr5_910
 投料站料架-1/4ml玻璃瓶料架.SLDPRT-1/4ml玻璃瓶(Default_按加工_)-1
 ```
 
-Mac 已增加摘要锁定的整站 Workbench 静态预览。它使用 P1 完整 GLB 和 P2 draft
-coverage receipt，不等于已批准的设备级 W2。Windows 审核前可把该画面作为边界检查
-参考，但不得从画面反推碰撞、TCP、槽位或执行资格。
+Mac 已增加摘要锁定的整站 Workbench Demo。它使用 P1 完整 GLB、P2 draft coverage、
+GCR5 CAD comparison pose 和进程内模拟 WorkflowTask，不等于已批准的设备级 W2。
+Windows 审核前可把该画面作为边界检查参考，但不得从画面反推碰撞、TCP、槽位或执行资格。
 
 ## 2. Windows 同步 GitHub
 

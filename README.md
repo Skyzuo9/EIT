@@ -66,11 +66,29 @@ git -C uni-lab-fe apply ../overlays/uni-lab-fe.patch
 ```
 
 当 `feeding-station-20260827-win03` 完整 handoff 在仓库根目录存在时，该命令的
-正常 Workbench 主场景显示摘要锁定的完整投料站；CR5/GCR5/FR5 单体保留为诊断夹具。
+正常 Workbench 主场景显示摘要锁定的完整投料站、独立模拟导轨、GCR5 CAD comparison
+运动学层和 4 ml 演示瓶；CR5/GCR5/FR5 单体保留为诊断夹具。主场景公开资产合同是
+UniLab Z-up，Pascal Y-up 只属于渲染内部实现。
+
+Demo 激活 token 从后端 descriptor 取得并原样提交：
+
+```bash
+curl -fsS http://127.0.0.1:8002/api/v1/demo-workflow/descriptor \
+  | jq -c '.required_activation' \
+  | curl -fsS -H 'Content-Type: application/json' --data-binary @- \
+      http://127.0.0.1:8002/api/v1/demo-workflow/runs
+```
+
+该任务只运行进程内 visualization actions；Task/Job `succeeded` 不表示 PLC、ROS、
+MoveIt、机器人或现场动作成功，且始终
+`hardware_execution=false`、`publication_eligible=false`。
+
 投料站 receipt、验证结果和目视验收边界见
 [`2026-08-28-feeding-station-unilab-workbench-preview-report.md`](./2026-08-28-feeding-station-unilab-workbench-preview-report.md)，
 尚待机械/CAD/机器人/物料负责人决定的项目见
 [`2026-08-28-feeding-station-pending-decisions.md`](./2026-08-28-feeding-station-pending-decisions.md)。
+Windows 复现 Demo、生成新 Task UUID 并回传截图/回执时使用
+[`2026-08-28-feeding-station-mac-to-windows-demo-workflow-handoff.md`](./2026-08-28-feeding-station-mac-to-windows-demo-workflow-handoff.md)。
 
 真实工站结果回传后，先执行：
 
