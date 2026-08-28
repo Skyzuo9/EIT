@@ -112,7 +112,7 @@ class FeedingStationDemoWorkflowTest(unittest.TestCase):
                 self.assertEqual(rail["relative_position"]["rotation_z"], 0.0)
                 self.assertAlmostEqual(
                     robot["relative_position"]["rotation_x"],
-                    -90.0,
+                    0.0,
                     places=6,
                 )
                 self.assertAlmostEqual(

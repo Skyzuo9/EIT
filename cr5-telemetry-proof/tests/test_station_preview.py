@@ -29,16 +29,24 @@ class StationPreviewTest(unittest.TestCase):
             self.assertEqual(descriptor["model"]["format"], "gltf")
             self.assertEqual(
                 descriptor["rendering"]["dimensionsMm"],
-                [2000.0, 1000.0, 800.0],
+                [2000.0, 800.0, 1000.0],
+            )
+            self.assertEqual(descriptor["model"]["rotation"], [0.0, 0.0, 0.0])
+            self.assertEqual(
+                descriptor["rendering"]["source_coordinate_frame"],
+                "solidworks-gltf-y-up",
             )
             self.assertEqual(
                 descriptor["rendering"]["material_graph_coordinate_frame"],
                 "unilab-z-up",
             )
-            self.assertEqual(
-                preview.solidworks_world_to_lab_mm([0.5, 0.2, 0.75]),
-                [500.0, 200.0, 750.0],
-            )
+            projected = preview.gltf_world_to_lab_mm([0.5, 0.2, 0.75])
+            for actual, expected in zip(
+                projected,
+                [500.0, -250.0, 600.0],
+                strict=True,
+            ):
+                self.assertAlmostEqual(actual, expected)
             self.assertTrue(descriptor["p2_draft"]["exact_coverage"])
             self.assertFalse(descriptor["p2_draft"]["human_reviewed"])
             self.assertFalse(descriptor["capability"]["hardware_execution"])
@@ -200,6 +208,8 @@ def _write_fixture(base: Path) -> tuple[Path, Path]:
                         "max": [1.0, 0.4, 1.0],
                         "size": [2.0, 0.8, 1.0],
                     },
+                    "cad_source_coordinate_frame": "solidworks-z-up",
+                    "source_coordinate_frame": "solidworks-gltf-y-up",
                 },
                 "cad_urdf_visual_registration": {
                     "schema": "lab.cad_urdf_visual_registration/v0",
@@ -213,7 +223,8 @@ def _write_fixture(base: Path) -> tuple[Path, Path]:
                     "station_geometry_sha256": files["geometry"]["sha256"],
                     "station_layout_sha256": files["layout"]["sha256"],
                     "robot_subtree_root": "station/robot",
-                    "source_coordinate_frame": "solidworks-z-up",
+                    "cad_source_coordinate_frame": "solidworks-z-up",
+                    "source_coordinate_frame": "solidworks-gltf-y-up",
                     "material_graph_coordinate_frame": "unilab-z-up",
                     "renderer_coordinate_frame": "pascal-y-up-internal",
                     "joint_position_unit": "rad",
@@ -221,8 +232,15 @@ def _write_fixture(base: Path) -> tuple[Path, Path]:
                         "583e2b65e6422a7fe0c9332f8172bd03"
                         "c3da267ba66da853cb854650eb08ac48"
                     ),
-                    "root_pose_solidworks_world": {
+                    "root_pose_gltf_world": {
+                        "coordinate_frame": "solidworks-gltf-y-up",
                         "xyz_m": [0.5, 0.1, 0.75],
+                        "quat_xyzw": [
+                            0.0,
+                            0.7071067811865475,
+                            0.7071067811865475,
+                            0.0,
+                        ],
                         "rotation_convention": (
                             "three-euler-intrinsic-XYZ-deg"
                         ),
@@ -258,7 +276,7 @@ def _write_fixture(base: Path) -> tuple[Path, Path]:
 
 def _minimal_glb() -> bytes:
     document = {
-        "asset": {"version": "2.0"},
+        "asset": {"generator": "SOLIDWORKSGLTF", "version": "2.0"},
         "scene": 0,
         "scenes": [{"nodes": [0]}],
         "nodes": [{"mesh": 0}],

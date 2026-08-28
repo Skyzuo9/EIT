@@ -43,7 +43,8 @@
       "max": [1.2950041887165247, 0.882851630449295, 3.0461336374282837],
       "size": [2.401884138286227, 1.007715217769146, 1.2000000476837158]
     },
-    "source_coordinate_frame": "solidworks-z-up",
+    "cad_source_coordinate_frame": "solidworks-z-up",
+    "source_coordinate_frame": "solidworks-gltf-y-up",
     "material_graph_coordinate_frame": "unilab-z-up",
     "renderer_coordinate_frame": "pascal-y-up-internal"
   },
@@ -59,14 +60,16 @@
     "station_geometry_sha256": "f0d1afd67f2e09a048ba4ddc1c1959c61459cc7a922f0db9ad310db16c124746",
     "station_layout_sha256": "f33c32ff39d0c63bc14f0911053c54aebb8aac8b5212953fb03852d9830eb76e",
     "robot_subtree_root": "机器人移动轴模组(默认-_flexible1)-1/机器人_GCR5-910_新松(默认-_flexible1)(默认-_flexible1)-1",
-    "source_coordinate_frame": "solidworks-z-up",
+    "cad_source_coordinate_frame": "solidworks-z-up",
+    "source_coordinate_frame": "solidworks-gltf-y-up",
     "material_graph_coordinate_frame": "unilab-z-up",
     "renderer_coordinate_frame": "pascal-y-up-internal",
     "joint_position_unit": "rad",
     "robot_source_archive_sha256": "c91cd096d8c6acde34bb57c85d4b7916c6ab17dc22feff09c502f29256230612",
     "robot_urdf_sha256": "76e95464d07ec304bf9394b640540a87193fa977420486c348e578e9cbd38858",
     "robot_topology_digest": "583e2b65e6422a7fe0c9332f8172bd03c3da267ba66da853cb854650eb08ac48",
-    "root_pose_solidworks_world": {
+    "root_pose_gltf_world": {
+      "coordinate_frame": "solidworks-gltf-y-up",
       "xyz_m": [
         0.6943200946757215,
         0.07213641626201381,

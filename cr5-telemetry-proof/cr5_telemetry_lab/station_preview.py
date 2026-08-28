@@ -21,6 +21,7 @@ from typing import Any, Mapping
 STATION_MATERIAL_UUID = "c1000000-0000-4000-8000-000000000001"
 STATION_TEMPLATE_UUID = "c2000000-0000-4000-8000-000000000001"
 SHA256_PATTERN = re.compile(r"^[0-9a-f]{64}$")
+SOLIDWORKS_GLTF_FRAME = "solidworks-gltf-y-up"
 
 
 @dataclass(frozen=True, slots=True)
@@ -43,30 +44,49 @@ class StationPreview:
     cad_comparison_pose: Mapping[str, Any]
     cad_comparison_pose_sha256: str
 
-    def solidworks_world_to_lab_mm(
+    def gltf_world_to_lab_mm(
         self,
         xyz_m: list[float] | tuple[float, float, float],
     ) -> list[float]:
-        """Map one SolidWorks Z-up world point into Uni-Lab Z-up millimetres.
+        """Map one exported glTF Y-up world point into Uni-Lab Z-up millimetres.
 
-        The station render model is recentered horizontally and lowered by the
-        audited minimum Z.  Material Graph placements must apply that same
-        recentering in the public Uni-Lab frame.  Pascal's Y-up conversion is a
-        renderer detail and is intentionally absent from this contract.
+        SOLIDWORKSGLTF has already converted the source CAD into glTF's Y-up
+        frame.  The public Material Graph remains Z-up, so exported ``(x,y,z)``
+        becomes public ``(x,-z,y)`` before Pascal applies its internal Y-up
+        renderer conversion.  The station footprint is recentered in X/Z and
+        the audited minimum exported Y is placed on the floor.
         """
 
         if len(xyz_m) != 3 or any(not math.isfinite(float(value)) for value in xyz_m):
-            raise ValueError("SolidWorks world point 必须是三个有限米制坐标")
+            raise ValueError("glTF world point 必须是三个有限米制坐标")
         bounds = self.geometry["bounding_box_m"]
         low = bounds["min"]
         high = bounds["max"]
         center_x = (float(low[0]) + float(high[0])) / 2.0
-        center_y = (float(low[1]) + float(high[1])) / 2.0
+        center_z = (float(low[2]) + float(high[2])) / 2.0
         return [
             (float(xyz_m[0]) - center_x) * 1000.0,
-            (float(xyz_m[1]) - center_y) * 1000.0,
-            (float(xyz_m[2]) - float(low[2])) * 1000.0,
+            -(float(xyz_m[2]) - center_z) * 1000.0,
+            (float(xyz_m[1]) - float(low[1])) * 1000.0,
         ]
+
+    def gltf_rotation_to_urdf_link_deg(
+        self,
+        quat_xyzw: list[float] | tuple[float, float, float, float],
+    ) -> list[float]:
+        """Express a glTF world rotation below the rail's Z-up URDF link.
+
+        The top-level rail renderer already applies ``Rx(-90 deg)`` to map its
+        URDF Z-up link axes into Pascal Y-up.  A child attached directly to that
+        link therefore needs only ``C^-1 * q_gltf``; applying a full world-pose
+        conjugation here would rotate the child twice.
+        """
+
+        quaternion = _normalized_quaternion(quat_xyzw, "glTF world rotation")
+        half_sqrt = math.sqrt(0.5)
+        pascal_to_lab = [half_sqrt, 0.0, 0.0, half_sqrt]
+        local = _quaternion_multiply(pascal_to_lab, quaternion)
+        return _quaternion_to_three_xyz_deg(local)
 
     def descriptor(self) -> dict[str, Any]:
         """Return the evidence-bounded public preview contract."""
@@ -75,17 +95,18 @@ class StationPreview:
         low = bounds["min"]
         high = bounds["max"]
         size = bounds["size"]
-        # The SolidWorks GLB is Z-up while Pascal/Three is Y-up.  Recenter the
-        # horizontal footprint and place the audited minimum Z on the floor.
+        # SOLIDWORKSGLTF has already emitted a standard glTF Y-up model.  Keep
+        # its basis unchanged in Pascal/Three, recenter the X/Z footprint and
+        # place the audited minimum exported Y on the floor.
         model_position = [
             -((float(low[0]) + float(high[0])) / 2.0),
-            -float(low[2]),
-            (float(low[1]) + float(high[1])) / 2.0,
+            -float(low[1]),
+            -((float(low[2]) + float(high[2])) / 2.0),
         ]
         dimensions_mm = [
             float(size[0]) * 1000.0,
-            float(size[2]) * 1000.0,
             float(size[1]) * 1000.0,
+            float(size[2]) * 1000.0,
         ]
         return {
             "schema": "lab.station_workbench_preview/v0",
@@ -99,13 +120,14 @@ class StationPreview:
                 "format": "gltf",
                 "version": f"{self.geometry_sha256}:{self.layout_sha256}",
                 "position": model_position,
-                "rotation": [-math.pi / 2.0, 0.0, 0.0],
+                "rotation": [0.0, 0.0, 0.0],
                 "attachPoints": [],
             },
             "rendering": {
                 "dimensionsMm": dimensions_mm,
                 "footprintMm": [dimensions_mm[0], dimensions_mm[2]],
-                "source_coordinate_frame": "solidworks-z-up",
+                "cad_source_coordinate_frame": "solidworks-z-up",
+                "source_coordinate_frame": SOLIDWORKS_GLTF_FRAME,
                 "material_graph_coordinate_frame": "unilab-z-up",
                 "renderer_coordinate_frame": "pascal-y-up-internal",
             },
@@ -412,8 +434,12 @@ def _validated_cad_comparison_pose(
         "CAD/URDF registration 未绑定当前 GCR5 subtree root",
     )
     _require(
-        pose.get("source_coordinate_frame") == "solidworks-z-up",
-        "CAD/URDF registration source 必须是 SolidWorks Z-up",
+        pose.get("cad_source_coordinate_frame") == "solidworks-z-up",
+        "CAD/URDF registration CAD source 必须是 SolidWorks Z-up",
+    )
+    _require(
+        pose.get("source_coordinate_frame") == SOLIDWORKS_GLTF_FRAME,
+        "CAD/URDF registration source 必须是 SOLIDWORKSGLTF Y-up",
     )
     _require(
         pose.get("material_graph_coordinate_frame") == "unilab-z-up",
@@ -424,8 +450,16 @@ def _validated_cad_comparison_pose(
         pose.get("robot_topology_digest"),
         "CAD registration.robot_topology_digest",
     )
-    root_pose = _mapping(pose.get("root_pose_solidworks_world"), "CAD registration.root_pose")
+    root_pose = _mapping(pose.get("root_pose_gltf_world"), "CAD registration.root_pose")
     root_xyz = _finite_vector(root_pose.get("xyz_m"), 3, "CAD registration.root_pose.xyz_m")
+    _require(
+        root_pose.get("coordinate_frame") == SOLIDWORKS_GLTF_FRAME,
+        "CAD registration root pose 必须声明 SOLIDWORKSGLTF Y-up",
+    )
+    root_quaternion = _normalized_quaternion(
+        root_pose.get("quat_xyzw"),
+        "CAD registration.root_pose.quat_xyzw",
+    )
     _require(
         root_pose.get("rotation_convention") == "three-euler-intrinsic-XYZ-deg",
         "CAD registration root rotation convention 无效",
@@ -471,9 +505,10 @@ def _validated_cad_comparison_pose(
     return {
         **dict(pose),
         "robot_topology_digest": topology_digest,
-        "root_pose_solidworks_world": {
+        "root_pose_gltf_world": {
             **dict(root_pose),
             "xyz_m": root_xyz,
+            "quat_xyzw": root_quaternion,
             "rotation_xyz_deg": root_rotation,
         },
         "joint_positions": normalized_positions,
@@ -494,6 +529,52 @@ def _finite_vector(value: Any, size: int, label: str) -> list[float]:
     return [float(item) for item in value]
 
 
+def _normalized_quaternion(value: Any, label: str) -> list[float]:
+    quaternion = _finite_vector(value, 4, label)
+    norm = math.sqrt(sum(item * item for item in quaternion))
+    _require(math.isclose(norm, 1.0, rel_tol=1e-6, abs_tol=1e-6), f"{label} 未归一化")
+    return [item / norm for item in quaternion]
+
+
+def _quaternion_multiply(left: list[float], right: list[float]) -> list[float]:
+    lx, ly, lz, lw = left
+    rx, ry, rz, rw = right
+    return [
+        lw * rx + lx * rw + ly * rz - lz * ry,
+        lw * ry - lx * rz + ly * rw + lz * rx,
+        lw * rz + lx * ry - ly * rx + lz * rw,
+        lw * rw - lx * rx - ly * ry - lz * rz,
+    ]
+
+
+def _quaternion_to_three_xyz_deg(quaternion: list[float]) -> list[float]:
+    """Match Three.js ``Euler.setFromQuaternion(..., 'XYZ')``."""
+
+    x, y, z, w = _normalized_quaternion(quaternion, "rotation quaternion")
+    xx, yy, zz = x * x, y * y, z * z
+    xy, xz, yz = x * y, x * z, y * z
+    wx, wy, wz = w * x, w * y, w * z
+    m11 = 1.0 - 2.0 * (yy + zz)
+    m12 = 2.0 * (xy - wz)
+    m13 = 2.0 * (xz + wy)
+    m22 = 1.0 - 2.0 * (xx + zz)
+    m23 = 2.0 * (yz - wx)
+    m32 = 2.0 * (yz + wx)
+    m33 = 1.0 - 2.0 * (xx + yy)
+    rotation_y = math.asin(max(-1.0, min(1.0, m13)))
+    if abs(m13) < 0.9999999:
+        rotation_x = math.atan2(-m23, m33)
+        rotation_z = math.atan2(-m12, m11)
+    else:
+        rotation_x = math.atan2(m32, m22)
+        rotation_z = 0.0
+    return [
+        math.degrees(rotation_x),
+        math.degrees(rotation_y),
+        math.degrees(rotation_z),
+    ]
+
+
 def _finite_nonnegative(value: Any, label: str) -> float:
     _require(
         isinstance(value, (int, float))
@@ -505,6 +586,14 @@ def _finite_nonnegative(value: Any, label: str) -> float:
 
 
 def _validate_geometry_receipt(path: Path, geometry: Mapping[str, Any]) -> None:
+    _require(
+        geometry.get("cad_source_coordinate_frame") == "solidworks-z-up",
+        "receipt.geometry CAD source 必须是 SolidWorks Z-up",
+    )
+    _require(
+        geometry.get("source_coordinate_frame") == SOLIDWORKS_GLTF_FRAME,
+        "receipt.geometry source 必须是 SOLIDWORKSGLTF Y-up",
+    )
     expected_counts = _mapping(geometry.get("counts"), "receipt.geometry.counts")
     bounds = _mapping(geometry.get("bounding_box_m"), "receipt.geometry.bounding_box_m")
     for key in ("min", "max", "size"):
@@ -530,6 +619,11 @@ def _validate_geometry_receipt(path: Path, geometry: Mapping[str, Any]) -> None:
         chunk_length, chunk_type = struct.unpack("<II", chunk_header)
         _require(chunk_type == 0x4E4F534A, "GLB 首块不是 JSON")
         document = json.loads(handle.read(chunk_length).rstrip(b" \t\r\n\x00").decode("utf-8"))
+    asset = _mapping(document.get("asset"), "GLB asset")
+    _require(
+        asset.get("generator") == "SOLIDWORKSGLTF",
+        "GLB generator 不是 SOLIDWORKSGLTF，不能沿用已审计 Y-up 换轴",
+    )
     meshes = document.get("meshes", [])
     actual_counts = {
         "nodes": len(document.get("nodes", [])),

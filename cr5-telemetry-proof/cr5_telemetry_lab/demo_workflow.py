@@ -582,10 +582,10 @@ class FeedingStationDemoWorkflow:
         return str(names[-1]).replace("joint", "link")
 
     def _robot_mount_pose(self) -> tuple[list[float], list[float]]:
-        pose = self.station.cad_comparison_pose["root_pose_solidworks_world"]
+        pose = self.station.cad_comparison_pose["root_pose_gltf_world"]
         return (
-            self.station.solidworks_world_to_lab_mm(pose["xyz_m"]),
-            [float(value) for value in pose["rotation_xyz_deg"]],
+            self.station.gltf_world_to_lab_mm(pose["xyz_m"]),
+            self.station.gltf_rotation_to_urdf_link_deg(pose["quat_xyzw"]),
         )
 
     def _cad_comparison_joint_positions(self) -> tuple[float, ...]:
@@ -611,7 +611,7 @@ class FeedingStationDemoWorkflow:
         xyz = transform.get("xyz_m")
         if not isinstance(xyz, list) or len(xyz) != 3:
             raise DemoWorkflowConflict("P2 候选位置无效")
-        return self.station.solidworks_world_to_lab_mm(xyz)
+        return self.station.gltf_world_to_lab_mm(xyz)
 
 
 def create_demo_router(runtime: FeedingStationDemoWorkflow) -> APIRouter:
