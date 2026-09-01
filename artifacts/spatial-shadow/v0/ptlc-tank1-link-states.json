@@ -221,7 +221,7 @@
   "qualification": "candidate",
   "sample_id": "eit-ptlc-historical-v1",
   "schema": "lab.spatial-link-state-sequence/v0",
-  "sequence_digest": "15fcffae7b74e0817c9fa17f01298978ad679c0eb4ec01f2c92c9e05748031cb",
+  "sequence_digest": "5102a1f07879b612a52efbe9a3a923a3df8467f3034eb7a65c012e4626dd8eac",
   "source_digests": {
     "cr5-base-collision": "fd150ed669f6fdeccb5c83e7e3f4cc45dc20c8b325706bc6c587460b6df285d2",
     "cr5-j1-collision": "95ef34b610de5d57022741210c1c2a69bc1f39fb5936690ad654772630fcb784",
@@ -231,7 +231,7 @@
     "cr5-j5-collision": "6ac9837dcb0604cc22acb26a7de77e18747cc89a2666948911df44e057a85acb",
     "cr5-j6-collision": "b969c8f0f7db193647969173f9c98dd3a36027b8372f95cbaf148fae0322ffb9",
     "cr5-urdf": "6e96f0434624e12570d8a8fcd2add9c37d6605245f69c9063cad5d686803f84f",
-    "motion-contract": "5856f0aa8e06519191fc45757aed70dff433761ca5815aeac8a12dc1c7bcc775",
+    "motion-contract": "e5879b0efd2f194a127919f31e645ba3fedc2d58321c3dc991d13a24f73ce4fc",
     "rail-points": "43e957acf2c7cb58b5bc45787d7106b835a8fdc8b264c76dc2df1e3c8df79d13",
     "robot-calibration": "582c0472c4bae565c87443b0252578fdd2f1092e24790c29ea5ffd360efc97fa",
     "robot-points": "d4d8a03ee3e9dfb248c6d9eee69b12d69a7069d41aaf9fadada644fd7cd14c00",
@@ -2844,7 +2844,7 @@
           -0.215473809052,
           -0.056330428998
         ],
-        "position_residual_mm": 6.7568e-08
+        "position_residual_mm": 6.7567e-08
       }
     },
     {

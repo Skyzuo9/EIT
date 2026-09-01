@@ -1,0 +1,26 @@
+{
+  "schema": "lab.station_source_handoff/v0",
+  "station": "eit.feeding-station",
+  "solidworks_capture": {
+    "assembly_snapshot": "capture/assembly.snapshot.json",
+    "capture_report": "capture/capture-report.json",
+    "source": "capture/source.json",
+    "files_sha256": "capture/files.sha256",
+    "source_release_root": "source-release",
+    "render_glb": "geometry/station.glb"
+  },
+  "robot_release": {
+    "authority": "manufacturer",
+    "vendor": "Dobot",
+    "model": "CR5",
+    "provider": "unilab_arm_cr5:build_moveit_model",
+    "source_digest": "8c8b9ea935fd83122b19b572c84d107e81b4864d4310c94d0906cc361e7631c2"
+  },
+  "reproducibility": {
+    "report": "audit/reproducibility-report.json",
+    "repeat_snapshot": "audit/repeat/assembly.snapshot.json",
+    "repeat_capture_report": "audit/repeat/capture-report.json",
+    "repeat_glb": "audit/repeat/station.glb",
+    "glb_semantic_diagnosis": "audit/glb-semantic-diagnosis.json"
+  }
+}

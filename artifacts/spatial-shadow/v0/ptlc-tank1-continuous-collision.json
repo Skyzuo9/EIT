@@ -6,7 +6,7 @@
     "overall_result": "unknown",
     "self_collision_status": "candidate-overlap"
   },
-  "candidate_digest": "eeab36254151171aacdaaca9c353910dd3442c87bcf81c2c3e6f1fff3946afda",
+  "candidate_digest": "56ad12ef13455f69f60f72ed88346915cf03a5968b45b2eb145350a28b2dd99c",
   "coverage": {
     "continuous_evaluated_move_j_segments": 4,
     "excluded_move_j_cp_segments": 3,
@@ -1616,9 +1616,9 @@
     }
   ],
   "source_digests": {
-    "link_state_sequence": "15fcffae7b74e0817c9fa17f01298978ad679c0eb4ec01f2c92c9e05748031cb",
-    "motion_contract": "5856f0aa8e06519191fc45757aed70dff433761ca5815aeac8a12dc1c7bcc775",
-    "motion_corridor": "f4fee5a4d9b1a3b08aa4d72f07257a728e33900ba1877ff04e90e7444bc614bd"
+    "link_state_sequence": "5102a1f07879b612a52efbe9a3a923a3df8467f3034eb7a65c012e4626dd8eac",
+    "motion_contract": "e5879b0efd2f194a127919f31e645ba3fedc2d58321c3dc991d13a24f73ce4fc",
+    "motion_corridor": "829c53322be7dac989721d8125282e1ef7d4f2230a4b57ea91ebb81f28f56e48"
   },
   "world_frame": {
     "frame_id": "ptlc.full-machine-gltf-z-up-candidate",

@@ -46,7 +46,7 @@
     "collision-and-stop-qualification-false"
   ],
   "mode": "shadow",
-  "playback_digest": "97b923ace949de7ba06374956beb7123b40e0021950ee14899dfdf1d60366c7b",
+  "playback_digest": "610974659713a1e2ce7714a68a1a1f552e83ed71f07334d7acabe37389fab89b",
   "qualification": "diagnostic-playback",
   "sample_id": "eit-ptlc-historical-v1",
   "schema": "lab.spatial-playback-trajectory/v0",
@@ -192267,8 +192267,8 @@
   "source_digests": {
     "compiled_clip": "b7eda74614e24d94c1eeaddae28b8288e11457be995e36527f9f7009b583dde3",
     "device_manifest": "449679c11b1d5380309a0477e3543a8670c7264a4d937d932f44de15a38c9616",
-    "link_state_sequence": "15fcffae7b74e0817c9fa17f01298978ad679c0eb4ec01f2c92c9e05748031cb",
-    "motion_contract": "5856f0aa8e06519191fc45757aed70dff433761ca5815aeac8a12dc1c7bcc775",
+    "link_state_sequence": "5102a1f07879b612a52efbe9a3a923a3df8467f3034eb7a65c012e4626dd8eac",
+    "motion_contract": "e5879b0efd2f194a127919f31e645ba3fedc2d58321c3dc991d13a24f73ce4fc",
     "proxy_asset_manifest": "3e9f80dededf1730b9183c02110371300668be8e819478480c642dcde04c47b5"
   },
   "timing": {

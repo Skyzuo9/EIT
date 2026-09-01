@@ -1,6 +1,6 @@
 {
   "action_contract_id": "robot.tank.pick",
-  "collision_digest": "8bf618b52669ea8c05c39448db6f24f36189dd09b52432ff7d5c45bd433d92a2",
+  "collision_digest": "18b4525cc6ce7931ce39dc541b8aebd1f63863c9df5525c9e81bbcd3c928a964",
   "coverage": {
     "broad_only_component_count": 4,
     "broad_only_overlap_frame_count": 189,
@@ -10682,10 +10682,10 @@
   "schema": "lab.spatial-environment-collision/v0",
   "source_digests": {
     "collision_scene": "8bfd383e7215823beedf10d5e555e1b71bdaf7a9b61d4468c48e460357510d80",
-    "link_state_sequence": "15fcffae7b74e0817c9fa17f01298978ad679c0eb4ec01f2c92c9e05748031cb",
-    "playback": "97b923ace949de7ba06374956beb7123b40e0021950ee14899dfdf1d60366c7b",
+    "link_state_sequence": "5102a1f07879b612a52efbe9a3a923a3df8467f3034eb7a65c012e4626dd8eac",
+    "playback": "610974659713a1e2ce7714a68a1a1f552e83ed71f07334d7acabe37389fab89b",
     "rail_frame_layout_analysis": "cab43eb9cf5573f663096954e8a9412733723995980eaef18e510d037be39008",
-    "test_lock": "b0b243154cac6c378ab4104278027fc28bb6ddce88e3c586eb6a1accd7afc641"
+    "test_lock": "2d57b1f27e6713a41ad41abe2fcec7b46dfeb3c99523b4ed191043cd0abbda33"
   },
   "summary": {
     "first_contact": {

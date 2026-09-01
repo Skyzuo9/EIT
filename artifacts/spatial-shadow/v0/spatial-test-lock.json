@@ -1,6 +1,6 @@
 {
   "config_sha256": "d2572f9f8494aea4c662ec3767078f7a7617b0012516197807d6e24d55a15718",
-  "lock_digest": "b0b243154cac6c378ab4104278027fc28bb6ddce88e3c586eb6a1accd7afc641",
+  "lock_digest": "2d57b1f27e6713a41ad41abe2fcec7b46dfeb3c99523b4ed191043cd0abbda33",
   "samples": [
     {
       "capabilities": {
@@ -26,10 +26,10 @@
           "sha256": "725ca56250ca6d0c2f19d7ac0392ff40d91dd81a7776305a67929933ff8ebb8c"
         },
         {
-          "bytes": 1910,
+          "bytes": 1890,
           "path": "feeding-station-20260827-win03/mac-validation.json",
           "role": "mac-validation",
-          "sha256": "94f343685ceb76ea7d5ec2dc3f18ca1c95b94b6bbb5453daa25b8f5416579a02"
+          "sha256": "f002d2ae6beb228df1a74b757874f432ea90d7f16c021a8c6758794aa53c27a9"
         },
         {
           "bytes": 283695812,
@@ -38,10 +38,10 @@
           "sha256": "f0d1afd67f2e09a048ba4ddc1c1959c61459cc7a922f0db9ad310db16c124746"
         },
         {
-          "bytes": 981,
+          "bytes": 955,
           "path": "feeding-station-20260827-win03/station-handoff.json",
           "role": "station-handoff",
-          "sha256": "0cb3c3703c41f95ba7d569927939191944c7d5242c40b68b152523d3c71473f9"
+          "sha256": "0b1c88acb9c22bfe20fb4671e608e4610b8577d14c71afedea1354f0677ca160"
         },
         {
           "bytes": 1134320,
@@ -53,7 +53,7 @@
           "bytes": 4842,
           "path": "config/feeding-station-workbench-preview.json",
           "role": "workbench-preview-receipt",
-          "sha256": "218c5ec7fd03fe8d39d60d725fad77594ae14f4b61637f7061b1995e32b330ab"
+          "sha256": "3bda4460be2beafde4f38f31e6dd0ff58977ec825887189ad7491e9aa376693d"
         }
       ],
       "label": "EIT feeding station frozen demo and fail-closed sample",
@@ -66,7 +66,7 @@
         "w2-device-geometry"
       ],
       "qualification": "demo-simulation-cad-comparison-only",
-      "sample_digest": "55168c079c02666d17d8920b2df43284c7e1e4f87b12b1d5f67725b22db9422c",
+      "sample_digest": "fbfbe8a8ab83e66bc9d3bbec6c5aa250e6d1459f988001ee54d0585936be30c5",
       "sample_id": "eit-feeding-station-demo-v1"
     },
     {

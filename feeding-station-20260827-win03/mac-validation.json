@@ -1,0 +1,56 @@
+{
+  "schema": "lab.station_source_handoff_validation/v1",
+  "passed": true,
+  "station": "eit.feeding-station",
+  "manifest": "feeding-station-20260827-win03/station-handoff.json",
+  "manifest_sha256": "0b1c88acb9c22bfe20fb4671e608e4610b8577d14c71afedea1354f0677ca160",
+  "errors": [],
+  "warnings": [
+    "capture_report.open_warnings=2；交接回执必须人工解释该位掩码",
+    "repeat_capture_report.open_warnings=2；交接回执必须人工解释该位掩码"
+  ],
+  "details": {
+    "instance_count": 2021,
+    "root_occurrence_count": 25,
+    "open_warning_masks": {
+      "capture_report": 2,
+      "repeat_capture_report": 2
+    },
+    "solidworks_com_revision": "33.5.0",
+    "capture_component_count": 2021,
+    "source_files_verified": 639,
+    "source_files_digest": "f82f6c5298e7e6605d48e75c783a614d1d654482455ae4c7acccf0fea6c8f63d",
+    "render_glb_bytes": 283695812,
+    "render_glb_sha256": "f0d1afd67f2e09a048ba4ddc1c1959c61459cc7a922f0db9ad310db16c124746",
+    "render_glb_geometry": {
+      "nodes": 1543,
+      "meshes": 1396,
+      "primitives": 1588,
+      "accessors": 4764,
+      "vertices": 8444311,
+      "triangles": 6443415
+    },
+    "absolute_audit_path_count": 4046,
+    "reproducibility": {
+      "normalized_snapshot_match": true,
+      "exact_glb_match": false,
+      "normalized_glb_semantic_match": true,
+      "difference_class": "component_traversal_order_only",
+      "repeat_glb_sha256": "fc4891a53de809140c48fa8827c93d94853a2ecd71d8354750c309b753802768"
+    },
+    "robot": {
+      "vendor": "Dobot",
+      "model": "CR5",
+      "source_digest": "8c8b9ea935fd83122b19b572c84d107e81b4864d4310c94d0906cc361e7631c2",
+      "joint_count": 6,
+      "mesh_count": 7
+    }
+  },
+  "qualification": "source-input-validated",
+  "not_qualified_for": [
+    "kinematic-preview",
+    "collision",
+    "spatial-interlock-enforced",
+    "execution"
+  ]
+}

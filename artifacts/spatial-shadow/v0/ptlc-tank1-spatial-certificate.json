@@ -15,12 +15,12 @@
     "result": "unknown",
     "stop_envelope_status": "unknown"
   },
-  "certificate_digest": "11c4eeaa595e4a2dd6382d407231b472d2c6b1f001fec2cefb051f589a9ce9ba",
-  "certificate_id": "spatial-cert:928cc4db0637843469f8e97068096f304e864e2704d8e2c0311911a7508b0485",
+  "certificate_digest": "029455204652079e9a963097232c56d522f75a36c85e505b54a2f9b02a414ee1",
+  "certificate_id": "spatial-cert:69389a0e72c84e3b3c05ca1dfffded8a3dbf5bb24af8b95f5c242c2204237c54",
   "input_digests": {
     "collision_scene": "8bfd383e7215823beedf10d5e555e1b71bdaf7a9b61d4468c48e460357510d80",
-    "motion_contract": "5856f0aa8e06519191fc45757aed70dff433761ca5815aeac8a12dc1c7bcc775",
-    "test_lock": "b0b243154cac6c378ab4104278027fc28bb6ddce88e3c586eb6a1accd7afc641"
+    "motion_contract": "e5879b0efd2f194a127919f31e645ba3fedc2d58321c3dc991d13a24f73ce4fc",
+    "test_lock": "2d57b1f27e6713a41ad41abe2fcec7b46dfeb3c99523b4ed191043cd0abbda33"
   },
   "mode": "shadow",
   "qualification": "candidate",

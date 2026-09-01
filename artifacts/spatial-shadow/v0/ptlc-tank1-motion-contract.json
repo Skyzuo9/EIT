@@ -1,7 +1,7 @@
 {
   "action_contract_id": "robot.tank.pick",
   "analysis_scope": "robot-arm-after-anchor-and-rail-settle",
-  "contract_digest": "5856f0aa8e06519191fc45757aed70dff433761ca5815aeac8a12dc1c7bcc775",
+  "contract_digest": "e5879b0efd2f194a127919f31e645ba3fedc2d58321c3dc991d13a24f73ce4fc",
   "mode": "shadow",
   "preconditions": [
     "robot-anchor:P1",
@@ -283,7 +283,7 @@
       "point_ref": "P11",
       "point_status": "validated",
       "rail_slot": 5,
-      "selected_joint_pose_residual_mm": 6.7568e-08,
+      "selected_joint_pose_residual_mm": 6.7567e-08,
       "semantic_point_id": "robot-main.area-2-1",
       "stored_joint_pose_residual_mm": 22.399514293844,
       "tcp_pose_controller": [

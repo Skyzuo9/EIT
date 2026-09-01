@@ -6,8 +6,8 @@
   "files": {
     "station_handoff": {
       "path": "station-handoff.json",
-      "bytes": 981,
-      "sha256": "0cb3c3703c41f95ba7d569927939191944c7d5242c40b68b152523d3c71473f9"
+      "bytes": 955,
+      "sha256": "0b1c88acb9c22bfe20fb4671e608e4610b8577d14c71afedea1354f0677ca160"
     },
     "decomposition": {
       "path": "p2-auto/station-decomposition.proposal.yaml",

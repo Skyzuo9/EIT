@@ -1,0 +1,305 @@
+schema: lab.station_decomposition/v1.1
+station: eit.feeding-station
+source_handoff_digest: 0cb3c3703c41f95ba7d569927939191944c7d5242c40b68b152523d3c71473f9
+devices:
+- family: station-assembly-shell:074891505538
+  kind: static_environment
+  subtree_root: 2720x1200x1100手套箱方案20260407-1
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:3d6fd20c90d0
+  kind: static_environment
+  subtree_root: 4ml无盖玻璃瓶料架.SLDPRT-1-1
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:1de366ae29a7
+  kind: static_environment
+  subtree_root: 4ml无盖玻璃瓶料架.SLDPRT-2-1
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:1fb9f16b1e8f
+  kind: static_environment
+  subtree_root: 500ml ________-4-1
+  exclude_subtree_roots:
+  - 500ml ________-4-1/common 500ml__________-4-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:4d999e13e1ac
+  kind: static_environment
+  subtree_root: 500ml ________-4-1-1
+  exclude_subtree_roots:
+  - 500ml ________-4-1-1/common 500ml__________-4-1-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:20e33ecab1ce
+  kind: static_environment
+  subtree_root: 加液三轴模块-1
+  exclude_subtree_roots:
+  - 加液三轴模块-1/SC-M4-310-180-00-4通道移液模组-客户模型-1/SC-M4-310-180-00-4通道移液模组-客户模型.step-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: legacy-urdf-family:ee7fb472c23c
+  kind: device
+  subtree_root: 加热磁力搅拌模组-1
+  exclude_subtree_roots: []
+  review_note: 由 加热磁力搅拌模组.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: station-assembly-shell:19af5a71f2e3
+  kind: static_environment
+  subtree_root: 加粉三轴模块-1
+  exclude_subtree_roots:
+  - 加粉三轴模块-1/装配体10^加粉三轴模块-1
+  - 加粉三轴模块-1/装配体11^加粉三轴模块-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:d01f88f3edf1
+  kind: static_environment
+  subtree_root: 开盖三轴模块-1
+  exclude_subtree_roots:
+  - 开盖三轴模块-1/装配体13^开盖三轴模块-1/装配体14^装配体13_开盖三轴模块-1/装配体15^装配体14_装配体13_开盖三轴模块-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:9903b9786d6c
+  kind: static_environment
+  subtree_root: 开盖示意模组-1
+  exclude_subtree_roots:
+  - 开盖示意模组-1/____-______-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:a70104e17c05
+  kind: static_environment
+  subtree_root: 快换放置组件-1
+  exclude_subtree_roots:
+  - 快换放置组件-1/末端工具2号-1
+  - 快换放置组件-1/装配体4^快换放置组件-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:59be1ba469bf
+  kind: static_environment
+  subtree_root: 投料站台面(Default_按加工_)-1
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:ed0f0d295fa3
+  kind: static_environment
+  subtree_root: 投料站料架-1
+  exclude_subtree_roots:
+  - 投料站料架-1/4ml玻璃瓶料架.SLDPRT-1/4ml玻璃瓶(Default_按加工_)-1
+  - 投料站料架-1/AC411.U14-4-1/装配体1^AC411.U14-4-1
+  - 投料站料架-1/装配体579^投料站料架-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:b375300cd1c5
+  kind: static_environment
+  subtree_root: 投料站料架-1-1
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:8c77e6c217e4
+  kind: static_environment
+  subtree_root: 投料站料架-2-1
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:4b086b8a537e
+  kind: static_environment
+  subtree_root: 机器人移动轴模组(默认-_flexible1)-1
+  exclude_subtree_roots:
+  - 机器人移动轴模组(默认-_flexible1)-1/ETH17-L5-1250-BL-M40-A1(0)-1/ETH17-L5-1250-BL-M40-A1(0).stp-1
+  - 机器人移动轴模组(默认-_flexible1)-1/机器人_GCR5-910_新松(默认-_flexible1)(默认-_flexible1)-1
+  - 机器人移动轴模组(默认-_flexible1)-1/装配体578^机器人移动轴模组(默认-_flexible1)-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:957a2354b423
+  kind: static_environment
+  subtree_root: 润泽zsb-sy03b-60-m01-3(Default_按加工_)-1
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:bb2dad1a8504
+  kind: static_environment
+  subtree_root: 润泽zsb-sy03b-60-m01-3(Default_按加工_)-2
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:2e51136a672f
+  kind: static_environment
+  subtree_root: 粉筒快换料架-1
+  exclude_subtree_roots:
+  - 粉筒快换料架-1/粉筒料架-1-1/粉桶改进-组件(默认)-1-1
+  - 粉筒快换料架-1/粉筒料架-1/粉桶改进-组件(默认)-1
+  - 粉筒快换料架-1/粉筒料架-1/装配体3^粉筒料架-1
+  - 粉筒快换料架-1/粉筒料架-2-1/粉桶改进-组件(默认)-2-1
+  - 粉筒快换料架-1/粉筒料架-3-1/粉桶改进-组件(默认)-3-1
+  - 粉筒快换料架-1/粉筒料架-4-1/粉桶改进-组件(默认)-4-1
+  - 粉筒快换料架-1/粉筒料架-5-1/粉桶改进-组件(默认)-5-1
+  - 粉筒快换料架-1/粉筒料架-6-1/粉桶改进-组件(默认)-6-1
+  - 粉筒快换料架-1/粉筒料架-7-1/粉桶改进-组件(默认)-7-1
+  - 粉筒快换料架-1/装配体2^粉筒快换料架-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:3fff554f6ed5
+  kind: static_environment
+  subtree_root: 组件1-1
+  exclude_subtree_roots:
+  - 组件1-1/装配体5^组件1-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:6daad224b308
+  kind: static_environment
+  subtree_root: 组件1-1-1
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:894c87b2f1b8
+  kind: static_environment
+  subtree_root: 组件2-1
+  exclude_subtree_roots:
+  - 组件2-1/装配体6^组件2-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:126f6f392f11
+  kind: static_environment
+  subtree_root: 组件3-1
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:2557b365e28c
+  kind: static_environment
+  subtree_root: 组件4-1-1
+  exclude_subtree_roots:
+  - 组件4-1-1/装配体7^组件4-1-1
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: station-assembly-shell:e32106162ddf
+  kind: static_environment
+  subtree_root: 组件4-1-1-1
+  exclude_subtree_roots: []
+  review_note: 自动兜底的顶层装配壳；其已识别子设备通过 exclude_subtree_roots 分离。
+- family: legacy-urdf-family:7b57d65121f7
+  kind: device
+  subtree_root: 500ml ________-4-1-1/common 500ml__________-4-1-1
+  exclude_subtree_roots: []
+  review_note: 由 common 500ml__________-4.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:7b57d65121f7
+  kind: device
+  subtree_root: 500ml ________-4-1/common 500ml__________-4-1
+  exclude_subtree_roots: []
+  review_note: 由 common 500ml__________-4.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:2c76553f9d7e
+  kind: device
+  subtree_root: 加粉三轴模块-1/装配体10^加粉三轴模块-1
+  exclude_subtree_roots: []
+  review_note: 由 滑轨架^加粉三轴模块.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:87d11a9252bc
+  kind: device
+  subtree_root: 加粉三轴模块-1/装配体11^加粉三轴模块-1
+  exclude_subtree_roots: []
+  review_note: 由 滑轨固定件^加粉三轴模块.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:dd4330d9a248
+  kind: device
+  subtree_root: 开盖示意模组-1/____-______-1
+  exclude_subtree_roots: []
+  review_note: 由 开盖瓶子夹持机构.urdf companion CSV 映射；SW Components 覆盖 8/8。
+- family: legacy-urdf-family:86dedd76b1d6
+  kind: device
+  subtree_root: 快换放置组件-1/末端工具2号-1
+  exclude_subtree_roots: []
+  review_note: 由 末端工具2号.urdf companion CSV 映射；SW Components 覆盖 8/8。
+- family: legacy-urdf-family:6aa96eaeb284
+  kind: device
+  subtree_root: 快换放置组件-1/装配体4^快换放置组件-1
+  exclude_subtree_roots: []
+  review_note: 由 快换放置组件.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: environment.feeding-station-rack
+  kind: static_environment
+  subtree_root: 投料站料架-1/装配体579^投料站料架-1
+  exclude_subtree_roots: []
+  review_note: 由 投料站料架.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: instrument.gripper.nmr-preprocess
+  kind: device
+  subtree_root: 机器人移动轴模组(默认-_flexible1)-1/装配体578^机器人移动轴模组(默认-_flexible1)-1
+  exclude_subtree_roots: []
+  review_note: 由 机器人移动轴模组(默认-_flexible1).urdf companion CSV 映射；SW Components 覆盖 5/5。
+- family: legacy-urdf-family:241abb7fbcad
+  kind: static_environment
+  subtree_root: 粉筒快换料架-1/装配体2^粉筒快换料架-1
+  exclude_subtree_roots: []
+  review_note: 由 粉筒快换料架.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:2759d61b56ef
+  kind: device
+  subtree_root: 组件1-1/装配体5^组件1-1
+  exclude_subtree_roots: []
+  review_note: 由 架-组件1.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:35f237a35447
+  kind: device
+  subtree_root: 组件2-1/装配体6^组件2-1
+  exclude_subtree_roots: []
+  review_note: 由 组件2.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:24cd625ba26f
+  kind: device
+  subtree_root: 组件4-1-1/装配体7^组件4-1-1
+  exclude_subtree_roots: []
+  review_note: 由 组件4-1.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:a14951ec6c34
+  kind: device
+  subtree_root: 加液三轴模块-1/SC-M4-310-180-00-4通道移液模组-客户模型-1/SC-M4-310-180-00-4通道移液模组-客户模型.step-1
+  exclude_subtree_roots: []
+  review_note: 由 SC-M4-310-180-00-4通道移液模组-客户模型.step.urdf companion CSV 映射；SW Components
+    覆盖 1/1。
+- family: material-family:glass-bottle-4ml
+  kind: device
+  subtree_root: 投料站料架-1/4ml玻璃瓶料架.SLDPRT-1/4ml玻璃瓶(Default_按加工_)-1
+  exclude_subtree_roots: []
+  review_note: 按 occurrence id 自然序确定的首个 4 ml 有盖瓶，仅作首条几何纵切候选；未批准物理槽位或运行时实例。
+- family: legacy-urdf-family:582c8152508f
+  kind: device
+  subtree_root: 投料站料架-1/AC411.U14-4-1/装配体1^AC411.U14-4-1
+  exclude_subtree_roots: []
+  review_note: 由 5mlTIP头盒^AC411.U14-4.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: instrument.rail.eth17
+  kind: device
+  subtree_root: 机器人移动轴模组(默认-_flexible1)-1/ETH17-L5-1250-BL-M40-A1(0)-1/ETH17-L5-1250-BL-M40-A1(0).stp-1
+  exclude_subtree_roots: []
+  review_note: 由 滑轨ETH17-L5-1250-BL-M40-A1(0).urdf companion CSV 映射；SW Components
+    覆盖 5/5。
+- family: legacy-urdf-family:0ab16c9e5bed
+  kind: device
+  subtree_root: 粉筒快换料架-1/粉筒料架-1-1/粉桶改进-组件(默认)-1-1
+  exclude_subtree_roots: []
+  review_note: 由 粉桶改进-组件(默认).urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:0ab16c9e5bed
+  kind: device
+  subtree_root: 粉筒快换料架-1/粉筒料架-1/粉桶改进-组件(默认)-1
+  exclude_subtree_roots: []
+  review_note: 由 粉桶改进-组件(默认).urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:cdf962585e69
+  kind: static_environment
+  subtree_root: 粉筒快换料架-1/粉筒料架-1/装配体3^粉筒料架-1
+  exclude_subtree_roots: []
+  review_note: 由 粉筒料架.urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:0ab16c9e5bed
+  kind: device
+  subtree_root: 粉筒快换料架-1/粉筒料架-2-1/粉桶改进-组件(默认)-2-1
+  exclude_subtree_roots: []
+  review_note: 由 粉桶改进-组件(默认).urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:0ab16c9e5bed
+  kind: device
+  subtree_root: 粉筒快换料架-1/粉筒料架-3-1/粉桶改进-组件(默认)-3-1
+  exclude_subtree_roots: []
+  review_note: 由 粉桶改进-组件(默认).urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:0ab16c9e5bed
+  kind: device
+  subtree_root: 粉筒快换料架-1/粉筒料架-4-1/粉桶改进-组件(默认)-4-1
+  exclude_subtree_roots: []
+  review_note: 由 粉桶改进-组件(默认).urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:0ab16c9e5bed
+  kind: device
+  subtree_root: 粉筒快换料架-1/粉筒料架-5-1/粉桶改进-组件(默认)-5-1
+  exclude_subtree_roots: []
+  review_note: 由 粉桶改进-组件(默认).urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:0ab16c9e5bed
+  kind: device
+  subtree_root: 粉筒快换料架-1/粉筒料架-6-1/粉桶改进-组件(默认)-6-1
+  exclude_subtree_roots: []
+  review_note: 由 粉桶改进-组件(默认).urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:0ab16c9e5bed
+  kind: device
+  subtree_root: 粉筒快换料架-1/粉筒料架-7-1/粉桶改进-组件(默认)-7-1
+  exclude_subtree_roots: []
+  review_note: 由 粉桶改进-组件(默认).urdf companion CSV 映射；SW Components 覆盖 1/1。
+- family: legacy-urdf-family:705b2eeab14b
+  kind: device
+  subtree_root: 开盖三轴模块-1/装配体13^开盖三轴模块-1/装配体14^装配体13_开盖三轴模块-1/装配体15^装配体14_装配体13_开盖三轴模块-1
+  exclude_subtree_roots: []
+  review_note: 由 开盖三轴模块末端.urdf companion CSV 映射；SW Components 覆盖 9/9。
+robot_subtrees:
+- replaced_by: robot-family:duco.gcr5_910
+  subtree_root: 机器人移动轴模组(默认-_flexible1)-1/机器人_GCR5-910_新松(默认-_flexible1)(默认-_flexible1)-1
+  exclude_subtree_roots: []
+  review_note: 由 DUCO GCR5-910 companion CSV 映射；SW Components 覆盖 7/7。
+unassigned_policy: fail
+approval:
+  status: draft
+  reviewed_by: ''
+  reviewed_at: ''
+  notes: Agent 从摘要锁定 URDF CSV 与 occurrence snapshot 自动生成；待机械/CAD 审核。
