@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/spatial-environment-collision-v0.schema.json",
+  "title": "UniLab sampled proxy environment collision v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "sample_id", "action_contract_id", "mode", "effect",
+    "qualification", "world_frame", "source_digests", "registration", "method",
+    "coverage", "summary", "frames", "limitations", "collision_digest"
+  ],
+  "properties": {
+    "schema": {"const": "lab.spatial-environment-collision/v0"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "action_contract_id": {"type": "string", "minLength": 1},
+    "mode": {"const": "shadow"},
+    "effect": {"const": "none"},
+    "qualification": {"const": "candidate-proxy-sampled"},
+    "world_frame": {"$ref": "#/$defs/worldFrame"},
+    "source_digests": {
+      "type": "object", "additionalProperties": false,
+      "required": ["test_lock", "collision_scene", "link_state_sequence", "playback", "rail_frame_layout_analysis"],
+      "properties": {
+        "test_lock": {"$ref": "#/$defs/digest"},
+        "collision_scene": {"$ref": "#/$defs/digest"},
+        "link_state_sequence": {"$ref": "#/$defs/digest"},
+        "playback": {"$ref": "#/$defs/digest"},
+        "rail_frame_layout_analysis": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "registration": {
+      "type": "object", "additionalProperties": false,
+      "required": ["status", "source_frame_id", "target_frame_id", "method", "matrix_source_to_target", "rail_fit_xy_rms_mm", "rail_fit_xy_max_mm", "world_rigid_transform_qualified"],
+      "properties": {
+        "status": {"const": "candidate-relative-layout"},
+        "source_frame_id": {"type": "string", "minLength": 1},
+        "target_frame_id": {"type": "string", "minLength": 1},
+        "method": {"const": "rail-lnz-fit-plus-rail-top-contact"},
+        "matrix_source_to_target": {"$ref": "#/$defs/matrix4"},
+        "rail_fit_xy_rms_mm": {"type": "number", "minimum": 0},
+        "rail_fit_xy_max_mm": {"type": "number", "minimum": 0},
+        "world_rigid_transform_qualified": {"const": false}
+      }
+    },
+    "method": {
+      "type": "object", "additionalProperties": false,
+      "required": ["broad_phase", "narrow_phase", "unsupported_proxy_policy", "structural_exclusions"],
+      "properties": {
+        "broad_phase": {"const": "sampled-frame-aabb-distance"},
+        "narrow_phase": {"const": "robot-triangle-vs-mixed-box-and-compound-convex"},
+        "unsupported_proxy_policy": {"const": "retain-broad-phase-unresolved"},
+        "structural_exclusions": {
+          "type": "array", "minItems": 1, "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["segment_count", "evaluated_frame_count", "environment_component_count", "exact_box_component_count", "compound_convex_component_count", "broad_only_component_count", "exact_contact_frame_count", "broad_only_overlap_frame_count", "exact_contact_event_count"],
+      "properties": {
+        "segment_count": {"type": "integer", "minimum": 1},
+        "evaluated_frame_count": {"type": "integer", "minimum": 1},
+        "environment_component_count": {"type": "integer", "minimum": 1},
+        "exact_box_component_count": {"type": "integer", "minimum": 1},
+        "compound_convex_component_count": {"type": "integer", "minimum": 1},
+        "broad_only_component_count": {"type": "integer", "minimum": 0},
+        "exact_contact_frame_count": {"type": "integer", "minimum": 0},
+        "broad_only_overlap_frame_count": {"type": "integer", "minimum": 0},
+        "exact_contact_event_count": {"type": "integer", "minimum": 0}
+      }
+    },
+    "summary": {
+      "type": "object", "additionalProperties": false,
+      "required": ["result", "minimum_aabb_clearance_m", "first_contact"],
+      "properties": {
+        "result": {"enum": ["proxy-contact-observed", "no-proxy-contact-at-samples"]},
+        "minimum_aabb_clearance_m": {"type": "number", "minimum": 0},
+        "first_contact": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/firstContact"}]}
+      }
+    },
+    "frames": {
+      "type": "array", "minItems": 1,
+      "items": {"$ref": "#/$defs/frame"}
+    },
+    "limitations": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "collision_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "vec3": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"type": "number"}},
+    "matrix4": {
+      "type": "array", "minItems": 4, "maxItems": 4,
+      "items": {"type": "array", "minItems": 4, "maxItems": 4, "items": {"type": "number"}}
+    },
+    "worldFrame": {
+      "type": "object", "additionalProperties": false,
+      "required": ["frame_id", "units", "up_axis", "handedness"],
+      "properties": {
+        "frame_id": {"type": "string", "minLength": 1},
+        "units": {"const": "m"},
+        "up_axis": {"const": "+Z"},
+        "handedness": {"const": "right-handed"}
+      }
+    },
+    "pair": {
+      "type": "object", "additionalProperties": false,
+      "required": ["moving_object_id", "environment_component_id"],
+      "properties": {
+        "moving_object_id": {"type": "string", "minLength": 1},
+        "environment_component_id": {"type": "string", "minLength": 1}
+      }
+    },
+    "contact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["moving_object_id", "moving_kind", "environment_entity_id", "environment_component_id", "position_m", "method"],
+      "properties": {
+        "moving_object_id": {"type": "string", "minLength": 1},
+        "moving_kind": {"enum": ["robot-link", "tool", "payload"]},
+        "environment_entity_id": {"type": "string", "minLength": 1},
+        "environment_component_id": {"type": "string", "minLength": 1},
+        "position_m": {"$ref": "#/$defs/vec3"},
+        "method": {"enum": ["triangle-vs-generated-box-sat", "triangle-vs-compound-convex-clipping"]}
+      }
+    },
+    "firstContact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["segment_index", "frame_index", "time_s", "moving_object_id", "moving_kind", "environment_entity_id", "environment_component_id", "position_m", "method"],
+      "properties": {
+        "segment_index": {"type": "integer", "minimum": 0},
+        "frame_index": {"type": "integer", "minimum": 0},
+        "time_s": {"type": "number", "minimum": 0},
+        "moving_object_id": {"type": "string", "minLength": 1},
+        "moving_kind": {"enum": ["robot-link", "tool", "payload"]},
+        "environment_entity_id": {"type": "string", "minLength": 1},
+        "environment_component_id": {"type": "string", "minLength": 1},
+        "position_m": {"$ref": "#/$defs/vec3"},
+        "method": {"enum": ["triangle-vs-generated-box-sat", "triangle-vs-compound-convex-clipping"]}
+      }
+    },
+    "frame": {
+      "type": "object", "additionalProperties": false,
+      "required": ["segment_index", "frame_index", "time_s", "status", "minimum_aabb_clearance_m", "closest_pair", "broad_overlap_pair_count", "unresolved_shaped_overlap_pair_count", "exact_contacts"],
+      "properties": {
+        "segment_index": {"type": "integer", "minimum": 0},
+        "frame_index": {"type": "integer", "minimum": 0},
+        "time_s": {"type": "number", "minimum": 0},
+        "status": {"enum": ["proxy-mesh-contact", "broad-phase-overlap-unresolved", "separated-at-sampled-frame"]},
+        "minimum_aabb_clearance_m": {"type": "number", "minimum": 0},
+        "closest_pair": {"$ref": "#/$defs/pair"},
+        "broad_overlap_pair_count": {"type": "integer", "minimum": 0},
+        "unresolved_shaped_overlap_pair_count": {"type": "integer", "minimum": 0},
+        "exact_contacts": {"type": "array", "items": {"$ref": "#/$defs/contact"}}
+      }
+    }
+  }
+}

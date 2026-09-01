@@ -1,0 +1,17 @@
+{
+  "schema": "lab.collision_candidate_request/v1",
+  "asset_id": "instrument.bigclaw-step-reference",
+  "source": {
+    "kind": "step",
+    "path": "../unilab-workbench-e2e-handoff-20260824/workspace/inputs/step/BIgClaw.stp",
+    "tessellated_path": "../unilab-workbench-e2e-handoff-20260824/baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/render-lod0.glb",
+    "tessellated_unit": "m"
+  },
+  "policy": {
+    "l2_mode": "simplified-static-mesh",
+    "max_components": 512,
+    "max_sample_vertices": 10000,
+    "cavity_added_fill_ratio_limit": 0.05,
+    "target_face_ratio": 0.25
+  }
+}

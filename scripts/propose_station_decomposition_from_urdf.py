@@ -594,12 +594,14 @@ def main() -> int:
         proposal_path.write_text(
             yaml.safe_dump(proposal, allow_unicode=True, sort_keys=False),
             encoding="utf-8",
+            newline="\n",
         )
         evidence_path.write_text(
             json.dumps(evidence, ensure_ascii=False, indent=2) + "\n",
             encoding="utf-8",
+            newline="\n",
         )
-        review_path.write_text(review, encoding="utf-8")
+        review_path.write_text(review, encoding="utf-8", newline="\n")
     except ProposalError as error:
         sys.stderr.write(f"station decomposition proposal rejected: {error}\n")
         return 2

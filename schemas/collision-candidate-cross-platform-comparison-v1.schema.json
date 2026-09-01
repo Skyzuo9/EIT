@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/collision-candidate-cross-platform-comparison-v1.schema.json",
+  "title": "Cross-platform collision candidate QC comparison",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "passed", "status", "asset_id", "reports", "source_binding_equal",
+    "policy_equal", "file_comparison", "l2_comparison", "not_qualified_for"
+  ],
+  "properties": {
+    "schema": {"const": "lab.collision_candidate_cross_platform_comparison/v1"},
+    "passed": {"type": "boolean"},
+    "status": {"enum": ["cross-platform-qc-equivalent", "cross-platform-mismatch"]},
+    "asset_id": {"type": "string"},
+    "reports": {"type": "object"},
+    "source_binding_equal": {"type": "boolean"},
+    "policy_equal": {"type": "boolean"},
+    "file_comparison": {"type": "array"},
+    "l2_comparison": {"type": "object"},
+    "not_qualified_for": {"type": "array", "contains": {"const": "automatic-admission"}}
+  }
+}

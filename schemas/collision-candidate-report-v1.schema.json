@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/collision-candidate-report-v1.schema.json",
+  "title": "L0 L1 L2 collision candidate quality report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "status", "qualification", "asset_id", "request_sha256", "generator", "source",
+    "policy", "source_geometry", "levels", "files", "not_qualified_for"
+  ],
+  "properties": {
+    "schema": {"const": "lab.collision_candidate_report/v1"},
+    "status": {"const": "candidate-generated"},
+    "qualification": {"const": "offline-collision-candidate"},
+    "asset_id": {"type": "string"},
+    "request_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "generator": {"type": "object"},
+    "source": {"type": "object"},
+    "policy": {"type": "object"},
+    "source_geometry": {"type": "object"},
+    "levels": {
+      "type": "object",
+      "required": ["l0", "l1", "l2"]
+    },
+    "files": {"type": "array", "minItems": 5},
+    "not_qualified_for": {
+      "type": "array",
+      "contains": {"const": "automatic-admission"}
+    }
+  }
+}

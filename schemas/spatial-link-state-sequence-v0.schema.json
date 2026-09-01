@@ -1,0 +1,264 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/spatial-link-state-sequence-v0.schema.json",
+  "title": "UniLab candidate spatial link-state sequence v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "sample_id",
+    "action_contract_id",
+    "mode",
+    "qualification",
+    "world_frame",
+    "source_digests",
+    "kinematic_model",
+    "geometry",
+    "states",
+    "validation",
+    "limitations",
+    "sequence_digest"
+  ],
+  "properties": {
+    "schema": {"const": "lab.spatial-link-state-sequence/v0"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "action_contract_id": {"type": "string", "minLength": 1},
+    "mode": {"const": "shadow"},
+    "qualification": {"const": "candidate"},
+    "world_frame": {"$ref": "#/$defs/worldFrame"},
+    "source_digests": {
+      "type": "object",
+      "minProperties": 10,
+      "additionalProperties": {"$ref": "#/$defs/digest"}
+    },
+    "kinematic_model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_id",
+        "root_link",
+        "link_order",
+        "joint_ids",
+        "controller_to_model",
+        "base_registration"
+      ],
+      "properties": {
+        "model_id": {"const": "dobot-cr5"},
+        "root_link": {"const": "base_link"},
+        "link_order": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "joint_ids": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "controller_to_model": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["equation", "sign", "zero_offset_deg"],
+          "properties": {
+            "equation": {"const": "q_model_deg=sign*q_controller_deg+zero_offset_deg"},
+            "sign": {"$ref": "#/$defs/vec6"},
+            "zero_offset_deg": {"$ref": "#/$defs/vec6"}
+          }
+        },
+        "base_registration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "status",
+            "source",
+            "reference_rail_slot",
+            "target_rail_slot",
+            "reference_rail_position_mm",
+            "target_rail_position_mm",
+            "relative_rail_shift_m",
+            "matrix_robot_base_to_world"
+          ],
+          "properties": {
+            "status": {"const": "candidate-unqualified"},
+            "source": {"const": "calibration-gltf-reference-plus-rigged-rail-shift"},
+            "reference_rail_slot": {"type": "integer", "minimum": 1},
+            "target_rail_slot": {"type": "integer", "minimum": 1},
+            "reference_rail_position_mm": {"type": "number"},
+            "target_rail_position_mm": {"type": "number"},
+            "relative_rail_shift_m": {"$ref": "#/$defs/vec3"},
+            "matrix_robot_base_to_world": {"$ref": "#/$defs/matrix4"}
+          }
+        }
+      }
+    },
+    "geometry": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/geometry"}
+    },
+    "states": {
+      "type": "array",
+      "minItems": 15,
+      "items": {"$ref": "#/$defs/state"}
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "position_residual_threshold_mm",
+        "evaluated_state_count",
+        "within_threshold_count",
+        "observed_outliers",
+        "max_residual_excluding_observed_outliers_mm"
+      ],
+      "properties": {
+        "method": {"const": "tool-1-fk-vs-controller-tcp-position"},
+        "position_residual_threshold_mm": {"type": "number", "exclusiveMinimum": 0},
+        "evaluated_state_count": {"type": "integer", "minimum": 1},
+        "within_threshold_count": {"type": "integer", "minimum": 0},
+        "observed_outliers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["state_id", "point_ref", "position_residual_mm"],
+            "properties": {
+              "state_id": {"type": "string", "minLength": 1},
+              "point_ref": {"type": "string", "minLength": 1},
+              "position_residual_mm": {"type": "number", "minimum": 0}
+            }
+          }
+        },
+        "max_residual_excluding_observed_outliers_mm": {"type": "number", "minimum": 0}
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "sequence_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"
+    },
+    "vec3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"type": "number"}
+    },
+    "vec6": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"type": "number"}
+    },
+    "matrix4": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "array",
+        "minItems": 4,
+        "maxItems": 4,
+        "items": {"type": "number"}
+      }
+    },
+    "aabb": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min_m", "max_m"],
+      "properties": {
+        "min_m": {"$ref": "#/$defs/vec3"},
+        "max_m": {"$ref": "#/$defs/vec3"}
+      }
+    },
+    "worldFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame_id", "units", "up_axis", "handedness"],
+      "properties": {
+        "frame_id": {"type": "string", "minLength": 1},
+        "units": {"const": "m"},
+        "up_axis": {"const": "+Z"},
+        "handedness": {"const": "right-handed"}
+      }
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["link_id", "geometry_path", "geometry_sha256", "triangle_count", "local_aabb"],
+      "properties": {
+        "link_id": {"type": "string", "minLength": 1},
+        "geometry_path": {"$ref": "#/$defs/relativePath"},
+        "geometry_sha256": {"$ref": "#/$defs/digest"},
+        "triangle_count": {"type": "integer", "minimum": 1},
+        "local_aabb": {"$ref": "#/$defs/aabb"}
+      }
+    },
+    "linkState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["link_id", "matrix_link_to_world", "world_aabb"],
+      "properties": {
+        "link_id": {"type": "string", "minLength": 1},
+        "matrix_link_to_world": {"$ref": "#/$defs/matrix4"},
+        "world_aabb": {"$ref": "#/$defs/aabb"}
+      }
+    },
+    "state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_id",
+        "source_kind",
+        "step_index",
+        "point_ref",
+        "phase",
+        "payload_state",
+        "controller_joint_deg",
+        "model_joint_deg",
+        "tool_1_tcp_validation",
+        "links"
+      ],
+      "properties": {
+        "state_id": {"type": "string", "minLength": 1},
+        "source_kind": {"enum": ["anchor", "waypoint"]},
+        "step_index": {"type": ["integer", "null"], "minimum": 0},
+        "point_ref": {"type": "string", "minLength": 1},
+        "phase": {"enum": ["precondition", "approach", "transfer", "retreat"]},
+        "payload_state": {"type": "string", "minLength": 1},
+        "controller_joint_deg": {"$ref": "#/$defs/vec6"},
+        "model_joint_deg": {"$ref": "#/$defs/vec6"},
+        "tool_1_tcp_validation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fk_position_base_m", "controller_position_base_m", "position_residual_mm"],
+          "properties": {
+            "fk_position_base_m": {"$ref": "#/$defs/vec3"},
+            "controller_position_base_m": {"$ref": "#/$defs/vec3"},
+            "position_residual_mm": {"type": "number", "minimum": 0}
+          }
+        },
+        "links": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "items": {"$ref": "#/$defs/linkState"}
+        }
+      }
+    }
+  }
+}

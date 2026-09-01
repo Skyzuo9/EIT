@@ -1,6 +1,12 @@
-# 资产管线 UniLab
+# EIT：UniLab 资产管线与空间约束
 
-GitHub 仓库名是 `unilab-asset-pipeline`（GitHub 仓库名只能用 ASCII）；显示名与说明为 **资产管线unilab**。这是 UniLab 工站资产管线的私有总仓。它保存设计、可移植端到端交接包、测试资产、架构审阅，以及组成当前验证环境的精确代码版本。
+GitHub 仓库名是 `EIT`。这是 UniLab 工站资产管线、空间约束 shadow 计算和跨仓复现的私有总仓。它保存设计、可移植端到端交接包、测试资产、架构审阅，以及组成当前验证环境的精确代码版本。
+
+当前项目级架构、两个纵向测试样例，以及空间约束自动计算“已完成/待实现/真机资格”
+边界，以
+[`2026-08-28-unilab-asset-pipeline-project-design-and-spatial-plan.md`](./2026-08-28-unilab-asset-pipeline-project-design-and-spatial-plan.md)
+为入口。空间 shadow 首个可运行纵切、编译命令和测试结果见
+[`2026-08-28-spatial-shadow-initial-development-report.md`](./2026-08-28-spatial-shadow-initial-development-report.md)。
 
 ## 仓库内容
 
@@ -25,12 +31,20 @@ GitHub 仓库名是 `unilab-asset-pipeline`（GitHub 仓库名只能用 ASCII）
 Windows 已生成 win02、准备把完整交接包送回 Mac，或准备下一轮 P2/W2 协同时，使用
 [`2026-08-27-feeding-station-mac-to-windows-next-handoff.md`](./2026-08-27-feeding-station-mac-to-windows-next-handoff.md)。
 
-## 克隆
+## 从零复现
+
+当前可复现发布位于 `integration/spatial-constraints-v0`。首次克隆需要同时拥有
+`Skyzuo9` 名下四个私有 EIT 子仓的读取权限，并安装 Git LFS 与
+[uv](https://docs.astral.sh/uv/)。
 
 ```bash
-git clone --recurse-submodules https://github.com/Skyzuo9/unilab-asset-pipeline.git
-cd unilab-asset-pipeline
+git clone --recurse-submodules \
+  --branch integration/spatial-constraints-v0 \
+  https://github.com/Skyzuo9/EIT.git
+cd EIT
 git lfs pull
+./scripts/bootstrap_repro.sh
+./scripts/verify_repro.sh
 ```
 
 如果首次克隆时没有拉 submodule：
@@ -38,6 +52,11 @@ git lfs pull
 ```bash
 git submodule update --init --recursive
 ```
+
+`repro/manifest.lock.json` 锁定四个业务子仓和 Dobot vendor 的提交，并记录
+shadow 黄金产物摘要。`verify_repro.sh` 会检查 gitlink、LFS、全部根仓离线测试和
+三个确定性 `--check`。通过这些检查只表示软件/仿真证据可复现；当前结论仍为
+`decision=unknown`、`effect=none`、`shadow-only`，不授予真机运动、互锁或部署资格。
 
 ## 恢复本机未提交改动
 

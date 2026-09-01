@@ -1,0 +1,20 @@
+{
+  "action_contract_id": "robot.tank.pick",
+  "certificate_ref": "spatial-cert:928cc4db0637843469f8e97068096f304e864e2704d8e2c0311911a7508b0485",
+  "decision": "unknown",
+  "decision_digest": "99e440287f6707f6306787a33ee07976b41d826e0a2ccfc3ffaecc3f2466a5b8",
+  "decision_id": "spatial-decision:8e10660b1b792bcf185f3fec1a1b619c49862e0b2f9c17ffd7b02886c6173a2f",
+  "effect": "none",
+  "mode": "shadow",
+  "reason_codes": [
+    "candidate-partial-corridor-not-bound-by-certificate-v0",
+    "collision-scene-simulation-proxy-only",
+    "continuous-collision-not-computed",
+    "controller-interpolation-unresolved",
+    "dynamic-world-not-registered-to-proxy-scene",
+    "stop-model-missing"
+  ],
+  "sample_id": "eit-ptlc-historical-v1",
+  "schema": "lab.spatial-interlock-decision/v0",
+  "world_snapshot_version": "offline-lock:b0b243154cac6c378ab4104278027fc28bb6ddce88e3c586eb6a1accd7afc641"
+}

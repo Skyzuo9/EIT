@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/collision-candidate-request-v1.schema.json",
+  "title": "Generic STEP or GLB collision candidate request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "asset_id", "source", "policy"],
+  "properties": {
+    "schema": {"const": "lab.collision_candidate_request/v1"},
+    "asset_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+    "source": {
+      "oneOf": [
+        {"$ref": "#/$defs/glbSource"},
+        {"$ref": "#/$defs/stepSource"}
+      ]
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["l2_mode", "max_components", "max_sample_vertices", "cavity_added_fill_ratio_limit"],
+      "properties": {
+        "l2_mode": {"enum": ["compound-convex", "simplified-static-mesh"]},
+        "max_components": {"type": "integer", "minimum": 1, "maximum": 4096},
+        "max_sample_vertices": {"type": "integer", "minimum": 8, "maximum": 100000},
+        "cavity_added_fill_ratio_limit": {"type": "number", "minimum": 0, "maximum": 1},
+        "target_face_ratio": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}
+      }
+    }
+  },
+  "$defs": {
+    "unit": {"enum": ["m", "mm"]},
+    "glbSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "unit"],
+      "properties": {
+        "kind": {"const": "glb"},
+        "path": {"type": "string", "minLength": 1},
+        "unit": {"$ref": "#/$defs/unit"}
+      }
+    },
+    "stepSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "path", "tessellated_path", "tessellated_unit"],
+      "properties": {
+        "kind": {"const": "step"},
+        "path": {"type": "string", "minLength": 1},
+        "tessellated_path": {"type": "string", "minLength": 1},
+        "tessellated_unit": {"$ref": "#/$defs/unit"}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"policy": {"properties": {"l2_mode": {"const": "simplified-static-mesh"}}}}},
+      "then": {"properties": {"policy": {"required": ["target_face_ratio"]}}}
+    }
+  ]
+}

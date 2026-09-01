@@ -1,5 +1,12 @@
 * text=auto
 
+# Deterministic source and contract files across macOS/Windows.
+*.py text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.md text eol=lf
+
 # Managed 3D/CAD binaries
 *.glb filter=lfs diff=lfs merge=lfs -text
 *.gltf filter=lfs diff=lfs merge=lfs -text

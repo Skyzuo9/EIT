@@ -1,0 +1,15 @@
+{
+  "schema": "lab.collision_candidate_request/v1",
+  "asset_id": "ptlc.develop-tank-rack",
+  "source": {
+    "kind": "glb",
+    "path": "../related/unilabSZlab/pTLC仿真资产/proxies/develop_tank_rack/visual.glb",
+    "unit": "m"
+  },
+  "policy": {
+    "l2_mode": "compound-convex",
+    "max_components": 128,
+    "max_sample_vertices": 10000,
+    "cavity_added_fill_ratio_limit": 0.05
+  }
+}

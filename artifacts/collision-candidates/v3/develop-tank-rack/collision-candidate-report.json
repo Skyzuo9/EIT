@@ -1,0 +1,724 @@
+{
+  "schema": "lab.collision_candidate_report/v1",
+  "status": "candidate-generated",
+  "qualification": "offline-collision-candidate",
+  "asset_id": "ptlc.develop-tank-rack",
+  "request_sha256": "c2dc1bc79891bb8b37ca2f216b9c955a6fc8a0db7040f2503137a844485d7017",
+  "generator": {
+    "name": "unilab-generic-collision-candidate-generator",
+    "version": "v3",
+    "script_ref": "scripts/generate_collision_candidates.py",
+    "script_sha256": "7fa123e05ab2dc928044d191761a0e1a1c1f7fce447524de3f49ce3f9ddfcb67",
+    "numpy_version": "2.5.1",
+    "trimesh_version": "4.12.2"
+  },
+  "source": {
+    "kind": "glb",
+    "source_ref": "../related/unilabSZlab/pTLC仿真资产/proxies/develop_tank_rack/visual.glb",
+    "source_sha256": "773ef4fcdb3126fe51e785404386da0acf4b509024d7f567b317b9c7227b9c01",
+    "geometry_ref": "../related/unilabSZlab/pTLC仿真资产/proxies/develop_tank_rack/visual.glb",
+    "geometry_sha256": "773ef4fcdb3126fe51e785404386da0acf4b509024d7f567b317b9c7227b9c01",
+    "geometry_unit": "m",
+    "direct_brep_parsed": false,
+    "geometry_basis": "source-glb"
+  },
+  "policy": {
+    "l2_mode": "compound-convex",
+    "max_components": 128,
+    "max_sample_vertices": 10000,
+    "cavity_added_fill_ratio_limit": 0.05
+  },
+  "source_geometry": {
+    "vertices": 320,
+    "triangles": 480,
+    "component_count": 40,
+    "bounds": {
+      "min_m": [
+        -0.5249999761581421,
+        -0.3100000023841858,
+        0.0
+      ],
+      "max_m": [
+        0.5249999761581421,
+        0.3100000023841858,
+        0.9800000190734863
+      ],
+      "size_m": [
+        1.0499999523162842,
+        0.6200000047683716,
+        0.9800000190734863
+      ]
+    },
+    "watertight": {
+      "is_watertight": true,
+      "is_winding_consistent": true,
+      "is_volume": true,
+      "euler_number": 80,
+      "boundary_edge_count": 0,
+      "nonmanifold_edge_count": 0
+    },
+    "volume_m3": 0.1431695256770563
+  },
+  "levels": {
+    "l0": {
+      "aabb": {
+        "method": "axis-aligned-bounding-box",
+        "path": "l0/aabb.glb",
+        "sha256": "e48408a638a948ae4da4a451a3e06a03faddbc70ac6a82d4910839385e91ce1b",
+        "geometry": {
+          "vertices": 8,
+          "triangles": 12,
+          "component_count": 1,
+          "bounds": {
+            "min_m": [
+              -0.5249999761581421,
+              -0.3100000023841858,
+              0.0
+            ],
+            "max_m": [
+              0.5249999761581421,
+              0.3100000023841858,
+              0.9800000190734863
+            ],
+            "size_m": [
+              1.0499999523162842,
+              0.6200000047683716,
+              0.9800000190734863
+            ]
+          },
+          "watertight": {
+            "is_watertight": true,
+            "is_winding_consistent": true,
+            "is_volume": true,
+            "euler_number": 2,
+            "boundary_edge_count": 0,
+            "nonmanifold_edge_count": 0
+          },
+          "volume_m3": 0.6379799883508676
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            1.0499999523162842,
+            0.6200000047683716,
+            0.9800000190734863
+          ],
+          "aabb_candidate_size_m": [
+            1.0499999523162842,
+            0.6200000047683716,
+            0.9800000190734863
+          ],
+          "aabb_absolute_error_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "aabb_max_relative_error": 0.0,
+          "obb_source_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_candidate_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_absolute_error_sorted_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "missed_envelope": {
+          "metric": "sampled-convex-halfspace-outward-violation",
+          "sample_count": 320,
+          "maximum_missed_envelope_m": 0.0,
+          "passes_at_1e-8_m": true,
+          "scope": "source vertices; not continuous CAD surface"
+        },
+        "cavity_preservation": {
+          "metric": "added-solid-volume-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.6379799883508676,
+          "source_component_count": 40,
+          "candidate_component_count": 1,
+          "component_separation_preserved": false,
+          "status": "not-preserved",
+          "cavity_preserved": false,
+          "reason": "candidate fills too much source-envelope empty space",
+          "source_volume_m3": 0.1431695256770563,
+          "candidate_volume_m3": 0.6379799883508676,
+          "added_solid_volume_m3": 0.49481046267381124,
+          "added_fill_ratio": 0.7755893158229943
+        },
+        "fallbacks": []
+      },
+      "obb": {
+        "method": "oriented-bounding-box",
+        "path": "l0/obb.glb",
+        "sha256": "a73b34268da076af82ef5c77bfc4e38028423aa2cd8e38b0faf2cf1de772c1a6",
+        "geometry": {
+          "vertices": 8,
+          "triangles": 12,
+          "component_count": 1,
+          "bounds": {
+            "min_m": [
+              -0.5249999761581421,
+              -0.31000000238418585,
+              0.0
+            ],
+            "max_m": [
+              0.5249999761581421,
+              0.31000000238418585,
+              0.9800000190734863
+            ],
+            "size_m": [
+              1.0499999523162842,
+              0.6200000047683717,
+              0.9800000190734863
+            ]
+          },
+          "watertight": {
+            "is_watertight": true,
+            "is_winding_consistent": true,
+            "is_volume": true,
+            "euler_number": 2,
+            "boundary_edge_count": 0,
+            "nonmanifold_edge_count": 0
+          },
+          "volume_m3": 0.6379799883508676
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            1.0499999523162842,
+            0.6200000047683716,
+            0.9800000190734863
+          ],
+          "aabb_candidate_size_m": [
+            1.0499999523162842,
+            0.6200000047683717,
+            0.9800000190734863
+          ],
+          "aabb_absolute_error_m": [
+            0.0,
+            1.1102230246251565e-16,
+            0.0
+          ],
+          "aabb_max_relative_error": 1.790682284010513e-16,
+          "obb_source_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_candidate_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_absolute_error_sorted_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "missed_envelope": {
+          "metric": "sampled-convex-halfspace-outward-violation",
+          "sample_count": 320,
+          "maximum_missed_envelope_m": 5.551115123125783e-17,
+          "passes_at_1e-8_m": true,
+          "scope": "source vertices; not continuous CAD surface"
+        },
+        "cavity_preservation": {
+          "metric": "added-solid-volume-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.6379799883508676,
+          "source_component_count": 40,
+          "candidate_component_count": 1,
+          "component_separation_preserved": false,
+          "status": "not-preserved",
+          "cavity_preserved": false,
+          "reason": "candidate fills too much source-envelope empty space",
+          "source_volume_m3": 0.1431695256770563,
+          "candidate_volume_m3": 0.6379799883508676,
+          "added_solid_volume_m3": 0.49481046267381124,
+          "added_fill_ratio": 0.7755893158229943
+        },
+        "fallbacks": []
+      }
+    },
+    "l1": {
+      "best_primitive": {
+        "method": "minimum-volume-bounding-box",
+        "path": "l1/best-primitive.glb",
+        "sha256": "c6fbddc7cd1d7a890a3e6a5f32a55dfa43938a0319cc1edbe16e92cc02cd483d",
+        "geometry": {
+          "vertices": 8,
+          "triangles": 12,
+          "component_count": 1,
+          "bounds": {
+            "min_m": [
+              -0.5249999761581421,
+              -0.31000000238418585,
+              0.0
+            ],
+            "max_m": [
+              0.5249999761581421,
+              0.31000000238418585,
+              0.9800000190734863
+            ],
+            "size_m": [
+              1.0499999523162842,
+              0.6200000047683717,
+              0.9800000190734863
+            ]
+          },
+          "watertight": {
+            "is_watertight": true,
+            "is_winding_consistent": true,
+            "is_volume": true,
+            "euler_number": 2,
+            "boundary_edge_count": 0,
+            "nonmanifold_edge_count": 0
+          },
+          "volume_m3": 0.6379799883508676
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            1.0499999523162842,
+            0.6200000047683716,
+            0.9800000190734863
+          ],
+          "aabb_candidate_size_m": [
+            1.0499999523162842,
+            0.6200000047683717,
+            0.9800000190734863
+          ],
+          "aabb_absolute_error_m": [
+            0.0,
+            1.1102230246251565e-16,
+            0.0
+          ],
+          "aabb_max_relative_error": 1.790682284010513e-16,
+          "obb_source_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_candidate_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_absolute_error_sorted_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "missed_envelope": {
+          "metric": "sampled-convex-halfspace-outward-violation",
+          "sample_count": 320,
+          "maximum_missed_envelope_m": 5.551115123125783e-17,
+          "passes_at_1e-8_m": true,
+          "scope": "source vertices; not continuous CAD surface"
+        },
+        "cavity_preservation": {
+          "metric": "added-solid-volume-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.6379799883508676,
+          "source_component_count": 40,
+          "candidate_component_count": 1,
+          "component_separation_preserved": false,
+          "status": "not-preserved",
+          "cavity_preserved": false,
+          "reason": "candidate fills too much source-envelope empty space",
+          "source_volume_m3": 0.1431695256770563,
+          "candidate_volume_m3": 0.6379799883508676,
+          "added_solid_volume_m3": 0.49481046267381124,
+          "added_fill_ratio": 0.7755893158229943
+        },
+        "fallbacks": []
+      },
+      "convex_hull": {
+        "method": "whole-mesh-convex-hull",
+        "path": "l1/convex-hull.glb",
+        "sha256": "3046f889d5f1d24b2390c2081573af38ae9fdde4a044e0b6ec685981921d0ca5",
+        "geometry": {
+          "vertices": 8,
+          "triangles": 12,
+          "component_count": 1,
+          "bounds": {
+            "min_m": [
+              -0.5249999761581421,
+              -0.3100000023841858,
+              0.0
+            ],
+            "max_m": [
+              0.5249999761581421,
+              0.3100000023841858,
+              0.9800000190734863
+            ],
+            "size_m": [
+              1.0499999523162842,
+              0.6200000047683716,
+              0.9800000190734863
+            ]
+          },
+          "watertight": {
+            "is_watertight": true,
+            "is_winding_consistent": true,
+            "is_volume": true,
+            "euler_number": 2,
+            "boundary_edge_count": 0,
+            "nonmanifold_edge_count": 0
+          },
+          "volume_m3": 0.6379799883508676
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            1.0499999523162842,
+            0.6200000047683716,
+            0.9800000190734863
+          ],
+          "aabb_candidate_size_m": [
+            1.0499999523162842,
+            0.6200000047683716,
+            0.9800000190734863
+          ],
+          "aabb_absolute_error_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "aabb_max_relative_error": 0.0,
+          "obb_source_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_candidate_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_absolute_error_sorted_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "missed_envelope": {
+          "metric": "sampled-convex-halfspace-outward-violation",
+          "sample_count": 320,
+          "maximum_missed_envelope_m": 0.0,
+          "passes_at_1e-8_m": true,
+          "scope": "source vertices; not continuous CAD surface"
+        },
+        "cavity_preservation": {
+          "metric": "added-solid-volume-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.6379799883508676,
+          "source_component_count": 40,
+          "candidate_component_count": 1,
+          "component_separation_preserved": false,
+          "status": "not-preserved",
+          "cavity_preserved": false,
+          "reason": "candidate fills too much source-envelope empty space",
+          "source_volume_m3": 0.1431695256770563,
+          "candidate_volume_m3": 0.6379799883508676,
+          "added_solid_volume_m3": 0.49481046267381124,
+          "added_fill_ratio": 0.7755893158229943
+        },
+        "fallbacks": []
+      },
+      "multi_sphere": {
+        "method": "per-connected-component-minimum-enclosing-sphere",
+        "geometry": {
+          "vertices": 6480,
+          "triangles": 12800,
+          "component_count": 40,
+          "bounds": {
+            "min_m": [
+              -0.9958156514776129,
+              -0.7808156637132948,
+              -0.29128765132872986
+            ],
+            "max_m": [
+              0.9958156514776129,
+              0.7808156637132948,
+              1.2712876599443867
+            ],
+            "size_m": [
+              1.9916313029552257,
+              1.5616313274265896,
+              1.5625753112731167
+            ]
+          },
+          "watertight": {
+            "is_watertight": true,
+            "is_winding_consistent": true,
+            "is_volume": true,
+            "euler_number": 80,
+            "boundary_edge_count": 0,
+            "nonmanifold_edge_count": 0
+          },
+          "volume_m3": 6.032563576985552,
+          "analytic_primitive": "sphere-set",
+          "primitive_count": 40,
+          "preview_tessellation_only": true
+        },
+        "missed_envelope": {
+          "metric": "sampled-point-to-analytic-sphere-outward-violation",
+          "sample_count": 320,
+          "maximum_missed_envelope_m": 2.7755575615628914e-17,
+          "passes_at_1e-8_m": true,
+          "containment_basis": "analytic-spheres-not-preview-triangles",
+          "scope": "source vertices paired to connected-component bounding spheres"
+        },
+        "cavity_preservation": {
+          "metric": "summed-sphere-volume-addition-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.6379799883508676,
+          "source_component_count": 40,
+          "candidate_component_count": 40,
+          "component_separation_preserved": true,
+          "status": "not-preserved",
+          "cavity_preserved": false,
+          "reason": "analytic sphere cover overfills source-envelope empty space",
+          "source_volume_m3": 0.14316952567705632,
+          "candidate_volume_m3": 6.243850814407195,
+          "added_solid_volume_m3": 6.100681288730139,
+          "added_fill_ratio": 9.562496316694764,
+          "volume_scope": "summed primitive volumes; overlaps are not boolean-unioned"
+        },
+        "fallbacks": [],
+        "path": "l1/multi-sphere-cover.glb",
+        "sha256": "ad78fbe1d77e034f7ea91822e76900567dced217b0c0f9cf8da82fb1cf5bd6cf",
+        "runtime_artifact": {
+          "path": "l1/multi-sphere-cover.json",
+          "sha256": "5b281a67545ed035c349cb5dbe421d7f6525647815205a1cbc5948a304d6ddcb",
+          "format": "json",
+          "source_unit": "m"
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            1.0499999523162842,
+            0.6200000047683716,
+            0.9800000190734863
+          ],
+          "aabb_candidate_size_m": [
+            1.9916313029552257,
+            1.5616313274265896,
+            1.5625753112731167
+          ],
+          "aabb_absolute_error_m": [
+            0.9416313506389415,
+            0.941631322658218,
+            0.5825752921996303
+          ],
+          "aabb_max_relative_error": 1.5187601861551696,
+          "obb_source_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_candidate_extents_sorted_m": [
+            1.3859274196695024,
+            1.39499837093883,
+            1.9916313029552257
+          ],
+          "obb_absolute_error_sorted_m": [
+            0.7659274149011308,
+            0.41499835186534373,
+            0.9416313506389415
+          ]
+        }
+      }
+    },
+    "l2": {
+      "compound_convex": {
+        "method": "connected-component-convex-hulls",
+        "path": "l2/compound-convex.glb",
+        "sha256": "cde229cfc53c56251bdb4b2a080f36d811387ca0c7caa600bc5141b46d9c40c2",
+        "geometry": {
+          "vertices": 320,
+          "triangles": 480,
+          "component_count": 40,
+          "bounds": {
+            "min_m": [
+              -0.5249999761581421,
+              -0.3100000023841858,
+              0.0
+            ],
+            "max_m": [
+              0.5249999761581421,
+              0.3100000023841858,
+              0.9800000190734863
+            ],
+            "size_m": [
+              1.0499999523162842,
+              0.6200000047683716,
+              0.9800000190734863
+            ]
+          },
+          "watertight": {
+            "is_watertight": true,
+            "is_winding_consistent": true,
+            "is_volume": true,
+            "euler_number": 80,
+            "boundary_edge_count": 0,
+            "nonmanifold_edge_count": 0
+          },
+          "volume_m3": 0.14316952567705632
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            1.0499999523162842,
+            0.6200000047683716,
+            0.9800000190734863
+          ],
+          "aabb_candidate_size_m": [
+            1.0499999523162842,
+            0.6200000047683716,
+            0.9800000190734863
+          ],
+          "aabb_absolute_error_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "aabb_max_relative_error": 0.0,
+          "obb_source_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_candidate_extents_sorted_m": [
+            0.6200000047683716,
+            0.9800000190734863,
+            1.0499999523162842
+          ],
+          "obb_absolute_error_sorted_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "missed_envelope": {
+          "metric": "sampled-per-component-convex-halfspace-outward-violation",
+          "sample_count": 320,
+          "available_source_vertex_count": 320,
+          "maximum_missed_envelope_m": 0.0,
+          "passes_at_1e-8_m": true,
+          "scope": "source vertices paired to connected-component hulls; not continuous CAD surface"
+        },
+        "cavity_preservation": {
+          "metric": "added-solid-volume-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.6379799883508676,
+          "source_component_count": 40,
+          "candidate_component_count": 40,
+          "component_separation_preserved": true,
+          "status": "preserved",
+          "cavity_preserved": true,
+          "reason": "candidate added solid volume is within limit",
+          "source_volume_m3": 0.1431695256770563,
+          "candidate_volume_m3": 0.14316952567705632,
+          "added_solid_volume_m3": 2.7755575615628914e-17,
+          "added_fill_ratio": 4.3505401615143264e-17
+        },
+        "fallbacks": [],
+        "runtime_artifact": {
+          "path": "l2/compound-convex.runtime.stl",
+          "sha256": "d90db8b6539a349758b59e6daf6c96760efdfedcdc16ee1dbcd1e3978eb3e393",
+          "format": "stl",
+          "source_unit": "m",
+          "representation": "compound-convex",
+          "component_triangle_counts": [
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12,
+            12
+          ]
+        }
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "l0/aabb.glb",
+      "sha256": "e48408a638a948ae4da4a451a3e06a03faddbc70ac6a82d4910839385e91ce1b"
+    },
+    {
+      "path": "l0/obb.glb",
+      "sha256": "a73b34268da076af82ef5c77bfc4e38028423aa2cd8e38b0faf2cf1de772c1a6"
+    },
+    {
+      "path": "l1/best-primitive.glb",
+      "sha256": "c6fbddc7cd1d7a890a3e6a5f32a55dfa43938a0319cc1edbe16e92cc02cd483d"
+    },
+    {
+      "path": "l1/convex-hull.glb",
+      "sha256": "3046f889d5f1d24b2390c2081573af38ae9fdde4a044e0b6ec685981921d0ca5"
+    },
+    {
+      "path": "l2/compound-convex.glb",
+      "sha256": "cde229cfc53c56251bdb4b2a080f36d811387ca0c7caa600bc5141b46d9c40c2"
+    },
+    {
+      "path": "l2/compound-convex.runtime.stl",
+      "sha256": "d90db8b6539a349758b59e6daf6c96760efdfedcdc16ee1dbcd1e3978eb3e393"
+    },
+    {
+      "path": "l1/multi-sphere-cover.glb",
+      "sha256": "ad78fbe1d77e034f7ea91822e76900567dced217b0c0f9cf8da82fb1cf5bd6cf"
+    },
+    {
+      "path": "l1/multi-sphere-cover.json",
+      "sha256": "5b281a67545ed035c349cb5dbe421d7f6525647815205a1cbc5948a304d6ddcb"
+    }
+  ],
+  "not_qualified_for": [
+    "automatic-admission",
+    "continuous-collision",
+    "robot-execution",
+    "hardware-safety-interlock",
+    "deployment"
+  ]
+}

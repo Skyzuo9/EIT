@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/collision-candidate-selection-v1.schema.json",
+  "title": "Collision candidate selection policy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "sample_id", "fallback_policy", "selections"],
+  "properties": {
+    "schema": {"const": "lab.collision-candidate-selection/v1"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "fallback_policy": {"const": "use-parametric-proxy"},
+    "selections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "asset_id", "report_asset_id", "report_path", "level",
+          "candidate_key", "runtime_artifact_key", "max_aabb_relative_error",
+          "max_missed_envelope_m", "require_cavity_preserved",
+          "require_watertight"
+        ],
+        "properties": {
+          "asset_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+          "report_asset_id": {"type": "string", "minLength": 1},
+          "report_path": {"$ref": "#/$defs/relativePath"},
+          "level": {"enum": ["l0", "l1", "l2"]},
+          "candidate_key": {"type": "string", "minLength": 1},
+          "runtime_artifact_key": {"type": "string", "minLength": 1},
+          "max_aabb_relative_error": {"type": "number", "minimum": 0},
+          "max_missed_envelope_m": {"type": "number", "minimum": 0},
+          "require_cavity_preserved": {"type": "boolean"},
+          "require_watertight": {"type": "boolean"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?![A-Za-z]:[\\\\/])(?!.*(?:^|/)\\.\\.(?:/|$))[^\\\\]+$"
+    }
+  }
+}

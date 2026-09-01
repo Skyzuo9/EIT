@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/motion-contract-v0.schema.json",
+  "title": "UniLab motion contract v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "sample_id",
+    "action_contract_id",
+    "selector",
+    "mode",
+    "analysis_scope",
+    "source_digests",
+    "preconditions",
+    "resolution",
+    "steps",
+    "terminal_facts",
+    "contract_digest"
+  ],
+  "properties": {
+    "schema": {"const": "lab.motion-contract/v0"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "action_contract_id": {"type": "string", "minLength": 1},
+    "selector": {"type": "object"},
+    "mode": {"const": "shadow"},
+    "analysis_scope": {"type": "string", "minLength": 1},
+    "source_digests": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/digest"}
+    },
+    "preconditions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "resolution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "waypoint_sequence_resolved", "unresolved_reasons"],
+      "properties": {
+        "status": {"enum": ["resolved", "known-no-motion", "unresolved"]},
+        "waypoint_sequence_resolved": {"type": "boolean"},
+        "unresolved_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/step"}
+    },
+    "terminal_facts": {
+      "type": "object",
+      "required": ["payload_state", "robot_anchor_expected"],
+      "properties": {
+        "payload_state": {"type": "string", "minLength": 1},
+        "robot_anchor_expected": {"type": "string", "minLength": 1}
+      }
+    },
+    "contract_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "vec6": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {"type": "number"}
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["index", "kind", "phase", "payload_state_before", "payload_state_after"],
+      "properties": {
+        "index": {"type": "integer", "minimum": 0},
+        "kind": {"enum": ["robot-motion", "tool-state"]},
+        "phase": {"enum": ["approach", "acquire", "transfer", "release", "retreat"]},
+        "payload_state_before": {"type": "string", "minLength": 1},
+        "payload_state_after": {"type": "string", "minLength": 1},
+        "motion": {"enum": ["move_j", "move_l"]},
+        "point_ref": {"type": "string", "minLength": 1},
+        "semantic_point_id": {"type": "string", "minLength": 1},
+        "point_status": {"type": "string", "minLength": 1},
+        "joint_source": {"enum": ["joint", "jointSolved", "compiledMoveLTrajectory"]},
+        "joint_deg": {"$ref": "#/$defs/vec6"},
+        "joint_resolution_note": {
+          "enum": [
+            "measured-joint",
+            "software-derived-point-joint",
+            "stale-measured-joint-rejected"
+          ]
+        },
+        "stored_joint_pose_residual_mm": {"type": ["number", "null"], "minimum": 0},
+        "selected_joint_pose_residual_mm": {"type": "number", "minimum": 0},
+        "tcp_pose_controller": {"$ref": "#/$defs/vec6"},
+        "tool": {"type": "integer", "minimum": 0},
+        "user": {"type": "integer", "minimum": 0},
+        "rail_slot": {"type": ["integer", "null"]},
+        "acc": {"type": "number"},
+        "vel": {"type": "number"},
+        "cp": {"type": "number"},
+        "tool_action": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "robot-motion"}}},
+          "then": {
+            "required": [
+              "motion",
+              "point_ref",
+              "semantic_point_id",
+              "point_status",
+              "joint_source",
+              "joint_deg",
+              "joint_resolution_note",
+              "stored_joint_pose_residual_mm",
+              "selected_joint_pose_residual_mm",
+              "tcp_pose_controller",
+              "tool",
+              "user",
+              "rail_slot",
+              "acc",
+              "vel",
+              "cp"
+            ]
+          },
+          "else": {"required": ["tool_action"]}
+        }
+      ]
+    }
+  }
+}

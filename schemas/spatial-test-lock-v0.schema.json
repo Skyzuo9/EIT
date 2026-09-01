@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/spatial-test-lock-v0.schema.json",
+  "title": "UniLab spatial shadow test lock v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "config_sha256", "samples", "lock_digest"],
+  "properties": {
+    "schema": {"const": "lab.spatial-test-lock/v0"},
+    "config_sha256": {"$ref": "#/$defs/digest"},
+    "samples": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sample"}
+    },
+    "lock_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": {"type": "boolean"},
+      "required": [
+        "render",
+        "motion_waypoints",
+        "collision_candidate",
+        "collision_qualified",
+        "stop_model_qualified",
+        "spatial_interlock_enforced",
+        "hardware_execution"
+      ]
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role", "path", "bytes", "sha256"],
+      "properties": {
+        "role": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1, "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$)).+$"},
+        "bytes": {"type": "integer", "minimum": 1},
+        "sha256": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sample_id",
+        "label",
+        "qualification",
+        "capabilities",
+        "not_qualified_for",
+        "inputs",
+        "sample_digest"
+      ],
+      "properties": {
+        "sample_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+        "label": {"type": "string", "minLength": 1},
+        "qualification": {"type": "string", "minLength": 1},
+        "capabilities": {"$ref": "#/$defs/capabilities"},
+        "not_qualified_for": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "inputs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/input"}
+        },
+        "sample_digest": {"$ref": "#/$defs/digest"}
+      }
+    }
+  }
+}

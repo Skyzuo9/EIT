@@ -1,0 +1,1475 @@
+{
+  "allowed_overlaps": [
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:collection_station",
+        "ptlc.proxy:machine_deck"
+      ],
+      "reason": "station supported on table top"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:collection_station",
+        "ptlc.proxy:staging_b_6slot"
+      ],
+      "reason": "tray intentionally mounted on collection-station deck"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:develop_tank_rack",
+        "ptlc.proxy:machine_deck"
+      ],
+      "reason": "rack supported on table top"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:feed_lift",
+        "ptlc.proxy:machine_deck"
+      ],
+      "reason": "auxiliary edge-supported station"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:group_rack_4x3",
+        "ptlc.proxy:machine_deck"
+      ],
+      "reason": "rack supported on table top"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:machine_deck",
+        "ptlc.proxy:photo_scrape_station"
+      ],
+      "reason": "station supported on table top"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:machine_deck",
+        "ptlc.proxy:rail_11y"
+      ],
+      "reason": "rail supported on table top"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:machine_deck",
+        "ptlc.proxy:sampling_station"
+      ],
+      "reason": "station supported on table top"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:machine_deck",
+        "ptlc.proxy:tool_station"
+      ],
+      "reason": "station supported on table top"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:photo_scrape_station",
+        "ptlc.proxy:powder_collector_fixture"
+      ],
+      "reason": "fixture intentionally nested on photo/scrape plate"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:sampling_station",
+        "ptlc.proxy:staging_a_6slot"
+      ],
+      "reason": "tray intentionally mounted on sampling-station deck"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:tool_large_gripper",
+        "ptlc.proxy:tool_station"
+      ],
+      "reason": "tool intentionally stored in station"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:tool_small_gripper",
+        "ptlc.proxy:tool_station"
+      ],
+      "reason": "tool intentionally stored in station"
+    },
+    {
+      "approval": "source-layout-candidate",
+      "entity_ids": [
+        "ptlc.proxy:tool_station",
+        "ptlc.proxy:tool_suction"
+      ],
+      "reason": "tool intentionally stored in station"
+    }
+  ],
+  "entities": [
+    {
+      "collision_mode": "multi-body-open",
+      "component_count": 6,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:collection_station",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/collection_station/collision.stl",
+      "geometry_sha256": "9b5139986ecb10d8d79ae50109f73f9631cd123859c0a8df00813e5adfcc7fc1",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.325,
+          0.26,
+          0.85
+        ],
+        "min_m": [
+          -0.325,
+          -0.26,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          -0.1,
+          0.5,
+          0.85
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.14,
+        0.12,
+        0.16
+      ],
+      "world_aabb": {
+        "max_m": [
+          0.225,
+          0.76,
+          1.7
+        ],
+        "min_m": [
+          -0.425,
+          0.24,
+          0.85
+        ]
+      }
+    },
+    {
+      "collision_mode": "compound-convex",
+      "component_count": 40,
+      "component_triangle_counts": [
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "component_world_aabbs": [
+        {
+          "max_m": [
+            1.329399994016,
+            0.484650010347,
+            1.695499992371
+          ],
+          "min_m": [
+            0.870600005984,
+            0.226350003958,
+            1.670500016212
+          ]
+        },
+        {
+          "max_m": [
+            1.310800006986,
+            0.475199991941,
+            1.668300008774
+          ],
+          "min_m": [
+            0.889199993014,
+            0.235799992561,
+            1.550699985027
+          ]
+        },
+        {
+          "max_m": [
+            1.329399994016,
+            0.484650010347,
+            1.48480001688
+          ],
+          "min_m": [
+            0.870600005984,
+            0.226350003958,
+            1.459799981117
+          ]
+        },
+        {
+          "max_m": [
+            1.310800006986,
+            0.475199991941,
+            1.457599973679
+          ],
+          "min_m": [
+            0.889199993014,
+            0.235799992561,
+            1.340000009537
+          ]
+        },
+        {
+          "max_m": [
+            1.329399994016,
+            0.484650010347,
+            1.274100011587
+          ],
+          "min_m": [
+            0.870600005984,
+            0.226350003958,
+            1.249100005627
+          ]
+        },
+        {
+          "max_m": [
+            1.310800006986,
+            0.475199991941,
+            1.246899998188
+          ],
+          "min_m": [
+            0.889199993014,
+            0.235799992561,
+            1.129300004244
+          ]
+        },
+        {
+          "max_m": [
+            1.329399994016,
+            0.484650010347,
+            1.063400006294
+          ],
+          "min_m": [
+            0.870600005984,
+            0.226350003958,
+            1.038400000334
+          ]
+        },
+        {
+          "max_m": [
+            1.310800006986,
+            0.475199991941,
+            1.036199992895
+          ],
+          "min_m": [
+            0.889199993014,
+            0.235799992561,
+            0.918599998951
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            0.512999976158,
+            1.830000019073
+          ],
+          "min_m": [
+            0.789999997616,
+            0.473000014305,
+            1.789999997616
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            0.238,
+            1.830000019073
+          ],
+          "min_m": [
+            0.789999997616,
+            0.197999993443,
+            1.789999997616
+          ]
+        },
+        {
+          "max_m": [
+            0.829999989271,
+            0.512999976158,
+            1.830000019073
+          ],
+          "min_m": [
+            0.789999997616,
+            0.197999993443,
+            1.789999997616
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            0.512999976158,
+            1.830000019073
+          ],
+          "min_m": [
+            1.370000010729,
+            0.197999993443,
+            1.789999997616
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            0.512999976158,
+            0.889999999106
+          ],
+          "min_m": [
+            0.789999997616,
+            0.473000014305,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            0.238,
+            0.889999999106
+          ],
+          "min_m": [
+            0.789999997616,
+            0.197999993443,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            0.829999989271,
+            0.512999976158,
+            0.889999999106
+          ],
+          "min_m": [
+            0.789999997616,
+            0.197999993443,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            0.512999976158,
+            0.889999999106
+          ],
+          "min_m": [
+            1.370000010729,
+            0.197999993443,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            0.829999989271,
+            0.512999976158,
+            1.830000019073
+          ],
+          "min_m": [
+            0.789999997616,
+            0.473000014305,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            0.512999976158,
+            1.830000019073
+          ],
+          "min_m": [
+            1.370000010729,
+            0.473000014305,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            0.829999989271,
+            0.238,
+            1.830000019073
+          ],
+          "min_m": [
+            0.789999997616,
+            0.197999993443,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            0.238,
+            1.830000019073
+          ],
+          "min_m": [
+            1.370000010729,
+            0.197999993443,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            1.329399994016,
+            -0.250350003958,
+            1.695499992371
+          ],
+          "min_m": [
+            0.870600005984,
+            -0.508650010347,
+            1.670500016212
+          ]
+        },
+        {
+          "max_m": [
+            1.310800006986,
+            -0.259799992561,
+            1.668300008774
+          ],
+          "min_m": [
+            0.889199993014,
+            -0.499199991941,
+            1.550699985027
+          ]
+        },
+        {
+          "max_m": [
+            1.329399994016,
+            -0.250350003958,
+            1.48480001688
+          ],
+          "min_m": [
+            0.870600005984,
+            -0.508650010347,
+            1.459799981117
+          ]
+        },
+        {
+          "max_m": [
+            1.310800006986,
+            -0.259799992561,
+            1.457599973679
+          ],
+          "min_m": [
+            0.889199993014,
+            -0.499199991941,
+            1.340000009537
+          ]
+        },
+        {
+          "max_m": [
+            1.329399994016,
+            -0.250350003958,
+            1.274100011587
+          ],
+          "min_m": [
+            0.870600005984,
+            -0.508650010347,
+            1.249100005627
+          ]
+        },
+        {
+          "max_m": [
+            1.310800006986,
+            -0.259799992561,
+            1.246899998188
+          ],
+          "min_m": [
+            0.889199993014,
+            -0.499199991941,
+            1.129300004244
+          ]
+        },
+        {
+          "max_m": [
+            1.329399994016,
+            -0.250350003958,
+            1.063400006294
+          ],
+          "min_m": [
+            0.870600005984,
+            -0.508650010347,
+            1.038400000334
+          ]
+        },
+        {
+          "max_m": [
+            1.310800006986,
+            -0.259799992561,
+            1.036199992895
+          ],
+          "min_m": [
+            0.889199993014,
+            -0.499199991941,
+            0.918599998951
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            -0.221999993443,
+            1.830000019073
+          ],
+          "min_m": [
+            0.789999997616,
+            -0.262,
+            1.789999997616
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            -0.497000014305,
+            1.830000019073
+          ],
+          "min_m": [
+            0.789999997616,
+            -0.536999976158,
+            1.789999997616
+          ]
+        },
+        {
+          "max_m": [
+            0.829999989271,
+            -0.221999993443,
+            1.830000019073
+          ],
+          "min_m": [
+            0.789999997616,
+            -0.536999976158,
+            1.789999997616
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            -0.221999993443,
+            1.830000019073
+          ],
+          "min_m": [
+            1.370000010729,
+            -0.536999976158,
+            1.789999997616
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            -0.221999993443,
+            0.889999999106
+          ],
+          "min_m": [
+            0.789999997616,
+            -0.262,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            -0.497000014305,
+            0.889999999106
+          ],
+          "min_m": [
+            0.789999997616,
+            -0.536999976158,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            0.829999989271,
+            -0.221999993443,
+            0.889999999106
+          ],
+          "min_m": [
+            0.789999997616,
+            -0.536999976158,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            -0.221999993443,
+            0.889999999106
+          ],
+          "min_m": [
+            1.370000010729,
+            -0.536999976158,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            0.829999989271,
+            -0.221999993443,
+            1.830000019073
+          ],
+          "min_m": [
+            0.789999997616,
+            -0.262,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            -0.221999993443,
+            1.830000019073
+          ],
+          "min_m": [
+            1.370000010729,
+            -0.262,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            0.829999989271,
+            -0.497000014305,
+            1.830000019073
+          ],
+          "min_m": [
+            0.789999997616,
+            -0.536999976158,
+            0.85
+          ]
+        },
+        {
+          "max_m": [
+            1.410000002384,
+            -0.497000014305,
+            1.830000019073
+          ],
+          "min_m": [
+            1.370000010729,
+            -0.536999976158,
+            0.85
+          ]
+        }
+      ],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:develop_tank_rack",
+      "geometry_format": "stl",
+      "geometry_path": "artifacts/collision-candidates/v3/develop-tank-rack/l2/compound-convex.runtime.stl",
+      "geometry_sha256": "d90db8b6539a349758b59e6daf6c96760efdfedcdc16ee1dbcd1e3978eb3e393",
+      "geometry_unit": "m",
+      "local_aabb": {
+        "max_m": [
+          0.524999976158,
+          0.310000002384,
+          0.980000019073
+        ],
+        "min_m": [
+          -0.524999976158,
+          -0.310000002384,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          90.0
+        ],
+        "xyz_m": [
+          1.1,
+          -0.012,
+          0.85
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.25,
+        0.18,
+        0.3
+      ],
+      "world_aabb": {
+        "max_m": [
+          1.410000002384,
+          0.512999976158,
+          1.830000019073
+        ],
+        "min_m": [
+          0.789999997616,
+          -0.536999976158,
+          0.85
+        ]
+      }
+    },
+    {
+      "collision_mode": "multi-body-open",
+      "component_count": 10,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:feed_lift",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/feed_lift/collision.stl",
+      "geometry_sha256": "bd6209d481a8469a4350cf8cc71e3765ecb9ae9ee21392ae6c4d8fc33d4eb4b0",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.24,
+          0.225,
+          1.05
+        ],
+        "min_m": [
+          -0.24,
+          -0.225,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          -0.47,
+          1.05,
+          0.85
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.12,
+        0.12,
+        0.18
+      ],
+      "world_aabb": {
+        "max_m": [
+          -0.23,
+          1.275,
+          1.9
+        ],
+        "min_m": [
+          -0.71,
+          0.825,
+          0.85
+        ]
+      }
+    },
+    {
+      "collision_mode": "multi-body-open",
+      "component_count": 8,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:group_rack_4x3",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/group_rack_4x3/collision.stl",
+      "geometry_sha256": "c7cc7df3d1711999ea37e875d5907775bfb712b078351dae172065d5859dc3a0",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.31,
+          0.3,
+          0.76
+        ],
+        "min_m": [
+          -0.31,
+          -0.3,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          90.0
+        ],
+        "xyz_m": [
+          1.72,
+          -0.014,
+          0.85
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.15,
+        0.14,
+        0.25
+      ],
+      "world_aabb": {
+        "max_m": [
+          2.02,
+          0.296,
+          1.61
+        ],
+        "min_m": [
+          1.42,
+          -0.324,
+          0.85
+        ]
+      }
+    },
+    {
+      "collision_mode": "solid-aabb",
+      "component_count": 1,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:machine_deck",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/machine_deck/collision.stl",
+      "geometry_sha256": "ed366cdd86c42e7f5e04b487e701204b98024710454b52b13f1dee670652fd79",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          1.9,
+          0.9,
+          0.85
+        ],
+        "min_m": [
+          -1.9,
+          -0.9,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          0.35,
+          0.0,
+          0.0
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.4,
+        0.25,
+        0.1
+      ],
+      "world_aabb": {
+        "max_m": [
+          2.25,
+          0.9,
+          0.85
+        ],
+        "min_m": [
+          -1.55,
+          -0.9,
+          0.0
+        ]
+      }
+    },
+    {
+      "collision_mode": "solid-aabb",
+      "component_count": 1,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:photo_scrape_station",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/photo_scrape_station/collision.stl",
+      "geometry_sha256": "d9a8b95ccae3e8ed4678ffcbdce3d34b48208f264366e31e8748ba8380da5a27",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.38,
+          0.325,
+          1.05
+        ],
+        "min_m": [
+          -0.38,
+          -0.325,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          -0.44,
+          -0.51,
+          0.85
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.14,
+        0.14,
+        0.18
+      ],
+      "world_aabb": {
+        "max_m": [
+          -0.06,
+          -0.185,
+          1.9
+        ],
+        "min_m": [
+          -0.82,
+          -0.835,
+          0.85
+        ]
+      }
+    },
+    {
+      "collision_mode": "multi-body-shaped",
+      "component_count": 4,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:powder_collector_fixture",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/powder_collector_fixture/collision.stl",
+      "geometry_sha256": "04104d922d1d1f0085f07895d62b42295981b49739d25c3ab31fc55c4db554e4",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.21,
+          0.13,
+          0.36
+        ],
+        "min_m": [
+          -0.21,
+          -0.13,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          -0.19,
+          -0.51,
+          1.151
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.1,
+        0.08,
+        0.1
+      ],
+      "world_aabb": {
+        "max_m": [
+          0.02,
+          -0.38,
+          1.511
+        ],
+        "min_m": [
+          -0.4,
+          -0.64,
+          1.151
+        ]
+      }
+    },
+    {
+      "collision_mode": "solid-aabb",
+      "component_count": 1,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:rail_11y",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/rail_11y/collision.stl",
+      "geometry_sha256": "cea14e4fc45ad762a32b57d6a44cf334d4043a9f65bc52002dfaeaa532be6f9c",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          1.15,
+          0.09,
+          0.15
+        ],
+        "min_m": [
+          -1.15,
+          -0.09,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          -0.5,
+          0.0,
+          0.85
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.25,
+        0.04,
+        0.04
+      ],
+      "world_aabb": {
+        "max_m": [
+          0.65,
+          0.09,
+          1.0
+        ],
+        "min_m": [
+          -1.65,
+          -0.09,
+          0.85
+        ]
+      }
+    },
+    {
+      "collision_mode": "multi-body-open",
+      "component_count": 6,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:sampling_station",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/sampling_station/collision.stl",
+      "geometry_sha256": "aeb88a597571ea3586f5d13e21b1347455a69ff4739272e7f48b4c295f4f7b72",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.45,
+          0.325,
+          0.9
+        ],
+        "min_m": [
+          -0.45,
+          -0.325,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          -0.88,
+          0.5,
+          0.85
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.18,
+        0.15,
+        0.18
+      ],
+      "world_aabb": {
+        "max_m": [
+          -0.43,
+          0.825,
+          1.75
+        ],
+        "min_m": [
+          -1.33,
+          0.175,
+          0.85
+        ]
+      }
+    },
+    {
+      "collision_mode": "multi-body-open",
+      "component_count": 6,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:staging_a_6slot",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/staging_a_6slot/collision.stl",
+      "geometry_sha256": "7280255ae29652ebde7979e952d99bdfc8ecf5e6ef25ba30e9f09b321532c2a4",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.18,
+          0.15,
+          0.26
+        ],
+        "min_m": [
+          -0.18,
+          -0.15,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          -0.62,
+          0.35,
+          1.21
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.08,
+        0.08,
+        0.08
+      ],
+      "world_aabb": {
+        "max_m": [
+          -0.44,
+          0.5,
+          1.47
+        ],
+        "min_m": [
+          -0.8,
+          0.2,
+          1.21
+        ]
+      }
+    },
+    {
+      "collision_mode": "multi-body-open",
+      "component_count": 6,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:staging_b_6slot",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/staging_b_6slot/collision.stl",
+      "geometry_sha256": "7add1992961349300f675f5ffca0ee0816d3b96c57b22188de91f774850670f2",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.15,
+          0.13,
+          0.26
+        ],
+        "min_m": [
+          -0.15,
+          -0.13,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          -0.1,
+          0.5,
+          1.191
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.07,
+        0.07,
+        0.07
+      ],
+      "world_aabb": {
+        "max_m": [
+          0.05,
+          0.63,
+          1.451
+        ],
+        "min_m": [
+          -0.25,
+          0.37,
+          1.191
+        ]
+      }
+    },
+    {
+      "collision_mode": "multi-body-shaped",
+      "component_count": 4,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:tool_large_gripper",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_large_gripper/collision.stl",
+      "geometry_sha256": "d4135b6f9d292cab4c4569b92fc22d91b1e9d485a223c305439b1a55eee3a7d8",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.1,
+          0.055,
+          0.19
+        ],
+        "min_m": [
+          -0.1,
+          -0.055,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          0.35,
+          -0.62,
+          1.27
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "stored-tool",
+      "uncertainty_m_xyz": [
+        0.05,
+        0.04,
+        0.06
+      ],
+      "world_aabb": {
+        "max_m": [
+          0.45,
+          -0.565,
+          1.46
+        ],
+        "min_m": [
+          0.25,
+          -0.675,
+          1.27
+        ]
+      }
+    },
+    {
+      "collision_mode": "multi-body-shaped",
+      "component_count": 4,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:tool_small_gripper",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_small_gripper/collision.stl",
+      "geometry_sha256": "76d47f8ca349fa11a01e80d694fb1801f2ad73bff9f7353d28f2a21029120655",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.05,
+          0.04,
+          0.15
+        ],
+        "min_m": [
+          -0.05,
+          -0.04,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          0.53,
+          -0.62,
+          1.27
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "stored-tool",
+      "uncertainty_m_xyz": [
+        0.035,
+        0.03,
+        0.05
+      ],
+      "world_aabb": {
+        "max_m": [
+          0.58,
+          -0.58,
+          1.42
+        ],
+        "min_m": [
+          0.48,
+          -0.66,
+          1.27
+        ]
+      }
+    },
+    {
+      "collision_mode": "multi-body-open",
+      "component_count": 6,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:tool_station",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_station/collision.stl",
+      "geometry_sha256": "a29f3e280ad5c2ca7ffafb004e4ef568f412febb3691d97bc52788000da7eb3b",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.28,
+          0.19,
+          0.42
+        ],
+        "min_m": [
+          -0.28,
+          -0.19,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          0.35,
+          -0.62,
+          0.85
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "static-environment",
+      "uncertainty_m_xyz": [
+        0.12,
+        0.1,
+        0.12
+      ],
+      "world_aabb": {
+        "max_m": [
+          0.63,
+          -0.43,
+          1.27
+        ],
+        "min_m": [
+          0.07,
+          -0.81,
+          0.85
+        ]
+      }
+    },
+    {
+      "collision_mode": "multi-body-shaped",
+      "component_count": 4,
+      "component_world_aabbs": [],
+      "dynamic": false,
+      "entity_id": "ptlc.proxy:tool_suction",
+      "geometry_format": "stl",
+      "geometry_path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_suction/collision.stl",
+      "geometry_sha256": "204526522d1d4bbb65c49589e7e3c579f18cc6f21ca472253aada4298bf316fb",
+      "geometry_unit": "mm",
+      "local_aabb": {
+        "max_m": [
+          0.075,
+          0.06,
+          0.16
+        ],
+        "min_m": [
+          -0.075,
+          -0.06,
+          0.0
+        ]
+      },
+      "pose_world": {
+        "rpy_deg": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "xyz_m": [
+          0.17,
+          -0.62,
+          1.27
+        ]
+      },
+      "qualification": "simulation-proxy-only",
+      "role": "stored-tool",
+      "uncertainty_m_xyz": [
+        0.04,
+        0.04,
+        0.05
+      ],
+      "world_aabb": {
+        "max_m": [
+          0.245,
+          -0.56,
+          1.43
+        ],
+        "min_m": [
+          0.095,
+          -0.68,
+          1.27
+        ]
+      }
+    }
+  ],
+  "limitations": [
+    "photo-and-point-derived-layout-not-surveyed-world-geometry",
+    "spatial-ready-manifest-candidate-not-collision-qualified",
+    "robot-links-not-yet-instantiated-in-collision-scene",
+    "tool-proxies-represent-storage-poses-not-attached-motion",
+    "collision-qualified-false"
+  ],
+  "mode": "shadow",
+  "qualification": "simulation-proxy-only",
+  "sample_id": "eit-ptlc-historical-v1",
+  "scene_digest": "8bfd383e7215823beedf10d5e555e1b71bdaf7a9b61d4468c48e460357510d80",
+  "schema": "lab.spatial-collision-scene/v0",
+  "source_digests": {
+    "collision-geometry-manifest": "4b28731e731b979ddc9a325be1d10de52af90f1a48ebfbb66ae340d6c5d9ca19",
+    "collision-geometry-schema": "da4f24e54297672118897736e10d2c99dcc21150473f979c16dad8ea9dd3d23d",
+    "proxy-layout": "71df2cf0a8f6c6ac2ebee1af564e0d50a4954ced4276b63450400d032d5a6adf",
+    "proxy-layout-qc": "05ef65e0851df659c56ee0214d9d047360c918a7761a144222eff1aa88d4c6fd"
+  },
+  "world_frame": {
+    "frame_id": "ptlc.rail_constraint_layout_v2",
+    "handedness": "right-handed",
+    "units": "m",
+    "up_axis": "+Z"
+  }
+}

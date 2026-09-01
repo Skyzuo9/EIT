@@ -1,0 +1,561 @@
+{
+  "schema": "lab.collision_candidate_report/v1",
+  "status": "candidate-generated",
+  "qualification": "offline-collision-candidate",
+  "asset_id": "instrument.bigclaw-step-reference",
+  "request_sha256": "9c10f055872917460b2aed3a57f305459e8cd6a40e35c3f941a0287c9d61f8d5",
+  "generator": {
+    "name": "unilab-generic-collision-candidate-generator",
+    "version": "v1",
+    "script_ref": "scripts/generate_collision_candidates.py",
+    "script_sha256": "f949efb1c71ebc1f93d46765a8477ecd8ad9d5ff03d311e1af61c81b311769bb",
+    "numpy_version": "2.5.1",
+    "trimesh_version": "4.12.2"
+  },
+  "source": {
+    "kind": "step",
+    "source_ref": "../unilab-workbench-e2e-handoff-20260824/workspace/inputs/step/BIgClaw.stp",
+    "source_sha256": "db2865a35d129aea321c50ed419f0317760bcada4e36af9b1cd3c7d7ff91150e",
+    "geometry_ref": "../unilab-workbench-e2e-handoff-20260824/baseline/asset-pipeline-trial/families/instruments/step/bigclaw-step-reference/trial-db2865a35d12/render-lod0.glb",
+    "geometry_sha256": "f4db37fca62bae0d4fbfd64691133792c380b61befa2d586caf814a0e20125f3",
+    "geometry_unit": "m",
+    "direct_brep_parsed": false,
+    "geometry_basis": "explicit-step-tessellation-glb"
+  },
+  "policy": {
+    "l2_mode": "simplified-static-mesh",
+    "max_components": 512,
+    "max_sample_vertices": 10000,
+    "cavity_added_fill_ratio_limit": 0.05,
+    "target_face_ratio": 0.25
+  },
+  "source_geometry": {
+    "vertices": 166544,
+    "triangles": 238174,
+    "component_count": 2660,
+    "bounds": {
+      "min_m": [
+        -0.04964608699083328,
+        -0.06769883632659912,
+        -0.001500032260082662
+      ],
+      "max_m": [
+        0.045248959213495255,
+        0.03519761189818382,
+        0.07211828976869583
+      ],
+      "size_m": [
+        0.09489504620432854,
+        0.10289644822478294,
+        0.0736183220287785
+      ]
+    },
+    "watertight": {
+      "is_watertight": false,
+      "is_winding_consistent": false,
+      "is_volume": false,
+      "euler_number": 1687,
+      "boundary_edge_count": 94585,
+      "nonmanifold_edge_count": 1522
+    },
+    "volume_m3": null
+  },
+  "levels": {
+    "l0": {
+      "aabb": {
+        "method": "axis-aligned-bounding-box",
+        "path": "l0/aabb.glb",
+        "sha256": "bff562ae28d0f319cc53c7bc21e86862197f51201f45dd3c299002a896548e37",
+        "geometry": {
+          "vertices": 8,
+          "triangles": 12,
+          "component_count": 1,
+          "bounds": {
+            "min_m": [
+              -0.04964608699083328,
+              -0.06769883632659912,
+              -0.001500032260082662
+            ],
+            "max_m": [
+              0.045248959213495255,
+              0.03519761189818382,
+              0.07211828976869583
+            ],
+            "size_m": [
+              0.09489504620432854,
+              0.10289644822478294,
+              0.0736183220287785
+            ]
+          },
+          "watertight": {
+            "is_watertight": true,
+            "is_winding_consistent": true,
+            "is_volume": true,
+            "euler_number": 2,
+            "boundary_edge_count": 0,
+            "nonmanifold_edge_count": 0
+          },
+          "volume_m3": 0.0007188360350931436
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            0.09489504620432854,
+            0.10289644822478294,
+            0.0736183220287785
+          ],
+          "aabb_candidate_size_m": [
+            0.09489504620432854,
+            0.10289644822478294,
+            0.0736183220287785
+          ],
+          "aabb_absolute_error_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "aabb_max_relative_error": 0.0,
+          "obb_source_extents_sorted_m": [
+            0.0588936205810787,
+            0.09502922175355477,
+            0.12173347067242432
+          ],
+          "obb_candidate_extents_sorted_m": [
+            0.0736183220287785,
+            0.09489504620432854,
+            0.10289644822478294
+          ],
+          "obb_absolute_error_sorted_m": [
+            0.014724701447699794,
+            0.0001341755492262342,
+            0.018837022447641377
+          ]
+        },
+        "missed_envelope": {
+          "metric": "sampled-convex-halfspace-outward-violation",
+          "sample_count": 10000,
+          "maximum_missed_envelope_m": 0.0,
+          "passes_at_1e-8_m": true,
+          "scope": "source vertices; not continuous CAD surface"
+        },
+        "cavity_preservation": {
+          "metric": "added-solid-volume-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.0007188360350931436,
+          "source_component_count": 2660,
+          "candidate_component_count": 1,
+          "component_separation_preserved": false,
+          "status": "not-measurable",
+          "cavity_preserved": null,
+          "reason": "source and candidate must both be watertight for volume-based cavity QC",
+          "source_volume_m3": null,
+          "candidate_volume_m3": 0.0007188360350931436,
+          "added_solid_volume_m3": null,
+          "added_fill_ratio": null
+        },
+        "fallbacks": []
+      },
+      "obb": {
+        "method": "oriented-bounding-box",
+        "path": "l0/obb.glb",
+        "sha256": "c5a5ef9ee8c0caf3c136ca32e7e3e5c8daeb354e55470ee8f37891664dc7beee",
+        "geometry": {
+          "vertices": 8,
+          "triangles": 12,
+          "component_count": 1,
+          "bounds": {
+            "min_m": [
+              -0.0497947539655399,
+              -0.08169191326342773,
+              -0.02070604304962514
+            ],
+            "max_m": [
+              0.045426943699689616,
+              0.053601521615159395,
+              0.08296403963468096
+            ],
+            "size_m": [
+              0.09522169766522952,
+              0.13529343487858714,
+              0.10367008268430611
+            ]
+          },
+          "watertight": {
+            "is_watertight": true,
+            "is_winding_consistent": true,
+            "is_volume": true,
+            "euler_number": 2,
+            "boundary_edge_count": 0,
+            "nonmanifold_edge_count": 0
+          },
+          "volume_m3": 0.0006812953594544121
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            0.09489504620432854,
+            0.10289644822478294,
+            0.0736183220287785
+          ],
+          "aabb_candidate_size_m": [
+            0.09522169766522952,
+            0.13529343487858714,
+            0.10367008268430611
+          ],
+          "aabb_absolute_error_m": [
+            0.0003266514609009813,
+            0.032396986653804194,
+            0.030051760655527615
+          ],
+          "aabb_max_relative_error": 0.4082103452966496,
+          "obb_source_extents_sorted_m": [
+            0.0588936205810787,
+            0.09502922175355477,
+            0.12173347067242432
+          ],
+          "obb_candidate_extents_sorted_m": [
+            0.058893620581078714,
+            0.09502922175355477,
+            0.12173347067242435
+          ],
+          "obb_absolute_error_sorted_m": [
+            1.3877787807814457e-17,
+            0.0,
+            2.7755575615628914e-17
+          ]
+        },
+        "missed_envelope": {
+          "metric": "sampled-convex-halfspace-outward-violation",
+          "sample_count": 10000,
+          "maximum_missed_envelope_m": 0.0,
+          "passes_at_1e-8_m": true,
+          "scope": "source vertices; not continuous CAD surface"
+        },
+        "cavity_preservation": {
+          "metric": "added-solid-volume-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.0007188360350931436,
+          "source_component_count": 2660,
+          "candidate_component_count": 1,
+          "component_separation_preserved": false,
+          "status": "not-measurable",
+          "cavity_preserved": null,
+          "reason": "source and candidate must both be watertight for volume-based cavity QC",
+          "source_volume_m3": null,
+          "candidate_volume_m3": 0.0006812953594544121,
+          "added_solid_volume_m3": null,
+          "added_fill_ratio": null
+        },
+        "fallbacks": []
+      }
+    },
+    "l1": {
+      "best_primitive": {
+        "method": "minimum-volume-bounding-box",
+        "path": "l1/best-primitive.glb",
+        "sha256": "4fcb54778b822a32d79c9068366ee8ed0ac2719def993299bf1603e4b099d2b7",
+        "geometry": {
+          "vertices": 8,
+          "triangles": 12,
+          "component_count": 1,
+          "bounds": {
+            "min_m": [
+              -0.0497947539655399,
+              -0.08169191326342773,
+              -0.02070604304962514
+            ],
+            "max_m": [
+              0.045426943699689616,
+              0.053601521615159395,
+              0.08296403963468096
+            ],
+            "size_m": [
+              0.09522169766522952,
+              0.13529343487858714,
+              0.10367008268430611
+            ]
+          },
+          "watertight": {
+            "is_watertight": true,
+            "is_winding_consistent": true,
+            "is_volume": true,
+            "euler_number": 2,
+            "boundary_edge_count": 0,
+            "nonmanifold_edge_count": 0
+          },
+          "volume_m3": 0.0006812953594544121
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            0.09489504620432854,
+            0.10289644822478294,
+            0.0736183220287785
+          ],
+          "aabb_candidate_size_m": [
+            0.09522169766522952,
+            0.13529343487858714,
+            0.10367008268430611
+          ],
+          "aabb_absolute_error_m": [
+            0.0003266514609009813,
+            0.032396986653804194,
+            0.030051760655527615
+          ],
+          "aabb_max_relative_error": 0.4082103452966496,
+          "obb_source_extents_sorted_m": [
+            0.0588936205810787,
+            0.09502922175355477,
+            0.12173347067242432
+          ],
+          "obb_candidate_extents_sorted_m": [
+            0.058893620581078714,
+            0.09502922175355477,
+            0.12173347067242435
+          ],
+          "obb_absolute_error_sorted_m": [
+            1.3877787807814457e-17,
+            0.0,
+            2.7755575615628914e-17
+          ]
+        },
+        "missed_envelope": {
+          "metric": "sampled-convex-halfspace-outward-violation",
+          "sample_count": 10000,
+          "maximum_missed_envelope_m": 0.0,
+          "passes_at_1e-8_m": true,
+          "scope": "source vertices; not continuous CAD surface"
+        },
+        "cavity_preservation": {
+          "metric": "added-solid-volume-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.0007188360350931436,
+          "source_component_count": 2660,
+          "candidate_component_count": 1,
+          "component_separation_preserved": false,
+          "status": "not-measurable",
+          "cavity_preserved": null,
+          "reason": "source and candidate must both be watertight for volume-based cavity QC",
+          "source_volume_m3": null,
+          "candidate_volume_m3": 0.0006812953594544121,
+          "added_solid_volume_m3": null,
+          "added_fill_ratio": null
+        },
+        "fallbacks": []
+      },
+      "convex_hull": {
+        "method": "whole-mesh-convex-hull",
+        "path": "l1/convex-hull.glb",
+        "sha256": "f19fb3e52da674120e71430b9bdb5df6dfcff655caba8e4f3d070e91a0f960f4",
+        "geometry": {
+          "vertices": 1451,
+          "triangles": 2898,
+          "component_count": 1,
+          "bounds": {
+            "min_m": [
+              -0.04964608699083328,
+              -0.06769883632659912,
+              -0.001500032260082662
+            ],
+            "max_m": [
+              0.045248959213495255,
+              0.03519761189818382,
+              0.07211828976869583
+            ],
+            "size_m": [
+              0.09489504620432854,
+              0.10289644822478294,
+              0.0736183220287785
+            ]
+          },
+          "watertight": {
+            "is_watertight": true,
+            "is_winding_consistent": true,
+            "is_volume": true,
+            "euler_number": 2,
+            "boundary_edge_count": 0,
+            "nonmanifold_edge_count": 0
+          },
+          "volume_m3": 0.0004356058676484463
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            0.09489504620432854,
+            0.10289644822478294,
+            0.0736183220287785
+          ],
+          "aabb_candidate_size_m": [
+            0.09489504620432854,
+            0.10289644822478294,
+            0.0736183220287785
+          ],
+          "aabb_absolute_error_m": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "aabb_max_relative_error": 0.0,
+          "obb_source_extents_sorted_m": [
+            0.0588936205810787,
+            0.09502922175355477,
+            0.12173347067242432
+          ],
+          "obb_candidate_extents_sorted_m": [
+            0.0588936205810787,
+            0.09502922175355477,
+            0.12173347067242432
+          ],
+          "obb_absolute_error_sorted_m": [
+            0.0,
+            0.0,
+            0.0
+          ]
+        },
+        "missed_envelope": {
+          "metric": "sampled-convex-halfspace-outward-violation",
+          "sample_count": 10000,
+          "maximum_missed_envelope_m": 1.3877787807814457e-17,
+          "passes_at_1e-8_m": true,
+          "scope": "source vertices; not continuous CAD surface"
+        },
+        "cavity_preservation": {
+          "metric": "added-solid-volume-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.0007188360350931436,
+          "source_component_count": 2660,
+          "candidate_component_count": 1,
+          "component_separation_preserved": false,
+          "status": "not-measurable",
+          "cavity_preserved": null,
+          "reason": "source and candidate must both be watertight for volume-based cavity QC",
+          "source_volume_m3": null,
+          "candidate_volume_m3": 0.0004356058676484463,
+          "added_solid_volume_m3": null,
+          "added_fill_ratio": null
+        },
+        "fallbacks": []
+      }
+    },
+    "l2": {
+      "simplified_static_mesh": {
+        "method": "quadric-decimation-static-mesh",
+        "path": "l2/simplified-static-mesh.glb",
+        "sha256": "9481a011cd5ee6f9305f69c6bd6ff52c4736d7d12d6d612d3fade759946ca88f",
+        "geometry": {
+          "vertices": 42677,
+          "triangles": 59543,
+          "component_count": 4759,
+          "bounds": {
+            "min_m": [
+              -0.04964608699083328,
+              -0.06769883632659912,
+              -0.0015008449740343895
+            ],
+            "max_m": [
+              0.045248959213495255,
+              0.03519761189818382,
+              0.07211828976869583
+            ],
+            "size_m": [
+              0.09489504620432854,
+              0.10289644822478294,
+              0.07361913474273023
+            ]
+          },
+          "watertight": {
+            "is_watertight": false,
+            "is_winding_consistent": false,
+            "is_volume": false,
+            "euler_number": 1622,
+            "boundary_edge_count": 22793,
+            "nonmanifold_edge_count": 114
+          },
+          "volume_m3": null
+        },
+        "size_error": {
+          "aabb_source_size_m": [
+            0.09489504620432854,
+            0.10289644822478294,
+            0.0736183220287785
+          ],
+          "aabb_candidate_size_m": [
+            0.09489504620432854,
+            0.10289644822478294,
+            0.07361913474273023
+          ],
+          "aabb_absolute_error_m": [
+            0.0,
+            0.0,
+            8.127139517338788e-07
+          ],
+          "aabb_max_relative_error": 1.1039560931804136e-05,
+          "obb_source_extents_sorted_m": [
+            0.0588936205810787,
+            0.09502922175355477,
+            0.12173347067242432
+          ],
+          "obb_candidate_extents_sorted_m": [
+            0.05884567974011895,
+            0.09489569674137899,
+            0.12167415047787875
+          ],
+          "obb_absolute_error_sorted_m": [
+            4.794084095974954e-05,
+            0.0001335250121757836,
+            5.932019454557569e-05
+          ]
+        },
+        "missed_envelope": {
+          "metric": "sampled-source-to-candidate-vertex-distance",
+          "sample_count": 10000,
+          "maximum_missed_envelope_m": 0.004315173156321449,
+          "passes_at_1e-8_m": false,
+          "containment_guarantee": false,
+          "scope": "upper-biased vertex-distance approximation; not inside/outside CAD surface classification"
+        },
+        "cavity_preservation": {
+          "metric": "added-solid-volume-fraction-of-source-aabb",
+          "limit": 0.05,
+          "source_aabb_volume_m3": 0.0007188360350931436,
+          "source_component_count": 2660,
+          "candidate_component_count": 4759,
+          "component_separation_preserved": false,
+          "status": "not-measurable",
+          "cavity_preserved": null,
+          "reason": "source and candidate must both be watertight for volume-based cavity QC",
+          "source_volume_m3": null,
+          "candidate_volume_m3": null,
+          "added_solid_volume_m3": null,
+          "added_fill_ratio": null
+        },
+        "fallbacks": []
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "l0/aabb.glb",
+      "sha256": "bff562ae28d0f319cc53c7bc21e86862197f51201f45dd3c299002a896548e37"
+    },
+    {
+      "path": "l0/obb.glb",
+      "sha256": "c5a5ef9ee8c0caf3c136ca32e7e3e5c8daeb354e55470ee8f37891664dc7beee"
+    },
+    {
+      "path": "l1/best-primitive.glb",
+      "sha256": "4fcb54778b822a32d79c9068366ee8ed0ac2719def993299bf1603e4b099d2b7"
+    },
+    {
+      "path": "l1/convex-hull.glb",
+      "sha256": "f19fb3e52da674120e71430b9bdb5df6dfcff655caba8e4f3d070e91a0f960f4"
+    },
+    {
+      "path": "l2/simplified-static-mesh.glb",
+      "sha256": "9481a011cd5ee6f9305f69c6bd6ff52c4736d7d12d6d612d3fade759946ca88f"
+    }
+  ],
+  "not_qualified_for": [
+    "automatic-admission",
+    "continuous-collision",
+    "robot-execution",
+    "hardware-safety-interlock",
+    "deployment"
+  ]
+}

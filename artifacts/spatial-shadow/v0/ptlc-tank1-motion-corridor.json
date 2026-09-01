@@ -1,0 +1,826 @@
+{
+  "action_contract_id": "robot.tank.pick",
+  "corridor_digest": "f4fee5a4d9b1a3b08aa4d72f07257a728e33900ba1877ff04e90e7444bc614bd",
+  "coverage": {
+    "excluded_move_j_cp_segments": 3,
+    "excluded_move_l_segments": 7,
+    "sampled_move_j_segments": 4,
+    "total_motion_segments": 14
+  },
+  "limitations": [
+    "partial-corridor-excludes-move-l-and-cp-segments",
+    "discrete-aabb-union-is-not-continuous-swept-volume",
+    "controller-joint-wrap-selection-unresolved",
+    "full-machine-gltf-registration-not-proxy-collision-scene-frame",
+    "dynamic-tool-and-payload-geometry-missing",
+    "continuous-collision-published-as-separate-candidate-artifact",
+    "stop-model-missing",
+    "qualification-candidate-partial-only"
+  ],
+  "mode": "shadow",
+  "partial_world_aabb": {
+    "max_m": [
+      -0.095292640813,
+      0.302616520625,
+      0.953601360254
+    ],
+    "min_m": [
+      -0.795054107011,
+      -0.357824810642,
+      0.178497250788
+    ]
+  },
+  "qualification": "candidate-partial",
+  "sample_id": "eit-ptlc-historical-v1",
+  "sampling": {
+    "eligible_segment_rule": "move_j-and-cp-equals-zero",
+    "endpoint_policy": "include-both",
+    "max_joint_delta_deg": 5.0,
+    "method": "adaptive-linear-joint-space-by-max-joint-delta"
+  },
+  "schema": "lab.motion-corridor/v0",
+  "segments": [
+    {
+      "cp": 0.0,
+      "link_corridors": [
+        {
+          "link_id": "base_link",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.257428121111,
+              0.118217581472,
+              0.249497251325
+            ],
+            "min_m": [
+              -0.405434165439,
+              -0.075683391133,
+              0.178497250788
+            ]
+          }
+        },
+        {
+          "link_id": "Link1",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.249420700358,
+              0.088936799617,
+              0.408997246854
+            ],
+            "min_m": [
+              -0.417625456721,
+              -0.083663061907,
+              0.242497252159
+            ]
+          }
+        },
+        {
+          "link_id": "Link2",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.257417712549,
+              0.24475225573,
+              0.768342166219
+            ],
+            "min_m": [
+              -0.795054107011,
+              -0.118523725173,
+              0.238560938119
+            ]
+          }
+        },
+        {
+          "link_id": "Link3",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.171432372646,
+              0.119554547063,
+              0.93590371151
+            ],
+            "min_m": [
+              -0.736664118597,
+              -0.222557070007,
+              0.525231111277
+            ]
+          }
+        },
+        {
+          "link_id": "Link4",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.187856036729,
+              0.205997852811,
+              0.905145128213
+            ],
+            "min_m": [
+              -0.535971402978,
+              0.021210150735,
+              0.794284977539
+            ]
+          }
+        },
+        {
+          "link_id": "Link5",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.101967254755,
+              0.2267280111,
+              0.953601360254
+            ],
+            "min_m": [
+              -0.407240425655,
+              0.08765630302,
+              0.764473048204
+            ]
+          }
+        },
+        {
+          "link_id": "Link6",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.095292640813,
+              0.239346076426,
+              0.796878654095
+            ],
+            "min_m": [
+              -0.393507896265,
+              0.094375322312,
+              0.730260511065
+            ]
+          }
+        }
+      ],
+      "max_joint_delta_observed_deg": 4.969746632653,
+      "motion": "move_j",
+      "payload_state": "empty",
+      "phase": "approach",
+      "reason_codes": [
+        "discrete-aabb-union-candidate-only"
+      ],
+      "sample_count": 50,
+      "sample_parameters": [
+        0.0,
+        0.020408163265,
+        0.040816326531,
+        0.061224489796,
+        0.081632653061,
+        0.102040816327,
+        0.122448979592,
+        0.142857142857,
+        0.163265306122,
+        0.183673469388,
+        0.204081632653,
+        0.224489795918,
+        0.244897959184,
+        0.265306122449,
+        0.285714285714,
+        0.30612244898,
+        0.326530612245,
+        0.34693877551,
+        0.367346938776,
+        0.387755102041,
+        0.408163265306,
+        0.428571428571,
+        0.448979591837,
+        0.469387755102,
+        0.489795918367,
+        0.510204081633,
+        0.530612244898,
+        0.551020408163,
+        0.571428571429,
+        0.591836734694,
+        0.612244897959,
+        0.632653061224,
+        0.65306122449,
+        0.673469387755,
+        0.69387755102,
+        0.714285714286,
+        0.734693877551,
+        0.755102040816,
+        0.775510204082,
+        0.795918367347,
+        0.816326530612,
+        0.836734693878,
+        0.857142857143,
+        0.877551020408,
+        0.897959183673,
+        0.918367346939,
+        0.938775510204,
+        0.959183673469,
+        0.979591836735,
+        1.0
+      ],
+      "segment_index": 0,
+      "segment_world_aabb": {
+        "max_m": [
+          -0.095292640813,
+          0.24475225573,
+          0.953601360254
+        ],
+        "min_m": [
+          -0.795054107011,
+          -0.222557070007,
+          0.178497250788
+        ]
+      },
+      "source_state_id": "anchor:P1",
+      "status": "sampled-candidate",
+      "target_state_id": "step:1:P75",
+      "target_step_index": 1
+    },
+    {
+      "cp": 0.0,
+      "link_corridors": [
+        {
+          "link_id": "base_link",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.257428121111,
+              0.118217581472,
+              0.249497251325
+            ],
+            "min_m": [
+              -0.405434165439,
+              -0.075683391133,
+              0.178497250788
+            ]
+          }
+        },
+        {
+          "link_id": "Link1",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.244746649184,
+              0.09225570474,
+              0.408997246854
+            ],
+            "min_m": [
+              -0.424413637374,
+              -0.088379270655,
+              0.242497252159
+            ]
+          }
+        },
+        {
+          "link_id": "Link2",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.257417712549,
+              0.244018082807,
+              0.768342166219
+            ],
+            "min_m": [
+              -0.732693467249,
+              -0.169057731721,
+              0.239910029546
+            ]
+          }
+        },
+        {
+          "link_id": "Link3",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.171432372646,
+              0.159641176825,
+              0.920878840693
+            ],
+            "min_m": [
+              -0.664062456793,
+              -0.254766400821,
+              0.592402605119
+            ]
+          }
+        },
+        {
+          "link_id": "Link4",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.187856036729,
+              0.231218759894,
+              0.890394535082
+            ],
+            "min_m": [
+              -0.457464097374,
+              0.062617008826,
+              0.794284977539
+            ]
+          }
+        },
+        {
+          "link_id": "Link5",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.101967254755,
+              0.286082912284,
+              0.936524732604
+            ],
+            "min_m": [
+              -0.349382891814,
+              0.120304488189,
+              0.764473048204
+            ]
+          }
+        },
+        {
+          "link_id": "Link6",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.095292640813,
+              0.279229891539,
+              0.77958594168
+            ],
+            "min_m": [
+              -0.344191093342,
+              0.113092346422,
+              0.730260511065
+            ]
+          }
+        }
+      ],
+      "max_joint_delta_observed_deg": 4.511099714286,
+      "motion": "move_j",
+      "payload_state": "empty",
+      "phase": "approach",
+      "reason_codes": [
+        "discrete-aabb-union-candidate-only"
+      ],
+      "sample_count": 8,
+      "sample_parameters": [
+        0.0,
+        0.142857142857,
+        0.285714285714,
+        0.428571428571,
+        0.571428571429,
+        0.714285714286,
+        0.857142857143,
+        1.0
+      ],
+      "segment_index": 1,
+      "segment_world_aabb": {
+        "max_m": [
+          -0.095292640813,
+          0.286082912284,
+          0.936524732604
+        ],
+        "min_m": [
+          -0.732693467249,
+          -0.254766400821,
+          0.178497250788
+        ]
+      },
+      "source_state_id": "step:1:P75",
+      "status": "sampled-candidate",
+      "target_state_id": "step:2:P84",
+      "target_step_index": 2
+    },
+    {
+      "cp": 20.0,
+      "motion": "move_j",
+      "payload_state": "empty",
+      "phase": "approach",
+      "reason_codes": [
+        "cp-blend-unresolved"
+      ],
+      "segment_index": 2,
+      "source_state_id": "step:2:P84",
+      "status": "excluded-unresolved",
+      "target_state_id": "step:3:P59",
+      "target_step_index": 3
+    },
+    {
+      "cp": 0.0,
+      "motion": "move_l",
+      "payload_state": "empty",
+      "phase": "approach",
+      "reason_codes": [
+        "controller-cartesian-interpolation-unresolved"
+      ],
+      "segment_index": 3,
+      "source_state_id": "step:3:P59",
+      "status": "excluded-unresolved",
+      "target_state_id": "step:4:tank.1.approach_far",
+      "target_step_index": 4
+    },
+    {
+      "cp": 2.0,
+      "motion": "move_l",
+      "payload_state": "empty",
+      "phase": "approach",
+      "reason_codes": [
+        "controller-cartesian-interpolation-unresolved"
+      ],
+      "segment_index": 4,
+      "source_state_id": "step:4:tank.1.approach_far",
+      "status": "excluded-unresolved",
+      "target_state_id": "step:5:tank.1.approach_mid",
+      "target_step_index": 5
+    },
+    {
+      "cp": 0.0,
+      "motion": "move_l",
+      "payload_state": "empty",
+      "phase": "approach",
+      "reason_codes": [
+        "controller-cartesian-interpolation-unresolved"
+      ],
+      "segment_index": 5,
+      "source_state_id": "step:5:tank.1.approach_mid",
+      "status": "excluded-unresolved",
+      "target_state_id": "step:6:tank.1.approach_near",
+      "target_step_index": 6
+    },
+    {
+      "cp": 0.0,
+      "motion": "move_l",
+      "payload_state": "empty",
+      "phase": "approach",
+      "reason_codes": [
+        "controller-cartesian-interpolation-unresolved"
+      ],
+      "segment_index": 6,
+      "source_state_id": "step:6:tank.1.approach_near",
+      "status": "excluded-unresolved",
+      "target_state_id": "step:7:P11",
+      "target_step_index": 7
+    },
+    {
+      "cp": 0.0,
+      "motion": "move_l",
+      "payload_state": "plate-attached",
+      "phase": "transfer",
+      "reason_codes": [
+        "controller-cartesian-interpolation-unresolved"
+      ],
+      "segment_index": 7,
+      "source_state_id": "step:7:P11",
+      "status": "excluded-unresolved",
+      "target_state_id": "step:9:tank.1.approach_near",
+      "target_step_index": 9
+    },
+    {
+      "cp": 0.0,
+      "motion": "move_l",
+      "payload_state": "plate-attached",
+      "phase": "transfer",
+      "reason_codes": [
+        "controller-cartesian-interpolation-unresolved"
+      ],
+      "segment_index": 8,
+      "source_state_id": "step:9:tank.1.approach_near",
+      "status": "excluded-unresolved",
+      "target_state_id": "step:10:tank.1.approach_mid",
+      "target_step_index": 10
+    },
+    {
+      "cp": 0.0,
+      "motion": "move_l",
+      "payload_state": "plate-attached",
+      "phase": "transfer",
+      "reason_codes": [
+        "controller-cartesian-interpolation-unresolved"
+      ],
+      "segment_index": 9,
+      "source_state_id": "step:10:tank.1.approach_mid",
+      "status": "excluded-unresolved",
+      "target_state_id": "step:11:tank.1.approach_far",
+      "target_step_index": 11
+    },
+    {
+      "cp": 20.0,
+      "motion": "move_j",
+      "payload_state": "plate-attached",
+      "phase": "transfer",
+      "reason_codes": [
+        "cp-blend-unresolved"
+      ],
+      "segment_index": 10,
+      "source_state_id": "step:11:tank.1.approach_far",
+      "status": "excluded-unresolved",
+      "target_state_id": "step:12:P59",
+      "target_step_index": 12
+    },
+    {
+      "cp": 0.0,
+      "link_corridors": [
+        {
+          "link_id": "base_link",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.257428121111,
+              0.118217581472,
+              0.249497251325
+            ],
+            "min_m": [
+              -0.405434165439,
+              -0.075683391133,
+              0.178497250788
+            ]
+          }
+        },
+        {
+          "link_id": "Link1",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.244523485311,
+              0.09225570474,
+              0.408997246854
+            ],
+            "min_m": [
+              -0.425370698568,
+              -0.091137342064,
+              0.242497252159
+            ]
+          }
+        },
+        {
+          "link_id": "Link2",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.242478130136,
+              0.228927437136,
+              0.78871762236
+            ],
+            "min_m": [
+              -0.732021934941,
+              -0.357824810642,
+              0.239910029546
+            ]
+          }
+        },
+        {
+          "link_id": "Link3",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.145903070091,
+              0.198750190155,
+              0.920878840693
+            ],
+            "min_m": [
+              -0.642137590593,
+              -0.309662353081,
+              0.592402605119
+            ]
+          }
+        },
+        {
+          "link_id": "Link4",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.285264653034,
+              0.230142072342,
+              0.890394535082
+            ],
+            "min_m": [
+              -0.598455435558,
+              -0.04231223978,
+              0.787334742901
+            ]
+          }
+        },
+        {
+          "link_id": "Link5",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.222674769734,
+              0.302616520625,
+              0.936524732604
+            ],
+            "min_m": [
+              -0.643577431397,
+              0.079732905556,
+              0.757484856313
+            ]
+          }
+        },
+        {
+          "link_id": "Link6",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.23355348531,
+              0.291791929083,
+              0.77958594168
+            ],
+            "min_m": [
+              -0.647636542693,
+              0.07893847791,
+              0.72329430705
+            ]
+          }
+        }
+      ],
+      "max_joint_delta_observed_deg": 4.733406527976,
+      "motion": "move_j",
+      "payload_state": "plate-attached",
+      "phase": "transfer",
+      "reason_codes": [
+        "discrete-aabb-union-candidate-only"
+      ],
+      "sample_count": 18,
+      "sample_parameters": [
+        0.0,
+        0.058823529412,
+        0.117647058824,
+        0.176470588235,
+        0.235294117647,
+        0.294117647059,
+        0.352941176471,
+        0.411764705882,
+        0.470588235294,
+        0.529411764706,
+        0.588235294118,
+        0.647058823529,
+        0.705882352941,
+        0.764705882353,
+        0.823529411765,
+        0.882352941176,
+        0.941176470588,
+        1.0
+      ],
+      "segment_index": 11,
+      "segment_world_aabb": {
+        "max_m": [
+          -0.145903070091,
+          0.302616520625,
+          0.936524732604
+        ],
+        "min_m": [
+          -0.732021934941,
+          -0.357824810642,
+          0.178497250788
+        ]
+      },
+      "source_state_id": "step:12:P59",
+      "status": "sampled-candidate",
+      "target_state_id": "step:13:P84",
+      "target_step_index": 13
+    },
+    {
+      "cp": 0.0,
+      "link_corridors": [
+        {
+          "link_id": "base_link",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.257428121111,
+              0.118217581472,
+              0.249497251325
+            ],
+            "min_m": [
+              -0.405434165439,
+              -0.075683391133,
+              0.178497250788
+            ]
+          }
+        },
+        {
+          "link_id": "Link1",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.244746649184,
+              0.09225570474,
+              0.408997246854
+            ],
+            "min_m": [
+              -0.424413637374,
+              -0.088379270655,
+              0.242497252159
+            ]
+          }
+        },
+        {
+          "link_id": "Link2",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.257417712549,
+              0.244018082807,
+              0.768342166219
+            ],
+            "min_m": [
+              -0.732693467249,
+              -0.169057731721,
+              0.239910029546
+            ]
+          }
+        },
+        {
+          "link_id": "Link3",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.171432372646,
+              0.159641176825,
+              0.920878840693
+            ],
+            "min_m": [
+              -0.664062456793,
+              -0.254766400821,
+              0.592402605119
+            ]
+          }
+        },
+        {
+          "link_id": "Link4",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.187856036729,
+              0.231218759894,
+              0.890394535082
+            ],
+            "min_m": [
+              -0.457464097374,
+              0.062617008826,
+              0.794284977539
+            ]
+          }
+        },
+        {
+          "link_id": "Link5",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.101967254755,
+              0.286082912284,
+              0.936524732604
+            ],
+            "min_m": [
+              -0.349382891814,
+              0.120304488189,
+              0.764473048204
+            ]
+          }
+        },
+        {
+          "link_id": "Link6",
+          "sampled_aabb_union": {
+            "max_m": [
+              -0.095292640813,
+              0.279229891539,
+              0.77958594168
+            ],
+            "min_m": [
+              -0.344191093342,
+              0.113092346422,
+              0.730260511065
+            ]
+          }
+        }
+      ],
+      "max_joint_delta_observed_deg": 4.511099714286,
+      "motion": "move_j",
+      "payload_state": "plate-attached",
+      "phase": "transfer",
+      "reason_codes": [
+        "discrete-aabb-union-candidate-only"
+      ],
+      "sample_count": 8,
+      "sample_parameters": [
+        0.0,
+        0.142857142857,
+        0.285714285714,
+        0.428571428571,
+        0.571428571429,
+        0.714285714286,
+        0.857142857143,
+        1.0
+      ],
+      "segment_index": 12,
+      "segment_world_aabb": {
+        "max_m": [
+          -0.095292640813,
+          0.286082912284,
+          0.936524732604
+        ],
+        "min_m": [
+          -0.732693467249,
+          -0.254766400821,
+          0.178497250788
+        ]
+      },
+      "source_state_id": "step:13:P84",
+      "status": "sampled-candidate",
+      "target_state_id": "step:14:P75",
+      "target_step_index": 14
+    },
+    {
+      "cp": 2.0,
+      "motion": "move_j",
+      "payload_state": "plate-attached",
+      "phase": "transfer",
+      "reason_codes": [
+        "cp-blend-unresolved"
+      ],
+      "segment_index": 13,
+      "source_state_id": "step:14:P75",
+      "status": "excluded-unresolved",
+      "target_state_id": "step:15:P1",
+      "target_step_index": 15
+    }
+  ],
+  "source_digests": {
+    "link_state_sequence": "15fcffae7b74e0817c9fa17f01298978ad679c0eb4ec01f2c92c9e05748031cb",
+    "motion_contract": "5856f0aa8e06519191fc45757aed70dff433761ca5815aeac8a12dc1c7bcc775"
+  },
+  "world_frame": {
+    "frame_id": "ptlc.full-machine-gltf-z-up-candidate",
+    "handedness": "right-handed",
+    "units": "m",
+    "up_axis": "+Z"
+  }
+}

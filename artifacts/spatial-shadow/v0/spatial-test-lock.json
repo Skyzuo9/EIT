@@ -1,0 +1,230 @@
+{
+  "config_sha256": "d2572f9f8494aea4c662ec3767078f7a7617b0012516197807d6e24d55a15718",
+  "lock_digest": "b0b243154cac6c378ab4104278027fc28bb6ddce88e3c586eb6a1accd7afc641",
+  "samples": [
+    {
+      "capabilities": {
+        "collision_candidate": false,
+        "collision_qualified": false,
+        "hardware_execution": false,
+        "motion_waypoints": false,
+        "render": true,
+        "spatial_interlock_enforced": false,
+        "stop_model_qualified": false
+      },
+      "inputs": [
+        {
+          "bytes": 860434,
+          "path": "feeding-station-20260827-win03/p2-auto/coverage-report.json",
+          "role": "coverage-report",
+          "sha256": "c33913fc97ec9d9bf0a4e0890869a6dca95a14fc4bfd32de953ee77fc4ccc27e"
+        },
+        {
+          "bytes": 16144,
+          "path": "feeding-station-20260827-win03/p2-auto/station-decomposition.proposal.yaml",
+          "role": "decomposition-proposal",
+          "sha256": "725ca56250ca6d0c2f19d7ac0392ff40d91dd81a7776305a67929933ff8ebb8c"
+        },
+        {
+          "bytes": 1910,
+          "path": "feeding-station-20260827-win03/mac-validation.json",
+          "role": "mac-validation",
+          "sha256": "94f343685ceb76ea7d5ec2dc3f18ca1c95b94b6bbb5453daa25b8f5416579a02"
+        },
+        {
+          "bytes": 283695812,
+          "path": "feeding-station-20260827-win03/geometry/station.glb",
+          "role": "station-geometry",
+          "sha256": "f0d1afd67f2e09a048ba4ddc1c1959c61459cc7a922f0db9ad310db16c124746"
+        },
+        {
+          "bytes": 981,
+          "path": "feeding-station-20260827-win03/station-handoff.json",
+          "role": "station-handoff",
+          "sha256": "0cb3c3703c41f95ba7d569927939191944c7d5242c40b68b152523d3c71473f9"
+        },
+        {
+          "bytes": 1134320,
+          "path": "feeding-station-20260827-win03/p2-auto/station-layout.draft.json",
+          "role": "station-layout-draft",
+          "sha256": "f33c32ff39d0c63bc14f0911053c54aebb8aac8b5212953fb03852d9830eb76e"
+        },
+        {
+          "bytes": 4842,
+          "path": "config/feeding-station-workbench-preview.json",
+          "role": "workbench-preview-receipt",
+          "sha256": "218c5ec7fd03fe8d39d60d725fad77594ae14f4b61637f7061b1995e32b330ab"
+        }
+      ],
+      "label": "EIT feeding station frozen demo and fail-closed sample",
+      "not_qualified_for": [
+        "approved-p2",
+        "collision",
+        "controller-trajectory",
+        "hardware-execution",
+        "spatial-interlock-enforced",
+        "w2-device-geometry"
+      ],
+      "qualification": "demo-simulation-cad-comparison-only",
+      "sample_digest": "55168c079c02666d17d8920b2df43284c7e1e4f87b12b1d5f67725b22db9422c",
+      "sample_id": "eit-feeding-station-demo-v1"
+    },
+    {
+      "capabilities": {
+        "collision_candidate": true,
+        "collision_qualified": false,
+        "hardware_execution": false,
+        "motion_waypoints": true,
+        "render": true,
+        "spatial_interlock_enforced": false,
+        "stop_model_qualified": false
+      },
+      "inputs": [
+        {
+          "bytes": 18333,
+          "path": "pTLC_platformUI/eit_ptlc/three_d/generated/action-motion-map.json",
+          "role": "action-motion-map",
+          "sha256": "568b189bd7c839acf27012851ca8de973fece9cf80e9b007a8c9e90ca9d55729"
+        },
+        {
+          "bytes": 53139,
+          "path": "artifacts/collision-assets/v1/ptlc-collision-geometry-manifest.json",
+          "role": "collision-geometry-manifest",
+          "sha256": "4b28731e731b979ddc9a325be1d10de52af90f1a48ebfbb66ae340d6c5d9ca19"
+        },
+        {
+          "bytes": 9851,
+          "path": "schemas/collision-geometry-manifest-v1.schema.json",
+          "role": "collision-geometry-schema",
+          "sha256": "da4f24e54297672118897736e10d2c99dcc21150473f979c16dad8ea9dd3d23d"
+        },
+        {
+          "bytes": 187684,
+          "path": "vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/base_link.STL",
+          "role": "cr5-base-collision",
+          "sha256": "fd150ed669f6fdeccb5c83e7e3f4cc45dc20c8b325706bc6c587460b6df285d2"
+        },
+        {
+          "bytes": 267384,
+          "path": "vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J1.STL",
+          "role": "cr5-j1-collision",
+          "sha256": "95ef34b610de5d57022741210c1c2a69bc1f39fb5936690ad654772630fcb784"
+        },
+        {
+          "bytes": 418584,
+          "path": "vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J2.STL",
+          "role": "cr5-j2-collision",
+          "sha256": "4036af634963d9e636c977d774fbd3769ba75adde2516ac9769a8ecb4eb21fa8"
+        },
+        {
+          "bytes": 270584,
+          "path": "vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J3.STL",
+          "role": "cr5-j3-collision",
+          "sha256": "641440b1cf67a13ad1b9dc299ba1df0796347fa902cbed25f8fff4209e61516e"
+        },
+        {
+          "bytes": 256184,
+          "path": "vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J4.STL",
+          "role": "cr5-j4-collision",
+          "sha256": "12a742a06daa0590657b40264e829eebcb70343db5418f3941b5b160c32bfcc1"
+        },
+        {
+          "bytes": 340884,
+          "path": "vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J5.STL",
+          "role": "cr5-j5-collision",
+          "sha256": "6ac9837dcb0604cc22acb26a7de77e18747cc89a2666948911df44e057a85acb"
+        },
+        {
+          "bytes": 297484,
+          "path": "vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J6.STL",
+          "role": "cr5-j6-collision",
+          "sha256": "b969c8f0f7db193647969173f9c98dd3a36027b8372f95cbaf148fae0322ffb9"
+        },
+        {
+          "bytes": 9373,
+          "path": "vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/urdf/cr5_robot.urdf",
+          "role": "cr5-urdf",
+          "sha256": "6e96f0434624e12570d8a8fcd2add9c37d6605245f69c9063cad5d686803f84f"
+        },
+        {
+          "bytes": 158540,
+          "path": "pTLC_platformUI/eit_ptlc/three_d/models/device-manifest.official-cr5.json",
+          "role": "device-manifest",
+          "sha256": "449679c11b1d5380309a0477e3543a8670c7264a4d937d932f44de15a38c9616"
+        },
+        {
+          "bytes": 11707,
+          "path": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+          "role": "proxy-asset-manifest",
+          "sha256": "3e9f80dededf1730b9183c02110371300668be8e819478480c642dcde04c47b5"
+        },
+        {
+          "bytes": 11166,
+          "path": "related/unilabSZlab/pTLC仿真资产/layout_estimate.json",
+          "role": "proxy-layout",
+          "sha256": "71df2cf0a8f6c6ac2ebee1af564e0d50a4954ced4276b63450400d032d5a6adf"
+        },
+        {
+          "bytes": 3542,
+          "path": "related/unilabSZlab/pTLC仿真资产/layout_collision_qc.json",
+          "role": "proxy-layout-qc",
+          "sha256": "05ef65e0851df659c56ee0214d9d047360c918a7761a144222eff1aa88d4c6fd"
+        },
+        {
+          "bytes": 50371,
+          "path": "related/unilabSZlab/pTLC仿真资产/rail_frame_layout_analysis.json",
+          "role": "rail-frame-layout-analysis",
+          "sha256": "cab43eb9cf5573f663096954e8a9412733723995980eaef18e510d037be39008"
+        },
+        {
+          "bytes": 2586,
+          "path": "pTLC_platformUI/eit_ptlc/config/points/plc/rail.yaml",
+          "role": "rail-points",
+          "sha256": "43e957acf2c7cb58b5bc45787d7106b835a8fdc8b264c76dc2df1e3c8df79d13"
+        },
+        {
+          "bytes": 7886,
+          "path": "pTLC_platformUI/eit_ptlc/three_d/pipeline/calibration/cr5_ptlc_v1.yaml",
+          "role": "robot-calibration",
+          "sha256": "582c0472c4bae565c87443b0252578fdd2f1092e24790c29ea5ffd360efc97fa"
+        },
+        {
+          "bytes": 164259,
+          "path": "pTLC_platformUI/eit_ptlc/three_d/generated/robot-points.json",
+          "role": "robot-points",
+          "sha256": "d4d8a03ee3e9dfb248c6d9eee69b12d69a7069d41aaf9fadada644fd7cd14c00"
+        },
+        {
+          "bytes": 170152,
+          "path": "pTLC_platformUI/eit_ptlc/three_d/pipeline/rig_map.yaml",
+          "role": "robot-rig-map",
+          "sha256": "4f4920d8e9a0b572fa8c73a3b8d1c9df5b23586ce25ea8611f3190b5c46ce69c"
+        },
+        {
+          "bytes": 29769,
+          "path": "pTLC_platformUI/eit_ptlc/config/operation/06_robot/robot_tank_pick.yaml",
+          "role": "tank-pick-operation",
+          "sha256": "9961a8063e16d4b6237d598f11e045872c3d6b61335946877d9c3693f2b52f85"
+        },
+        {
+          "bytes": 43842,
+          "path": "pTLC_platformUI/eit_ptlc/three_d/clips/plate.tank1_pick.yaml",
+          "role": "tank1-pick-compiled-clip",
+          "sha256": "b7eda74614e24d94c1eeaddae28b8288e11457be995e36527f9f7009b583dde3"
+        }
+      ],
+      "label": "EIT pTLC historical as-built shadow sample",
+      "not_qualified_for": [
+        "continuous-collision",
+        "current-hardware-calibration",
+        "hardware-execution",
+        "spatial-interlock-enforced",
+        "stop-envelope"
+      ],
+      "qualification": "historical-as-built-shadow",
+      "sample_digest": "f6baedba47daa57b3029d38b18335ad7dfc516b6a979ad2fb2d1d1cab5944c18",
+      "sample_id": "eit-ptlc-historical-v1"
+    }
+  ],
+  "schema": "lab.spatial-test-lock/v0"
+}

@@ -20,6 +20,7 @@ __pycache__/
 **/.unilabos/
 .venv/
 **/.venv/
+.venv-repro/
 .mypy_cache/
 **/.mypy_cache/
 .pytest_cache/
@@ -57,3 +58,9 @@ incoming/*
 # 本机投料站原始输入：只作为 Windows/Mac 交接源，不进入 GitHub。
 /投料站/
 /投料站-urdf/
+
+# Reproducible releases promote selected evidence into artifacts/. Local runs
+# and source images remain on the workstation.
+/output/
+/image.png
+/image copy.png

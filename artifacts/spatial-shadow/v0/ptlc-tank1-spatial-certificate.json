@@ -1,0 +1,29 @@
+{
+  "action_contract_id": "robot.tank.pick",
+  "analysis": {
+    "continuous_collision_status": "not-computed",
+    "motion_corridor_status": "not-computed",
+    "reason_codes": [
+      "candidate-partial-corridor-not-bound-by-certificate-v0",
+      "collision-scene-simulation-proxy-only",
+      "continuous-collision-not-computed",
+      "controller-interpolation-unresolved",
+      "dynamic-world-not-registered-to-proxy-scene",
+      "stop-model-missing"
+    ],
+    "recovery_envelope_status": "unknown",
+    "result": "unknown",
+    "stop_envelope_status": "unknown"
+  },
+  "certificate_digest": "11c4eeaa595e4a2dd6382d407231b472d2c6b1f001fec2cefb051f589a9ce9ba",
+  "certificate_id": "spatial-cert:928cc4db0637843469f8e97068096f304e864e2704d8e2c0311911a7508b0485",
+  "input_digests": {
+    "collision_scene": "8bfd383e7215823beedf10d5e555e1b71bdaf7a9b61d4468c48e460357510d80",
+    "motion_contract": "5856f0aa8e06519191fc45757aed70dff433761ca5815aeac8a12dc1c7bcc775",
+    "test_lock": "b0b243154cac6c378ab4104278027fc28bb6ddce88e3c586eb6a1accd7afc641"
+  },
+  "mode": "shadow",
+  "qualification": "candidate",
+  "sample_id": "eit-ptlc-historical-v1",
+  "schema": "lab.spatial-occupancy-certificate/v0"
+}

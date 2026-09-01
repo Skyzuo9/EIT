@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/sw-exact-subtree-export-dry-run-v1.schema.json",
+  "title": "Read-only SolidWorks exact subtree export dry-run receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema", "run_id", "status", "effect", "w2_export_started",
+    "solidworks_api_calls", "source_mutations", "approval_binding",
+    "snapshot", "devices", "selection_sha256", "not_qualified_for"
+  ],
+  "properties": {
+    "schema": {"const": "lab.sw_exact_subtree_export_dry_run/v1"},
+    "run_id": {"type": "string"},
+    "status": {"const": "approved-roots-resolved"},
+    "effect": {"const": "none"},
+    "w2_export_started": {"const": false},
+    "solidworks_api_calls": {"const": 0},
+    "source_mutations": {"const": 0},
+    "host": {"type": "object"},
+    "approval_binding": {"type": "object"},
+    "solidworks": {"type": "object"},
+    "exporter": {"type": "object"},
+    "snapshot": {"type": "object"},
+    "devices": {"type": "array", "minItems": 1},
+    "selection_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "not_qualified_for": {"type": "array", "contains": {"const": "w2-export"}}
+  }
+}

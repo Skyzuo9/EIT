@@ -1,19 +1,19 @@
 [submodule "Uni-Lab-OS"]
 	path = Uni-Lab-OS
-	url = https://github.com/Uni-Lab-OS/Uni-Lab-OS.git
-	branch = codex/ptlc-platformui-os-followup-20260819
+	url = https://github.com/Skyzuo9/EIT-Uni-Lab-OS.git
+	branch = integration/spatial-constraints-v0
 [submodule "pTLC_platformUI"]
 	path = pTLC_platformUI
-	url = https://github.com/Uni-Lab-OS/pTLC_platformUI.git
-	branch = codex/ptlc-unilab-domain-v4
+	url = https://github.com/Skyzuo9/EIT-pTLC_platformUI.git
+	branch = integration/spatial-constraints-v0
 [submodule "uni-lab-fe"]
 	path = uni-lab-fe
-	url = https://github.com/Uni-Lab-OS/uni-lab-fe.git
-	branch = codex/ptlc-platformui-fe-followup-20260819
+	url = https://github.com/Skyzuo9/EIT-uni-lab-fe.git
+	branch = integration/spatial-constraints-v0
 [submodule "dependencies/unilab_robot_template"]
 	path = dependencies/unilab_robot_template
-	url = https://github.com/Uni-Lab-OS/unilab_robot_template.git
-	branch = feat/robot-pointset-v3-d9s-20260813
+	url = https://github.com/Skyzuo9/EIT-unilab_robot_template.git
+	branch = integration/spatial-constraints-v0
 [submodule "vendor/DOBOT_6Axis_ROS2_V4"]
 	path = vendor/DOBOT_6Axis_ROS2_V4
 	url = https://github.com/Dobot-Arm/DOBOT_6Axis_ROS2_V4.git

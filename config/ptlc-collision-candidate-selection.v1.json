@@ -1,0 +1,19 @@
+{
+  "schema": "lab.collision-candidate-selection/v1",
+  "sample_id": "eit-ptlc-historical-v1",
+  "fallback_policy": "use-parametric-proxy",
+  "selections": [
+    {
+      "asset_id": "develop_tank_rack",
+      "report_asset_id": "ptlc.develop-tank-rack",
+      "report_path": "artifacts/collision-candidates/v3/develop-tank-rack/collision-candidate-report.json",
+      "level": "l2",
+      "candidate_key": "compound_convex",
+      "runtime_artifact_key": "runtime_artifact",
+      "max_aabb_relative_error": 1e-08,
+      "max_missed_envelope_m": 1e-08,
+      "require_cavity_preserved": true,
+      "require_watertight": true
+    }
+  ]
+}

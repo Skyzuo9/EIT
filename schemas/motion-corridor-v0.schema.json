@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://unilab.local/schemas/motion-corridor-v0.schema.json",
+  "title": "UniLab partial candidate motion corridor v0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "sample_id",
+    "action_contract_id",
+    "mode",
+    "qualification",
+    "world_frame",
+    "source_digests",
+    "sampling",
+    "coverage",
+    "segments",
+    "partial_world_aabb",
+    "limitations",
+    "corridor_digest"
+  ],
+  "properties": {
+    "schema": {"const": "lab.motion-corridor/v0"},
+    "sample_id": {"type": "string", "minLength": 1},
+    "action_contract_id": {"type": "string", "minLength": 1},
+    "mode": {"const": "shadow"},
+    "qualification": {"const": "candidate-partial"},
+    "world_frame": {"$ref": "#/$defs/worldFrame"},
+    "source_digests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["motion_contract", "link_state_sequence"],
+      "properties": {
+        "motion_contract": {"$ref": "#/$defs/digest"},
+        "link_state_sequence": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "sampling": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["method", "max_joint_delta_deg", "endpoint_policy", "eligible_segment_rule"],
+      "properties": {
+        "method": {"const": "adaptive-linear-joint-space-by-max-joint-delta"},
+        "max_joint_delta_deg": {"type": "number", "exclusiveMinimum": 0},
+        "endpoint_policy": {"const": "include-both"},
+        "eligible_segment_rule": {"const": "move_j-and-cp-equals-zero"}
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total_motion_segments", "sampled_move_j_segments", "excluded_move_j_cp_segments", "excluded_move_l_segments"],
+      "properties": {
+        "total_motion_segments": {"type": "integer", "minimum": 1},
+        "sampled_move_j_segments": {"type": "integer", "minimum": 0},
+        "excluded_move_j_cp_segments": {"type": "integer", "minimum": 0},
+        "excluded_move_l_segments": {"type": "integer", "minimum": 0}
+      }
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/segment"}
+    },
+    "partial_world_aabb": {"$ref": "#/$defs/aabb"},
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "corridor_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "vec3": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"type": "number"}
+    },
+    "aabb": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min_m", "max_m"],
+      "properties": {
+        "min_m": {"$ref": "#/$defs/vec3"},
+        "max_m": {"$ref": "#/$defs/vec3"}
+      }
+    },
+    "worldFrame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["frame_id", "units", "up_axis", "handedness"],
+      "properties": {
+        "frame_id": {"type": "string", "minLength": 1},
+        "units": {"const": "m"},
+        "up_axis": {"const": "+Z"},
+        "handedness": {"const": "right-handed"}
+      }
+    },
+    "linkCorridor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["link_id", "sampled_aabb_union"],
+      "properties": {
+        "link_id": {"type": "string", "minLength": 1},
+        "sampled_aabb_union": {"$ref": "#/$defs/aabb"}
+      }
+    },
+    "segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segment_index",
+        "source_state_id",
+        "target_state_id",
+        "target_step_index",
+        "phase",
+        "payload_state",
+        "motion",
+        "cp",
+        "status",
+        "reason_codes"
+      ],
+      "properties": {
+        "segment_index": {"type": "integer", "minimum": 0},
+        "source_state_id": {"type": "string", "minLength": 1},
+        "target_state_id": {"type": "string", "minLength": 1},
+        "target_step_index": {"type": "integer", "minimum": 0},
+        "phase": {"enum": ["approach", "transfer", "retreat"]},
+        "payload_state": {"type": "string", "minLength": 1},
+        "motion": {"enum": ["move_j", "move_l"]},
+        "cp": {"type": "number"},
+        "status": {"enum": ["sampled-candidate", "excluded-unresolved"]},
+        "reason_codes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "sample_count": {"type": "integer", "minimum": 2},
+        "sample_parameters": {
+          "type": "array",
+          "minItems": 2,
+          "items": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "max_joint_delta_observed_deg": {"type": "number", "minimum": 0},
+        "link_corridors": {
+          "type": "array",
+          "minItems": 7,
+          "maxItems": 7,
+          "items": {"$ref": "#/$defs/linkCorridor"}
+        },
+        "segment_world_aabb": {"$ref": "#/$defs/aabb"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"status": {"const": "sampled-candidate"}}},
+          "then": {
+            "required": [
+              "sample_count",
+              "sample_parameters",
+              "max_joint_delta_observed_deg",
+              "link_corridors",
+              "segment_world_aabb"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

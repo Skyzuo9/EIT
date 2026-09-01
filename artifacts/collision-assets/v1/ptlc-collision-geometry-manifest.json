@@ -1,0 +1,1771 @@
+{
+  "allowed_uses": [
+    "offline-review",
+    "shadow"
+  ],
+  "assets": [
+    {
+      "asset_id": "collection_station",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.325,
+            0.26,
+            0.85
+          ],
+          "min_m": [
+            -0.325,
+            -0.26,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:collection_station",
+      "frame": {
+        "frame_id": "asset:collection_station:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 6,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.325,
+            0.26,
+            0.85
+          ],
+          "min_m": [
+            -0.325,
+            -0.26,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/collection_station/collision.stl",
+        "representation": "multi-body-open",
+        "sha256": "9b5139986ecb10d8d79ae50109f73f9631cd123859c0a8df00813e5adfcc7fc1",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.65,
+        0.52,
+        0.85
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned",
+        "open_cavity_expected": true,
+        "open_cavity_preserved": true,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 0.051874
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "ca4a57a2523ea9356aeaa990c162bf19f8ee2797a8830681b53dd9d5b064b02d",
+        "parameter_pointer": "/proxy_assets/11"
+      },
+      "uncertainty_m_xyz": [
+        0.14,
+        0.12,
+        0.16
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.325,
+            0.26,
+            0.85
+          ],
+          "min_m": [
+            -0.325,
+            -0.26,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/collection_station/visual.glb",
+        "sha256": "2a39320786b8f3dc4b33ea62a841103a647e9bfb8164f939348ae1f5f17ffcaa",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "develop_tank_rack",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.525,
+            0.31,
+            0.98
+          ],
+          "min_m": [
+            -0.525,
+            -0.31,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "source-geometry-collision-candidate-selection",
+        "algorithm_version": "v3",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "scripts/generate_collision_candidates.py",
+        "generator_sha256": "7fa123e05ab2dc928044d191761a0e1a1c1f7fce447524de3f49ce3f9ddfcb67"
+      },
+      "entity_id": "ptlc.proxy:develop_tank_rack",
+      "frame": {
+        "frame_id": "asset:develop_tank_rack:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 40,
+        "component_triangle_counts": [
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12,
+          12
+        ],
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.524999976158,
+            0.310000002384,
+            0.980000019073
+          ],
+          "min_m": [
+            -0.524999976158,
+            -0.310000002384,
+            0.0
+          ]
+        },
+        "path": "artifacts/collision-candidates/v3/develop-tank-rack/l2/compound-convex.runtime.stl",
+        "representation": "compound-convex",
+        "sha256": "d90db8b6539a349758b59e6daf6c96760efdfedcdc16ee1dbcd1e3978eb3e393",
+        "source_unit": "m",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        1.05,
+        0.62,
+        0.98
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "added-solid-volume-fraction-of-source-aabb",
+        "open_cavity_expected": true,
+        "open_cavity_preserved": true,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 0.224410684177
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "62d26e03730bdbd433ff627509016d698423723328c43076c3faa13173b20eee",
+        "parameter_pointer": "/proxy_assets/3"
+      },
+      "uncertainty_m_xyz": [
+        0.25,
+        0.18,
+        0.3
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.525,
+            0.31,
+            0.98
+          ],
+          "min_m": [
+            -0.525,
+            -0.31,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/develop_tank_rack/visual.glb",
+        "sha256": "773ef4fcdb3126fe51e785404386da0acf4b509024d7f567b317b9c7227b9c01",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "feed_lift",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.24,
+            0.225,
+            1.05
+          ],
+          "min_m": [
+            -0.24,
+            -0.225,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:feed_lift",
+      "frame": {
+        "frame_id": "asset:feed_lift:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 10,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.24,
+            0.225,
+            1.05
+          ],
+          "min_m": [
+            -0.24,
+            -0.225,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/feed_lift/collision.stl",
+        "representation": "multi-body-open",
+        "sha256": "bd6209d481a8469a4350cf8cc71e3765ecb9ae9ee21392ae6c4d8fc33d4eb4b0",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.48,
+        0.45,
+        1.05
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned",
+        "open_cavity_expected": true,
+        "open_cavity_preserved": true,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 0.056892
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "25fd69ca76a7a9155cb2bc61eae4a2d5aa69cc565c085bfcbf6c7c80d995a068",
+        "parameter_pointer": "/proxy_assets/4"
+      },
+      "uncertainty_m_xyz": [
+        0.12,
+        0.12,
+        0.18
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.24,
+            0.225,
+            1.05
+          ],
+          "min_m": [
+            -0.24,
+            -0.225,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/feed_lift/visual.glb",
+        "sha256": "5a2c822c34ea7e6feb49ef2169ba6be6bca30b13e86e52b0ddc2e0f43801d5c4",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "group_rack_4x3",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.31,
+            0.3,
+            0.76
+          ],
+          "min_m": [
+            -0.31,
+            -0.3,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:group_rack_4x3",
+      "frame": {
+        "frame_id": "asset:group_rack_4x3:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 8,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.31,
+            0.3,
+            0.76
+          ],
+          "min_m": [
+            -0.31,
+            -0.3,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/group_rack_4x3/collision.stl",
+        "representation": "multi-body-open",
+        "sha256": "c7cc7df3d1711999ea37e875d5907775bfb712b078351dae172065d5859dc3a0",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.62,
+        0.6,
+        0.76
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned",
+        "open_cavity_expected": true,
+        "open_cavity_preserved": true,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 0.112077
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "c1bef4d1da1c4dd43c2f5d96437617ab72f17a4c94f869396012c644d29d635f",
+        "parameter_pointer": "/proxy_assets/8"
+      },
+      "uncertainty_m_xyz": [
+        0.15,
+        0.14,
+        0.25
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.31,
+            0.3,
+            0.76
+          ],
+          "min_m": [
+            -0.31,
+            -0.3,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/group_rack_4x3/visual.glb",
+        "sha256": "ba0245175763addb0a95f31a16b1ab55b6848dc10ab571cb1b88cd75f853a55a",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "machine_deck",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            1.9,
+            0.9,
+            0.85
+          ],
+          "min_m": [
+            -1.9,
+            -0.9,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:machine_deck",
+      "frame": {
+        "frame_id": "asset:machine_deck:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 1,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            1.9,
+            0.9,
+            0.85
+          ],
+          "min_m": [
+            -1.9,
+            -0.9,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/machine_deck/collision.stl",
+        "representation": "solid-aabb",
+        "sha256": "ed366cdd86c42e7f5e04b487e701204b98024710454b52b13f1dee670652fd79",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        3.8,
+        1.8,
+        0.85
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "not applicable to conservative solid or non-station shaped collision",
+        "open_cavity_expected": false,
+        "open_cavity_preserved": null,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 1.0
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "8b5e26495b80b27501e1e5b08ffc823a51f2151b723b06df49282ef8669296a7",
+        "parameter_pointer": "/proxy_assets/0"
+      },
+      "uncertainty_m_xyz": [
+        0.4,
+        0.25,
+        0.1
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            1.9,
+            0.9,
+            0.85
+          ],
+          "min_m": [
+            -1.9,
+            -0.9,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/machine_deck/visual.glb",
+        "sha256": "728156936c72646847c71f7eee9b738e62010cb0352dd33c7b50c8d0c37bef53",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "photo_scrape_station",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.38,
+            0.325,
+            1.05
+          ],
+          "min_m": [
+            -0.38,
+            -0.325,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:photo_scrape_station",
+      "frame": {
+        "frame_id": "asset:photo_scrape_station:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 1,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.38,
+            0.325,
+            1.05
+          ],
+          "min_m": [
+            -0.38,
+            -0.325,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/photo_scrape_station/collision.stl",
+        "representation": "solid-aabb",
+        "sha256": "d9a8b95ccae3e8ed4678ffcbdce3d34b48208f264366e31e8748ba8380da5a27",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.76,
+        0.65,
+        1.05
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "not applicable to conservative solid or non-station shaped collision",
+        "open_cavity_expected": false,
+        "open_cavity_preserved": null,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 1.0
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "9ff959bb6ca1b77805e1c83449cd54be01a0550eca7ea9713f9d171cea267692",
+        "parameter_pointer": "/proxy_assets/6"
+      },
+      "uncertainty_m_xyz": [
+        0.14,
+        0.14,
+        0.18
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.38,
+            0.325,
+            1.05
+          ],
+          "min_m": [
+            -0.38,
+            -0.325,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/photo_scrape_station/visual.glb",
+        "sha256": "004fe01485d6adc85de6db4f4d319bcc0952e66242f0d46820692228894f7cce",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "powder_collector_fixture",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.21,
+            0.13,
+            0.36
+          ],
+          "min_m": [
+            -0.21,
+            -0.13,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:powder_collector_fixture",
+      "frame": {
+        "frame_id": "asset:powder_collector_fixture:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 4,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.21,
+            0.13,
+            0.36
+          ],
+          "min_m": [
+            -0.21,
+            -0.13,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/powder_collector_fixture/collision.stl",
+        "representation": "multi-body-shaped",
+        "sha256": "04104d922d1d1f0085f07895d62b42295981b49739d25c3ab31fc55c4db554e4",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.42,
+        0.26,
+        0.36
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "not applicable to conservative solid or non-station shaped collision",
+        "open_cavity_expected": false,
+        "open_cavity_preserved": null,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 0.316143
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "6d95efe31973263f813b9521e359bed2108827477714277fa423d30f20a770f8",
+        "parameter_pointer": "/proxy_assets/7"
+      },
+      "uncertainty_m_xyz": [
+        0.1,
+        0.08,
+        0.1
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.21,
+            0.13,
+            0.36
+          ],
+          "min_m": [
+            -0.21,
+            -0.13,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/powder_collector_fixture/visual.glb",
+        "sha256": "e0ed1c591df13d00796dad6adc3434b3d2d9d2c7ccb5ec16ca4d4b761ed9b080",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "rail_11y",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            1.15,
+            0.09,
+            0.15
+          ],
+          "min_m": [
+            -1.15,
+            -0.09,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:rail_11y",
+      "frame": {
+        "frame_id": "asset:rail_11y:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 1,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            1.15,
+            0.09,
+            0.15
+          ],
+          "min_m": [
+            -1.15,
+            -0.09,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/rail_11y/collision.stl",
+        "representation": "solid-aabb",
+        "sha256": "cea14e4fc45ad762a32b57d6a44cf334d4043a9f65bc52002dfaeaa532be6f9c",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        2.3,
+        0.18,
+        0.15
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "not applicable to conservative solid or non-station shaped collision",
+        "open_cavity_expected": false,
+        "open_cavity_preserved": null,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 1.0
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "6a688f88f8b71ff41da06dca0de18562dbd8ac0c120e1ada23f246890049e69f",
+        "parameter_pointer": "/proxy_assets/1"
+      },
+      "uncertainty_m_xyz": [
+        0.25,
+        0.04,
+        0.04
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            1.15,
+            0.09,
+            0.15
+          ],
+          "min_m": [
+            -1.15,
+            -0.09,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/rail_11y/visual.glb",
+        "sha256": "15eb808ff02314caca69493a4446d87afbb1f7681efa9d23d5b7c5e61cc97eb4",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "sampling_station",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.45,
+            0.325,
+            0.9
+          ],
+          "min_m": [
+            -0.45,
+            -0.325,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:sampling_station",
+      "frame": {
+        "frame_id": "asset:sampling_station:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 6,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.45,
+            0.325,
+            0.9
+          ],
+          "min_m": [
+            -0.45,
+            -0.325,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/sampling_station/collision.stl",
+        "representation": "multi-body-open",
+        "sha256": "aeb88a597571ea3586f5d13e21b1347455a69ff4739272e7f48b4c295f4f7b72",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.9,
+        0.65,
+        0.9
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned",
+        "open_cavity_expected": true,
+        "open_cavity_preserved": true,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 0.043691
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "cb0ca9d482018729630e3e5f2a69006722fcdab4d9874ab47e593fab3acf5359",
+        "parameter_pointer": "/proxy_assets/5"
+      },
+      "uncertainty_m_xyz": [
+        0.18,
+        0.15,
+        0.18
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.45,
+            0.325,
+            0.9
+          ],
+          "min_m": [
+            -0.45,
+            -0.325,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/sampling_station/visual.glb",
+        "sha256": "7bed248da78c8c6c4af3e2b9aff83cab723fc23573c43770cd486a2f54b5ee11",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "staging_a_6slot",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.18,
+            0.15,
+            0.26
+          ],
+          "min_m": [
+            -0.18,
+            -0.15,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:staging_a_6slot",
+      "frame": {
+        "frame_id": "asset:staging_a_6slot:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 6,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.18,
+            0.15,
+            0.26
+          ],
+          "min_m": [
+            -0.18,
+            -0.15,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/staging_a_6slot/collision.stl",
+        "representation": "multi-body-open",
+        "sha256": "7280255ae29652ebde7979e952d99bdfc8ecf5e6ef25ba30e9f09b321532c2a4",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.36,
+        0.3,
+        0.26
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned",
+        "open_cavity_expected": true,
+        "open_cavity_preserved": true,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 0.135269
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "870e4394c0c7d11cd0d03e0455d7476ea722fcce98893fd0a02b632d62c5827a",
+        "parameter_pointer": "/proxy_assets/9"
+      },
+      "uncertainty_m_xyz": [
+        0.08,
+        0.08,
+        0.08
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.18,
+            0.15,
+            0.26
+          ],
+          "min_m": [
+            -0.18,
+            -0.15,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/staging_a_6slot/visual.glb",
+        "sha256": "4ebb446ea37b5734f491136a9efa9284cbc97cb31ca4d9c0c253bcfcd0a9b745",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "staging_b_6slot",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.15,
+            0.13,
+            0.26
+          ],
+          "min_m": [
+            -0.15,
+            -0.13,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:staging_b_6slot",
+      "frame": {
+        "frame_id": "asset:staging_b_6slot:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 6,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.15,
+            0.13,
+            0.26
+          ],
+          "min_m": [
+            -0.15,
+            -0.13,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/staging_b_6slot/collision.stl",
+        "representation": "multi-body-open",
+        "sha256": "7add1992961349300f675f5ffca0ee0816d3b96c57b22188de91f774850670f2",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.3,
+        0.26,
+        0.26
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned",
+        "open_cavity_expected": true,
+        "open_cavity_preserved": true,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 0.146798
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "fa4f3b14455f56af8c75d22e52e18660a3681be283ad9b3b26827f9120fe1b16",
+        "parameter_pointer": "/proxy_assets/10"
+      },
+      "uncertainty_m_xyz": [
+        0.07,
+        0.07,
+        0.07
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.15,
+            0.13,
+            0.26
+          ],
+          "min_m": [
+            -0.15,
+            -0.13,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/staging_b_6slot/visual.glb",
+        "sha256": "f6f57e8eb07b6c8dcde645ac9792d996e44247196a235552b439f272c8c32eb9",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "tool_large_gripper",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.1,
+            0.055,
+            0.19
+          ],
+          "min_m": [
+            -0.1,
+            -0.055,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:tool_large_gripper",
+      "frame": {
+        "frame_id": "asset:tool_large_gripper:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 4,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.1,
+            0.055,
+            0.19
+          ],
+          "min_m": [
+            -0.1,
+            -0.055,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_large_gripper/collision.stl",
+        "representation": "multi-body-shaped",
+        "sha256": "d4135b6f9d292cab4c4569b92fc22d91b1e9d485a223c305439b1a55eee3a7d8",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.2,
+        0.11,
+        0.19
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "not applicable to conservative solid or non-station shaped collision",
+        "open_cavity_expected": false,
+        "open_cavity_preserved": null,
+        "source_components_disjoint": false,
+        "summed_component_volume_ratio": 0.402214
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "stored-tool",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "18c234b90d1951c38ec45be08e5068e5e58c8eb69fa145a6cb6b223e805329c5",
+        "parameter_pointer": "/tool_proxies/1"
+      },
+      "uncertainty_m_xyz": [
+        0.05,
+        0.04,
+        0.06
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.1,
+            0.055,
+            0.19
+          ],
+          "min_m": [
+            -0.1,
+            -0.055,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_large_gripper/visual.glb",
+        "sha256": "96bbc0f4475fed78f7e09b75bfb20545a46c9a7680ecb70c662221fe736a220b",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "tool_small_gripper",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.05,
+            0.04,
+            0.15
+          ],
+          "min_m": [
+            -0.05,
+            -0.04,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:tool_small_gripper",
+      "frame": {
+        "frame_id": "asset:tool_small_gripper:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 4,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.05,
+            0.04,
+            0.15
+          ],
+          "min_m": [
+            -0.05,
+            -0.04,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_small_gripper/collision.stl",
+        "representation": "multi-body-shaped",
+        "sha256": "76d47f8ca349fa11a01e80d694fb1801f2ad73bff9f7353d28f2a21029120655",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.1,
+        0.08,
+        0.15
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "not applicable to conservative solid or non-station shaped collision",
+        "open_cavity_expected": false,
+        "open_cavity_preserved": null,
+        "source_components_disjoint": false,
+        "summed_component_volume_ratio": 0.432744
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "stored-tool",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "a666b61eb354712a60a982b81c6de0cc00d7c84b18bdf19ae3610c3b7f79f99a",
+        "parameter_pointer": "/tool_proxies/2"
+      },
+      "uncertainty_m_xyz": [
+        0.035,
+        0.03,
+        0.05
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.05,
+            0.04,
+            0.15
+          ],
+          "min_m": [
+            -0.05,
+            -0.04,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_small_gripper/visual.glb",
+        "sha256": "988912907fa4dc6aaa4c3110c6c4ebee514f266fcc9893d4ffc15e05d23c49b3",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "tool_station",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.28,
+            0.19,
+            0.42
+          ],
+          "min_m": [
+            -0.28,
+            -0.19,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:tool_station",
+      "frame": {
+        "frame_id": "asset:tool_station:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 6,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.28,
+            0.19,
+            0.42
+          ],
+          "min_m": [
+            -0.28,
+            -0.19,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_station/collision.stl",
+        "representation": "multi-body-open",
+        "sha256": "a29f3e280ad5c2ca7ffafb004e4ef568f412febb3691d97bc52788000da7eb3b",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.56,
+        0.38,
+        0.42
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "pass when collision uses multiple closed bodies and their summed volume is below 70% of the envelope; overlap volumes are not boolean-unioned",
+        "open_cavity_expected": true,
+        "open_cavity_preserved": true,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 0.094062
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "static-environment",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "f35945e12d13665912963e2fa6986d4bd41b81270f709ea32b2c35837304d3d3",
+        "parameter_pointer": "/proxy_assets/2"
+      },
+      "uncertainty_m_xyz": [
+        0.12,
+        0.1,
+        0.12
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.28,
+            0.19,
+            0.42
+          ],
+          "min_m": [
+            -0.28,
+            -0.19,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_station/visual.glb",
+        "sha256": "9dec2611a15365ef7ac304ce2472431e7c86df9084f4f2fa6c4739b1e71d40e4",
+        "source_unit": "m"
+      }
+    },
+    {
+      "asset_id": "tool_suction",
+      "broad_phase": {
+        "kind": "aabb",
+        "local_aabb_m": {
+          "max_m": [
+            0.075,
+            0.06,
+            0.16
+          ],
+          "min_m": [
+            -0.075,
+            -0.06,
+            0.0
+          ]
+        }
+      },
+      "derivation": {
+        "algorithm": "ptlc-parametric-visual-and-structural-collision",
+        "algorithm_version": "v1",
+        "generator_digest_mode": "utf8-lf-v1",
+        "generator_ref": "related/unilabSZlab/pTLC仿真资产/scripts/generate_proxy_assets.py",
+        "generator_sha256": "c7c64122640b59607ec1f3a4b935ca71702dc5978156387d09e45a22a9220749"
+      },
+      "entity_id": "ptlc.proxy:tool_suction",
+      "frame": {
+        "frame_id": "asset:tool_suction:local",
+        "handedness": "right-handed",
+        "origin_convention": "footprint-center-bottom-z0",
+        "unit": "m",
+        "up_axis": "+Z"
+      },
+      "narrow_phase": {
+        "component_count": 4,
+        "format": "stl",
+        "local_aabb_m": {
+          "max_m": [
+            0.075,
+            0.06,
+            0.16
+          ],
+          "min_m": [
+            -0.075,
+            -0.06,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_suction/collision.stl",
+        "representation": "multi-body-shaped",
+        "sha256": "204526522d1d4bbb65c49589e7e3c579f18cc6f21ca472253aada4298bf316fb",
+        "source_unit": "mm",
+        "watertight": true
+      },
+      "nominal_dimensions_m": [
+        0.15,
+        0.12,
+        0.16
+      ],
+      "qc": {
+        "bounds_abs_error_m_xyz": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "bounds_match_nominal": true,
+        "method": "not applicable to conservative solid or non-station shaped collision",
+        "open_cavity_expected": false,
+        "open_cavity_preserved": null,
+        "source_components_disjoint": true,
+        "summed_component_volume_ratio": 0.237299
+      },
+      "qualification": "collision-candidate",
+      "reason_codes": [
+        "collision-candidate-not-qualified",
+        "photo-and-point-derived-not-metrology",
+        "world-registration-not-qualified"
+      ],
+      "role": "stored-tool",
+      "source": {
+        "artifact_digest_mode": "canonical-json-v1",
+        "artifact_ref": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+        "artifact_sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400",
+        "kind": "parametric-spec",
+        "parameter_digest": "a04c428c4b994583e2d4b4244f3842a3c3e0df2abe79c85a32e9b59d6bd5444f",
+        "parameter_pointer": "/tool_proxies/0"
+      },
+      "uncertainty_m_xyz": [
+        0.04,
+        0.04,
+        0.05
+      ],
+      "visual": {
+        "format": "glb",
+        "local_aabb_m": {
+          "max_m": [
+            0.075,
+            0.06,
+            0.16
+          ],
+          "min_m": [
+            -0.075,
+            -0.06,
+            0.0
+          ]
+        },
+        "path": "related/unilabSZlab/pTLC仿真资产/proxies/tool_suction/visual.glb",
+        "sha256": "1c5511396e8e9afdfa20b4ed2cab3ed3cf3e1d0afe65add9852f176efe82bd0a",
+        "source_unit": "m"
+      }
+    }
+  ],
+  "capabilities": {
+    "broad_phase": true,
+    "collision_qualified": false,
+    "dynamic_links": false,
+    "narrow_phase": true,
+    "render": true
+  },
+  "frame": {
+    "frame_id": "ptlc.proxy-assets.local-v1",
+    "handedness": "right-handed",
+    "origin_convention": "per-asset-footprint-center-bottom-z0",
+    "unit": "m",
+    "up_axis": "+Z"
+  },
+  "generator": {
+    "algorithm": "ptlc-parametric-proxy-manifest-compiler",
+    "implementation_digest_mode": "utf8-lf-v1",
+    "implementation_path": "scripts/compile_collision_geometry_manifest.py",
+    "implementation_sha256": "94dfeba84a02d1635d83908584e025b3bc2d04fd43bcc0ca8238b6d5f24e8dff",
+    "version": "v2"
+  },
+  "limitations": [
+    "mixed-parametric-and-source-glb-derived-candidates",
+    "dynamic-robot-links-not-in-this-manifest",
+    "nominal-shape-and-uncertainty-are-recorded-separately",
+    "photo-and-point-derived-dimensions-are-not-metrology",
+    "workcell-world-registration-not-qualified"
+  ],
+  "manifest_digest": "b436eff5a56123bae95d8c37659f121124fd3f2a027f1e22336ebd973c4e8688",
+  "manifest_id": "collision-geometry-manifest:eit-ptlc-proxies/v1",
+  "qualification": "collision-candidate",
+  "sample_id": "eit-ptlc-historical-v1",
+  "schema": "lab.collision-geometry-manifest/v1",
+  "source_artifacts": [
+    {
+      "digest_mode": "canonical-json-v1",
+      "path": "related/unilabSZlab/pTLC仿真资产/asset_manifest.json",
+      "role": "asset-manifest",
+      "sha256": "684cc30b1497583f50e9a855fec3272279c8d76f7429578fc523c213473ea400"
+    },
+    {
+      "digest_mode": "canonical-json-v1",
+      "path": "related/unilabSZlab/pTLC仿真资产/proxy_build_report.json",
+      "role": "proxy-build-report",
+      "sha256": "5f3c4fa9185761625f7be13a4f17dc559b6672e17929d1dddc926948e02bf547"
+    },
+    {
+      "digest_mode": "canonical-json-v1",
+      "path": "related/unilabSZlab/pTLC仿真资产/collision_qc_report.json",
+      "role": "collision-qc",
+      "sha256": "166a2f845d5e1603b474f5e83c3dc6820d4394218b58f8fd209863b9a27ce88f"
+    },
+    {
+      "digest_mode": "canonical-json-v1",
+      "path": "config/ptlc-collision-candidate-selection.v1.json",
+      "role": "collision-candidate-selection",
+      "sha256": "e9c9da78ce21732300ec549e1db04b1d582126227c8428ec580ff03a16f45ee7"
+    },
+    {
+      "digest_mode": "canonical-json-v1",
+      "path": "artifacts/collision-candidates/v3/develop-tank-rack/collision-candidate-report.json",
+      "role": "collision-candidate-report:develop_tank_rack",
+      "sha256": "b5341af39892fedddf44b88c11b8eb75f88fcb691645550c579f94ee9de929f1"
+    },
+    {
+      "digest_mode": "raw-bytes",
+      "path": "artifacts/collision-candidates/v3/develop-tank-rack/l2/compound-convex.runtime.stl",
+      "role": "collision-runtime-geometry:develop_tank_rack",
+      "sha256": "d90db8b6539a349758b59e6daf6c96760efdfedcdc16ee1dbcd1e3978eb3e393"
+    }
+  ]
+}

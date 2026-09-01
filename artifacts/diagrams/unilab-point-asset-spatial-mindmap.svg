@@ -1,0 +1,197 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="1600" viewBox="0 0 2400 1600" role="img" aria-labelledby="title desc">
+  <title id="title">UniLab 点位、资产与空间约束自动计算思维导图</title>
+  <desc id="desc">点位模块、资产管线和空间约束计算的输入、输出、协作关系，以及 Workbench 只读诊断和 Uni-Lab-OS 原子准入链路。</desc>
+  <defs>
+    <linearGradient id="rootGradient" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#172554"/>
+      <stop offset="1" stop-color="#312E81"/>
+    </linearGradient>
+    <linearGradient id="pageGradient" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#EEF2F7"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.10"/>
+    </filter>
+    <marker id="arrowBlue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#2563EB"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#EA7A19"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#138A63"/>
+    </marker>
+    <marker id="arrowPurple" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#6554D9"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#64748B"/>
+    </marker>
+    <style>
+      text { font-family: "PingFang SC", "Noto Sans CJK SC", "Microsoft YaHei", sans-serif; fill: #0F172A; }
+      .title { font-size: 54px; font-weight: 600; letter-spacing: 1px; }
+      .subtitle { font-size: 25px; font-weight: 400; fill: #64748B; }
+      .root-title { font-size: 37px; font-weight: 600; fill: #FFFFFF; }
+      .root-sub { font-size: 23px; font-weight: 400; fill: #DDE7FF; }
+      .branch-title { font-size: 35px; font-weight: 600; fill: #FFFFFF; }
+      .branch-number { font-size: 24px; font-weight: 600; fill: #FFFFFF; opacity: 0.78; }
+      .node-title { font-size: 27px; font-weight: 600; }
+      .node-sub { font-size: 21px; font-weight: 400; fill: #475569; }
+      .small { font-size: 19px; font-weight: 400; fill: #64748B; }
+      .legend { font-size: 20px; font-weight: 400; fill: #475569; }
+      .node { stroke-width: 2; filter: url(#shadow); }
+      .edge { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 5; }
+      .observe { fill: none; stroke: #64748B; stroke-width: 4; stroke-dasharray: 12 11; stroke-linecap: round; marker-end: url(#arrowGray); }
+    </style>
+  </defs>
+
+  <rect width="2400" height="1600" fill="url(#pageGradient)"/>
+  <circle cx="2280" cy="95" r="230" fill="#DDEAFE" opacity="0.46"/>
+  <circle cx="80" cy="1510" r="260" fill="#DCFCE7" opacity="0.42"/>
+
+  <text x="120" y="88" class="title">UniLab 点位 × 资产 × 空间约束</text>
+  <text x="120" y="132" class="subtitle">从“机器人要去哪里”，到“现场有什么”，再到“这次运动能不能安全执行”</text>
+
+  <g filter="url(#shadow)">
+    <rect x="820" y="170" width="760" height="132" rx="34" fill="url(#rootGradient)"/>
+    <text x="1200" y="224" text-anchor="middle" class="root-title">UniLab 空间安全执行体系</text>
+    <text x="1200" y="265" text-anchor="middle" class="root-sub">三个模块共享版本化坐标、几何与执行上下文</text>
+  </g>
+
+  <path d="M1040 302 C880 336 660 338 430 372" class="edge" stroke="#2563EB" marker-end="url(#arrowBlue)"/>
+  <path d="M1200 302 L1200 372" class="edge" stroke="#EA7A19" marker-end="url(#arrowOrange)"/>
+  <path d="M1360 302 C1525 336 1745 338 1970 372" class="edge" stroke="#138A63" marker-end="url(#arrowGreen)"/>
+
+  <!-- Point branch -->
+  <g>
+    <rect x="100" y="382" width="660" height="78" rx="24" fill="#2563EB"/>
+    <text x="142" y="413" class="branch-number">01</text>
+    <text x="430" y="433" text-anchor="middle" class="branch-title">点位：机器人应该去哪里</text>
+
+    <rect x="112" y="508" width="300" height="112" rx="22" fill="#FFFFFF" stroke="#93B4FF" class="node"/>
+    <text x="262" y="553" text-anchor="middle" class="node-title">PLC / 机器人控制器</text>
+    <text x="262" y="590" text-anchor="middle" class="node-sub">原始点表与当前反馈</text>
+
+    <rect x="448" y="508" width="300" height="112" rx="22" fill="#FFFFFF" stroke="#93B4FF" class="node"/>
+    <text x="598" y="553" text-anchor="middle" class="node-title">Frame / Tool</text>
+    <text x="598" y="590" text-anchor="middle" class="node-sub">Calibration / 标定版本</text>
+
+    <path d="M262 620 C262 654 326 650 358 676" class="edge" stroke="#2563EB" marker-end="url(#arrowBlue)"/>
+    <path d="M598 620 C598 654 534 650 502 676" class="edge" stroke="#2563EB" marker-end="url(#arrowBlue)"/>
+
+    <rect x="250" y="678" width="360" height="104" rx="25" fill="#2563EB" class="node" stroke="#2563EB"/>
+    <text x="430" y="742" text-anchor="middle" class="branch-title">点位模块</text>
+
+    <path d="M430 782 L430 830" class="edge" stroke="#2563EB"/>
+    <path d="M430 830 C430 856 278 850 266 886" class="edge" stroke="#2563EB" marker-end="url(#arrowBlue)"/>
+    <path d="M430 830 C430 856 582 850 594 886" class="edge" stroke="#2563EB" marker-end="url(#arrowBlue)"/>
+
+    <rect x="112" y="888" width="308" height="126" rx="22" fill="#EAF1FF" stroke="#5B8DEF" class="node"/>
+    <text x="266" y="936" text-anchor="middle" class="node-title">PointSet</text>
+    <text x="266" y="973" text-anchor="middle" class="node-sub">+ ResolvedMotionTarget</text>
+
+    <rect x="454" y="888" width="294" height="126" rx="22" fill="#EAF1FF" stroke="#5B8DEF" class="node"/>
+    <text x="601" y="936" text-anchor="middle" class="node-title">FrameGraph</text>
+    <text x="601" y="973" text-anchor="middle" class="node-sub">+ 动态机构状态</text>
+  </g>
+
+  <!-- Asset branch -->
+  <g>
+    <rect x="870" y="382" width="660" height="78" rx="24" fill="#EA7A19"/>
+    <text x="912" y="413" class="branch-number">02</text>
+    <text x="1200" y="433" text-anchor="middle" class="branch-title">资产：现场有哪些物体</text>
+
+    <rect x="1015" y="508" width="370" height="112" rx="22" fill="#FFFFFF" stroke="#F2B36E" class="node"/>
+    <text x="1200" y="553" text-anchor="middle" class="node-title">STEP / SolidWorks</text>
+    <text x="1200" y="590" text-anchor="middle" class="node-sub">GLB / URDF</text>
+
+    <path d="M1200 620 L1200 676" class="edge" stroke="#EA7A19" marker-end="url(#arrowOrange)"/>
+    <rect x="1020" y="678" width="360" height="104" rx="25" fill="#EA7A19" class="node" stroke="#EA7A19"/>
+    <text x="1200" y="742" text-anchor="middle" class="branch-title">资产管线</text>
+
+    <path d="M1200 782 L1200 864" class="edge" stroke="#EA7A19" marker-end="url(#arrowOrange)"/>
+    <rect x="1008" y="866" width="384" height="126" rx="22" fill="#FFF2E1" stroke="#E99A45" class="node"/>
+    <text x="1200" y="916" text-anchor="middle" class="node-title">CollisionGeometryManifest</text>
+    <text x="1200" y="953" text-anchor="middle" class="node-sub">碰撞几何、质量报告与版本</text>
+
+    <path d="M1200 992 L1200 1052" class="edge" stroke="#EA7A19" marker-end="url(#arrowOrange)"/>
+    <rect x="1008" y="1054" width="384" height="126" rx="22" fill="#FFF2E1" stroke="#E99A45" class="node"/>
+    <text x="1200" y="1104" text-anchor="middle" class="node-title">SpatialCollisionScene</text>
+    <text x="1200" y="1141" text-anchor="middle" class="node-sub">几何 + 坐标 + 动态状态</text>
+  </g>
+
+  <!-- Spatial branch -->
+  <g>
+    <rect x="1640" y="382" width="660" height="78" rx="24" fill="#138A63"/>
+    <text x="1682" y="413" class="branch-number">03</text>
+    <text x="1970" y="433" text-anchor="middle" class="branch-title">空间约束：这次运动能不能执行</text>
+
+    <rect x="1650" y="508" width="300" height="112" rx="22" fill="#FFFFFF" stroke="#6CC9A7" class="node"/>
+    <text x="1800" y="553" text-anchor="middle" class="node-title">MotionContract</text>
+    <text x="1800" y="590" text-anchor="middle" class="node-sub">/ Trajectory</text>
+
+    <rect x="1984" y="508" width="304" height="112" rx="22" fill="#FFFFFF" stroke="#6CC9A7" class="node"/>
+    <text x="2136" y="548" text-anchor="middle" class="node-title">WorldSnapshot / Claim</text>
+    <text x="2136" y="585" text-anchor="middle" class="node-sub">Site / Material</text>
+
+    <path d="M1800 620 C1800 654 1860 650 1892 676" class="edge" stroke="#138A63" marker-end="url(#arrowGreen)"/>
+    <path d="M2136 620 C2136 654 2076 650 2044 676" class="edge" stroke="#138A63" marker-end="url(#arrowGreen)"/>
+
+    <rect x="1790" y="678" width="360" height="104" rx="25" fill="#138A63" class="node" stroke="#138A63"/>
+    <text x="1970" y="742" text-anchor="middle" class="branch-title">空间约束计算</text>
+
+    <path d="M1970 782 L1970 854" class="edge" stroke="#138A63" marker-end="url(#arrowGreen)"/>
+    <rect x="1790" y="856" width="360" height="112" rx="22" fill="#E7F8F1" stroke="#4CB98F" class="node"/>
+    <text x="1970" y="906" text-anchor="middle" class="node-title">SpatialEvaluation</text>
+    <text x="1970" y="943" text-anchor="middle" class="node-sub">碰撞、距离与证据</text>
+
+    <path d="M1970 968 L1970 1024" class="edge" stroke="#138A63" marker-end="url(#arrowGreen)"/>
+    <rect x="1790" y="1026" width="360" height="112" rx="22" fill="#E7F8F1" stroke="#4CB98F" class="node"/>
+    <text x="1970" y="1076" text-anchor="middle" class="node-title">SpatialConstraintSet</text>
+    <text x="1970" y="1113" text-anchor="middle" class="node-sub">可供 OS 使用的约束集合</text>
+
+    <path d="M1970 1138 L1970 1188" class="edge" stroke="#6554D9" marker-end="url(#arrowPurple)"/>
+    <rect x="1760" y="1190" width="420" height="96" rx="24" fill="#6554D9" stroke="#6554D9" class="node"/>
+    <text x="1970" y="1250" text-anchor="middle" class="branch-title">Uni-Lab-OS 原子准入</text>
+
+    <path d="M1970 1286 L1970 1328" class="edge" stroke="#6554D9" marker-end="url(#arrowPurple)"/>
+    <rect x="1760" y="1330" width="420" height="88" rx="22" fill="#EEECFF" stroke="#8273E6" class="node"/>
+    <text x="1970" y="1384" text-anchor="middle" class="node-title">JobExecutionClaim + Fence</text>
+
+    <path d="M1970 1418 L1970 1454" class="edge" stroke="#6554D9" marker-end="url(#arrowPurple)"/>
+    <rect x="1760" y="1456" width="420" height="82" rx="22" fill="#EEECFF" stroke="#8273E6" class="node"/>
+    <text x="1970" y="1508" text-anchor="middle" class="node-title">设备派发与物理结算</text>
+  </g>
+
+  <!-- Cross-module production dependencies -->
+  <path d="M420 951 C650 951 650 470 900 470 L1500 470 C1580 470 1600 545 1650 564" class="edge" stroke="#2563EB" marker-end="url(#arrowBlue)"/>
+  <text x="1200" y="496" class="small" text-anchor="middle">解析后的目标生成运动契约</text>
+
+  <path d="M748 951 C850 951 870 1117 1008 1117" class="edge" stroke="#2563EB" marker-end="url(#arrowBlue)"/>
+  <text x="855" y="1047" class="small" text-anchor="middle">定位资产</text>
+
+  <path d="M1392 1117 C1535 1117 1645 730 1790 730" class="edge" stroke="#EA7A19" marker-end="url(#arrowOrange)"/>
+  <text x="1570" y="1012" class="small" text-anchor="middle">场景输入</text>
+
+  <!-- Workbench read-only observer -->
+  <g>
+    <rect x="410" y="1286" width="820" height="142" rx="30" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2" filter="url(#shadow)"/>
+    <text x="820" y="1342" text-anchor="middle" class="node-title">Workbench 只读诊断</text>
+    <text x="820" y="1384" text-anchor="middle" class="node-sub">同时查看点位目标、碰撞场景、计算证据和 OS 准入状态</text>
+    <text x="820" y="1415" text-anchor="middle" class="small">只观察与解释，不绕过 OS 直接下发运动</text>
+  </g>
+
+  <path d="M266 1014 C266 1160 540 1160 610 1286" class="observe"/>
+  <path d="M1200 1180 C1200 1240 1060 1235 1035 1286" class="observe"/>
+  <path d="M1790 912 C1530 912 1420 1200 1160 1325" class="observe"/>
+  <path d="M1760 1238 C1510 1238 1460 1390 1230 1380" class="observe"/>
+
+  <!-- Legend -->
+  <g transform="translate(120,1500)">
+    <path d="M0 0 L90 0" class="edge" stroke="#334155" marker-end="url(#arrowGray)"/>
+    <text x="112" y="7" class="legend">生产 / 输入依赖</text>
+    <path d="M330 0 L420 0" class="observe"/>
+    <text x="442" y="7" class="legend">Workbench 只读观测</text>
+  </g>
+</svg>

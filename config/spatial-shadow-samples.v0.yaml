@@ -1,0 +1,142 @@
+schema: lab.spatial-shadow-samples/v0
+samples:
+  - sample_id: eit-ptlc-historical-v1
+    label: EIT pTLC historical as-built shadow sample
+    qualification: historical-as-built-shadow
+    capabilities:
+      render: true
+      motion_waypoints: true
+      collision_candidate: true
+      collision_qualified: false
+      stop_model_qualified: false
+      spatial_interlock_enforced: false
+      hardware_execution: false
+    not_qualified_for:
+      - current-hardware-calibration
+      - continuous-collision
+      - stop-envelope
+      - spatial-interlock-enforced
+      - hardware-execution
+    inputs:
+      - role: robot-points
+        path: pTLC_platformUI/eit_ptlc/three_d/generated/robot-points.json
+      - role: robot-calibration
+        path: pTLC_platformUI/eit_ptlc/three_d/pipeline/calibration/cr5_ptlc_v1.yaml
+      - role: robot-rig-map
+        path: pTLC_platformUI/eit_ptlc/three_d/pipeline/rig_map.yaml
+      - role: rail-points
+        path: pTLC_platformUI/eit_ptlc/config/points/plc/rail.yaml
+      - role: action-motion-map
+        path: pTLC_platformUI/eit_ptlc/three_d/generated/action-motion-map.json
+      - role: tank-pick-operation
+        path: pTLC_platformUI/eit_ptlc/config/operation/06_robot/robot_tank_pick.yaml
+      - role: tank1-pick-compiled-clip
+        path: pTLC_platformUI/eit_ptlc/three_d/clips/plate.tank1_pick.yaml
+      - role: device-manifest
+        path: pTLC_platformUI/eit_ptlc/three_d/models/device-manifest.official-cr5.json
+      - role: proxy-asset-manifest
+        path: related/unilabSZlab/pTLC仿真资产/asset_manifest.json
+      - role: collision-geometry-manifest
+        path: artifacts/collision-assets/v1/ptlc-collision-geometry-manifest.json
+      - role: collision-geometry-schema
+        path: schemas/collision-geometry-manifest-v1.schema.json
+      - role: proxy-layout
+        path: related/unilabSZlab/pTLC仿真资产/layout_estimate.json
+      - role: proxy-layout-qc
+        path: related/unilabSZlab/pTLC仿真资产/layout_collision_qc.json
+      - role: rail-frame-layout-analysis
+        path: related/unilabSZlab/pTLC仿真资产/rail_frame_layout_analysis.json
+      - role: cr5-urdf
+        path: vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/urdf/cr5_robot.urdf
+      - role: cr5-base-collision
+        path: vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/base_link.STL
+      - role: cr5-j1-collision
+        path: vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J1.STL
+      - role: cr5-j2-collision
+        path: vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J2.STL
+      - role: cr5-j3-collision
+        path: vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J3.STL
+      - role: cr5-j4-collision
+        path: vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J4.STL
+      - role: cr5-j5-collision
+        path: vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J5.STL
+      - role: cr5-j6-collision
+        path: vendor/DOBOT_6Axis_ROS2_V4/dobot_rviz/meshes/cr5/J6.STL
+
+  - sample_id: eit-feeding-station-demo-v1
+    label: EIT feeding station frozen demo and fail-closed sample
+    qualification: demo-simulation-cad-comparison-only
+    capabilities:
+      render: true
+      motion_waypoints: false
+      collision_candidate: false
+      collision_qualified: false
+      stop_model_qualified: false
+      spatial_interlock_enforced: false
+      hardware_execution: false
+    not_qualified_for:
+      - approved-p2
+      - w2-device-geometry
+      - controller-trajectory
+      - collision
+      - spatial-interlock-enforced
+      - hardware-execution
+    inputs:
+      - role: workbench-preview-receipt
+        path: config/feeding-station-workbench-preview.json
+      - role: station-handoff
+        path: feeding-station-20260827-win03/station-handoff.json
+      - role: mac-validation
+        path: feeding-station-20260827-win03/mac-validation.json
+      - role: decomposition-proposal
+        path: feeding-station-20260827-win03/p2-auto/station-decomposition.proposal.yaml
+      - role: station-layout-draft
+        path: feeding-station-20260827-win03/p2-auto/station-layout.draft.json
+      - role: coverage-report
+        path: feeding-station-20260827-win03/p2-auto/coverage-report.json
+      - role: station-geometry
+        path: feeding-station-20260827-win03/geometry/station.glb
+
+products:
+  ptlc_collision_scene:
+    sample_id: eit-ptlc-historical-v1
+  ptlc_tank1_motion_contract:
+    sample_id: eit-ptlc-historical-v1
+    action_contract_id: robot.tank.pick
+    operation_input_role: tank-pick-operation
+    selector:
+      tank_id: 1
+    analysis_scope: robot-arm-after-anchor-and-rail-settle
+  ptlc_tank1_link_states:
+    sample_id: eit-ptlc-historical-v1
+    target_rail_slot: 5
+  ptlc_tank1_playback:
+    sample_id: eit-ptlc-historical-v1
+    frame_rate_hz: 10.0
+  ptlc_tank1_environment_collision:
+    sample_id: eit-ptlc-historical-v1
+    exact_box_assets:
+      - machine_deck
+      - rail_11y
+      - tool_station
+      - feed_lift
+      - sampling_station
+      - photo_scrape_station
+      - group_rack_4x3
+      - staging_a_6slot
+      - staging_b_6slot
+    compound_convex_assets:
+      - develop_tank_rack
+  ptlc_tank1_motion_corridor:
+    sample_id: eit-ptlc-historical-v1
+    max_joint_delta_deg: 5.0
+  initial_shadow_decision:
+    sample_id: eit-ptlc-historical-v1
+    decision: unknown
+    reason_codes:
+      - controller-interpolation-unresolved
+      - continuous-collision-not-computed
+      - stop-model-missing
+      - collision-scene-simulation-proxy-only
+      - dynamic-world-not-registered-to-proxy-scene
+      - candidate-partial-corridor-not-bound-by-certificate-v0
