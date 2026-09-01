@@ -54,8 +54,9 @@ git submodule update --init --recursive
 ```
 
 `repro/manifest.lock.json` 锁定四个业务子仓和 Dobot vendor 的提交，并记录
-shadow 黄金产物摘要。`verify_repro.sh` 会检查 gitlink、LFS、全部根仓离线测试和
-三个确定性 `--check`。通过这些检查只表示软件/仿真证据可复现；当前结论仍为
+shadow 黄金产物摘要。`bootstrap_repro.sh` 会同步子仓与 LFS、安装锁定环境，并生成
+被 Git 忽略的 Workbench 运行时快照；`verify_repro.sh` 会检查 gitlink、LFS、全部根仓
+离线测试和三个确定性 `--check`。通过这些检查只表示软件/仿真证据可复现；当前结论仍为
 `decision=unknown`、`effect=none`、`shadow-only`，不授予真机运动、互锁或部署资格。
 
 ## 恢复本机未提交改动

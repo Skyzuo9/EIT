@@ -17,5 +17,6 @@ git submodule sync --recursive
 git submodule update --init --recursive
 git lfs pull
 uv sync --frozen
+uv run --frozen python scripts/export_spatial_workbench_snapshot.py
 
-echo "EIT reproducible environment is ready."
+echo "EIT reproducible environment and Workbench snapshot are ready."
